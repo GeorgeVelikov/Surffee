@@ -9,7 +9,6 @@ __pycache__/
 # Distribution / packaging
 .Python
 build/
-Scripts/
 develop-eggs/
 dist/
 downloads/
@@ -90,8 +89,6 @@ celerybeat-schedule
 # Environments
 .env
 .venv
-pyenv
-pip-selfcheck
 .idea/
 env/
 venv/
