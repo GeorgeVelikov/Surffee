@@ -15,8 +15,11 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from django.conf.urls import url
+
 
 urlpatterns = [
+    url(r'^nested_admin/', include('nested_admin.urls')),
     path('surveys/', include('surveys.urls')),
     path('admin/', admin.site.urls),
 ]

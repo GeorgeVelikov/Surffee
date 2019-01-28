@@ -16,6 +16,10 @@ class Survey(models.Model):
 
     def __str__(self): return self.name
 
+    class Meta:
+        verbose_name = "Survey"
+        verbose_name_plural = "Surveys"
+
 
 class Question(models.Model):
     survey = models.ForeignKey(Survey, on_delete=models.CASCADE, default=0) # TODO: specify on_delete // if u delete the question, keep survey but not the choices
@@ -24,6 +28,10 @@ class Question(models.Model):
     type = models.CharField(choices=QUESTION_TYPES, max_length=1, default=0)
 
     def __str__(self): return self.question_text
+
+    class Meta:
+        verbose_name = "Question"
+        verbose_name_plural = "Questions"
 
     """
     use in surveys
@@ -43,3 +51,8 @@ class Choice(models.Model):
     votes = models.IntegerField('number of votes', default=0)
 
     def __str__(self): return self.choice_text
+
+    class Meta:
+        verbose_name = "Choice"
+        verbose_name_plural = "Choices"
+
