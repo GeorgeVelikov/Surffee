@@ -1,6 +1,9 @@
 from django.contrib import admin
 from nested_admin.nested import NestedTabularInline, NestedStackedInline, NestedModelAdmin
-from .models import Question, Choice, Survey
+from django.contrib.auth.admin import UserAdmin
+
+from .models import Question, Choice, Survey, Researcher
+from .forms import ResearcherCreationForm, ResearcherChangeForm
 
 
 class ChoiceInline(NestedTabularInline):
@@ -29,4 +32,12 @@ class SurveyAdmin(NestedModelAdmin):
     inlines = [QuestionInline]
 
 
+class ResearcherAdmin(UserAdmin):
+    add_form = ResearcherCreationForm
+    form = ResearcherChangeForm
+    model = Researcher
+    list_display = ['email', 'username', ]
+
+
 admin.site.register(Survey, SurveyAdmin)
+admin.site.register(Researcher, ResearcherAdmin)

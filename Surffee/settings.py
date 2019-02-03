@@ -32,13 +32,13 @@ ALLOWED_HOSTS = []
 
 INSTALLED_APPS = [
     'nested_admin',
-    'surveys.apps.SurveysConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'surveys.apps.SurveysConfig',
 ]
 
 MIDDLEWARE = [
@@ -52,8 +52,6 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'Surffee.urls'
-
-LOGIN_REDIRECT_URL = '/'
 
 TEMPLATES = [
     {
@@ -122,3 +120,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.1/howto/static-files/
 
 STATIC_URL = '/static/'
+
+AUTH_USER_MODEL = 'surveys.Researcher'
+LOGIN_REDIRECT_URL = 'home'
+LOGOUT_REDIRECT_URL = 'home'

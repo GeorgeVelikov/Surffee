@@ -1,12 +1,7 @@
 import datetime
 from django.db import models
 from django.utils import timezone
-
-QUESTION_TYPES = (
-    ('S', 'Single choice'),
-    ('M', 'Multiple choices'),
-    ('T', 'Text answer')
-)
+from django.contrib.auth.models import AbstractUser
 
 
 class Survey(models.Model):
@@ -22,6 +17,12 @@ class Survey(models.Model):
 
 
 class Question(models.Model):
+    QUESTION_TYPES = (
+        ('S', 'Single choice'),
+        ('M', 'Multiple choices'),
+        ('T', 'Text answer')
+    )
+
     survey = models.ForeignKey(Survey, on_delete=models.CASCADE, default=0) # TODO: specify on_delete // if u delete the question, keep survey but not the choices
     question_text = models.CharField(max_length=300)
     # pub_date = models.DateTimeField('date published')
@@ -56,3 +57,7 @@ class Choice(models.Model):
         verbose_name = "Choice"
         verbose_name_plural = "Choices"
 
+
+class Researcher(AbstractUser):
+    def __str__(self):
+        return self.email
