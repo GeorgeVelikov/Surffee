@@ -22,8 +22,8 @@ from surveys.views import SignUp
 urlpatterns = [
     url(r'^nested_admin/', include('nested_admin.urls')),
     path('', TemplateView.as_view(template_name='home.html'), name='home'),
-    path('surveys/', include('surveys.urls')),
     path('admin/', admin.site.urls),
     path('account/', SignUp.as_view(), name='signup'),
     path('account/', include('django.contrib.auth.urls')),
+    path('surveys/', include('surveys.urls')),
 ]

@@ -122,7 +122,15 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
+# Custom backend stuff
+TEMPLATE_DIRS = ('surveys/templates', 'surveys/templates/registration', )
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
+
 AUTH_USER_MODEL = 'surveys.Researcher'
+
 LOGIN_REDIRECT_URL = 'home'
 LOGOUT_REDIRECT_URL = 'home'
+
+EMAIL_BACKEND = "django.core.mail.backends.filebased.EmailBackend"
+EMAIL_FILE_PATH = os.path.join(BASE_DIR, "sent_emails")
+
