@@ -1,6 +1,7 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm
-from .models import Researcher
+from django.contrib.auth.models import User
+from .models import Researcher, Survey
 
 
 class ResearcherCreationForm(UserCreationForm):
@@ -57,3 +58,11 @@ class ResearcherChangeForm(UserChangeForm):
         if commit:
             user.save()
         return user
+
+
+class ResearcherCreateSurvey(forms.ModelForm):
+
+    class Meta:
+        model = Survey
+        exclude = ['']
+

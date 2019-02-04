@@ -6,7 +6,7 @@ from django.contrib.auth import login
 from django.urls import reverse_lazy
 
 from .models import Survey
-from .forms import ResearcherCreationForm
+from .forms import ResearcherCreationForm, ResearcherCreateSurvey
 
 
 def index(request):
@@ -23,3 +23,9 @@ class SignUp(CreateView):
     form_class = ResearcherCreationForm
     success_url = reverse_lazy('login')
     template_name = 'signup.html'
+
+
+class CreateSurvey(CreateView):
+    form_class = ResearcherCreateSurvey
+    success_url = reverse_lazy('login')
+    template_name = 'surveys/create.html'

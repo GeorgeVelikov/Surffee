@@ -3,13 +3,13 @@
 <!-- include crispy -->
 {% load crispy_forms_tags %}
 
-{% block title %}Login{% endblock %}
+{% block title %}Create survey{% endblock %}
 
 {% block content %}
-    <h2>Login</h2>
+    <h2>Create survey</h2>
     <form method="post">
           {% csrf_token %}
           {{ form|crispy }}
-          <button type="submit" class="btn btn-success">Login</button>
+          <button type="submit" class="btn btn-success">Create survey</button>
     </form>
 {% endblock %}

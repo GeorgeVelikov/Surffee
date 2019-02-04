@@ -4,7 +4,13 @@ from django.utils import timezone
 from django.contrib.auth.models import AbstractUser
 
 
+class Researcher(AbstractUser):
+    def __str__(self):
+        return self.username
+
+
 class Survey(models.Model):
+    creator = models.ForeignKey(Researcher, on_delete=models.CASCADE, default=0)
     name = models.CharField(max_length=300)
     creation_date = models.DateTimeField('date created')
     pub_date = models.DateTimeField('date published')
@@ -56,8 +62,3 @@ class Choice(models.Model):
     class Meta:
         verbose_name = "Choice"
         verbose_name_plural = "Choices"
-
-
-class Researcher(AbstractUser):
-    def __str__(self):
-        return self.email
