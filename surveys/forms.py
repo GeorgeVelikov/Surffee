@@ -8,7 +8,10 @@ class ResearcherCreationForm(UserChangeForm):
 
     class Meta(UserCreationForm):
         model = Researcher
-        fields = ('username', 'email', 'password', )
+        fields = ('username', 'password', 'email', )
+        help_texts = {
+            'username': None,
+        }
 
 
 class ResearcherChangeForm(UserChangeForm):
@@ -16,4 +19,7 @@ class ResearcherChangeForm(UserChangeForm):
 
     class Meta:
         model = Researcher
-        fields = ('username', 'email', 'password', )
+        fields = ('username', 'password', 'email', )
+        help_texts = {
+            'username': None,
+        }
