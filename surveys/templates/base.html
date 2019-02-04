@@ -25,12 +25,16 @@
 
                         <!-- TODO: fix menu so that it looks pretty -->
                         <div class="col-sm text-right">
+                            {% if user.is_superuser %}
+                                <a href="{% url 'admin:index' %}">Administration</a>
+                            {% endif %}
+
                             {% if user.is_authenticated %}
-                                <p><a href="{% url 'logout' %}">logout</a></p>
+                                <a href="{% url 'logout' %}">Logout</a>
 
                             {% else %}
-                                <a href="{% url 'login' %}">login</a>
-                                <a href="{% url 'signup' %}">signup</a>
+                                <a href="{% url 'login' %}">Login</a>
+                                <a href="{% url 'signup' %}">Signup</a>
 
                             {% endif %}
                         </div>
@@ -40,13 +44,13 @@
                 <hr class="mt-0 mb-4">
 
                 <!-- TODO: fix the container for the page content to be placed in the block content -->
-                <div class="row justify-content-center">
-                        <div class="row">
-                                {% block content %}
-                                {% endblock %}
-                        </div>
+                <div class="row">
+                    <div class="col-sm">
+                        {% block content %}
+                        {% endblock %}
                     </div>
                 </div>
+            </div>
         </main>
     </body>
 </html>
