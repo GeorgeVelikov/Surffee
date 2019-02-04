@@ -33,13 +33,13 @@ ALLOWED_HOSTS = []
 INSTALLED_APPS = [
     'nested_admin',
     'crispy_forms',
+    'surveys.apps.SurveysConfig', # do not move the config pls
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'surveys.apps.SurveysConfig',
 ]
 
 MIDDLEWARE = [
