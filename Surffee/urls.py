@@ -18,6 +18,8 @@ from django.urls import path, include
 from django.conf.urls import url
 from django.views.generic.base import TemplateView
 from surveys.views import SignUp
+from django.contrib.staticfiles.urls import staticfiles_urlpatterns
+
 
 urlpatterns = [
     url(r'^nested_admin/', include('nested_admin.urls')),
@@ -27,3 +29,6 @@ urlpatterns = [
     path('account/', include('django.contrib.auth.urls')),
     path('surveys/', include('surveys.urls')),
 ]
+
+
+urlpatterns += staticfiles_urlpatterns()
