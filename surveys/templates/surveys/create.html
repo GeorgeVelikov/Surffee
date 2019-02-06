@@ -10,6 +10,10 @@
     <form method="post">
           {% csrf_token %}
           {{ form|crispy }}
+        <script>
+              $("#id_creator").parent().parent().hide();
+              $("#id_creator").val("{{request.user.id}}");
+        </script>
           <button type="submit" class="btn btn-success">Create survey</button>
     </form>
 {% endblock %}
