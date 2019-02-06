@@ -66,3 +66,9 @@ class ResearcherCreateSurvey(forms.ModelForm):
         model = Survey
         exclude = ['']
 
+    def save(self, commit=True):
+        survey = super(ResearcherCreateSurvey, self).save(commit=False)
+        if commit:
+            survey.save()
+        return survey
+
