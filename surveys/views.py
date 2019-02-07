@@ -27,5 +27,5 @@ class SignUp(CreateView):
 
 class CreateSurvey(CreateView):
     form_class = ResearcherCreateSurvey
-    success_url = reverse_lazy('create')
+    success_url = reverse_lazy('home')
     template_name = 'surveys/create.html'
