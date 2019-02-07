@@ -20,7 +20,7 @@ class Researcher(AbstractUser):
 class Survey(models.Model):
     creator = models.ForeignKey(Researcher, on_delete=models.CASCADE, default=0)
     name = models.CharField(max_length=300)
-    creation_date = models.DateTimeField('date created')
+    creation_date = models.DateTimeField(default=timezone.now, editable=False)
     pub_date = models.DateTimeField('date published')
 
     def __str__(self): return self.name
