@@ -3,6 +3,7 @@ from django.urls import path
 from . import views
 
 # Do NOT add app name hear as it breaks url chain and I'll break your fingers
+app_name = 'surveys'
 
 urlpatterns = [
     path('', views.index, name='index'),
