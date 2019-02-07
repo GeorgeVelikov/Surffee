@@ -30,6 +30,8 @@ class QuestionAdmin(NestedModelAdmin):
 class SurveyAdmin(NestedModelAdmin):
     model = Survey
     inlines = [QuestionInline]
+    readonly_fields = ['creation_date']
+    list_display = ['name', 'creator', 'creation_date', 'pub_date']
 
 
 class ResearcherAdmin(UserAdmin):
