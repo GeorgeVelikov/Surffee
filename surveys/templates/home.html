@@ -2,8 +2,14 @@
 
 {% block title %}Home{% endblock %}
 
-{% block content %}
 
+{% block content %}
+<div class="d-flex justify-content-between flex-wrap flex-sm-nowrap align-items-center pb-2 mb-3 border-bottom">
+    <h2>Main Page</h2>
+</div>
+<p class="lead">Welcome to the Survey System. To create a new Survey, press the <span data-feather="plus-circle"></span>
+    button present on the main menu. Keep in mind that after Survey creation, it is not possible to modify its structure.
+    <u>Before adding a new page to the survey during the creation, ensure the last created page is loaded.</u></p>
     <!-- TODO: add some content -->
     {% if user.is_authenticated %}
         Hi {{ user.username }}!

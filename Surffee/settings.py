@@ -123,7 +123,7 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 # Custom backend stuff
-TEMPLATE_DIRS = ('surveys/templates', 'surveys/templates/registration', )
+TEMPLATE_DIRS = ('surveys/templates', 'surveys/templates/registration', 'surveys/static')
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 AUTH_USER_MODEL = 'surveys.Researcher'

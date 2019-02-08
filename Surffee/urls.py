@@ -20,6 +20,7 @@ from django.views.generic.base import TemplateView
 from surveys.views import SignUp
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 
+handler403 = 'surveys.views.handler403'
 
 urlpatterns = [
     url(r'^nested_admin/', include('nested_admin.urls')),

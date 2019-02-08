@@ -6,6 +6,13 @@
 {% block title %}Index{% endblock %}
 
 {% block content %}
-
-extra soi hello
+    {% if user.is_superuser %}
+        <p>You're logged in under superuser privileges. All surveys are shown.</p>
+    {% elif user.is_authenticated %}
+        <p>Your surveys:</p>
+    {% endif %}
+    {% for survey in surveys %}
+    <p>{{survey.name}}</p>
+    {% endfor %}
 {% endblock %}
+extra soi hello
