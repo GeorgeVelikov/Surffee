@@ -7,7 +7,6 @@ html {
 body {
   font-size: .875rem;
   min-height: 100%;
-  margin-bottom: 60px;
 }
 
 .feather {
@@ -172,6 +171,12 @@ body {
 
 
 /* footer boi */
+
+.footer-row {
+    padding-top: 24px;
+    margin-right: 0px;
+}
+
 .footer-container {
     padding-left: 0px;
     padding-right: 0px;
