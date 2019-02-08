@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect, render_to_response
 from django.http import HttpResponse, Http404, HttpResponseForbidden
 from django.template import loader
-from django.views.generic import CreateView
+from django.views.generic import CreateView, TemplateView
 from django.contrib.auth import login
 from django.urls import reverse_lazy
 from django.core.exceptions import PermissionDenied
@@ -43,7 +43,10 @@ class SignUp(CreateView):
     template_name = 'signup.html'
 
 
-class CreateSurvey(CreateView):
+class CreateSurvey(TemplateView):
     form_class = ResearcherCreateSurvey
     success_url = reverse_lazy('home')
     template_name = 'surveys/create.html'
+
+    def get_context_data(self, **kwargs):
+        context = super(CreateSurvey, self).get_context_data()
