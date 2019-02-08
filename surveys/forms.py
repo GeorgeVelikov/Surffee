@@ -1,7 +1,7 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm
 from django.contrib.auth.models import User
-from .models import Researcher, Survey
+from .models import Researcher, Survey, Question, Choice
 
 
 class ResearcherCreationForm(UserCreationForm):
@@ -60,6 +60,32 @@ class ResearcherChangeForm(UserChangeForm):
         return user
 
 
+class ResearcherCreateChoice(forms.ModelForm):
+
+    class Meta:
+        model = Choice
+        exclude = ['']
+
+    def save(self, commit=True):
+        choice = super(ResearcherCreateChoice, self).save(commit=False)
+        if commit:
+            choice.save()
+        return choice
+
+
+class ResearcherCreateQuestion(forms.ModelForm):
+
+    class Meta:
+        model = Question
+        exclude = ['']
+
+    def save(self, commit=True):
+        question = super(ResearcherCreateQuestion, self).save(commit=False)
+        if commit:
+            question.save()
+        return question
+
+
 class ResearcherCreateSurvey(forms.ModelForm):
 
     class Meta:
@@ -71,4 +97,5 @@ class ResearcherCreateSurvey(forms.ModelForm):
         if commit:
             survey.save()
         return survey
+
 
