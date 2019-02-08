@@ -4,10 +4,18 @@ from django.utils import timezone
 from django.contrib.auth.models import AbstractUser
 
 
+"""          ""
+* USER MODELS *
+""          """
+
 class Researcher(AbstractUser):
     def __str__(self):
         return self.username
 
+
+"""            ""
+* SURVEY MODELS *
+""            """
 
 class Survey(models.Model):
     creator = models.ForeignKey(Researcher, on_delete=models.CASCADE, default=0)
