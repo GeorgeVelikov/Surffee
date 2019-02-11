@@ -175,4 +175,5 @@ class CreateSurvey(MultipleFormsView):
         return super(CreateSurvey, self).get_forms_classes()
 
     def form_valid(self, form):
+        form.save()
         return super(CreateSurvey, self).form_valid(form)
