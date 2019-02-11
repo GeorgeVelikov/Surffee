@@ -7,13 +7,19 @@
 
 {% block content %}
     <h2>Create survey</h2>
-    <form method="post">
-          {% csrf_token %}
-          {{ form|crispy }}
-        <script>
-              $("#id_creator").parent().parent().hide();
-              $("#id_creator").val("{{request.user.id}}");
-        </script>
-          <button type="submit" class="btn btn-success">Create survey</button>
-    </form>
+    {% for form in forms %}
+        <form method="post">
+              {% csrf_token %}
+              {{ form|crispy }}
+            <!--
+            <script>
+                  $("#id_creator").parent().parent().hide();
+                  $("#id_creator").val("{{request.user.id}}");
+            </script>
+            -->
+            <input type="hidden" name="selected_form" value="{{ forloop.counter0 }}">
+
+        </form>
+    {% endfor %}
+    <button type="submit" class="btn btn-success">Create survey</button>
 {% endblock %}
