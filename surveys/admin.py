@@ -1,5 +1,5 @@
 from django.contrib import admin
-from nested_admin.nested import NestedTabularInline, NestedStackedInline, NestedModelAdmin
+from nested_admin.nested import NestedTabularInline, NestedModelAdmin
 from django.contrib.auth.admin import UserAdmin
 
 from .models import Question, Choice, Survey, Researcher

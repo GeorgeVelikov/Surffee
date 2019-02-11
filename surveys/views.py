@@ -24,7 +24,7 @@ def index(request):
     return render(request, template, context)
 
 
-def results(request, survey_id):
+def results(survey_id):
     response = "You're looking at the results of survey %s."
     return HttpResponse(response % survey_id)
 
@@ -32,7 +32,7 @@ def results(request, survey_id):
 """ Errors """
 
 
-def handler403(request, exception, template_name="403.html"):
+def handler403():
     response = render_to_response("errors/403.html")
     response.status_code = 403
     return response

@@ -33,7 +33,7 @@ ALLOWED_HOSTS = []
 INSTALLED_APPS = [
     'nested_admin',
     'crispy_forms',
-    'surveys.apps.SurveysConfig', # do not move the config pls
+    'surveys.apps.SurveysConfig',  # do not move the config pls
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -138,8 +138,3 @@ EMAIL_FILE_PATH = os.path.join(BASE_DIR, "sent_emails")
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static'),
 ]
-
-STATICFILES_DIRS = (
-    os.path.join(BASE_DIR, 'assets'),
-)
-

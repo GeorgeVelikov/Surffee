@@ -1,10 +1,5 @@
-import datetime
-
 from django.test import TestCase
 from django.urls import reverse
-from django.utils import timezone
-
-from .models import Survey, Question, Choice
 
 
 class IndexViewTests(TestCase):
@@ -23,5 +18,3 @@ class CreateViewTests(TestCase):
 
         response = self.client.get(reverse('surveys:create'))
         self.assertEqual(response.status_code, 200)
-
-
