@@ -11,12 +11,10 @@
         <form method="post">
               {% csrf_token %}
               {{ form|crispy }}
-            <!--
             <script>
                   $("#id_creator").parent().parent().hide();
                   $("#id_creator").val("{{request.user.id}}");
             </script>
-            -->
             <input type="hidden" name="selected_form" value="{{ forloop.counter0 }}">
             <button type="submit" class="btn btn-success">Create survey</button>
         </form>

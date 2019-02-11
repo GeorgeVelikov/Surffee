@@ -62,19 +62,34 @@ class ResearcherChangeForm(UserChangeForm):
 class ResearcherCreateChoice(forms.ModelForm):
     class Meta:
         model = Choice
-        fields = ['choice_text', ]
+        exclude = ['']
+        #fields = ['choice_text', ]
+
+    def save(self, commit=True):
+        survey = super(ResearcherCreateChoice, self).save(commit=False)
+        if commit:
+            survey.save()
+        return survey
 
 
 class ResearcherCreateQuestion(forms.ModelForm):
     class Meta:
         model = Question
-        fields = ['question_text', 'type', ]
+        exclude = ['']
+        #fields = ['question_text', 'type', ]
+
+    def save(self, commit=True):
+        survey = super(ResearcherCreateQuestion, self).save(commit=False)
+        if commit:
+            survey.save()
+        return survey
 
 
 class ResearcherCreateSurvey(forms.ModelForm):
     class Meta:
         model = Survey
-        fields = ['creator', 'name']
+        exclude = ['']
+        #fields = ['creator', 'name']
 
     def save(self, commit=True):
         survey = super(ResearcherCreateSurvey, self).save(commit=False)
