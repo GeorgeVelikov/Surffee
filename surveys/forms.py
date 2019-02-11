@@ -62,19 +62,19 @@ class ResearcherChangeForm(UserChangeForm):
 class ResearcherCreateChoice(forms.ModelForm):
     class Meta:
         model = Choice
-        exclude = ['']
+        fields = ['choice_text', ]
 
 
 class ResearcherCreateQuestion(forms.ModelForm):
     class Meta:
         model = Question
-        exclude = ['']
+        fields = ['question_text', 'type', ]
 
 
 class ResearcherCreateSurvey(forms.ModelForm):
     class Meta:
         model = Survey
-        exclude = ['creation_date']
+        fields = ['creator', 'name']
 
     def save(self, commit=True):
         survey = super(ResearcherCreateSurvey, self).save(commit=False)
