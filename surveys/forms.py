@@ -1,5 +1,6 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm
+from django.forms.models import inlineformset_factory
 from .models import Researcher, Survey, Question, Choice
 
 
@@ -63,36 +64,20 @@ class ResearcherCreateChoice(forms.ModelForm):
     class Meta:
         model = Choice
         exclude = ['']
-        #fields = ['choice_text', ]
-
-    def save(self, commit=True):
-        survey = super(ResearcherCreateChoice, self).save(commit=False)
-        if commit:
-            survey.save()
-        return survey
 
 
 class ResearcherCreateQuestion(forms.ModelForm):
     class Meta:
         model = Question
         exclude = ['']
-        #fields = ['question_text', 'type', ]
-
-    def save(self, commit=True):
-        survey = super(ResearcherCreateQuestion, self).save(commit=False)
-        if commit:
-            survey.save()
-        return survey
 
 
 class ResearcherCreateSurvey(forms.ModelForm):
     class Meta:
         model = Survey
         exclude = ['']
-        #fields = ['creator', 'name']
 
-    def save(self, commit=True):
-        survey = super(ResearcherCreateSurvey, self).save(commit=False)
-        if commit:
-            survey.save()
-        return survey
+
+QuestionFormSet = inlineformset_factory(Survey, Question, form=ResearcherCreateQuestion)
+ChoiceFormSet = inlineformset_factory(Question, Choice, form=ResearcherCreateChoice)
+

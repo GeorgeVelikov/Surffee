@@ -23,7 +23,6 @@ class Survey(models.Model):
     name = models.CharField(max_length=300)
     creation_date = models.DateTimeField(default=timezone.now, editable=False)
     pub_date = models.DateTimeField('date published')
-    count = 1
 
     def __str__(self): return self.name
 
@@ -39,11 +38,10 @@ class Question(models.Model):
         ('T', 'Text answer')
     )
     # TODO: specify on_delete // if u delete the question, keep survey but not the choices
-    survey = models.ForeignKey(Survey, on_delete=models.CASCADE, default=0)
+    survey = models.ForeignKey(Survey, on_delete=models.CASCADE)
     question_text = models.CharField(max_length=300)
     # pub_date = models.DateTimeField('date published')
     type = models.CharField(choices=QUESTION_TYPES, max_length=1, default=0)
-    count = 1
 
     def __str__(self): return self.question_text
 
