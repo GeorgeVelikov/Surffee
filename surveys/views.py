@@ -1,14 +1,11 @@
 from django.shortcuts import render, render_to_response
 from django.http import HttpResponse, HttpResponseRedirect
 from django.views.generic import CreateView
-from django.views.generic.edit import ProcessFormView
-from django.views.generic.base import ContextMixin, TemplateResponseMixin
 from django.urls import reverse_lazy
-from django.core.exceptions import PermissionDenied, ImproperlyConfigured
-from django.utils.encoding import force_text
+from django.core.exceptions import PermissionDenied
 
 from .models import Survey
-from .forms import ResearcherCreationForm, ResearcherCreateSurvey, ResearcherCreateQuestion, ResearcherCreateChoice, QuestionFormSet, ChoiceFormSet
+from .forms import ResearcherCreationForm, ResearcherCreateSurvey, QuestionFormSet, ChoiceFormSet
 
 
 def index(request):
