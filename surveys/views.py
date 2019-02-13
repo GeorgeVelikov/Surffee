@@ -5,7 +5,8 @@ from django.urls import reverse_lazy
 from django.core.exceptions import PermissionDenied
 
 from .models import Survey
-from .forms import ResearcherCreationForm, ResearcherCreateSurvey, QuestionFormSet, ChoiceFormSet
+from .forms.users import ResearcherCreationForm
+from .forms.models import ResearcherCreateSurvey, QuestionFormSet, ChoiceFormSet
 
 
 def index(request):

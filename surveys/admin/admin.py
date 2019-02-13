@@ -1,20 +1,10 @@
 from django.contrib import admin
-from nested_admin.nested import NestedTabularInline, NestedModelAdmin
+from nested_admin.nested import NestedModelAdmin
 from django.contrib.auth.admin import UserAdmin
 
-from .models import Question, Choice, Survey, Researcher
-from .forms import ResearcherCreationForm, ResearcherChangeForm
-
-
-class ChoiceInline(NestedTabularInline):
-    model = Choice
-    extra = 0
-
-
-class QuestionInline(NestedTabularInline):
-    model = Question
-    inlines = [ChoiceInline]
-    extra = 0
+from .inline import Question, Choice
+from ..models import Survey, Researcher
+from ..forms.users import ResearcherCreationForm, ResearcherChangeForm
 
 
 class QuestionAdmin(NestedModelAdmin):
@@ -22,14 +12,14 @@ class QuestionAdmin(NestedModelAdmin):
     fieldsets = [
         (None,               {'fields': ['question_text']}),
     ]
-    inlines = [ChoiceInline]
+    inlines = [Choice]
     list_display = ['question_text']
     search_fields = ['question_text']
 
 
 class SurveyAdmin(NestedModelAdmin):
     model = Survey
-    inlines = [QuestionInline]
+    inlines = [Question]
     readonly_fields = ['creation_date']
     list_display = ['name', 'creator', 'creation_date', 'description','active']
 
