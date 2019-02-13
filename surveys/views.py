@@ -34,8 +34,8 @@ def detail(request, survey_id):
     template = 'surveys/detail.html'
     survey = Survey.objects.filter(pk=survey_id)[0]
     if survey.creator != request.user and not request.user.is_superuser:
-        raise PermissionDenied("You don't have access to this survey, please contact " + survey.creator.username)
-            # TODO: make this researcher's email. We need to modify models to achieve this.
+        raise PermissionDenied("You have tried to access " + survey.name + ". To gain permissions please contact "
+                               + survey.creator.email + ".")
     context = {'survey': survey}
     return render(request, template, context)
 
@@ -55,15 +55,10 @@ def active(request):
 """ Errors """
 
 
-def permission_denied(request):
-    return render(request, 'errors/403.html')
-
-
 def handler403(request, exception):
     response = render_to_response("errors/403.html")
-    response.status_code = 403
     context = {'message': exception.args[0]}  # this is the error message called with the exception
-    return render(request, 'errors/403.html', context)
+    return render(request, 'errors/403.html', context, status=403)
 
 
 class SignUp(CreateView):

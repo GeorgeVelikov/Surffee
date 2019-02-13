@@ -12,6 +12,7 @@
         <p>You are the creator of this survey</p>
     {% endif %}
     <h1>{{survey.name}}</h1>
+    <p>{{survey.description}}</p>
     {% for question in survey.question_set.all %} <!-- yeah this is how you go up the foreign key -->
         {{ question.question_text }}
     {% endfor %}
