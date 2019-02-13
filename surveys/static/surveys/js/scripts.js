@@ -2,3 +2,7 @@
 $(document).ready(function () {
     feather.replace();
 });
+
+function redirect() {
+    alert("what did you expect lmao")
+}
