@@ -23,8 +23,10 @@ class Survey(models.Model):
     name = models.CharField(max_length=300)
     creation_date = models.DateTimeField(default=timezone.now, editable=False)
     pub_date = models.DateTimeField('date published')
+    active = models.BooleanField()
 
-    def __str__(self): return self.name
+    def __str__(self):
+        return self.name
 
     class Meta:
         verbose_name = "Survey"

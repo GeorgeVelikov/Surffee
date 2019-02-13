@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+<!-- include crispy -->
+{% load crispy_forms_tags %}
+
+{% block title %}Index{% endblock %}
+
+{% block content %}
+    {% if user.is_superuser %}
+        <p>You're logged in under superuser privileges. All surveys are shown.</p>
+    {% elif user == survey.creator %}
+        <p>You are the creator of this survey</p>
+    {% endif %}
+    <h1>{{survey.name}}</h1>
+{% endblock %}
+extra soi hello

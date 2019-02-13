@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+<!-- include crispy -->
+{% load crispy_forms_tags %}
+
+{% block title %}Index{% endblock %}
+
+{% block content %}
+    {% if user.is_superuser %}
+<p>You're logged in under superuser privileges. All <strong>active</strong> surveys are shown.</p>
+    {% elif user.is_authenticated %}
+        <p>Your <strong>active</strong> surveys:</p>
+    {% endif %}
+    {% for survey in active_surveys %}
+    <a href=../{{survey.id}}>{{survey.name}}</a>
+    {% endfor %}
+{% endblock %}
+extra soi hello

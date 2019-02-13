@@ -22,17 +22,48 @@ def index(request):
 
 
 def results(survey_id):
-    response = "You're looking at the results of survey %s."
-    return HttpResponse(response % survey_id)
+    template = 'surveys/results.html'
+    survey = Survey.objects.get(pk=survey_id)
+    context = {'survey': survey}
+    return render(survey_id, template, context)
+
+
+def detail(request, survey_id):
+    if not request.user.is_authenticated:  # user is not logged in
+        raise PermissionDenied("User is not logged in")
+    template = 'surveys/detail.html'
+    survey = Survey.objects.filter(pk=survey_id)[0]
+    if survey.creator != request.user and not request.user.is_superuser:
+        raise PermissionDenied("You don't have access to this survey, please contact " + survey.creator.username)
+            # TODO: make this researcher's email. We need to modify models to achieve this.
+    context = {'survey': survey}
+    return render(request, template, context)
+
+
+def active(request):
+    template = 'surveys/active.html'
+    if not request.user.is_authenticated:  # user is not logged in
+        raise PermissionDenied("User is not logged in.")
+    if request.user.is_superuser:
+        active_surveys = Survey.objects.filter(active=True)
+    elif request.user.is_authenticated:
+        active_surveys = Survey.objects.filter(creator=request.user, active=True)
+    context = {'active_surveys': active_surveys}
+    return render(request, template, context)
 
 
 """ Errors """
 
 
-def handler403():
+def permission_denied(request):
+    return render(request, 'errors/403.html')
+
+
+def handler403(request, exception):
     response = render_to_response("errors/403.html")
     response.status_code = 403
-    return response
+    context = {'message': exception.args[0]}  # this is the error message called with the exception
+    return render(request, 'errors/403.html', context)
 
 
 class SignUp(CreateView):
@@ -65,7 +96,7 @@ class CreateSurvey(CreateView):
         form = self.get_form(form_class)
         question_form = QuestionFormSet(self.request.POST)
         choice_form = ChoiceFormSet(self.request.POST)
-        if (form.is_valid() and question_form.is_valid() and choice_form.is_valid()):
+        if form.is_valid() and question_form.is_valid() and choice_form.is_valid():
             return self.form_valid(form, question_form, choice_form)
         else:
             return self.form_invalid(form, question_form, choice_form)
