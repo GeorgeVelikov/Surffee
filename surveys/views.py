@@ -1,8 +1,9 @@
-from django.shortcuts import render, render_to_response
+from django.shortcuts import render, render_to_response, redirect
 from django.http import HttpResponse, HttpResponseRedirect
 from django.views.generic import CreateView
 from django.urls import reverse_lazy
 from django.core.exceptions import PermissionDenied
+from django.contrib import messages
 
 from .models import Survey
 from .forms.users import ResearcherCreationForm
@@ -53,6 +54,41 @@ def active(request):
     return render(request, template, context)
 
 
+class CreateNewSurvey(CreateView):
+    template = 'surveys/create.html'
+    model = Survey
+    form_class = ResearcherCreateSurvey
+    success_url = '/'  # TODO: make this the newly created survey
+
+    # can just increment id of the last survey
+    def get(self, request, *args, **kwargs):
+        self.object = None
+        form_class = self.get_form_class()
+        form = self.get_form(form_class)
+        return self.render_to_response(self.get_context_data(form=form))
+
+    def post(self, request, *args, **kwargs):
+        self.object = None
+        form_class = self.get_form_class()
+        form = self.get_form(form_class)
+        if form.is_valid():
+            self.object = form.save()
+            # this is probably dirty as heck because I've only seen form_valid() called here,
+            # which is also an method overriding the superclass, so it's probably important
+            messages.add_message(request, messages.INFO, "Survey created successfully")
+            return redirect('../' + str(self.object.id))
+        else:
+            return self.form_invalid(form)
+
+    def form_valid(self, form):
+        self.object = form.save()
+        return HttpResponseRedirect(self.get_success_url())
+
+
+    def form_invalid(self, form):
+        return self.render_to_response(self.get_context_data(form=form))
+
+
 """ Errors """
 
 
@@ -69,7 +105,7 @@ class SignUp(CreateView):
 
 
 class CreateSurvey(CreateView):
-    template_name = 'surveys/create.html'
+    template_name = 'surveys/old_create.html'
     model = Survey
     form_class = ResearcherCreateSurvey
     success_url = '/'

@@ -19,7 +19,7 @@ class ResearcherCreateQuestion(forms.ModelForm):
 class ResearcherCreateSurvey(forms.ModelForm):
     class Meta:
         model = Survey
-        exclude = ['']
+        exclude = ['active']
 
 
 QuestionFormSet = inlineformset_factory(Survey, Question, form=ResearcherCreateQuestion)

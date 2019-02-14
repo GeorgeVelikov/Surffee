@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+
+<!-- include crispy -->
+{% load crispy_forms_tags %}
+
+{% block title %}Create survey{% endblock %}
+
+    <script type="text/javascript">
+        $(function() {
+            $(".inline.{{ question_form.prefix }}").formset({
+                prefix: "{{ question_form.prefix }}",
+            })
+            $(".inline.{{ choice_form.prefix }}").formset({
+                prefix: "{{ choice_form.prefix }}",
+            })
+        })
+    </script>
+
+{% block content %}
+    <h2>Create survey</h2>
+        <form action="." method="post">
+            {% csrf_token %}
+            {{ form|crispy }}
+
+            <fieldset>
+                <legend>Questions</legend>
+                {{ question_form.management_form }}
+                {{ question_form.non_form_errors }}
+                <!-- TODO: make the css look nice here, we can access individual forms by doing form.something -->
+                {% for form in question_form %}
+                    {{ form.id }}
+                    <div class="inline {{ question_form.prefix }}">
+                        {{ form|crispy }}
+                    </div>
+
+                    <fieldset>
+                        <legend>Choice</legend>
+                        {{ choice_form.management_form }}
+                        {{ choice_form.non_form_errors }}
+                        {% for form in choice_form %}
+                            {{ form.id }}
+                            <div class="ineline {{ choice_form.prefix }}">
+                                {{ form|crispy }}
+                            </div>
+                        {% endfor %}
+                    </fieldset>
+
+                {% endfor %}
+
+            </fieldset>
+
+            <button type="submit" class="btn btn-success">Create survey</button>
+        </form>
+{% endblock %}

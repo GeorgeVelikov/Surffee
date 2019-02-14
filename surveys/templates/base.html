@@ -69,6 +69,7 @@
                             {% if user.is_authenticated %}
                                 <li><a class="nav-link" href="{% url 'surveys:index' %}">My surveys</a></li>
                                 <li><a class="nav-link" href="{% url 'surveys:create' %}">Create survey</a></li>
+                                <li><a class="nav-link" href="{% url 'surveys:old_create' %}">old Create survey</a></li>
                                 <li><a class="nav-link" href="{% url 'password_reset' %}">Reset password</a></li>
                                 <li><a class="nav-link" href="{% url 'logout' %}">Logout</a></li>
                             {% else %}
@@ -109,6 +110,13 @@
                 <div id="main" class="col-sm-10">
                     <div class="container-fluid">
                         <main role="main" class="main-content-block">
+                            {% if messages %}
+                                <ul class="messages">
+                                    {% for message in messages %}
+                                        <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+                                    {% endfor %}
+                                </ul>
+                            {% endif %}
                             {% block content %}
                             {% endblock %}
                         </main>
