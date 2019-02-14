@@ -6,18 +6,25 @@
 {% block title %}Index{% endblock %}
 
 {% block content %}
+
     {% if message %}
         {{message}}
     {% endif %}
+
     {% if user.is_superuser %}
         <p>You're logged in under superuser privileges. All surveys are shown.</p>
     {% elif user == survey.creator %}
         <p>You are the creator of this survey</p>
     {% endif %}
+
     <h1>{{survey.name}}</h1>
     <p>{{survey.description}}</p>
+
     {% for question in survey.question_set.all %} <!-- yeah this is how you go up the foreign key -->
         {{ question.question_text }}
     {% endfor %}
+
+    <a href="add_question/">lol dude</a>
+
 {% endblock %}
 extra soi hello
