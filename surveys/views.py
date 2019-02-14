@@ -1,5 +1,5 @@
-from django.shortcuts import render, render_to_response, redirect
-from django.http import HttpResponse, HttpResponseRedirect
+from django.shortcuts import render, redirect
+from django.http import HttpResponseRedirect
 from django.views.generic import CreateView
 from django.urls import reverse_lazy
 from django.core.exceptions import PermissionDenied
@@ -7,7 +7,7 @@ from django.contrib import messages
 
 from .models import Survey, Question
 from .forms.users import ResearcherCreationForm
-from .forms.surveys import ResearcherCreateSurvey, ResearcherCreateQuestion, QuestionFormSet, ChoiceFormSet
+from .forms.surveys import ResearcherCreateSurvey, ResearcherCreateQuestion, ChoiceFormSet
 
 
 def index(request):
@@ -110,52 +110,6 @@ class SignUp(CreateView):
     form_class = ResearcherCreationForm
     success_url = reverse_lazy('login')
     template_name = 'signup.html'
-
-
-# can remove this tbh
-class CreateSurvey(CreateView):
-    template_name = 'surveys/old_create.html'
-    model = Survey
-    form_class = ResearcherCreateSurvey
-    success_url = '/'
-
-    def get(self, request, *args, **kwargs):
-        self.object = None
-        form_class = self.get_form_class()
-        form = self.get_form(form_class)
-        question_form = QuestionFormSet
-        choice_form = ChoiceFormSet
-        return self.render_to_response(
-            self.get_context_data(form=form,
-                                  question_form=question_form,
-                                  choice_form=choice_form)
-        )
-
-    def post(self, request, *args, **kwargs):
-        self.object = None
-        form_class = self.get_form_class()
-        form = self.get_form(form_class)
-        question_form = QuestionFormSet(self.request.POST)
-        choice_form = ChoiceFormSet(self.request.POST)
-        if form.is_valid() and question_form.is_valid() and choice_form.is_valid():
-            return self.form_valid(form, question_form, choice_form)
-        else:
-            return self.form_invalid(form, question_form, choice_form)
-
-    def form_valid(self, form, question_form, choice_form):
-        self.object = form.save()
-        question_form.instance = self.object
-        question_form.save()
-        choice_form.instance = self.object
-        choice_form.save()
-        return HttpResponseRedirect(self.get_success_url())
-
-    def form_invalid(self, form, question_form, choice_form):
-        return self.render_to_response(
-            self.get_context_data(form=form,
-                                  question_form=question_form,
-                                  choice_form=choice_form)
-        )
 
 
 class CreateQuestion(CreateView):

@@ -26,6 +26,7 @@ class ResearcherCreateSurvey(forms.ModelForm):
         exclude = ['active']
 
 
-QuestionFormSet = inlineformset_factory(Survey, Question, form=ResearcherCreateQuestion)
-ChoiceFormSet = inlineformset_factory(Question, Choice, form=ResearcherCreateChoice, extra=3)
-
+ChoiceFormSet = inlineformset_factory(Question,
+                                      Choice,
+                                      form=ResearcherCreateChoice,
+                                      extra=3)
