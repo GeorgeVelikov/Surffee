@@ -1,2 +1,2 @@
-from .models import *
+from .surveys import *
 from .users import *

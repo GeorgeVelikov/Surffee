@@ -7,7 +7,7 @@ from ..models import Survey, Question, Choice
 class ResearcherCreateChoice(forms.ModelForm):
     class Meta:
         model = Choice
-        exclude = ['']
+        exclude = ['votes']
 
 
 class ResearcherCreateQuestion(forms.ModelForm):

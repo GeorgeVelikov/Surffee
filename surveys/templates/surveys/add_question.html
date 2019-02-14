@@ -14,7 +14,7 @@
     </script>
 
 {% block content %}
-    <h2>Create survey</h2>
+    <h2>Add a question to {{survey.name}}</h2>
         <form action="." method="post">
             {% csrf_token %}
             {{ form|crispy }}
@@ -33,4 +33,9 @@
 
             <button type="submit" class="btn btn-success">Create survey</button>
         </form>
+
+    <script type="text/javascript">
+          $("#id_survey").parent().parent().hide();
+          $("#id_survey").val("{{survey.id}}");
+    </script>
 {% endblock %}
