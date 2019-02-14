@@ -9,4 +9,8 @@ Anton Trnovsky, Yiannis Keravnos, Martin Woznicki and Georgi Velikov
 - django-crispy-forms 1.7.x
 - django-nested-admin 3.1.x
 
-update: 04/02/2019 
+# Source added libraries, found in /static:
+- feather.js (buttons!)
+- jquery.formset.js (helper functions for multi model forms/views)
+
+update: 14/02/2019 
