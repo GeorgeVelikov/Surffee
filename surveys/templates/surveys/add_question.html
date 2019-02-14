@@ -17,8 +17,8 @@
     <h2>Add a question to {{survey.name}}</h2>
         <form action="." method="post">
             {% csrf_token %}
-
             <div class="row">
+                {{ form.survey }}
                 <div class="col-sm-10">
                     {{ form.question_text|as_crispy_field }}
                 </div>
@@ -40,8 +40,7 @@
                     </div>
                     <!-- TODO: make this a button -->
                     <div class="col-sm-1">
-                        <button type="" class="btn btn-failure">Remove</button>
-                        <!-- {{ form.DELETE|as_crispy_field }} -->
+                        {{ form.DELETE|as_crispy_field }}
                     </div>
 
                 {% endfor %}
@@ -51,7 +50,7 @@
         </form>
 
     <script type="text/javascript">
-          $("#id_survey").parent().parent().hide();
+          $("#id_survey").hide();
           $("#id_survey").val("{{survey.id}}");
     </script>
 {% endblock %}
