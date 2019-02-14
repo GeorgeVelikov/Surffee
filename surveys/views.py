@@ -66,21 +66,11 @@ def inactive(request):
         inactive_surveys = Survey.objects.filter(creator=request.user, active=False)
     context = {'inactive_surveys': inactive_surveys}
     return render(request, template, context)
-"""
-class AddQuestion(CreateView):
-    template = 'surveys/add_question.html'
-    model = Question
-    survey = Survey.objects.get(pk=survey_id)
 
-    # TODO: find a way to pass survey_id from survey detail. Then set it as a value in Survey: field of newly created
-    # question
-    def get(self, request, *args, **kwargs):
-        self.object = None
-        form_class = self.get_form_class()
-        form = self.get_form(form_class)
-        form.survey = request.survey_id
-        return self.render_to_response(self.get_context_data(form=form))
-"""
+
+def handler403(request, exception):
+    context = {'message': exception.args[0]}  # this is the error message called with the exception
+    return render(request, 'errors/403.html', context, status=403)
 
 
 class CreateNewSurvey(CreateView):
@@ -116,20 +106,13 @@ class CreateNewSurvey(CreateView):
         return self.render_to_response(self.get_context_data(form=form))
 
 
-""" Errors """
-
-
-def handler403(request, exception):
-    context = {'message': exception.args[0]}  # this is the error message called with the exception
-    return render(request, 'errors/403.html', context, status=403)
-
-
 class SignUp(CreateView):
     form_class = ResearcherCreationForm
     success_url = reverse_lazy('login')
     template_name = 'signup.html'
 
 
+# can remove this tbh
 class CreateSurvey(CreateView):
     template_name = 'surveys/old_create.html'
     model = Survey

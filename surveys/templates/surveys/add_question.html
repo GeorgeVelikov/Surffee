@@ -34,19 +34,33 @@
                 {% for form in choice_form %}
 
                     {{ form.id }}
-                    <div class="col-sm-3">
+                    <div class="col-sm-1">
+
+                    </div>
+
+                    <div class="col-sm-1">
+                        Choice text
+                    </div>
+
+                    <div class="col-sm-6">
                         {{ form.choice_text|as_crispy_field }}
 
                     </div>
-                    <!-- TODO: make this a button -->
-                    <div class="col-sm-1">
-                        {{ form.DELETE|as_crispy_field }}
+                    <div class="col-sm-4">
+                    <!-- TODO: make this a stylish button -->
+                        <div class="input-group-append">
+                             <!-- {{ form.DELETE|as_crispy_field }} -->
+                            <button class="btn btn-success add-form-row"> + </button>
+                        </div>
                     </div>
 
                 {% endfor %}
             </div>
 
-            <button type="submit" class="btn btn-success">Add question</button>
+            <p></p>
+            <div class="container col-sm-6">
+                <button type="submit" class="btn btn-block btn-primary">Add question</button>
+            </div>
         </form>
 
     <script type="text/javascript">

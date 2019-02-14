@@ -5,6 +5,10 @@ from ..models import Survey, Question, Choice
 
 
 class ResearcherCreateChoice(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        super(ResearcherCreateChoice, self).__init__(*args, **kwargs)
+        self.fields['choice_text'].label = False
+
     class Meta:
         model = Choice
         exclude = ['votes']
@@ -23,5 +27,5 @@ class ResearcherCreateSurvey(forms.ModelForm):
 
 
 QuestionFormSet = inlineformset_factory(Survey, Question, form=ResearcherCreateQuestion)
-ChoiceFormSet = inlineformset_factory(Question, Choice, form=ResearcherCreateChoice)
+ChoiceFormSet = inlineformset_factory(Question, Choice, form=ResearcherCreateChoice, extra=3)
 
