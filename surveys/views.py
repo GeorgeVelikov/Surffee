@@ -43,6 +43,7 @@ def detail(request, survey_id):
 
 
 def active(request):
+    active_surveys = None
     template = 'surveys/active.html'
     if not request.user.is_authenticated:  # user is not logged in
         raise PermissionDenied("User is not logged in.")
@@ -53,6 +54,17 @@ def active(request):
     context = {'active_surveys': active_surveys}
     return render(request, template, context)
 
+def inactive(request):
+    inactive_surveys = None
+    template = 'surveys/inactive.html'
+    if not request.user.is_authenticated:  # user is not logged in
+        raise PermissionDenied("User is not logged in.")
+    if request.user.is_superuser:
+        inactive_surveys = Survey.objects.filter(active=False)
+    elif request.user.is_authenticated:
+        inactive_surveys = Survey.objects.filter(creator=request.user, active=False)
+    context = {'inactive_surveys': inactive_surveys}
+    return render(request, template, context)
 
 class CreateNewSurvey(CreateView):
     template = 'surveys/create.html'
@@ -93,7 +105,6 @@ class CreateNewSurvey(CreateView):
 
 
 def handler403(request, exception):
-    response = render_to_response("errors/403.html")
     context = {'message': exception.args[0]}  # this is the error message called with the exception
     return render(request, 'errors/403.html', context, status=403)
 

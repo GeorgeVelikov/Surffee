@@ -23,7 +23,7 @@ class Survey(models.Model):
     name = models.CharField(max_length=300)
     creation_date = models.DateTimeField(default=timezone.now, editable=False)
     description = models.CharField(max_length=100000)
-    active = models.BooleanField()
+    active = models.BooleanField(default=False)
 
     def __str__(self):
         return self.name

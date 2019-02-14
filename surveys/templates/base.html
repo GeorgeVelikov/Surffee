@@ -97,6 +97,9 @@
                                 <h6 class="px-3 pt-3">Surveys</h6>
                                 <ul class="nav flex-column flex-nowrap text-truncate">
                                     <li class="nav-item">
+                                        <a class="nav-link active" href="{% url 'surveys:inactive' %}">Inactive surveys</a>
+                                    </li>
+                                    <li class="nav-item">
                                         <a class="nav-link active" href="{% url 'surveys:active' %}">Active surveys</a>
                                     </li>
                                 </ul>

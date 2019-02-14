@@ -3,7 +3,7 @@
 <!-- include crispy -->
 {% load crispy_forms_tags %}
 
-{% block title %}Index{% endblock %}
+{% block title %}All surveys{% endblock %}
 
 {% block content %}
     {% if user.is_superuser %}
@@ -12,7 +12,7 @@
         <p>Your surveys:</p>
     {% endif %}
     {% for survey in surveys %}
-        <a href={{survey.id}}>{{survey.name}}</a>
+        <a href={{survey.id}}>{{survey.name}}</a><br>
     {% endfor %}
 {% endblock %}
 extra soi hello
