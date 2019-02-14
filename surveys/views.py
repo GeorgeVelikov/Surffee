@@ -5,7 +5,7 @@ from django.urls import reverse_lazy
 from django.core.exceptions import PermissionDenied
 from django.contrib import messages
 
-from .models import Survey
+from .models import Survey, Question
 from .forms.users import ResearcherCreationForm
 from .forms.models import ResearcherCreateSurvey, QuestionFormSet, ChoiceFormSet
 
@@ -54,6 +54,7 @@ def active(request):
     context = {'active_surveys': active_surveys}
     return render(request, template, context)
 
+
 def inactive(request):
     inactive_surveys = None
     template = 'surveys/inactive.html'
@@ -65,12 +66,25 @@ def inactive(request):
         inactive_surveys = Survey.objects.filter(creator=request.user, active=False)
     context = {'inactive_surveys': inactive_surveys}
     return render(request, template, context)
+"""
+class AddQuestion(CreateView):
+    template = 'surveys/add_question.html'
+    model = Question
+    survey = Survey.objects.get(pk=survey_id)
 
+    # TODO: find a way to pass survey_id from survey detail. Then set it as a value in Survey: field of newly created
+    # question
+    def get(self, request, *args, **kwargs):
+        self.object = None
+        form_class = self.get_form_class()
+        form = self.get_form(form_class)
+        form.survey = request.survey_id
+        return self.render_to_response(self.get_context_data(form=form))
+"""
 class CreateNewSurvey(CreateView):
     template = 'surveys/create.html'
     model = Survey
     form_class = ResearcherCreateSurvey
-    success_url = '/'  # TODO: make this the newly created survey
 
     # can just increment id of the last survey
     def get(self, request, *args, **kwargs):
@@ -95,7 +109,6 @@ class CreateNewSurvey(CreateView):
     def form_valid(self, form):
         self.object = form.save()
         return HttpResponseRedirect(self.get_success_url())
-
 
     def form_invalid(self, form):
         return self.render_to_response(self.get_context_data(form=form))

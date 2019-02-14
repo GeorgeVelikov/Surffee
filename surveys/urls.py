@@ -13,4 +13,5 @@ urlpatterns = [
     path('create/', views.CreateNewSurvey.as_view(), name='create'),
     path('active/', views.active, name='active'),
     path('inactive/', views.inactive, name="inactive"),
+#    path('<int:survey_id>/add_question/', views.AddQuestion.as_view(), name="add_question")
 ]
