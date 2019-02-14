@@ -13,4 +13,11 @@ Anton Trnovsky, Yiannis Keravnos, Martin Woznicki and Georgi Velikov
 - feather.js (buttons!)
 - jquery.formset.js (helper functions for multi model forms/views)
 
+# How to run:
+- make sure all requirements are met (installed)
+- clone the repo
+- open a terminal and go to root
+- write "py manage.py runserver" 
+- open a browser and go to localhost:8000
+
 update: 14/02/2019 
