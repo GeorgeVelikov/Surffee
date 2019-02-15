@@ -20,17 +20,17 @@
             <div class="row">
                 {{ form.survey }}
                 <div class="col-sm-8">
-                    {{ form.question_text }}
+                    {{ form.question_text|as_crispy_field }}
                 </div>
 
                 <div class="col-sm-1">
                     <legend class="col-form-label">Add</legend>
-                    <button type="button" id="add-new-choice" class="btn btn-success add-form-row"> + </button>
+                    <button type="button" id="add-new-choice" class="btn btn-success add-form-row add-edit"> + </button>
                 </div>
 
                 <div class="col-sm-1">
                     <legend class="col-form-label">Remove</legend>
-                    <button type="button" id="delete-choice" class="btn btn-danger add-form-row"> - </button>
+                    <button type="button" id="delete-choice" class="btn btn-danger add-form-row add-edit"> - </button>
                 </div>
                 <div class="col-sm-2">
                     {{ form.type }}
@@ -42,21 +42,22 @@
                 {{ choice_form.management_form }}
                 {{ choice_form.non_form_errors }}
             <div id="answer-bois">
+
                 {% for form in choice_form %}
                     {{ form.id }}
                     <div class="row">
                         <div class="col-sm-2">
                             Choice 1
                         </div>
+
                         <div class="col-sm-6">
-                        {{ form.choice_text }}
+                            {{ form.choice_text|as_crispy_field }}
                         </div>
                     </div>
                 {% endfor %}
             </div>
 
             <div class="container col-sm-6">
-
                 <button type="submit" class="btn btn-block btn-primary">Add question</button>
             </div>
         </form>
@@ -64,7 +65,10 @@
     <script type="text/javascript">
           $("#id_survey").hide();
           $("#id_survey").val("{{survey.id}}");
-
+          $("#id_question_text").val("{{question.question_text}}");
+          $("#id_choice_text").val("{{choices}}");
+          var num = 0;
+          $("#id_choice_set-"+num+"-choice_text").val("{{choices}}");
 
     </script>
 {% endblock %}
