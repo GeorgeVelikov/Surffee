@@ -6,7 +6,9 @@
 {% block title %}Sign Up{% endblock %}
 
 {% block content %}
-<h2>Sign up</h2>
+<div class="d-flex justify-content-between flex-wrap flex-sm-nowrap align-items-center pb-2 mb-3 border-bottom">
+    <h2>Sign up</h2>
+</div>
 <form method="post">
     {% csrf_token %}
     <!-- render the form as crispy instead of .as_p -->
