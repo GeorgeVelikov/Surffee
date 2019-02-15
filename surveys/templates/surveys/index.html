@@ -7,7 +7,7 @@
 
 {% block content %}
     {% if user.is_superuser %}
-        <p>You're logged in under superuser privileges. All surveys are shown.</p>
+        <div class="alert alert-info">You're logged in under superuser privileges. All surveys are shown.</div>
     {% elif user.is_authenticated %}
         <p>Your surveys:</p>
     {% endif %}
