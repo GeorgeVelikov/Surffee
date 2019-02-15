@@ -19,8 +19,16 @@
             {% csrf_token %}
             <div class="row">
                 {{ form.survey }}
-                <div class="col-sm-10">
+                <div class="col-sm-8">
                     {{ form.question_text|as_crispy_field }}
+                </div>
+                <div class="col-sm-1">
+                    <legend class="col-form-label">Add</legend>
+                    <button type="button" id="add-new-choice" class="btn btn-success add-form-row"> + </button>
+                </div>
+                <div class="col-sm-1">
+                    <legend class="col-form-label">Remove</legend>
+                    <button type="button" id="delete-choice" class="btn btn-danger add-form-row"> - </button>
                 </div>
                 <div class="col-sm-2">
                     {{ form.type|as_crispy_field }}
@@ -35,14 +43,18 @@
                 {% for form in choice_form %}
                     {{ form.id }}
                     <div class="row">
-                        {{ form.choice_text }}
+                        <div class="col-sm-2">
+                            Choice 1
+                        </div>
+                        <div class="col-sm-6">
+                        {{ form.choice_text|as_crispy_field }}
+                        </div>
                     </div>
                 {% endfor %}
             </div>
 
             <div class="container col-sm-6">
-                <button type="button" id="add-new-choice" class="btn btn-success add-form-row"> + </button>
-                <button type="button" id="delete-choice" class="btn btn-danger add-form-row"> - </button>
+
                 <button type="submit" class="btn btn-block btn-primary">Add question</button>
             </div>
         </form>
