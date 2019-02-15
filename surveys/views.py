@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponseRedirect
-from django.views.generic import CreateView
+from django.views.generic import CreateView, UpdateView
 from django.urls import reverse_lazy
 from django.core.exceptions import PermissionDenied
 from django.contrib import messages
@@ -73,6 +73,13 @@ def handler403(request, exception):
     return render(request, 'errors/403.html', context, status=403)
 
 
+def edit_question(request, survey_id, question_id):
+    survey = Survey.objects.get(pk=survey_id)
+    question = Question.objects.get(pk=question_id)
+    context = {'survey': survey, 'question': question}
+    return render(request, 'surveys/edit_question.html', context)
+
+
 class CreateNewSurvey(CreateView):
     template = 'surveys/create.html'
     model = Survey
@@ -126,6 +133,50 @@ class CreateQuestion(CreateView):
         choice_form = ChoiceFormSet
         return self.render_to_response(
             self.get_context_data(form=form,
+                                  choice_form=choice_form,
+                                  survey=survey)
+        )
+
+    def post(self, request, *args, **kwargs):
+        self.object = None
+        form_class = self.get_form_class()
+        form = self.get_form(form_class)
+        choice_form = ChoiceFormSet(self.request.POST)
+        if form.is_valid() and choice_form.is_valid():
+            return self.form_valid(form, choice_form)
+        else:
+            return self.form_invalid(form, choice_form)
+
+    def form_valid(self, form, choice_form):
+        self.object = form.save()
+        choice_form.instance = self.object
+        choice_form.save()
+        return redirect('../add_question/')
+
+    def form_invalid(self, form, choice_form):
+        return self.render_to_response(
+            self.get_context_data(form=form,
+                                  choice_form=choice_form)
+        )
+
+
+class EditQuestion(UpdateView):
+    template_name = 'surveys/edit_question.html'
+    model = Question
+    form_class = ResearcherCreateQuestion
+
+    def get(self, request, *args, **kwargs):
+        self.object = None
+        survey_id = self.kwargs.get('survey_id')
+        question_id = self.kwargs.get('question_id')
+        survey = Survey.objects.get(pk=survey_id)
+        question = Question.objects.get(pk=question_id)
+        form_class = self.get_form_class()
+        form = self.get_form(form_class)
+        choice_form = ChoiceFormSet
+        return self.render_to_response(
+            self.get_context_data(form=form,
+                                  question=question,
                                   choice_form=choice_form,
                                   survey=survey)
         )
