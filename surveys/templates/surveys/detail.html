@@ -12,7 +12,7 @@
     {% endif %}
 
     {% if user.is_superuser %}
-        <p>You're logged in under superuser privileges. All surveys are shown.</p>
+        <div class="alert alert-info">You're logged in under superuser privileges. All surveys are shown.</div>
     {% elif user == survey.creator %}
         <p>You are the creator of this survey</p>
     {% endif %}
