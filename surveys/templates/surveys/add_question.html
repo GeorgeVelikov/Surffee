@@ -27,34 +27,22 @@
                 </div>
             </div>
 
-            <div class="row">
+
                 <!-- TODO: add jquery add choice button -->
                 {{ choice_form.management_form }}
                 {{ choice_form.non_form_errors }}
+            <div id="answer-bois">
                 {% for form in choice_form %}
-
                     {{ form.id }}
-                    <div class="col-sm-1">
-                        <!-- TODO: i couldnt be assed to google offset -->
+                    <div class="row">
+                        {{ form.choice_text }}
                     </div>
-
-                    <div class="col-sm-6">
-                        {{ form.choice_text|as_crispy_field }}
-                    </div>
-
-                    <div class="col-sm-5">
-                    <!-- TODO: make this a stylish button -->
-                        <div class="input-group-append">
-                             <!-- {{ form.DELETE|as_crispy_field }} -->
-                            <button class="btn btn-success add-form-row"> + </button>
-                        </div>
-                    </div>
-
                 {% endfor %}
             </div>
 
-            <p></p>
             <div class="container col-sm-6">
+                <button type="button" id="add-new-choice" class="btn btn-success add-form-row"> + </button>
+                <button type="button" id="delete-choice" class="btn btn-danger add-form-row"> - </button>
                 <button type="submit" class="btn btn-block btn-primary">Add question</button>
             </div>
         </form>
@@ -62,5 +50,7 @@
     <script type="text/javascript">
           $("#id_survey").hide();
           $("#id_survey").val("{{survey.id}}");
+
+
     </script>
 {% endblock %}

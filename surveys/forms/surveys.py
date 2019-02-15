@@ -29,4 +29,4 @@ class ResearcherCreateSurvey(forms.ModelForm):
 ChoiceFormSet = inlineformset_factory(Question,
                                       Choice,
                                       form=ResearcherCreateChoice,
-                                      extra=3)
+                                      extra=1)
