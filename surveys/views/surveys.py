@@ -3,7 +3,7 @@ from django.http import HttpResponseRedirect
 from django.views.generic import CreateView, UpdateView
 from django.contrib import messages
 
-from ..models import Survey, Question
+from ..models import Survey, Question, Choice
 from ..forms.surveys import ResearcherCreateSurvey, ResearcherCreateQuestion, ChoiceFormSet
 
 
@@ -90,16 +90,28 @@ class EditQuestion(UpdateView):
         self.object = None
         survey_id = self.kwargs.get('survey_id')
         question_id = self.kwargs.get('question_id')
+
         survey = Survey.objects.get(pk=survey_id)
         question = Question.objects.get(pk=question_id)
+
+        # TODO: WHAT THE FUCK LOL PLEASE END MY LIFE DUDE HOW ARE WE DOING THIS
+        choice = Choice.objects.all()
+        choices = []
+        for c in choice:
+            if c.question.pk == question_id:
+                choices.append(c)
+        ########################################################################
+
         form_class = self.get_form_class()
         form = self.get_form(form_class)
         choice_form = ChoiceFormSet
+
         return self.render_to_response(
             self.get_context_data(form=form,
                                   question=question,
                                   choice_form=choice_form,
-                                  survey=survey)
+                                  survey=survey,
+                                  choices=choices)
         )
 
     def post(self, request, *args, **kwargs):
