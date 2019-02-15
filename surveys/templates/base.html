@@ -68,7 +68,7 @@
 
                             {% if user.is_authenticated %}
                                 <li><a class="nav-link" href="{% url 'surveys:index' %}">My surveys</a></li>
-                                <li><a class="nav-link" href="{% url 'surveys:create' %}">Create survey</a></li>
+                                <li><a class="nav-link" href="{% url 'surveys:create' %}">Create survey <span data-feather="plus-circle"></span></a></li>
                                 <li><a class="nav-link" href="{% url 'password_reset' %}">Reset password</a></li>
                                 <li><a class="nav-link" href="{% url 'logout' %}">Logout</a></li>
                             {% else %}
