@@ -21,7 +21,11 @@
     <p>{{survey.description}}</p>
 
     {% for question in survey.question_set.all %} <!-- yeah this is how you go up the foreign key -->
-        {{ question.question_text }}
+        <a href=../{{survey.id}}/edit_question/{{question.id}}>{{ question.question_text }}</a><br>
+
+        {% for choice in question.choice_set.all %}
+            choice - {{ choice.choice_text }}<br>
+        {% endfor %}
     {% endfor %}
 
     <a href="add_question/">Add question to the survey</a>
