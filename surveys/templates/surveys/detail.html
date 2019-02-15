@@ -23,12 +23,17 @@
     {% for question in survey.question_set.all %} <!-- yeah this is how you go up the foreign key -->
         Question {{ question.id }} - <a href=../{{survey.id}}/edit_question/{{question.id}}>{{ question.question_text }}</a><br>
 
-        <div class="col-sm-12">
+
+        <div class="col-sm-8 row">
             {% for choice in question.choice_set.all %}
-                <div class="col-sm-3">
-                    choice - {{ choice.choice_text }}
-                </div>
+                    <div class="col-sm-3">
+                       | choice - {{ choice.choice_text }}
+                    </div>
+                    <div class="col-sm=2">
+                        (Votes: {{ choice.votes }})
+                    </div>
             {% endfor %}
+            <br><br> <!-- TODO: dude do i look like a frontend dev -->
         </div>
     {% endfor %}
 
