@@ -25,12 +25,12 @@
 
                 <div class="col-sm-1">
                     <legend class="col-form-label">Add</legend>
-                    <button type="button" id="add-new-choice" class="btn btn-success add-form-row"> + </button>
+                    <button type="button" id="add-new-choice" class="btn btn-success add-form-row add-edit"> + </button>
                 </div>
 
                 <div class="col-sm-1">
                     <legend class="col-form-label">Remove</legend>
-                    <button type="button" id="delete-choice" class="btn btn-danger add-form-row"> - </button>
+                    <button type="button" id="delete-choice" class="btn btn-danger add-form-row add-edit"> - </button>
                 </div>
                 <div class="col-sm-2">
                     {{ form.type }}
@@ -42,9 +42,7 @@
                 {{ choice_form.management_form }}
                 {{ choice_form.non_form_errors }}
             <div id="answer-bois">
-                {% for c in choices %}
-                {{ c }}
-                {% endfor %}
+
                 {% for form in choice_form %}
                     {{ form.id }}
                     <div class="row">
@@ -68,7 +66,9 @@
           $("#id_survey").hide();
           $("#id_survey").val("{{survey.id}}");
           $("#id_question_text").val("{{question.question_text}}");
-          $("#id_choice_text").val("{{choice}}");
+          $("#id_choice_text").val("{{choices}}");
+          var num = 0;
+          $("#id_choice_set-"+num+"-choice_text").val("{{choices}}");
 
     </script>
 {% endblock %}
