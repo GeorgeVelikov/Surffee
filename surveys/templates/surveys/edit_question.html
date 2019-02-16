@@ -16,7 +16,7 @@
 
 {% block content %}
     <h2>Edit "{{question.question_text}}" in {{survey.name}}</h2>
-        <form action="." method="post">
+        <form action=".." method="post">
             {% csrf_token %}
             <div class="row">
                 {{ form.survey }}

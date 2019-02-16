@@ -10,6 +10,7 @@ $(document).ready(function () {
 
         newTextBox.attr("name",     "choice_set-"   + textBoxCounter + "-choice_text");
         newTextBox.attr("id",       "id_choice_set-"+ textBoxCounter + "-choice_text");
+        newTextBox.val("");
 
         var newRowDiv = $("<div>").addClass('row').attr('id', "row_div_"+textBoxCounter).append(
             $("<div>").addClass('col-sm-2').text("Choice "+(textBoxCounter+1)),

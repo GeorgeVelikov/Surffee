@@ -128,7 +128,7 @@ class EditQuestion(UpdateView):
         choice_form.instance = self.object
         choice_form.save()
         # TODO: fix redirect, for some reason it does not work
-        return redirect('../itnowork')
+        return redirect('../')
 
     def form_invalid(self, form, choice_form):
         return self.render_to_response(
