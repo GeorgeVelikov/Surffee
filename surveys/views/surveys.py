@@ -93,12 +93,8 @@ class EditQuestion(UpdateView):
 
         survey = Survey.objects.get(pk=survey_id)
         question = Question.objects.get(pk=question_id)
-
-        # TODO: WHAT THE FUCK LOL PLEASE END MY LIFE DUDE HOW ARE WE DOING THIS
-        # question.pk is last choice in a question
-        choices = Choice.objects.get(pk=question.pk-2)
-        print(question.pk-2)
-        ########################################################################
+        # Hey I think I actually made this nice
+        choices = Choice.objects.filter(question=question_id)
 
         form_class = self.get_form_class()
         form = self.get_form(form_class)

@@ -47,6 +47,9 @@
                     {{ form.id }}
                     <div class="row">
                         <div class="col-sm-2">
+                            {% for choice in choices %}
+                                {{ choice }}
+                            {% endfor %}
                             Choice 1
                         </div>
 
@@ -66,9 +69,7 @@
           $("#id_survey").hide();
           $("#id_survey").val("{{survey.id}}");
           $("#id_question_text").val("{{question.question_text}}");
-          $("#id_choice_text").val("{{choices}}");
-          var num = 0;
-          $("#id_choice_set-"+num+"-choice_text").val("{{choices}}");
+
 
     </script>
 {% endblock %}
