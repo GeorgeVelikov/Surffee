@@ -32,15 +32,20 @@ $(document).ready(function () {
 
 
     $(".add-edit").click(function () {
-        $("#id_choice_set-"+(textBoxCounter-1)+"-choice_text").val(textBoxCounter);
+        var choices = $("#add-new-choice").attr("data-variable").slice(1,-1).split(', ');
+        var str = "";
+
+        if (choices.length > textBoxCounter-1) {
+            var choice = choices[textBoxCounter-1];
+            str = choice.slice(1,-1);
+        }
+
+        $("#id_choice_set-"+(textBoxCounter-1)+"-choice_text").val(str);
     });
 
     function redirect() {
         alert("what did you expect lmao");
     }
-
-
-
 
 });
 

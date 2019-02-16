@@ -93,8 +93,13 @@ class EditQuestion(UpdateView):
 
         survey = Survey.objects.get(pk=survey_id)
         question = Question.objects.get(pk=question_id)
-        # Hey I think I actually made this nice
-        choices = Choice.objects.filter(question=question_id)
+
+        """
+            - filter grabs only the choices belonging to this question
+            - values_list makes them a nicer format we can use in js
+            - convert to list to remove the QuerySet at the beginning of the data type
+        """
+        choices = list(Choice.objects.filter(question=question_id).values_list("choice_text", flat=True))
 
         form_class = self.get_form_class()
         form = self.get_form(form_class)
