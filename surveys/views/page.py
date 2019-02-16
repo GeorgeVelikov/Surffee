@@ -75,13 +75,6 @@ def handler403(request, exception):
     return render(request, 'errors/403.html', context, status=403)
 
 
-def edit_question(request, survey_id, question_id):
-    survey = Survey.objects.get(pk=survey_id)
-    question = Question.objects.get(pk=question_id)
-    context = {'survey': survey, 'question': question}
-    return render(request, 'surveys/edit_question.html', context)
-
-
 class SignUp(CreateView):
     form_class = ResearcherCreationForm
     success_url = reverse_lazy('login')
