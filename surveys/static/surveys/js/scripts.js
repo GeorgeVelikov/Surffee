@@ -30,6 +30,11 @@ $(document).ready(function () {
         $("#id_choice_set-TOTAL_FORMS").val(textBoxCounter);
     });
 
+
+    $(".add-edit").click(function () {
+        $("#id_choice_set-"+(textBoxCounter-1)+"-choice_text").val(textBoxCounter);
+    });
+
     function redirect() {
         alert("what did you expect lmao");
     }

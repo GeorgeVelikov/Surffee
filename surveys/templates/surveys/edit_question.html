@@ -30,7 +30,7 @@
 
                 <div class="col-sm-1">
                     <legend class="col-form-label">Remove</legend>
-                    <button type="button" id="delete-choice" class="btn btn-danger add-form-row add-edit"> - </button>
+                    <button type="button" id="delete-choice" class="btn btn-danger add-form-row"> - </button>
                 </div>
                 <div class="col-sm-2">
                     {{ form.type }}
@@ -47,9 +47,6 @@
                     {{ form.id }}
                     <div class="row">
                         <div class="col-sm-2">
-                            {% for choice in choices %}
-                                {{ choice }}
-                            {% endfor %}
                             Choice 1
                         </div>
 
@@ -66,10 +63,9 @@
         </form>
 
     <script type="text/javascript">
-          $("#id_survey").hide();
-          $("#id_survey").val("{{survey.id}}");
-          $("#id_question_text").val("{{question.question_text}}");
-
-
+        $("#id_survey").hide();
+        $("#id_survey").val("{{survey.id}}");
+        $("#id_question_text").val("{{question.question_text}}");
+        $("#id_choice_set-0-choice_text").val("{{choices.first}}");
     </script>
 {% endblock %}
