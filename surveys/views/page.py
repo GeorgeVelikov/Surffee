@@ -3,7 +3,7 @@ from django.views.generic import CreateView
 from django.urls import reverse_lazy
 from django.core.exceptions import PermissionDenied
 
-from ..models import Survey, Question
+from ..models import Survey
 from ..forms.users import ResearcherCreationForm
 
 
@@ -25,11 +25,20 @@ def index(request):
     return render(request, template, context)
 
 
-def results(survey_id):
-    template = 'surveys/results.html'
-    survey = Survey.objects.get(pk=survey_id)
-    context = {'survey': survey}
-    return render(survey_id, template, context)
+class Results(CreateView):
+    template_name = 'surveys/results.html'
+    model = Survey
+    form_class = ResearcherCreationForm
+
+    def get(self, request, *args, **kwargs):
+        self.object = None
+        survey_id = self.kwargs.get('survey_id')
+        survey = Survey.objects.get(pk=survey_id)
+
+        return self.render_to_response(
+            self.get_context_data(survey=survey,
+                                  )
+        )
 
 
 def detail(request, survey_id):

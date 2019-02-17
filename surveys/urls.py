@@ -10,7 +10,7 @@ urlpatterns = [
          page.index,                                name='index'),
 
     path('<int:survey_id>/results/',
-         page.results,                              name="results"),
+         page.Results.as_view(),                    name="results"),
 
     path('<int:survey_id>/',
          page.detail,                               name="detail"),
