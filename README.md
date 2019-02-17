@@ -8,6 +8,7 @@ Anton Trnovsky, Yiannis Keravnos, Martin Woznicki and Georgi Velikov
 - Django 2.x.y
 - django-crispy-forms 1.7.x
 - django-nested-admin 3.1.x
+- django-countries 5.3.x
 
 # Source added libraries, found in /static:
 - feather.js (buttons!)
@@ -20,4 +21,4 @@ Anton Trnovsky, Yiannis Keravnos, Martin Woznicki and Georgi Velikov
 - write "py manage.py runserver" 
 - open a browser and go to localhost:8000
 
-update: 14/02/2019 
+update: 17/02/2019 
