@@ -5,6 +5,10 @@ from ..models import Researcher
 
 
 class ResearcherCreationForm(UserCreationForm):
+    """
+    * Form to create a Researcher type user
+    *
+    """
     password1 = forms.CharField(label='Password', widget=forms.PasswordInput)
     password2 = forms.CharField(label='Password confirmation', widget=forms.PasswordInput)
 
@@ -33,6 +37,10 @@ class ResearcherCreationForm(UserCreationForm):
 
 
 class ResearcherChangeForm(UserChangeForm):
+    """
+    * Form to change the Researcher type user's password
+    *
+    """
     password1 = forms.CharField(label='Password', widget=forms.PasswordInput)
     password2 = forms.CharField(label='Password confirmation', widget=forms.PasswordInput)
 
