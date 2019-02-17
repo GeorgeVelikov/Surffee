@@ -1,7 +1,7 @@
 from django import forms
 from django.forms.models import inlineformset_factory
 
-from ..models import Survey, Question, Choice
+from ..models import Survey, Question, Choice, PersonalInformation
 
 
 class ResearcherCreateChoice(forms.ModelForm):
@@ -26,9 +26,9 @@ class ResearcherCreateSurvey(forms.ModelForm):
         exclude = ['active']
 
 
-class ResearchAgreementForm(forms.ModelForm):
+class PersonalInformationForm(forms.ModelForm):
     class Meta:
-        model = Survey
+        model = PersonalInformation
         exclude = ['active, creator']  # TODO: might want to exclude more stuff
 
 
