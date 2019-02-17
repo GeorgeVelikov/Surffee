@@ -10,8 +10,10 @@
     <!-- survey has name, description, creator, creation_date, active -->
     <h1> {{ survey.name }} </h1>
     <h6> Description: {{ survey.description }} </h6>
+
     <!-- TODO: Grab some agreement text that is commonly used -->
-    {{ form|crispy }}
     This is where all the text to agree to specific questions goes to, age, sex, yadda, yadda
+
+    {{ form|crispy }}
 
 {% endblock %}

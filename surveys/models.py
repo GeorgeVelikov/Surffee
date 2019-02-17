@@ -38,7 +38,7 @@ class PersonalInformation(models.Model):
 
 class Survey(models.Model):
     creator = models.ForeignKey(Researcher, on_delete=models.CASCADE, default=0)
-    name = models.CharField(max_length=300)
+    name = models.CharField(max_length=2**8)
     creation_date = models.DateTimeField(default=timezone.now, editable=False)
     description = models.CharField(max_length=2**16)
     active = models.BooleanField(default=False)
@@ -73,7 +73,7 @@ class Question(models.Model):
 
 class Choice(models.Model):
     question = models.ForeignKey(Question, on_delete=models.CASCADE)
-    choice_text = models.CharField(max_length=200)
+    choice_text = models.CharField(max_length=200, blank=False)
     votes = models.IntegerField('number of votes', default=0)
 
     def __str__(self): return self.choice_text
