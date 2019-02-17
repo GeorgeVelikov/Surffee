@@ -136,5 +136,9 @@ class EditQuestion(UpdateView):
         )
 
 
+class ResearchAgreement(CreateView):
+    pass
+
+
 class AnswerSurvey(CreateView):
     pass
