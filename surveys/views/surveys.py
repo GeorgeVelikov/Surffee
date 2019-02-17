@@ -5,6 +5,7 @@ from django.contrib import messages
 
 from ..models import Survey, Question, Choice
 from ..forms.surveys import ResearcherCreateSurvey, ResearcherCreateQuestion, ChoiceFormSet
+from ..forms.surveys import AnswerSurveyQuestionsForm, ResearchAgreementForm
 
 
 class CreateNewSurvey(CreateView):
@@ -136,9 +137,35 @@ class EditQuestion(UpdateView):
         )
 
 
-class ResearchAgreement(CreateView):
-    pass
+class ResearchAgreement(UpdateView):
+    template_name = 'surveys/answer_research_agreement.html'
+    model = Survey
+    form_class = ResearchAgreementForm
+
+    def get(self, request, *args, **kwargs):
+        self.object = None
+        form_class = self.get_form_class()
+        form = self.get_form(form_class)
+        return self.render_to_response(self.get_context_data(form=form))
 
 
-class AnswerSurvey(CreateView):
-    pass
+class AnswerSurveyQuestions(UpdateView):
+    template_name = 'surveys/answer_survey.html'
+    model = Question
+    form_class = AnswerSurveyQuestionsForm
+
+    def get(self, request, *args, **kwargs):
+        self.object = None
+        survey_id = self.kwargs.get('survey_id')
+        question_id = self.kwargs.get('question_id')
+        survey = Survey.objects.get(pk=survey_id)
+        question = Question.objects.get(pk=question_id)
+
+        form_class = self.get_form_class()
+        form = self.get_form(form_class)
+        choice_form = ChoiceFormSet
+        return self.render_to_response(self.get_context_data(form=form,
+                                                             choice_form=choice_form,
+                                                             question=question,
+                                                             survey=survey
+                                                             ))

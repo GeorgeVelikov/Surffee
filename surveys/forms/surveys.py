@@ -26,6 +26,18 @@ class ResearcherCreateSurvey(forms.ModelForm):
         exclude = ['active']
 
 
+class ResearchAgreementForm(forms.ModelForm):
+    class Meta:
+        model = Survey
+        exclude = ['active, creator']  # TODO: might want to exclude more stuff
+
+
+class AnswerSurveyQuestionsForm(forms.ModelForm):
+    class Meta:
+        model = Question
+        exclude = ['']  # TODO: might want to exclude more stuff
+
+
 ChoiceFormSet = inlineformset_factory(Question,
                                       Choice,
                                       form=ResearcherCreateChoice,
