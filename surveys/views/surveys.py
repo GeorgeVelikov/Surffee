@@ -127,7 +127,6 @@ class EditQuestion(UpdateView):
         self.object = form.save()
         choice_form.instance = self.object
         choice_form.save()
-        # TODO: fix redirect, for some reason it does not work
         return redirect('../')
 
     def form_invalid(self, form, choice_form):
@@ -135,3 +134,11 @@ class EditQuestion(UpdateView):
             self.get_context_data(form=form,
                                   choice_form=choice_form)
         )
+
+
+class ResearchAgreement(CreateView):
+    pass
+
+
+class AnswerSurvey(CreateView):
+    pass
