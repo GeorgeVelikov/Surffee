@@ -31,13 +31,15 @@ class PersonalInformation(models.Model):
     sex = models.CharField(max_length=30, choices=SEX_CHOICE)
     country_of_birth = CountryField(blank_label='(select country)')
     country_of_resedence = CountryField(blank_label='(select country)')
-
+    sexual_orientation = models.CharField(max_length=2**8)
+    native_tongue = models.CharField(max_length=2**8)
+    # TODO: add more presets for researchers to choose
 
 class Survey(models.Model):
     creator = models.ForeignKey(Researcher, on_delete=models.CASCADE, default=0)
     name = models.CharField(max_length=300)
     creation_date = models.DateTimeField(default=timezone.now, editable=False)
-    description = models.CharField(max_length=100000)
+    description = models.CharField(max_length=2**16)
     active = models.BooleanField(default=False)
 
     def __str__(self):
