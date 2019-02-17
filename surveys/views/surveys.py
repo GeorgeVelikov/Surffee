@@ -144,9 +144,12 @@ class ResearchAgreement(UpdateView):
 
     def get(self, request, *args, **kwargs):
         self.object = None
-        form_class = self.get_form_class()
-        form = self.get_form(form_class)
-        return self.render_to_response(self.get_context_data(form=form))
+        survey_id = self.kwargs.get('survey_id')
+        survey = Survey.objects.get(pk=survey_id)
+
+        return self.render_to_response(
+            self.get_context_data(survey=survey, )
+        )
 
 
 class AnswerSurveyQuestions(UpdateView):

@@ -1,6 +1,8 @@
 from django.db import models
 from django.utils import timezone
 from django.contrib.auth.models import AbstractUser
+from django.core.validators import MaxValueValidator, MinValueValidator
+from django_countries.fields import CountryField
 
 
 """          ""
@@ -16,6 +18,19 @@ class Researcher(AbstractUser):
 """            ""
 * SURVEY MODELS *
 ""            """
+
+SEX_CHOICE = (
+    ('male',    'MALE'),
+    ('female',  'FEMALE'),
+    ('prefer not to say', 'PREFER NOT TO SAY'),
+)
+
+
+class PersonalInformation(models.Model):
+    age = models.IntegerField(default=18, validators=[MaxValueValidator(100), MinValueValidator(18)])
+    sex = models.CharField(max_length=30, choices=SEX_CHOICE)
+    country_of_birth = CountryField(blank_label='(select country)')
+    country_of_resedence = CountryField(blank_label='(select country)')
 
 
 class Survey(models.Model):
