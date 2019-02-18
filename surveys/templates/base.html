@@ -63,17 +63,17 @@
                         <ul class="dropdown-menu dropdown-menu-right navbar-dropdown-custom">
                             <!-- TODO: put this as an option next to profile -->
                             {% if user.is_superuser %}
-                                <li><a class="nav-link" href="{% url 'admin:index' %}">Admin Settings</a></li>
+                                <li><a class="nav-link" href="{% url 'admin:index' %}">Admin Settings  <span><i class="fa fa-cog" aria-hidden="true"></i></span></a></li>
                             {% endif %}
 
                             {% if user.is_authenticated %}
-                                <li><a class="nav-link" href="{% url 'surveys:index' %}">My surveys</a></li>
-                                <li><a class="nav-link" href="{% url 'surveys:create' %}">Create survey <span data-feather="plus-circle"></span></a></li>
-                                <li><a class="nav-link" href="{% url 'password_reset' %}">Reset password</a></li>
-                                <li><a class="nav-link" href="{% url 'logout' %}">Logout</a></li>
+                                <li><a class="nav-link" href="{% url 'surveys:index' %}">My surveys  <span ><i class="fa fa-file-text fa-1" aria-hidden="true"></i></span></a></li>
+                                <li><a class="nav-link" href="{% url 'surveys:create' %}">Create survey  <span data-feather="plus-circle"></span></a></li>
+                                <li><a class="nav-link" href="{% url 'password_reset' %}">Reset password  <span><i class="fa fa-eraser" aria-hidden="true"></i></span></a></li>
+                                <li><a class="nav-link" href="{% url 'logout' %}">Logout  <span><i class="fa fa-sign-out" aria-hidden="true"></i></span></a></li>
                             {% else %}
-                                <li><a class="nav-link" href="{% url 'login' %}">Login</a></li>
-                                <li><a class="nav-link" href="{% url 'signup' %}">Signup</a></li>
+                                <li><a class="nav-link" href="{% url 'login' %}">Login  <span><i class="fa fa-sign-in" aria-hidden="true"></i></span></a></li>
+                                <li><a class="nav-link" href="{% url 'signup' %}">Signup  <span><i class="fa fa-user-plus" aria-hidden="true"></i></span></a></li>
                             {% endif %}
                         </ul>
                     </li>
@@ -129,7 +129,6 @@
         </div>
 
         <!-- Footer -->
-        <!-- TODO: add content, names, links idk -->
 
                 <section id="footer">
                     <div class="container">
