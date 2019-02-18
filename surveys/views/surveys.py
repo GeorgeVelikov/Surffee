@@ -126,15 +126,20 @@ class EditQuestion(UpdateView):
 
     def form_valid(self, form, choice_form):
         question_id = self.kwargs.get('question_id')
+        Choice.objects.filter(question_id=question_id).delete()
 
         form.id = question_id
         self.object = form.save()
+
         # TODO: THIS IS THE NEW QUESTION ID BUT IT ACTUALLY APPENDS IT
         self.object.id = question_id
 
+        print(self.object)
         print(self.object.id)
         # -------------------------------------------
+
         choice_form.instance = self.object
+
         choice_form.save()
         return redirect('../')
 
