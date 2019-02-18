@@ -127,14 +127,21 @@ class EditQuestion(UpdateView):
     def form_valid(self, form, choice_form):
         question_id = self.kwargs.get('question_id')
 
-        form.id = question_id
-        self.object = form.save()
-        # TODO: THIS IS THE NEW QUESTION ID BUT IT ACTUALLY APPENDS IT
-        self.object.id = question_id
+        # remove all choices in the question we're editing (as to not append them)
+        Choice.objects.filter(question_id=question_id).delete()
 
-        print(self.object.id)
+        # html form is translated to py
+        self.object = form.save()
+
+        # TODO: find a better way to not create new question instead of deleting it once it's created pls
+        Question.objects.filter(pk=self.object.id).delete()
+
+        # set new object's (question) id to be the one we're editing
+        self.object.id = question_id
         # -------------------------------------------
+
         choice_form.instance = self.object
+
         choice_form.save()
         return redirect('../')
 
