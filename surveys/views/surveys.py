@@ -117,12 +117,15 @@ class EditQuestion(UpdateView):
         )
 
     def post(self, request, *args, **kwargs):
-        question_id = self.kwargs.get('question_id')
-        instance = Question.objects.get(pk=question_id)
-        instance2 = Choice.objects.select_related().filter(question_id=question_id)
         self.object = None
+        question_id = self.kwargs.get('question_id')
+
+        instance = Question.objects.get(pk=question_id)
+        choice_set = Choice.objects.select_related().filter(question_id=question_id)
+
         form = ResearcherUpdateQuestion(request.POST or None, instance=instance)
-        choice_form = ChoiceFormSet(request.POST, request.FILES, queryset=instance2)
+        choice_form = ChoiceFormSet(request.POST, request.FILES, queryset=choice_set)
+
         if form.is_valid() and choice_form.is_valid():
             return self.form_valid(form, choice_form)
         else:
@@ -131,20 +134,26 @@ class EditQuestion(UpdateView):
     def form_valid(self, form, choice_form):
         question_id = self.kwargs.get('question_id')
 
-
         question = Question.objects.get(pk=question_id)
         choices = Choice.objects.filter(question_id=question_id)
-        print(choices)
-        for x in range(len(choice_form)):
-            choices[x].question = question
-            choices[x].id = choice_form[x]["id"]
-            choices[x].choice_text = choice_form[x]["choice_text"]
-            print(choice_form[x]["choice_text"])
-            # same for otes
-            choices[x].save()
+
+        if len(choice_form) > len(choices):
+            for x in range(len(choices)):
+                choice = Choice.objects.get(id=choices[x].id)
+                choice.question = question
+                choice.choice_text = (choice_form[x]["choice_text"]).value()
+                choice.save()
+        else:
+            for x in range(len(choice_form)):
+                choice = Choice.objects.get(id=choices[x].id)
+                choice.question = question
+                choice.choice_text = (choice_form[x]["choice_text"]).value()
+                choice.save()
+
+
+        # same for otes
         self.object = form.save()
-        choice_form.instance = self.object
-        choice_form.save()
+
         return redirect('../')
 
     def form_invalid(self, form, choice_form):
