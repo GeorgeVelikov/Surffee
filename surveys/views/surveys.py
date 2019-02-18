@@ -105,7 +105,6 @@ class EditQuestion(UpdateView):
         form_class = self.get_form_class()
         form = self.get_form(form_class)
         choice_form = ChoiceFormSet
-
         return self.render_to_response(
             self.get_context_data(form=form,
                                   question=question,
