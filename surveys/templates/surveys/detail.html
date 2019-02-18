@@ -24,7 +24,9 @@
     <p><a href="../answer/{{survey.id}}/agreement">Link for respondents</a></p>
 
     {% for question in survey.question_set.all %} <!-- yeah this is how you go up the foreign key -->
-        Question {{ question.id }} - <a href="../{{survey.id}}/edit_question/{{question.id}}">{{ question.question_text }}</a><br>
+        Question {{ question.id }} - <a href="../{{survey.id}}/edit_question/{{question.id}}">{{ question.question_text }}</a>
+        <!-- TODO: make a delete button? -->
+        - <a href="">delete</a><br>
 
         <div class="col-sm-8 row">
             {% for choice in question.choice_set.all %}

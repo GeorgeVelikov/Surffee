@@ -104,6 +104,7 @@ class EditQuestion(UpdateView):
 
         form_class = self.get_form_class()
         form = self.get_form(form_class)
+
         choice_form = ChoiceFormSet
         return self.render_to_response(
             self.get_context_data(form=form,
@@ -124,7 +125,15 @@ class EditQuestion(UpdateView):
             return self.form_invalid(form, choice_form)
 
     def form_valid(self, form, choice_form):
+        question_id = self.kwargs.get('question_id')
+
+        form.id = question_id
         self.object = form.save()
+        # TODO: THIS IS THE NEW QUESTION ID BUT IT ACTUALLY APPENDS IT
+        self.object.id = question_id
+
+        print(self.object.id)
+        # -------------------------------------------
         choice_form.instance = self.object
         choice_form.save()
         return redirect('../')
