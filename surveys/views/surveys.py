@@ -4,7 +4,7 @@ from django.views.generic import CreateView, UpdateView
 from django.contrib import messages
 
 from ..models import Survey, Question, Choice
-from ..forms.surveys import ResearcherCreateSurvey, ResearcherCreateQuestion, ChoiceFormSet
+from ..forms.surveys import ResearcherCreateSurvey, ResearcherCreateQuestion, ResearcherUpdateQuestion, ChoiceFormSet
 from ..forms.surveys import AnswerSurveyQuestionsForm, PersonalInformationForm
 
 
@@ -101,6 +101,7 @@ class EditQuestion(UpdateView):
             - convert to list to remove the QuerySet at the beginning of the data type
         """
         choices = list(Choice.objects.filter(question=question_id).values_list("choice_text", flat=True))
+        votes = list(Choice.objects.filter(question=question_id).values_list("votes", flat=True))
 
         form_class = self.get_form_class()
         form = self.get_form(form_class)
@@ -111,14 +112,17 @@ class EditQuestion(UpdateView):
                                   question=question,
                                   choice_form=choice_form,
                                   survey=survey,
-                                  choices=choices)
+                                  choices=choices,
+                                  votes=votes)
         )
 
     def post(self, request, *args, **kwargs):
+        question_id = self.kwargs.get('question_id')
+        instance = Question.objects.get(pk=question_id)
+        instance2 = Choice.objects.select_related().filter(question_id=question_id)
         self.object = None
-        form_class = self.get_form_class()
-        form = self.get_form(form_class)
-        choice_form = ChoiceFormSet(self.request.POST)
+        form = ResearcherUpdateQuestion(request.POST or None, instance=instance)
+        choice_form = ChoiceFormSet(request.POST, request.FILES, queryset=instance2)
         if form.is_valid() and choice_form.is_valid():
             return self.form_valid(form, choice_form)
         else:
@@ -127,21 +131,19 @@ class EditQuestion(UpdateView):
     def form_valid(self, form, choice_form):
         question_id = self.kwargs.get('question_id')
 
-        # remove all choices in the question we're editing (as to not append them)
-        Choice.objects.filter(question_id=question_id).delete()
 
-        # html form is translated to py
+        question = Question.objects.get(pk=question_id)
+        choices = Choice.objects.filter(question_id=question_id)
+        print(choices)
+        for x in range(len(choice_form)):
+            choices[x].question = question
+            choices[x].id = choice_form[x]["id"]
+            choices[x].choice_text = choice_form[x]["choice_text"]
+            print(choice_form[x]["choice_text"])
+            # same for otes
+            choices[x].save()
         self.object = form.save()
-
-        # TODO: find a better way to not create new question instead of deleting it once it's created pls
-        Question.objects.filter(pk=self.object.id).delete()
-
-        # set new object's (question) id to be the one we're editing
-        self.object.id = question_id
-        # -------------------------------------------
-
         choice_form.instance = self.object
-
         choice_form.save()
         return redirect('../')
 

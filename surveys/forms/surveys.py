@@ -20,6 +20,12 @@ class ResearcherCreateQuestion(forms.ModelForm):
         exclude = ['']
 
 
+class ResearcherUpdateQuestion(forms.ModelForm):
+    class Meta:
+        model = Question
+        exclude = ['']
+
+
 class ResearcherCreateSurvey(forms.ModelForm):
     class Meta:
         model = Survey
