@@ -6,6 +6,7 @@
 {% block title %}Edit question{% endblock %}
 
     <script type="text/javascript">
+        var choices = "{{ choices }}";
         $(function() {
             $(".inline.{{ choice_form.prefix }}").formset({
                 prefix: "{{ choice_form.prefix }}",
@@ -15,7 +16,7 @@
 
 {% block content %}
     <h2>Edit "{{question.question_text}}" in {{survey.name}}</h2>
-        <form action="." method="post">
+        <form action="" method="post">
             {% csrf_token %}
             <div class="row">
                 {{ form.survey }}
@@ -25,15 +26,15 @@
 
                 <div class="col-sm-1">
                     <legend class="col-form-label">Add</legend>
-                    <button type="button" id="add-new-choice" class="btn btn-success add-form-row add-edit"> + </button>
+                    <button type="button" id="add-new-choice" class="btn btn-success add-form-row add-edit" data-variable="{{choices}}"> + </button>
                 </div>
 
                 <div class="col-sm-1">
                     <legend class="col-form-label">Remove</legend>
-                    <button type="button" id="delete-choice" class="btn btn-danger add-form-row add-edit"> - </button>
+                    <button type="button" id="delete-choice" class="btn btn-danger add-form-row"> - </button>
                 </div>
                 <div class="col-sm-2">
-                    {{ form.type }}
+                    {{ form.type|as_crispy_field }}
                 </div>
             </div>
 
@@ -63,12 +64,11 @@
         </form>
 
     <script type="text/javascript">
-          $("#id_survey").hide();
-          $("#id_survey").val("{{survey.id}}");
-          $("#id_question_text").val("{{question.question_text}}");
-          $("#id_choice_text").val("{{choices}}");
-          var num = 0;
-          $("#id_choice_set-"+num+"-choice_text").val("{{choices}}");
+        $("#id_survey").hide();
+        $("#id_survey").val("{{survey.id}}");
+        $("#id_question_text").val("{{question.question_text}}");
 
+        $("#id_choice_set-0-choice_text").val("{{choices.0}}");
     </script>
+
 {% endblock %}
