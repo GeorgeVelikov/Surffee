@@ -27,6 +27,7 @@ class PersonalInformation(models.Model):
         ('female', 'Female'),
     )
 
+    # minors cannot give consent
     age = models.IntegerField(default=18, validators=[MaxValueValidator(100), MinValueValidator(18)])
     sex = models.CharField(max_length=30, choices=SEX_CHOICE, default='(select sex)')
     country_of_birth = CountryField(blank_label='(select country)')
