@@ -137,19 +137,12 @@ class EditQuestion(UpdateView):
         question = Question.objects.get(pk=question_id)
         choices = Choice.objects.filter(question_id=question_id)
 
-        if len(choice_form) > len(choices):
+        if len(choice_form) == len(choices):
             for x in range(len(choices)):
                 choice = Choice.objects.get(id=choices[x].id)
                 choice.question = question
                 choice.choice_text = (choice_form[x]["choice_text"]).value()
                 choice.save()
-        else:
-            for x in range(len(choice_form)):
-                choice = Choice.objects.get(id=choices[x].id)
-                choice.question = question
-                choice.choice_text = (choice_form[x]["choice_text"]).value()
-                choice.save()
-
 
         # same for otes
         self.object = form.save()
