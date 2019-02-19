@@ -3,7 +3,7 @@
 
 {% block title %}Home{% endblock %}
 
-
+<head><link href="narrow-jumbotron.css" rel="stylesheet"></head>
 {% block content %}
     {% if user.is_authenticated %}
 
@@ -14,19 +14,25 @@
         <div class="alert alert-info">Hi {{ user.username }}!</div>
     {% else %}
 
-        <div class="text-xs-center" style="color: #fff; background-color: #484a3f; min-height: 100px; padding: 65px; text-align:center">
-          <h1 style="font-size: 3rem;">Welcome to Surffee</h1>
+        <div class="text-xs-center" style="color: #fff; background-color: #484a3f; min-height: 100px; padding: 65px; text-align:center; border-radius: 1rem;" >
+                 <h1 class="display-3">Welcome to Surffee</h1>
           <p class="lead" style="font-size: 1.8rem;">
             It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.
               The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here,
               content here'
           </p>
-            <a href="#" class="btn btn-lg btn-success"><span class="glyphicon glyphicon-check"></span> Create an account now</a>
+            <a href="{% url 'signup' %}" class="btn btn-lg btn-success"><span class="glyphicon glyphicon-check"></span> Create an account now</a>
+            <a href="{% url 'login' %}" class="btn btn-lg btn-success float-right"><span class="glyphicon glyphicon-check"></span> or Log in here</a>
+
         </div>
 
         <div class="container col-gap-40 "></div>
 
-        <div class="container col-gap-40 ">
+
+
+
+        <!-- The columns -->
+        <div class="container col-gap-40">
             <div class="row text-center">
 
                     <!--1 column -->
