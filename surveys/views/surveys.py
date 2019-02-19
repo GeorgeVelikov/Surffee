@@ -123,8 +123,8 @@ class EditQuestion(UpdateView):
         instance = Question.objects.get(pk=question_id)
         choice_set = Choice.objects.select_related().filter(question_id=question_id)
 
-        form = ResearcherUpdateQuestion(request.POST or None, instance=instance)
-        choice_form = ChoiceFormSet(request.POST, request.FILES, queryset=choice_set)
+        form = ResearcherUpdateQuestion(request.POST, instance=instance)
+        choice_form = ChoiceFormSet(self.request.POST)
 
         if form.is_valid() and choice_form.is_valid():
             return self.form_valid(form, choice_form)
@@ -143,8 +143,8 @@ class EditQuestion(UpdateView):
                 choice.question = question
                 choice.choice_text = (choice_form[x]["choice_text"]).value()
                 choice.save()
+                # TODO: choice_form[x]["DELETE"] needs to be altered, it's a checkbox
 
-        # same for otes
         self.object = form.save()
 
         return redirect('../')
