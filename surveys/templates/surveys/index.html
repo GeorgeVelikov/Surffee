@@ -9,10 +9,16 @@
     {% if user.is_superuser %}
         <div class="alert alert-info">You're logged in under superuser privileges. All surveys are shown.</div>
     {% elif user.is_authenticated %}
-        <p>Your surveys:</p>
+        <div class="d-flex justify-content-between flex-wrap flex-sm-nowrap align-items-center pb-2 mb-3 border-bottom">
+            <h2>Your surveys:</h2>
+        </div>
     {% endif %}
-    {% for survey in surveys %}
-        <a href={{survey.id}}>{{survey.name}}</a><br>
-    {% endfor %}
-{% endblock %}
+    <ul>
+        {% for survey in surveys %}
+            <li>
+                <a href={{survey.id}}>{{survey.name}}</a><br>
+            </li>
+        {% endfor %}
+    </ul>
+    {% endblock %}
 extra soi hello
