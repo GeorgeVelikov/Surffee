@@ -11,9 +11,13 @@
             <h2>Main Page</h2>
         </div>
 
+        <!-- User message -->
         <div class="alert alert-info">Hi {{ user.username }}!</div>
     {% else %}
 
+        <!-- Main page for all non signed in -->
+
+        <!-- Banner Jumpatron -->
         <div class="text-xs-center" style="color: #fff; background-color: #484a3f; min-height: 100px; padding: 65px; text-align:center; border-radius: 1rem;" >
                  <h1 class="display-3">Welcome to Surffee</h1>
           <p class="lead" style="font-size: 1.8rem;">
@@ -21,21 +25,23 @@
               The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here,
               content here'
           </p>
-            <a href="{% url 'signup' %}" class="btn btn-lg btn-success"><span class="glyphicon glyphicon-check"></span> Create an account now</a>
-            <a href="{% url 'login' %}" class="btn btn-lg btn-success float-right"><span class="glyphicon glyphicon-check"></span> or Log in here</a>
+            <a href="{% url 'signup' %}" class="btn btn-lg btn-success float-left"><span class="fa fa-check"></span> Create an account now</a>
+            <a href="{% url 'login' %}" class="btn btn-lg btn-success float-right"><span class="fa fa-sign-in"></span> or Log in here</a>
 
         </div>
 
-        <div class="container col-gap-40 "></div>
+        <!-- Empty spaces what are we living for...-->
+        <div class="container col-gap-40 ">
+            <br/>
+            <br/>
+        </div>
 
 
-
-
-        <!-- The columns -->
+        <!-- The 3 columns -->
         <div class="container col-gap-40">
             <div class="row text-center">
 
-                    <!--1 column -->
+                    <!--1st column -->
                     <div class="col-md-4">
                         <div class="wrap">
                             <object type="image/svg+xml">
@@ -45,13 +51,14 @@
                                 <h2>Intelligent Results</h2>
                             </div>
                             <p> The Surffee Team is striving to provide intelligent results for surveys,
-                                delivering customised views and forms of statistics which you can also export.
+                                delivering customised views and forms of statistics which you can also export:
+                                graphs, charts, database entries, statistics, etc.
                                 Check out the native statistical graphics as well as export formats we offer below.</p>
                             <a href="#" class="btn btn-primary btn-info">More info</a>
                         </div>
                     </div>
 
-                    <!--2 column -->
+                    <!--2nd column -->
                     <div class="col-md-4">
                         <div class="wrap">
                             <object type="image/svg+xml">
@@ -67,7 +74,7 @@
                         </div>
                     </div>
 
-                    <!--3 column -->
+                    <!--3rd column -->
                     <div class="col-md-4">
                         <div class="wrap">
                             <object type="image/svg+xml">
@@ -76,8 +83,10 @@
                             <div class="d-flex justify-content-between flex-wrap flex-sm-nowrap align-items-center pb-2 mb-3 border-bottom">
                                 <h2>Helping Science</h2>
                             </div>
-                            <p>Help scientists from many different domains by taking surveys to collect data, research and produce better diagnostics.
-                                Help build Medical, Language and Politics databases by just answering.
+                            <p>Help scientists from many different domains by taking surveys to collect data,
+                                research and produce better diagnostics.
+                                Help build Medical, Language and Politics databases by just answering. This is just
+                                the beginning. Help us bring more domains for survey creators.
                             </p>
                             <a href="#" class="btn btn-primary btn-info">More info</a>
                         </div>

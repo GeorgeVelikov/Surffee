@@ -288,6 +288,7 @@ section .section-title {
 }
 
 
+/* Columns of main page */
 
 .row .col-md-4 .wrap{color:#fff;padding:20px 15px;}
 .row .col-md-4 .wrap h2{margin:20px 0px;}
@@ -296,7 +297,7 @@ margin:20px 0px;}
 .row .col-md-4:nth-child(1) .wrap{background:#3b237b;}
 .row .col-md-4:nth-child(2) .wrap{background:#df8a14;}
 .row .col-md-4:nth-child(3) .wrap{background:#4fc084;}
-.container{margin-bottom:50px;}
+/*.container{margin-bottom:50px;} */
 .mb-20{margin-bottom:20px;}
 
 
@@ -346,3 +347,11 @@ margin:20px 0px;}
 .col-gap-100.container div[class*="col"]{ padding-left: 50px !important; padding-right: 50px !important; }
 .col-gap-100.container > .row { margin-left: -65px !important; margin-right: -65px !important; }
 
+
+
+/* Surveys */
+
+#survey-list-i{
+
+    :hover background-color: #98465;
+}

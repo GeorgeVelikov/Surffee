@@ -1,23 +1,38 @@
 {% extends 'base.html' %}
+{% load static from staticfiles %}
 
 <!-- include crispy -->
 {% load crispy_forms_tags %}
 
 {% block title %}Finished surveys{% endblock %}
 
+
 {% block content %}
+
+    <div class="d-flex justify-content-between flex-wrap flex-sm-nowrap align-items-center pb-2 mb-3 border-bottom">
+        <h2>Inactive Surveys</h2>
+    </div>
+
     {% if user.is_superuser %}
         <div class="alert alert-info">You're logged in under superuser privileges. All <strong>inactive</strong> surveys are shown.</div>
-    {% elif user.is_authenticated %}
+
         <p>Here you can see your <strong>inactive</strong> surveys. Feel free to modify these and
             once you are done make them active so they are able to be answered by the participants:</p>
+
+    {% elif user.is_authenticated %}
+
+        <p>Here you can see your <strong>inactive</strong> surveys. Feel free to modify these and
+            once you are done make them active so they are able to be answered by the participants:</p>
+
     {% endif %}
-    <ul>
+
+    <div class="list-group">
         {% for survey in inactive_surveys %}
-            <li>
-                <a href=../{{survey.id}}>{{survey.name}}</a><br>
-            </li>
+                <a id="survey-list-i" class="list-group-item" href=../{{survey.id}}>
+                    {{survey.name}}
+                </a><br>
         {% endfor %}
-    </ul>
+    </div>
+
 {% endblock %}
-extra soi hello
+
