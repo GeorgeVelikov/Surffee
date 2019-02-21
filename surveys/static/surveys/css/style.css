@@ -294,9 +294,9 @@ section .section-title {
 .row .col-md-4 .wrap h2{margin:20px 0px;}
 .row .col-md-4 .wrap a{padding:7px 30px;display:inline-block;
 margin:20px 0px;}
-.row .col-md-4:nth-child(1) .wrap{background:#3b237b;}
-.row .col-md-4:nth-child(2) .wrap{background:#df8a14;}
-.row .col-md-4:nth-child(3) .wrap{background:#4fc084;}
+.row .col-md-4:nth-child(1) .wrap{background:#343a40;}
+.row .col-md-4:nth-child(2) .wrap{background:#343a40;}
+.row .col-md-4:nth-child(3) .wrap{background:#343a40;}
 /*.container{margin-bottom:50px;} */
 .mb-20{margin-bottom:20px;}
 

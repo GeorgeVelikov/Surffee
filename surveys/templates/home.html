@@ -31,19 +31,19 @@
         </div>
 
         <!-- Empty spaces what are we living for...-->
-        <div class="container col-gap-40 ">
+        <div class="container col-gap-40">
             <br/>
             <br/>
         </div>
 
-
         <!-- The 3 columns -->
-        <div class="container col-gap-40">
-            <div class="row text-center">
+        <div class="text-xs-center" style="color: #fff; background-color: #484a3f; min-height: 100px; padding: 65px; text-align:center; border-radius: 1rem;" >
+            <div class="container col-8 col-gap-40">
+                <div class="row text-center">
 
                     <!--1st column -->
                     <div class="col-md-4">
-                        <div class="wrap">
+                        <div class="wrap" style="border-radius: 1rem; height: 580px;">
                             <object type="image/svg+xml">
                                 <img id="chart-img" src="{% static 'surveys/diagramma-a-torta-2.svg' %}"/>
                             </object>
@@ -60,7 +60,7 @@
 
                     <!--2nd column -->
                     <div class="col-md-4">
-                        <div class="wrap">
+                        <div class="wrap" style="border-radius: 1rem; height: 580px;">
                             <object type="image/svg+xml">
                                 <img id="chart-img" src="{% static 'surveys/bb-txt-.svg' %}"/>
                             </object>
@@ -76,7 +76,7 @@
 
                     <!--3rd column -->
                     <div class="col-md-4">
-                        <div class="wrap">
+                        <div class="wrap" style="border-radius: 1rem; height: 580px;">
                             <object type="image/svg+xml">
                                 <img id="chart-img" src="{% static 'surveys/Astronaut_Small_by_Merlin2525.svg' %}"/>
                             </object>
@@ -92,7 +92,14 @@
                         </div>
                     </div>
 
+                </div>
             </div>
+        </div>
+
+        <!-- Empty spaces what are we living for...-->
+        <div class="container col-gap-40">
+            <br/>
+            <br/>
         </div>
 
     {% endif %}
