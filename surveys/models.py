@@ -82,3 +82,10 @@ class Choice(models.Model):
     class Meta:
         verbose_name = "Choice"
         verbose_name_plural = "Choices"
+
+
+# concept is storing the fields in personal information where the key is field name and value is answer to PI question
+# question choices works the same way, key for question, value for choice(s)
+class SurveyAnswer(models.Model):
+    personalInformation = {}
+    questionChoices = {}
