@@ -3,13 +3,13 @@ from django.http import HttpResponseRedirect
 from django.views.generic import CreateView, UpdateView
 from django.contrib import messages
 
-from ..models import Survey, Question, Choice
+from ..models import Survey, Question, Choice, Researcher
 from ..forms.surveys import ResearcherCreateSurvey, ResearcherCreateQuestion, ResearcherUpdateQuestion, ChoiceFormSet
 from ..forms.surveys import AnswerSurveyQuestionsForm, PersonalInformationForm
 
 
-class CreateNewSurvey(CreateView):
-    template = 'surveys/create.html'
+class CreateNewSurvey(UpdateView):
+    template_name = 'surveys/create_survey.html'
     model = Survey
     form_class = ResearcherCreateSurvey
 
@@ -24,18 +24,20 @@ class CreateNewSurvey(CreateView):
         self.object = None
         form_class = self.get_form_class()
         form = self.get_form(form_class)
+
+        request.POST._mutable = True
+        form.data['creator'] = request.user.pk
+        request.POST._mutable = False
+        print(form.data)
+
         if form.is_valid():
-            self.object = form.save()
-            # this is probably dirty as heck because I've only seen form_valid() called here,
-            # which is also an method overriding the superclass, so it's probably important
-            messages.add_message(request, messages.INFO, "Survey created successfully")
-            return redirect('../' + str(self.object.id))
+            return self.form_valid(form, request)
         else:
             return self.form_invalid(form)
 
-    def form_valid(self, form):
+    def form_valid(self, form, request):
         self.object = form.save()
-        return HttpResponseRedirect(self.get_success_url())
+        return redirect('/surveys/inactive')
 
     def form_invalid(self, form):
         return self.render_to_response(self.get_context_data(form=form))

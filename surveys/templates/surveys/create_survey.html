@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+<!-- include crispy -->
+{% load crispy_forms_tags %}
+
+{% block title %}Create Survey{% endblock %}
+
+
+{% block content %}
+
+
+    <form action="." method="post">
+        {% csrf_token %}
+        {{ form.id }}
+        {{ form.name        |as_crispy_field }}
+        {{ form.description |as_crispy_field }}
+
+        <!-- TODO: Yiannis can you make this pretty :3 -->
+        {% for pi in form.pi_set %}
+            {{ pi }}
+        {% endfor %}
+
+        <button type="submit" class="btn btn-block btn-primary">Create survey</button>
+    </form>
+
+
+{% endblock %}

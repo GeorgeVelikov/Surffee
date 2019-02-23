@@ -31,7 +31,7 @@ class PersonalInformation(models.Model):
     age = models.IntegerField(default=18, validators=[MaxValueValidator(100), MinValueValidator(18)])
     sex = models.CharField(max_length=30, choices=SEX_CHOICE, default='(select sex)')
     country_of_birth = CountryField(blank_label='(select country)')
-    country_of_resedence = CountryField(blank_label='(select country)')
+    country_of_residence = CountryField(blank_label='(select country)')
     sexual_orientation = models.CharField(max_length=2**8)
     native_tongue = models.CharField(max_length=2**8)
     # TODO: add more presets for researchers to choose

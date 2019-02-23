@@ -27,9 +27,26 @@ class ResearcherUpdateQuestion(forms.ModelForm):
 
 
 class ResearcherCreateSurvey(forms.ModelForm):
+    PERSONAL_INFORMATION_CHOICE = (
+        ('age', 'Age'),
+        ('sex', 'Sex'),
+        ('country_of_birth', 'Country of Birth'),
+        ('country_of_residence', 'Country of Residence'),
+        ('sexual_orientation', 'Sexual orientation'),
+        ('native_tongue', 'Native tongue'),
+    )
+
+    INFORMATION = "What would the survey research make " \
+                  "use of in terms of background information"
+
+    pi_set = forms.MultipleChoiceField(label=INFORMATION,
+                                       required=False,
+                                       widget=forms.CheckboxSelectMultiple,
+                                       choices=PERSONAL_INFORMATION_CHOICE)
+
     class Meta:
         model = Survey
-        exclude = ['active']
+        exclude = []
 
 
 class PersonalInformationForm(forms.ModelForm):
