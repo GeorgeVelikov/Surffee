@@ -28,6 +28,7 @@ class CreateNewSurvey(UpdateView):
         request.POST._mutable = True
         form.data['creator'] = request.user.pk
         request.POST._mutable = False
+
         print(form.data)
 
         if form.is_valid():
