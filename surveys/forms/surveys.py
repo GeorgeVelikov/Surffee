@@ -48,6 +48,9 @@ class ResearcherCreateSurvey(forms.ModelForm):
         model = Survey
         exclude = []
 
+    def save(self, commit=True):
+        return super(ResearcherCreateSurvey, self).save(commit=commit)
+
 
 class PersonalInformationForm(forms.ModelForm):
     class Meta:

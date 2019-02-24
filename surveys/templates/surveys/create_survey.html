@@ -13,6 +13,7 @@
         {{ form.id }}
         {{ form.name        |as_crispy_field }}
         {{ form.description |as_crispy_field }}
+        {{ form.pi_fields }}
 
         <!-- TODO: Yiannis can you make this pretty :3 -->
         {% for pi in form.pi_set %}

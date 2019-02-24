@@ -27,9 +27,12 @@ class CreateNewSurvey(UpdateView):
 
         request.POST._mutable = True
         form.data['creator'] = request.user.pk
+        # currently saves the PI we want in the shape of a list which is translated to a string, fix this later w/ eval
+        form.data['pi_choices'] = request.POST.getlist('pi_set')
         request.POST._mutable = False
 
         print(form.data)
+        # TODO: figure out how to save pi_set to an existing model
 
         if form.is_valid():
             return self.form_valid(form, request)
@@ -37,7 +40,7 @@ class CreateNewSurvey(UpdateView):
             return self.form_invalid(form)
 
     def form_valid(self, form, request):
-        self.object = form.save()
+        self.object = form.save(commit=True)
         return redirect('/surveys/inactive')
 
     def form_invalid(self, form):
@@ -55,6 +58,7 @@ class CreateQuestion(CreateView):
         survey = Survey.objects.get(pk=survey_id)
         form_class = self.get_form_class()
         form = self.get_form(form_class)
+
         choice_form = ChoiceFormSet
         return self.render_to_response(
             self.get_context_data(form=form,

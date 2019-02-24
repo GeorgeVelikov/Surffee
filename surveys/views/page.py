@@ -45,7 +45,7 @@ def detail(request, survey_id):
     if not request.user.is_authenticated:  # user is not logged in
         raise PermissionDenied("User is not logged in")
     template = 'surveys/detail.html'
-    survey = Survey.objects.filter(pk=survey_id)[0]
+    survey = Survey.objects.get(pk=survey_id)
     if survey.creator != request.user and not request.user.is_superuser:
         raise PermissionDenied("You have tried to access " + survey.name + ". To gain permissions please contact "
                                + survey.creator.email + ".")

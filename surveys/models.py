@@ -43,6 +43,7 @@ class Survey(models.Model):
     creation_date = models.DateTimeField(default=timezone.now, editable=False)
     description = models.CharField(max_length=2**16)
     active = models.BooleanField(default=False)
+    pi_choices = models.TextField(blank=True, null=True)
 
     def __str__(self):
         return self.name
