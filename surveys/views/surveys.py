@@ -1,9 +1,7 @@
 from django.shortcuts import redirect
-from django.http import HttpResponseRedirect
 from django.views.generic import CreateView, UpdateView
-from django.contrib import messages
 
-from ..models import Survey, Question, Choice, Researcher
+from ..models import Survey, Question, Choice
 from ..forms.surveys import ResearcherCreateSurvey, ResearcherCreateQuestion, ResearcherUpdateQuestion, ChoiceFormSet
 from ..forms.surveys import AnswerSurveyQuestionsForm, PersonalInformationForm
 
@@ -31,15 +29,12 @@ class CreateNewSurvey(UpdateView):
         form.data['pi_choices'] = request.POST.getlist('pi_set')
         request.POST._mutable = False
 
-        print(form.data)
-        # TODO: figure out how to save pi_set to an existing model
-
         if form.is_valid():
-            return self.form_valid(form, request)
+            return self.form_valid(form)
         else:
             return self.form_invalid(form)
 
-    def form_valid(self, form, request):
+    def form_valid(self, form):
         self.object = form.save(commit=True)
         return redirect('/surveys/inactive')
 

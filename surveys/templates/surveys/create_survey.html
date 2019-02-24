@@ -17,7 +17,11 @@
 
         <!-- TODO: Yiannis can you make this pretty :3 -->
         {% for pi in form.pi_set %}
-            {{ pi }}
+        <span class="button-checkbox">
+            <button type="button" class="btn" data-color="primary">
+                {{ pi }}
+            </button>
+        </span>
         {% endfor %}
 
         <button type="submit" class="btn btn-block btn-primary">Create survey</button>
