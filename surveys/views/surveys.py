@@ -1,10 +1,11 @@
 from django.shortcuts import redirect
 from django.views.generic import CreateView, UpdateView
-
+from collections import OrderedDict
 from ..models import Survey, Question, Choice
 from ..forms.surveys import ResearcherCreateSurvey, ResearcherCreateQuestion, ResearcherUpdateQuestion, ChoiceFormSet
 from ..forms.surveys import AnswerSurveyQuestionsForm, PersonalInformationForm
 
+from ast import literal_eval
 
 class CreateNewSurvey(UpdateView):
     template_name = 'surveys/create_survey.html'
@@ -170,9 +171,17 @@ class ResearchAgreement(UpdateView):
         survey_id = self.kwargs.get('survey_id')
         survey = Survey.objects.get(pk=survey_id)
 
+        print(form.fields)
+        pi_fields = OrderedDict()
+        pi_choices = literal_eval(survey.pi_choices)
+        for ch in pi_choices:
+            pi_fields[ch] = form.fields[ch]
+        print(pi_fields)
+
         return self.render_to_response(
             self.get_context_data(form=form,
-                                  survey=survey, )
+                                  survey=survey,
+                                  pi_fields=pi_fields)
         )
 
 
