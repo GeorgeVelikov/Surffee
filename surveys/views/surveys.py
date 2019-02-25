@@ -1,6 +1,5 @@
 from django.shortcuts import redirect
 from django.views.generic import CreateView, UpdateView
-from collections import OrderedDict
 from ..models import Survey, Question, Choice
 from ..forms.surveys import ResearcherCreateSurvey, ResearcherCreateQuestion, ResearcherUpdateQuestion, ChoiceFormSet
 from ..forms.surveys import AnswerSurveyQuestionsForm, PersonalInformationForm
@@ -190,6 +189,9 @@ class ResearchAgreement(UpdateView):
                                   survey=survey,
                                   )
         )
+
+    def post(self, request, *args, **kwargs):
+        return redirect('/under_construction')
 
 
 class AnswerSurveyQuestions(UpdateView):
