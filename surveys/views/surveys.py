@@ -7,6 +7,7 @@ from ..forms.surveys import AnswerSurveyQuestionsForm, PersonalInformationForm
 
 from ast import literal_eval
 
+
 class CreateNewSurvey(UpdateView):
     template_name = 'surveys/create_survey.html'
     model = Survey
@@ -171,17 +172,23 @@ class ResearchAgreement(UpdateView):
         survey_id = self.kwargs.get('survey_id')
         survey = Survey.objects.get(pk=survey_id)
 
-        print(form.fields)
-        pi_fields = OrderedDict()
+        # grab the actual pi-choices from the researcher as a py list
         pi_choices = literal_eval(survey.pi_choices)
-        for ch in pi_choices:
-            pi_fields[ch] = form.fields[ch]
-        print(pi_fields)
+
+        # get all fields that are not selected by the researcher to use for the survey and save them in a list
+        fields = []
+        for ff in form.fields:
+            if ff not in pi_choices:
+                fields.append(ff)
+
+        # iterate over list of fields and pop them, this is done because form.fields complains if we do this iteratively
+        for f in fields:
+            form.fields.pop(f)
 
         return self.render_to_response(
             self.get_context_data(form=form,
                                   survey=survey,
-                                  pi_fields=pi_fields)
+                                  )
         )
 
 
