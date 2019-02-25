@@ -19,7 +19,11 @@
 
     <h1>{{survey.name}}</h1>
     <h6>Description: {{survey.description}}</h6>
-    {{ survey.pi_choices }}
+    <h6>Personal data used:
+        {% for ch in choices %}
+            {{ ch }},
+        {% endfor %}
+    </h6>
 
     <!-- TODO: Figure our how we can use survey.name instead of survey.id, just cus it looks cooler -->
     <p><a href="../answer/{{survey.id}}/agreement">Link for respondents</a></p>
