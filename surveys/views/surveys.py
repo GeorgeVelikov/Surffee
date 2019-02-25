@@ -1,6 +1,6 @@
 from django.shortcuts import redirect
 from django.views.generic import CreateView, UpdateView
-from ..models import Survey, Question, Choice
+from ..models import Survey, Question, Choice, PersonalInformation
 from ..forms.surveys import ResearcherCreateSurvey, ResearcherCreateQuestion, ResearcherUpdateQuestion, ChoiceFormSet
 from ..forms.surveys import AnswerSurveyQuestionsForm, PersonalInformationForm
 
@@ -161,16 +161,49 @@ class EditQuestion(UpdateView):
 
 class ResearchAgreement(UpdateView):
     template_name = 'surveys/answer_research_agreement.html'
-    model = Survey
+    model = PersonalInformation
     form_class = PersonalInformationForm
 
     def get(self, request, *args, **kwargs):
         self.object = None
         form_class = self.get_form_class()
         form = self.get_form(form_class)
+
         survey_id = self.kwargs.get('survey_id')
         survey = Survey.objects.get(pk=survey_id)
 
+        self.clean_form(form, survey)
+
+        return self.render_to_response(
+            self.get_context_data(form=form,
+                                  survey=survey,
+                                  )
+        )
+
+    def post(self, request, *args, **kwargs):
+        self.object = None
+        form_class = self.get_form_class()
+        form = self.get_form(form_class)
+
+        survey_id = self.kwargs.get('survey_id')
+        survey = Survey.objects.get(pk=survey_id)
+
+        self.clean_form(form, survey)
+
+        if form.is_valid():
+            return self.form_valid(form)
+        else:
+            return self.form_invalid(form)
+
+    def form_valid(self, form):
+        self.object = form.save(commit=True)
+        print(form.fields)
+        return redirect('/surveys/answer/11/agreement/')
+
+    def form_invalid(self, form):
+        return self.render_to_response(self.get_context_data(form=form))
+
+    def clean_form(self, form, survey):
         # grab the actual pi-choices from the researcher as a py list
         pi_choices = literal_eval(survey.pi_choices)
 
@@ -183,15 +216,6 @@ class ResearchAgreement(UpdateView):
         # iterate over list of fields and pop them, this is done because form.fields complains if we do this iteratively
         for f in fields:
             form.fields.pop(f)
-
-        return self.render_to_response(
-            self.get_context_data(form=form,
-                                  survey=survey,
-                                  )
-        )
-
-    def post(self, request, *args, **kwargs):
-        return redirect('/under_construction')
 
 
 class AnswerSurveyQuestions(UpdateView):
