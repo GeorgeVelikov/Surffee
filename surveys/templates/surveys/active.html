@@ -14,7 +14,11 @@
 
     {% if user.is_superuser %}
 
-        <div class="alert alert-info">You're logged in under superuser privileges. All <strong>active</strong> surveys are shown.</div>
+        <div class="alert alert-info alert-dismissible">
+            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+            <strong>Heads up!</strong> You're logged in under superuser privileges. All surveys are shown.
+        </div>
+
         <p>Your <strong>active</strong> surveys:</p>
 
     {% elif user.is_authenticated %}

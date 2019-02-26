@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load static from staticfiles %}
 
 <!-- include crispy -->
 {% load crispy_forms_tags %}
@@ -12,39 +13,52 @@
     {% endif %}
 
     {% if user.is_superuser %}
-        <div class="alert alert-info">You're logged in under superuser privileges. All surveys are shown.</div>
+        <div class="alert alert-info alert-dismissible">
+            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+            <strong>Heads up!</strong> You're logged in under superuser privileges. All surveys are shown.
+        </div>
     {% elif user == survey.creator %}
         <p>You are the creator of this survey</p>
     {% endif %}
 
-    <h1>{{survey.name}}</h1>
-    <h6>Description: {{survey.description}}</h6>
-    <h6>Personal data used:
+    <div class="d-flex justify-content-between flex-wrap flex-sm-nowrap align-items-center pb-2 mb-3 border-bottom">
+        <h1>{{survey.name}}</h1>
+    </div>
+
+    <h5>Description: {{survey.description}}</h5>
+
+    </br>
+    <h5>Personal data used:
         {% for ch in choices %}
             {{ ch }},
         {% endfor %}
-    </h6>
+    </h5>
+
 
     <!-- TODO: Figure our how we can use survey.name instead of survey.id, just cus it looks cooler -->
     <p><a href="../answer/{{survey.id}}/agreement">Link for respondents</a></p>
 
-    {% for question in survey.question_set.all %} <!-- yeah this is how you go up the foreign key -->
-        Question {{ question.id }} - <a href="../{{survey.id}}/edit_question/{{question.id}}">{{ question.question_text }}</a>
-        <!-- TODO: make a delete button? -->
-        - <a href="">delete</a><br>
 
-        <div class="col-sm-8 row">
-            {% for choice in question.choice_set.all %}
-                    <div class="col-sm-3">
-                       | choice - {{ choice.choice_text }}
-                    </div>
-                    <div class="col-sm=2">
-                        (Votes: {{ choice.votes }})
-                    </div>
-            {% endfor %}
-            <br><br> <!-- TODO: dude do i look like a frontend dev -->
+        <div class="card bg-light mb-3" >
+        {% for question in survey.question_set.all %} <!-- yeah this is how you go up the foreign key -->
+            <div class="card-header">Question {{ question.id }} - <a href="../{{survey.id}}/edit_question/{{question.id}}">{{ question.question_text }}</a>
+                <a href="#" class="btn btn-primary btn-danger float-right"><span class="glyphicon glyphicon-remove"></span> delete</a>
+            </div>
+
+            <div class="card-body">
+
+
+                {% for choice in question.choice_set.all %}
+                        <div class="col-sm-3">
+                           | choice - {{ choice.choice_text }}
+
+                            (Votes: {{ choice.votes }})
+                        </div>
+                {% endfor %}
+            </div>
+        {% endfor %}
         </div>
-    {% endfor %}
+
 
     <div class="row">
         <a class="btn btn-success" onclick="window.location.href='add_question/'">
