@@ -27,7 +27,6 @@
 
     <h5>Description: {{survey.description}}</h5>
 
-    </br>
     <h5>Personal data used:
         {% for ch in choices %}
             {{ ch }},
@@ -36,7 +35,7 @@
 
 
     <!-- TODO: Figure our how we can use survey.name instead of survey.id, just cus it looks cooler -->
-    <p><a href="../answer/{{survey.id}}/agreement">Link for respondents</a></p>
+    <a href="../answer/{{survey.id}}/agreement">Link for respondents</a>
 
 
         <div class="card bg-light mb-3" >
@@ -50,8 +49,7 @@
 
                 {% for choice in question.choice_set.all %}
                         <div class="col-sm-3">
-                           | choice - {{ choice.choice_text }}
-
+                            {{ choice.choice_text }}
                             (Votes: {{ choice.votes }})
                         </div>
                 {% endfor %}
