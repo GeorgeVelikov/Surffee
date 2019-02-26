@@ -1,6 +1,6 @@
 from django.shortcuts import redirect
 from django.views.generic import CreateView, UpdateView
-from ..models import Survey, Question, Choice, PersonalInformation
+from ..models import Survey, Question, Choice, PersonalInformation, SurveyAnswer
 from ..forms.surveys import ResearcherCreateSurvey, ResearcherCreateQuestion, ResearcherUpdateQuestion, ChoiceFormSet
 from ..forms.surveys import AnswerSurveyQuestionsForm, PersonalInformationForm
 
@@ -197,8 +197,11 @@ class ResearchAgreement(UpdateView):
 
     def form_valid(self, form):
         self.object = form.save(commit=True)
-        print(form.fields)
-        return redirect('/surveys/answer/11/agreement/')
+        survey_id = self.kwargs.get('survey_id')
+        survey = Survey.objects.get(pk=survey_id)
+        # create an answer that connects the pi questions answers with the survey answers
+        answer_instance = SurveyAnswer.objects.create(survey=survey, pi_questions=self.object)
+        return redirect('/surveys/answer/'+str(answer_instance.id)+'/question/1/')
 
     def form_invalid(self, form):
         return self.render_to_response(self.get_context_data(form=form))
@@ -225,9 +228,14 @@ class AnswerSurveyQuestions(UpdateView):
 
     def get(self, request, *args, **kwargs):
         self.object = None
-        survey_id = self.kwargs.get('survey_id')
-        question_id = self.kwargs.get('question_id')
+        # grab the objects we might need
+        answer_survey_id = self.kwargs.get('survey_answer_id')
+        survey_answer = SurveyAnswer.objects.get(pk=answer_survey_id)
+
+        survey_id = survey_answer.survey.pk
         survey = Survey.objects.get(pk=survey_id)
+
+        question_id = self.kwargs.get('question_id')
         question = Question.objects.get(pk=question_id)
 
         form_class = self.get_form_class()

@@ -88,6 +88,5 @@ class Choice(models.Model):
 # concept is storing the fields in personal information where the key is field name and value is answer to PI question
 # question choices works the same way, key for question, value for choice(s)
 class SurveyAnswer(models.Model):
-    survey = models.ForeignKey(Survey, on_delete=models.CASCADE)
-    personalInformation = {}
-    questionChoices = {}
+    pi_questions = models.ForeignKey(PersonalInformation, on_delete=models.CASCADE, default=0)
+    survey = models.ForeignKey(Survey, on_delete=models.CASCADE, default=0)

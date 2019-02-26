@@ -24,7 +24,7 @@ urlpatterns = [
     path('answer/<int:survey_id>/agreement/',
          surveys.ResearchAgreement.as_view(),       name='answer_research_agreement'),
 
-    path('answer/<int:survey_id>/question/<int:question_id>/',
+    path('answer/<int:survey_answer_id>/question/<int:question_id>/',
          surveys.AnswerSurveyQuestions.as_view(),   name='answer_survey'),
 
     path('create/',
