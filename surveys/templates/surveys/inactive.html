@@ -31,9 +31,10 @@
 
     <div class="list-group">
         {% for survey in inactive_surveys %}
-                <a id="survey-list-i" class="list-group-item" href=../{{survey.id}}>
+                <a id="survey-list-i" class="list-group-item list-group-item-success list-group-item-action" href=../{{survey.id}}>
                     {{survey.name}}
-                </a><br>
+                </a>
+                
         {% endfor %}
     </div>
 
