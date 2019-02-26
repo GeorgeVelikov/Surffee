@@ -6,8 +6,14 @@
 {% block title %}Index{% endblock %}
 
 {% block content %}
+    <!-- use this like any Survey or PI object .any_class_variable -->
+    <h3>{{ survey_answer.survey }} - {{ survey_answer.survey.id }} </h3>
+    <h5> Question: {{ question }} </h5>
 
-    <!-- TODO: add the form structure and shit here -->
+    {% for ch in choice_set %}
+        <button>{{ ch }}</button>
+    {% endfor %}
+
     good evening
 
 {% endblock %}
