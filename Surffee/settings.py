@@ -34,6 +34,7 @@ INSTALLED_APPS = [
     'nested_admin',
     'crispy_forms',
     'django_countries',
+    'chartit',
     'surveys.apps.SurveysConfig',  # do not move the config pls
     'django.contrib.admin',
     'django.contrib.auth',
