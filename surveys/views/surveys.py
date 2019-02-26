@@ -2,7 +2,7 @@ from django.shortcuts import redirect
 from django.views.generic import CreateView, UpdateView
 from ..models import Survey, Question, Choice, PersonalInformation, SurveyAnswer
 from ..forms.surveys import ResearcherCreateSurvey, ResearcherCreateQuestion, ResearcherUpdateQuestion, ChoiceFormSet
-from ..forms.surveys import AnswerSurveyQuestionsForm, PersonalInformationForm
+from ..forms.surveys import AnswerSurveyQuestionsForm, PersonalInformationForm, UpdateChoiceData
 
 from ast import literal_eval
 
@@ -225,7 +225,7 @@ class ResearchAgreement(UpdateView):
 
 class AnswerSurveyQuestions(UpdateView):
     template_name = 'surveys/answer_survey.html'
-    model = SurveyAnswer
+    model = Choice
     form_class = AnswerSurveyQuestionsForm
 
     def get(self, request, *args, **kwargs):
@@ -260,5 +260,9 @@ class AnswerSurveyQuestions(UpdateView):
         self.object = None
         form_class = self.get_form_class()
         form = self.get_form(form_class)
-        print(form.data)
+        choices = request.POST.getlist('choices')
+        for ch in choices:
+            choice = Choice.objects.get(pk=ch)
+            choice.votes += 1
+            choice.save()   
         return redirect('/well_this_is_being_worked_on')

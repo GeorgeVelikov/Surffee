@@ -14,6 +14,12 @@ class ResearcherCreateChoice(forms.ModelForm):
         exclude = ['votes']
 
 
+class UpdateChoiceData(forms.ModelForm):
+    class Meta:
+        model = Choice
+        exclude = ['']
+
+
 class ResearcherCreateQuestion(forms.ModelForm):
     class Meta:
         model = Question
@@ -61,7 +67,7 @@ class PersonalInformationForm(forms.ModelForm):
 
 class AnswerSurveyQuestionsForm(forms.ModelForm):
     class Meta:
-        model = SurveyAnswer
+        model = Choice
         exclude = ['']  # TODO: might want to exclude more stuff
 
 
