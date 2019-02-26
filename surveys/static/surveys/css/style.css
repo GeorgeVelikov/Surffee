@@ -356,9 +356,6 @@ margin:20px 0px;}
     :hover background-color: #98465;
 }
 
-.answer_question_choice input {
-    // display: none;
-    // Better than display: none for accessibility reasons
-    position: relative;
-    z-index: -9999;
+.answer_question_choice {
+    display: none;
 }
