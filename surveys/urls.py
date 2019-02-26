@@ -21,6 +21,9 @@ urlpatterns = [
     path('<int:survey_id>/edit_question/<int:question_id>',
          surveys.EditQuestion.as_view(),            name='edit_question'),
 
+    path('<int:survey_id>/delete_question/<int:question_id>',
+         surveys.DeleteQuestion.as_view(),          name='delete_question'),
+
     path('answer/<int:survey_id>/agreement/',
          surveys.ResearchAgreement.as_view(),       name='answer_research_agreement'),
 

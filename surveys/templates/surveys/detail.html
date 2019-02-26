@@ -39,22 +39,30 @@
 
 
         <div class="card bg-light mb-3" >
-        {% for question in survey.question_set.all %} <!-- yeah this is how you go up the foreign key -->
-            <div class="card-header">Question {{ question.id }} - <a href="../{{survey.id}}/edit_question/{{question.id}}">{{ question.question_text }}</a>
-                <a href="#" class="btn btn-primary btn-danger float-right"><span class="glyphicon glyphicon-remove"></span> delete</a>
-            </div>
+            {% for question in survey.question_set.all %} <!-- yeah this is how you go up the foreign key -->
+                <div class="card-header">Question {{ question.id }} -
+                    <a href="../{{survey.id}}/edit_question/{{question.id}}">
+                        {{ question.question_text }}
+                    </a>
 
-            <div class="card-body">
+                    <a href="../{{survey.id}}/delete_question/{{question.id}}" class="btn btn-primary btn-danger float-right">
+                        <span class="glyphicon glyphicon-remove">
+                            delete
+                        </span>
+                    </a>
+                </div>
+
+                <div class="card-body">
 
 
-                {% for choice in question.choice_set.all %}
-                        <div class="col-sm-3">
-                            {{ choice.choice_text }}
-                            (Votes: {{ choice.votes }})
-                        </div>
-                {% endfor %}
-            </div>
-        {% endfor %}
+                    {% for choice in question.choice_set.all %}
+                            <div class="col-sm-3">
+                                {{ choice.choice_text }}
+                                (Votes: {{ choice.votes }})
+                            </div>
+                    {% endfor %}
+                </div>
+            {% endfor %}
         </div>
 
 
