@@ -14,8 +14,8 @@
     <br>
     <div class="col-sm-8 offset-sm-2">
     {% for ch in choice_set %}
-        <label class="btn btn-secondary btn-block text-left">
-            <input type="checkbox" class="answer_question_choice" id='choice_{{ch.id}}'>
+        <label class="btn btn-secondary btn-block text-left answer_question_choice">
+            <input type="checkbox"  id='choice_{{ch.id}}'>
                 {{ ch }} - {{ ch.votes }}
             </input>
         </label>
