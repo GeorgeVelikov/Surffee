@@ -199,9 +199,11 @@ class ResearchAgreement(UpdateView):
         self.object = form.save(commit=True)
         survey_id = self.kwargs.get('survey_id')
         survey = Survey.objects.get(pk=survey_id)
+
+        question = Question.objects.filter(survey=survey)
         # create an answer that connects the pi questions answers with the survey answers
         answer_instance = SurveyAnswer.objects.create(survey=survey, pi_questions=self.object)
-        return redirect('/surveys/answer/'+str(answer_instance.id)+'/question/1/')
+        return redirect('/surveys/answer/'+str(answer_instance.id)+'/question/'+str(question.first().id))
 
     def form_invalid(self, form):
         return self.render_to_response(self.get_context_data(form=form))
@@ -251,3 +253,7 @@ class AnswerSurveyQuestions(UpdateView):
                                                              survey_answer=survey_answer,
                                                              choice_set=choice_set
                                                              ))
+
+    def post(self, request, *args, **kwargs):
+        self.object = None
+        return redirect('/well_this_is_being_worked_on')

@@ -49,9 +49,12 @@ def detail(request, survey_id):
     survey = Survey.objects.get(pk=survey_id)
 
     # this converts the string representation of a list back to a list
-    choices = literal_eval(survey.pi_choices)
-    for i in range(len(choices)):
-        choices[i] = choices[i].replace("_", " ").capitalize()
+    if survey.pi_choices:
+        choices = literal_eval(survey.pi_choices)
+        for i in range(len(choices)):
+            choices[i] = choices[i].replace("_", " ").capitalize()
+    else:
+        choices = {}
 
     if survey.creator != request.user and not request.user.is_superuser:
         raise PermissionDenied("You have tried to access " + survey.name + ". To gain permissions please contact "

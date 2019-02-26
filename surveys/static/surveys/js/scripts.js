@@ -89,6 +89,16 @@ $(document).ready(function () {
         $("#id_choice_set-"+(textBoxCounter-1)+"-choice_text").val(str);
     });
 
+    $(".answer_question_choice").change(function () {
+        if(this.checked) {
+            $("#"+this.id).parent().attr('class', 'btn btn-success btn-block text-left');
+        }
+
+        else {
+            $("#"+this.id).parent().attr('class', 'btn btn-secondary btn-block text-left');
+        }
+    });
+
     // just a helper function to test stuff
     function redirect() {
         alert("what did you expect lmao");
