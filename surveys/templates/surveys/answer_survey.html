@@ -6,20 +6,25 @@
 {% block title %}Answer survey{% endblock %}
 
 {% block content %}
-    <div class="col-sm-12" >
-    <!-- use this like any Survey or PI object .any_class_variable -->
-    <h3>{{ survey_answer.survey }} - {{ survey_answer.survey.id }} </h3>
-    <h5> Question: {{ question }} </h5>
-    </div>
-    <br>
-    <div class="col-sm-8 offset-sm-2">
-    {% for ch in choice_set %}
-        <label class="btn btn-secondary btn-block text-left">
-            <input type="checkbox" class="answer_question_choice" id='choice_{{ch.id}}'>
-                {{ ch }} - {{ ch.votes }}
-            </input>
-        </label>
-    {% endfor %}
-    </div>
+    <form>
+        <div class="col-sm-12" >
+            <!-- use this like any Survey or PI object .any_class_variable -->
+            <h3> {{ survey_answer.survey }} - {{ survey_answer.survey.id }} </h3>
+            <h5> Question: {{ question }} </h5>
+        </div>
+
+        <br>
+
+        <div class="col-sm-8 offset-sm-2">
+            {% for ch in choice_set %}
+                <label class="btn btn-secondary btn-block text-left">
+                    <input type="checkbox" class="answer_question_choice" id='choice_{{ch.id}}'>
+                    {{ ch }} - {{ ch.votes }}
+                </label>
+            {% endfor %}
+
+            <button type="submit" class="btn btn-block btn-primary">Answer</button>
+        </div>
+    </form>
 
 {% endblock %}

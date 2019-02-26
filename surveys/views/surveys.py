@@ -253,3 +253,7 @@ class AnswerSurveyQuestions(UpdateView):
                                                              survey_answer=survey_answer,
                                                              choice_set=choice_set
                                                              ))
+
+    def post(self, request, *args, **kwargs):
+        self.object = None
+        return redirect('/well_this_is_being_worked_on')
