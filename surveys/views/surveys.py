@@ -221,7 +221,10 @@ class ResearchAgreement(UpdateView):
 
     def clean_form(self, form, survey):
         # grab the actual pi-choices from the researcher as a py list
-        pi_choices = literal_eval(survey.pi_choices)
+        if survey.pi_choices:
+            pi_choices = literal_eval(survey.pi_choices)
+        else:
+            pi_choices = []
 
         # get all fields that are not selected by the researcher to use for the survey and save them in a list
         fields = []
