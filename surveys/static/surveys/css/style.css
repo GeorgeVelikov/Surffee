@@ -287,6 +287,18 @@ section .section-title {
     height: 200px;
 }
 
+#sci-img{
+
+    width: 200px;
+    height: 200px;
+}
+
+
+#doc-img{
+
+    width: 200px;
+    height: 200px;
+}
 
 /* Columns of main page */
 
