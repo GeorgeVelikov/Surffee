@@ -54,7 +54,7 @@ def detail(request, survey_id):
         for i in range(len(choices)):
             choices[i] = choices[i].replace("_", " ").capitalize()
     else:
-        choices = {}
+        choices = None
 
     if survey.creator != request.user and not request.user.is_superuser:
         raise PermissionDenied("You have tried to access " + survey.name + ". To gain permissions please contact "

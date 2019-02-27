@@ -35,19 +35,22 @@
     <!-- Personal data grand design -->
     <div class="container-fluid col-gap-40">
         <div class="row">
-            <!-- Template questions used in a list inside a card -->
-            <div class="card bg-light" style="width: 18rem;">
-                <div class="card-header">
-                    <h5>Personal data used:</h5>
+            {% if choices %}
+                <!-- Template questions used in a list inside a card -->
+                <div class="card bg-light" style="width: 18rem;">
+                    <div class="card-header">
+                        <h5>Personal data used:</h5>
+                    </div>
+
+                    <div class="list-group list-group-flush">
+                        {% for ch in choices %}
+                            <a id="survey-list-i" class="list-group-item list-group-item-info list-group-item-action" href=../{{survey.id}}>
+                                {{ ch }}
+                            </a>
+                        {% endfor %}
+                    </div>
                 </div>
-                <div class="list-group list-group-flush">
-                    {% for ch in choices %}
-                        <a id="survey-list-i" class="list-group-item list-group-item-info list-group-item-action" href=../{{survey.id}}>
-                            {{ ch }}
-                        </a>
-                    {% endfor %}
-                </div>
-            </div>
+            {% endif %}
 
             <!-- TODO: Figure our how we can use survey.name instead of survey.id, just cus it looks cooler -->
             <div class="col">
@@ -83,6 +86,7 @@
                 </div>
 
                 <!-- Card body not needed after all. we can just use list. if you prefer add card-body div around-->
+
                 {% for choice in question.choice_set.all %}
                         <div class="list-group">
                              <a class="list-group-item list-group-item-action">
