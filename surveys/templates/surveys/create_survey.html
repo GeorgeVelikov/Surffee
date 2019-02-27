@@ -1,12 +1,22 @@
 {% extends 'base.html' %}
+
+{% load static from staticfiles %}
+
 <!-- include crispy -->
 {% load crispy_forms_tags %}
+
+<!--<head>-->
+    <!--<link href="{% static 'surveys/css/prettyfy.css' %}" rel="stylesheet" type="text/css" />-->
+<!--</head>-->
 
 {% block title %}Create Survey{% endblock %}
 
 
 {% block content %}
 
+    <div class="d-flex justify-content-between flex-wrap flex-sm-nowrap align-items-center pb-2 mb-3 border-bottom">
+        <h1>Create Survey</h1>
+    </div>
 
     <form action="." method="post">
         {% csrf_token %}
@@ -15,14 +25,25 @@
         {{ form.description |as_crispy_field }}
         {{ form.pi_fields }}
 
-        <!-- TODO: Yiannis can you make this pretty :3 -->
-        {% for pi in form.pi_set %}
-        <span class="button-checkbox">
-            <button type="button" class="btn" data-color="primary">
-                {{ pi }}
-            </button>
-        </span>
-        {% endfor %}
+
+        <!-- Template question card list with checkboxes -->
+        <div class="row">
+            <div class="col-sm-3">
+                <div class="card bg-light my-3">
+                    <div class="card-header">
+                        <h4>Choose template questions(not mandatory):</h4>
+                    </div>
+                        <div class="list-group list-group-flush">
+                        {% for pi in form.pi_set %}
+                            <a class="btn btn-secondary list-group-item list-group item-action text-left" data-toggle="buttons" >
+                                  {{ pi }}
+                            </a>
+                        {% endfor %}
+                        </div>
+                </div>
+            </div>
+        </div>
+
 
         <button type="submit" class="btn btn-block btn-primary">Create survey</button>
     </form>
