@@ -12,6 +12,18 @@
         {{message}}
     {% endif %}
 
+    <div class="d-flex justify-content-between flex-wrap flex-sm-nowrap align-items-center pb-2 mb-3 border-bottom">
+        <h1>{{survey.name}}</h1><span class="btn btn-primary btn-danger float-right fa fa-remove">
+                Delete survey
+            </span>
+    </div>
+
+    <!-- Description in an alert. really dont know how to make this look good -->
+    <div class="alert alert-info" role="alert">
+        <h5>Description: {{survey.description}}</h5>
+    </div>
+
+    <!--Alerts -->
     {% if user.is_superuser %}
         <!-- Dismissible alert. Wish it could just go away -->
         <div class="alert alert-info alert-dismissible">
@@ -22,15 +34,6 @@
         <p>You are the creator of this survey</p>
     {% endif %}
 
-    <div class="d-flex justify-content-between flex-wrap flex-sm-nowrap align-items-center pb-2 mb-3 border-bottom">
-        <h1>{{survey.name}}</h1>
-    </div>
-
-    <!-- Description in an alert. really dont know how to make this look good -->
-    <div class="alert alert-info" role="alert">
-        <h5>Description: {{survey.description}}</h5>
-    </div>
-    <br/>
 
     <!-- Personal data grand design -->
     <div class="container-fluid col-gap-40">
