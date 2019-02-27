@@ -19,11 +19,16 @@
             <script src="{% static 'surveys/js/feather.js' %}"></script>
             <script src="{% static 'surveys/js/scripts.js' %}"></script>
             <script src="{% static 'surveys/js/jquery.formset.js' %}"></script>
+            <script src="{% static 'surveys/js/highcharts/highcharts.js' %}"></script>
             <link rel="shortcut icon" type="image/png" href="{% static 'favicon.ico' %}"/>
             <link href="{% static 'surveys/css/style.css' %}" rel="stylesheet" type="text/css" />
 
         <title>{% block title %} Surffee app {% endblock %}</title>
 
+        {% if chart %}
+            {% load chartit %}
+            {{ chart|load_charts:"results-chart" }}
+        {% endif %}
     </head>
 
     <body style="background-image: url('{% static 'surveys/pipes.png' %}');">

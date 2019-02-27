@@ -3,8 +3,9 @@ from django.views.generic import CreateView
 from django.urls import reverse_lazy
 from django.core.exceptions import PermissionDenied
 from ast import literal_eval
+from chartit import DataPool, Chart
 
-from ..models import Survey
+from ..models import *
 from ..forms.users import ResearcherCreationForm
 
 
@@ -31,15 +32,48 @@ class Results(CreateView):
     model = Survey
     form_class = ResearcherCreationForm
 
+    def create_chart_data(self, survey):
+
+        all_choices = Choice.objects.none()
+
+        for question in survey.question_set.all():
+            all_choices |= question.choice_set.all()
+
+        data = DataPool(
+                series=[{
+                    'options': {
+                        'source': survey.question_set.all(),
+                        # 'legend_by': 'choice_text'
+                    },
+                    'terms': [
+                        'choice',
+                        'votes',
+                        'question_text'
+                    ]
+                }]
+            )
+
+        return Chart(
+            datasource=data,
+            series_options=[{
+                    'options': {
+                        'type': 'column',
+                        'stacking': True,
+                        'stack': 0,
+                        'xAxis': 0,
+                        'yAxis': 0
+                    },
+                    'terms': {
+                        'question_text': ['votes']}
+            }])
+
     def get(self, request, *args, **kwargs):
         self.object = None
         survey_id = self.kwargs.get('survey_id')
         survey = Survey.objects.get(pk=survey_id)
+        cht = self.create_chart_data(survey)
 
-        return self.render_to_response(
-            self.get_context_data(survey=survey,
-                                  )
-        )
+        return self.render_to_response({'chart': cht})
 
 
 def detail(request, survey_id):
@@ -99,3 +133,26 @@ class SignUp(CreateView):
     success_url = reverse_lazy('login')
     template_name = 'signup.html'
 
+
+'''       BACKUP
+    
+    def create_chart_data(self, survey):
+
+        all_choices = Choice.objects.none()
+
+        for question in survey.question_set.all():
+            all_choices |= question.choice_set.all()
+
+        data_ss = DataPool(
+                series=[{
+                    'options': {
+                        'source': all_choices,
+                        'categories': 'question__question_text',
+                        'legend_by': 'choice_text',
+                    },
+                    'terms': {
+                        'No. of votes': 'votes'
+                    }
+                }]
+            )
+'''
