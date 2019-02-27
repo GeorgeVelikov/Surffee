@@ -25,52 +25,69 @@
         <h1>{{survey.name}}</h1>
     </div>
 
+    <div class="alert alert-info" role="alert">
     <h5>Description: {{survey.description}}</h5>
+    </div>
+    <br/>
 
-    <h5>Personal data used:
+    <!-- Template questions used in a list -->
+    <h5>Personal data used:</h5>
+    <div class="list-group">
         {% for ch in choices %}
-            {{ ch }},
+            <a id="survey-list-i" class="list-group-item list-group-item-success list-group-item-action" href=../{{survey.id}}>
+                {{ ch }}
+            </a>
         {% endfor %}
-    </h5>
-
+    </div>
 
     <!-- TODO: Figure our how we can use survey.name instead of survey.id, just cus it looks cooler -->
     <a href="../answer/{{survey.id}}/agreement">Link for respondents</a>
+    <br/>
+
+    <div class="container col-gap-40">
+    <br/>
+    </div>
 
 
+    <!-- Question cards -->
+    {% for question in survey.question_set.all %} <!-- yeah this is how you go up the foreign key -->
         <div class="card bg-light mb-3" >
-            {% for question in survey.question_set.all %} <!-- yeah this is how you go up the foreign key -->
-                <div class="card-header">Question {{ question.id }} -
-                    <a href="../{{survey.id}}/edit_question/{{question.id}}">
-                        {{ question.question_text }}
-                    </a>
+            <div class="card-header bg-dark text-light">Question {{ question.id }} -
+                <a href="../{{survey.id}}/edit_question/{{question.id}}">
+                    {{ question.question_text }}
+                </a>
 
-                    <a href="../{{survey.id}}/delete_question/{{question.id}}" class="btn btn-primary btn-danger float-right">
-                        <span class="glyphicon glyphicon-remove">
-                            delete
-                        </span>
-                    </a>
-                </div>
+                <a href="../{{survey.id}}/delete_question/{{question.id}}" class="btn btn-primary btn-danger float-right">
+                    <span class="fa fa-remove">
+                        delete
+                    </span>
+                </a>
+            </div>
 
+                <!-- Card body -->
                 <div class="card-body">
-
-
-                    {% for choice in question.choice_set.all %}
-                            <div class="col-sm-3">
+                {% for choice in question.choice_set.all %}
+                        <div class="list-group">
+                             <a class="list-group-item list-group-item-action">
                                 {{ choice.choice_text }}
-                                (Votes: {{ choice.votes }})
-                            </div>
-                    {% endfor %}
-                </div>
-            {% endfor %}
+                                 <p class="float-right">(Votes:  <span class="badge badge-primary badge-pill">{{ choice.votes }} </span>)</p>
+                             </a>
+                        </div>
+
+                {% endfor %}
+            </div>
+
         </div>
+    {% endfor %}
 
 
+    <!--Add Question button with JS magic -->
     <div class="row">
-        <a class="btn btn-success" onclick="window.location.href='add_question/'">
+        <a class="btn btn-success text-light" onclick="window.location.href='add_question/'">
             <i class="fa fa-check-square-o"></i>
             Add question to the survey
         </a>
     </div>
+    <br/>
 
 {% endblock %}
