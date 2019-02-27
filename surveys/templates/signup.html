@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load static from staticfiles %}
 
 <!-- include crispy -->
 {% load crispy_forms_tags %}
@@ -16,17 +17,35 @@
         </div>
 
         <div class="col">
+            <div class="text-xs-center" style="color: #fff; background-color: #484a3f; min-height: 100px; padding: 65px; border-radius: 1rem;" >
+                <div class="row">
+                    <div class="col">
+                    </div>
+                    <img src="{% static 'surveys/logo0.png' %}" style="width: 100px; height: 100px;"/>
+                    <div class="col">
+                    </div>
+                </div>
             <form method="post">
                 {% csrf_token %}
                 <!-- render the form as crispy instead of .as_p -->
                 {{ form|crispy }}
 
-                <button type="submit" class="btn btn-success">Sign up</button>
+                <button type="submit" class="btn btn-success">Sign up  <i class="fa fa-plus" aria-hidden="true"></i></button>
             </form>
+
+                 <a class="nav-link float-right wh" href="{% url 'login' %}" style="color: #000; font-size: medium;" onMouseOver="this.style.color='#FFF'" onMouseOut="this.style.color='#000'">
+                    Already have an account?  <span><i class="fa fa-sign-in " aria-hidden="true"></i></span>
+                </a>
+            </div>
         </div>
 
         <div class="col">
         </div>
 
     </div>
+
+    <div class="row">
+        <br>
+    </div>
+
 {% endblock %}
