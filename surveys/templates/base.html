@@ -112,9 +112,9 @@
                                                         <div class="sidebar-submenu" style="display:block;">
                                                             <ul>
                                                                 {% for survey in surveys_active %}
-                                                                    <li>
-                                                                        <a href="#">{{survey}}</a>
-                                                                    </li>
+                                                                    <a href="surveys/{{survey.id}}">
+                                                                        {{survey}}
+                                                                    </a>
                                                                 {% endfor %}
                                                             </ul>
                                                         </div>
@@ -131,7 +131,9 @@
                                                             <ul>
                                                                 {% for survey in surveys_inactive %}
                                                                     <li>
-                                                                        <a href="#">{{survey}}</a>
+                                                                        <a href="surveys/{{survey.id}}">
+                                                                            {{survey}}
+                                                                        </a>
                                                                     </li>
                                                                 {% endfor %}
                                                             </ul>
