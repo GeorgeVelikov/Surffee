@@ -13,9 +13,15 @@
     {% endif %}
 
     <div class="d-flex justify-content-between flex-wrap flex-sm-nowrap align-items-center pb-2 mb-3 border-bottom">
-        <h1>{{survey.name}}</h1><span class="btn btn-primary btn-danger float-right fa fa-remove">
+        <h1>
+            {{survey.name}}
+        </h1>
+
+        <a href="../delete_survey/{{survey.id}}" class="btn btn-primary btn-danger float-right">
+            <span class="fa fa-remove">
                 Delete survey
             </span>
+        </a>
     </div>
 
     <!-- Description in an alert. really dont know how to make this look good -->
@@ -23,17 +29,18 @@
         <h5>Description: {{survey.description}}</h5>
     </div>
 
-    <!--Alerts -->
-    {% if user.is_superuser and user != survey.creator %}
-        <!-- Dismissible alert. Wish it could just go away -->
-        <div class="alert alert-info alert-dismissible">
-            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-            <strong>Heads up!</strong> You are viewing this survey because you have superuser rights.
-                This survey was created by {{survey.creator}}.
-        </div>
-    {% elif user == survey.creator %}
-        <p>You are the creator of this survey</p>
-    {% endif %}
+    <!-- HOLY FUCK THIS WAS ANNOYING, WHY IS IT HERE
+         Just for clarity, these are notification bubbles
+        {% if user.is_superuser %}
+
+            <div class="alert alert-info alert-dismissible">
+                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                <strong>Heads up!</strong> You're logged in under superuser privileges. All surveys are shown.
+            </div>
+        {% elif user == survey.creator %}
+            <p>You are the creator of this survey</p>
+        {% endif %}
+    -->
 
 
     <!-- Personal data grand design -->
@@ -56,10 +63,11 @@
                 </div>
             {% endif %}
 
-            <!-- TODO: Figure our how we can use survey.name instead of survey.id, just cus it looks cooler
-                 I don't think this is a good idea.-->
+            <!-- TODO: Figure our how we can use survey.name instead of survey.id, just cus it looks cooler -->
             <div class="col">
-                <a class="btn btn-lg btn-info text-light float-right" href="../answer/{{survey.id}}/agreement" style="font-size: medium; padding-top: 20px; padding-right: 15px; padding-left: 15px; padding-bottom: 20px;">Link for respondents</a>
+                <a class="btn btn-lg btn-info text-light float-right" href="../answer/{{survey.id}}/agreement" style="font-size: medium; padding-top: 20px; padding-right: 15px; padding-left: 15px; padding-bottom: 20px;">
+                    Link for respondents
+                </a>
             </div>
         </div>
     </div>
@@ -85,7 +93,7 @@
                     <!-- rem question button -->
                     <a href="../{{survey.id}}/delete_question/{{question.id}}" class="btn btn-primary btn-danger float-right">
                         <span class="fa fa-remove">
-                            delete
+                            Delete
                         </span>
                     </a>
                 </div>

@@ -2,8 +2,7 @@ from django.shortcuts import redirect
 from django.views.generic import CreateView, UpdateView
 from ..models import Survey, Question, Choice, PersonalInformation, SurveyAnswer
 from ..forms.surveys import ResearcherCreateSurvey, ResearcherCreateQuestion, ResearcherUpdateQuestion, ChoiceFormSet
-from ..forms.surveys import AnswerSurveyQuestionsForm, PersonalInformationForm, UpdateChoiceData
-
+from ..forms.surveys import AnswerSurveyQuestionsForm, PersonalInformationForm
 from ast import literal_eval
 
 
@@ -41,6 +40,16 @@ class CreateNewSurvey(UpdateView):
 
     def form_invalid(self, form):
         return self.render_to_response(self.get_context_data(form=form))
+
+
+class DeleteSurvey(UpdateView):
+    model = Survey
+
+    def get(self, request, *args, **kwargs):
+        survey_id = self.kwargs.get('survey_id')
+        survey = Survey.objects.get(pk=survey_id)
+        survey.delete()
+        return redirect('/surveys/')
 
 
 class CreateQuestion(CreateView):

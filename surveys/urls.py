@@ -33,6 +33,9 @@ urlpatterns = [
     path('create/',
          surveys.CreateNewSurvey.as_view(),         name='create'),
 
+    path('delete_survey/<int:survey_id>',
+         surveys.DeleteSurvey.as_view(),            name='delete_survey'),
+
     path('active/',
          page.active,                               name='active'),
 
