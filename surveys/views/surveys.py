@@ -166,7 +166,7 @@ class QuestionEdit(UpdateView):
         choices = Choice.objects.filter(question_id=question_id)
 
         if len(choice_form) == len(choices):
-            """ replacing choices """
+
             for x in range(len(choices)):
                 choice = Choice.objects.get(id=choices[x].id)
                 choice.question = question
@@ -176,23 +176,27 @@ class QuestionEdit(UpdateView):
 
         elif len(choice_form) > len(choices):
             """ adding choices """
-            first_new_choice_index = len(choices)
-            for i in range(first_new_choice_index, len(choice_form)):
-                new_choice_text = form.data['choice_set-'+str(i)+'-choice_text']
-                new_choice = Choice(question=question, choice_text=new_choice_text)
+            for x in range(len(choices)):
+                choice = Choice.objects.get(id=choices[x].id)
+                choice.choice_text = (choice_form[x]["choice_text"]).value()
+                choice.save()
+
+            for y in range(len(choices), len(choice_form)):
+                new_choice_text = (choice_form[y]["choice_text"]).value()
+                new_choice = Choice(question=question,
+                                    choice_text=new_choice_text)
                 new_choice.save()
 
         elif len(choice_form) < len(choices):
             """ 'removing' choices """
             for x in range(len(choice_form)):
                 choice = Choice.objects.get(id=choices[x].id)
-                choice.question = question
                 choice.choice_text = (choice_form[x]["choice_text"]).value()
                 choice.save()
 
             for y in range(len(choice_form), len(choices)):
-                choice = Choice.objects.get(id=choices[y].id)
-                choice.delete()
+                removed_choice = Choice.objects.get(id=choices[y].id)
+                removed_choice.delete()
 
 
         self.object = form.save()
