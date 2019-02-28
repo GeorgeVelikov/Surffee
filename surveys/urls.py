@@ -58,4 +58,6 @@ urlpatterns = [
     path('answer/<int:survey_answer_id>/question/<int:question_id>/',
          surveys.AnswerSurveyQuestions.as_view(),
          name='answer_survey'),
+
+    path('<int:survey_id>/delete_choice/<int:choice_id>',  surveys.ChoiceDelete.as_view(), name='delete_choice'),
 ]

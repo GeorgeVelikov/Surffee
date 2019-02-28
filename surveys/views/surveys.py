@@ -203,6 +203,16 @@ class QuestionDelete(UpdateView):
         return redirect('../')
 
 
+class ChoiceDelete(UpdateView):
+    # TODO: fix not showing of personal data used
+    model = Question
+
+    def get(self, request, *args, **kwargs):
+        choice_id = self.kwargs.get('choice_id')
+        choice = Choice.objects.get(pk=choice_id)
+        choice.delete()
+        return redirect('../')
+
 class ResearchAgreement(UpdateView):
     template_name = 'surveys/answer_research_agreement.html'
     model = PersonalInformation
