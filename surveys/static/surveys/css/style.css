@@ -281,25 +281,6 @@ section .section-title {
 }
 
 
-#chart-img{
-
-    width: 200px;
-    height: 200px;
-}
-
-#sci-img{
-
-    width: 200px;
-    height: 200px;
-}
-
-
-#doc-img{
-
-    width: 200px;
-    height: 200px;
-}
-
 /* Columns of main page */
 
 .row .col-md-4 .wrap{color:#fff;padding:20px 15px;}
