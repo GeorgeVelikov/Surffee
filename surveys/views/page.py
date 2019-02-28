@@ -13,6 +13,17 @@ from ..forms.users import ResearcherCreationForm
                                                  """
 
 
+def base(request):
+    username = "Profile"
+    if request.user.is_authenticated:
+        username = request.user.username
+
+    context = {'username': username,
+               }
+
+    return context
+
+
 def index(request):
     template = 'surveys/index.html'
     surveys = None
