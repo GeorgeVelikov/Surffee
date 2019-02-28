@@ -103,6 +103,11 @@
                                                     <li class="header-menu">
                                                         <span>Survey types</span>
                                                     </li>
+                                                    {% if not surveys_active and not surveys_inactive %}
+                                                        <li class="sidebar-dropdown">
+                                                            No surveys owned
+                                                        </li>
+                                                    {% endif %}
 
                                                     <!-- Dashboard drop-down -->
                                                     {% if surveys_active %}
@@ -114,7 +119,7 @@
                                                             <div class="sidebar-submenu" style="display:block;">
                                                                 <ul>
                                                                     {% for survey in surveys_active %}
-                                                                        <a href="surveys/{{survey.id}}">
+                                                                        <a href="/surveys/{{survey.id}}">
                                                                             {{survey}}
                                                                         </a>
                                                                     {% endfor %}
@@ -133,7 +138,7 @@
                                                                 <ul>
                                                                     {% for survey in surveys_inactive %}
                                                                         <li>
-                                                                            <a href="surveys/{{survey.id}}">
+                                                                            <a href="/surveys/{{survey.id}}">
                                                                                 {{survey}}
                                                                             </a>
                                                                         </li>
