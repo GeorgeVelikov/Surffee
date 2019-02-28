@@ -1,0 +1,1 @@
+del /q "surveys\migrations\0*" && del db.sqlite3 && python manage.py makemigrations && python manage.py migrate
