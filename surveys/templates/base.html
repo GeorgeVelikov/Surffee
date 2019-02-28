@@ -88,18 +88,23 @@
             <div class = "row" >
 
                 <!-- sidebar starts here -->
-                <div class="col-2">
+                <div class="col-2" >
                     <div class="container-fluid sidebar-container">
                         <div class="row">
 
-                             <div class="navbar-dark bg-dark text-white position-fixed h-100 align-self-start w-sidebar">
-                                <h6 class="px-3 pt-3">Surveys</h6>
-                                <ul class="nav flex-column flex-nowrap text-truncate">
+                             <div class="navbar-dark bg-dark text-white position-fixed h-100 align-self-start w-sidebar" style="background-image: url('{% static 'surveys/dark-honeycomb.png' %}');">
+
+                                 <!-- Sidebar title -->
+                                 <div style="border-bottom: 2px solid grey; border-bottom-right-radius: 25px; border-bottom-left-radius: 25px;">
+                                     <h4 class="px-3 pt-3" style="text-align: center;">Surveys</h4>
+                                 </div>
+
+                                 <ul class="nav flex-column flex-nowrap text-truncate">
                                     <li class="nav-item">
-                                        <a class="nav-link active" href="{% url 'surveys:inactive' %}">Inactive surveys</a>
+                                        <a class="nav-link active" style="font-size: large;" href="{% url 'surveys:inactive' %}">Inactive surveys <i class="fa fa-minus-circle" aria-hidden="true"></i></a>
                                     </li>
                                     <li class="nav-item">
-                                        <a class="nav-link active" href="{% url 'surveys:active' %}">Active surveys</a>
+                                        <a class="nav-link active" style="font-size: large;" href="{% url 'surveys:active' %}">Active surveys <i class="fa fa-check-circle" aria-hidden="true"></i></a>
                                     </li>
                                 </ul>
                             </div>
