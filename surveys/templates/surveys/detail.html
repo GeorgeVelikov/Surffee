@@ -17,12 +17,17 @@
             {{survey.name}}
         </h1>
 
-
-        <a href="../toggle_active/{{survey.id}}" class="col-sm-2 btn btn-primary btn-info float-right">
-            <span class="fa fa-exchange">
-                Toggle active
-            </span>
-        </a>
+        {% if survey.active %}
+            <a href="../toggle_active/{{survey.id}}" class="col-sm-2 btn btn-primary btn-success float-right">
+                <span class="fa fa-exchange">
+                    Active
+        {% else %}
+            <a href="../toggle_active/{{survey.id}}" class="col-sm-2 btn btn-primary btn-secondary float-right">
+                <span class="fa fa-exchange">
+                    Inactive
+        {% endif %}
+                </span>
+            </a>
 
         <a href="../delete_survey/{{survey.id}}" class="col-sm-2 btn btn-primary btn-danger float-right">
             <span class="fa fa-remove">
