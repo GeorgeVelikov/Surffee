@@ -46,12 +46,16 @@ class SurveyActiveToggle(UpdateView):
     model = Survey
 
     def get(self, request, *args, **kwargs):
-        survey_id = self.kwargs('survey_id')
+        survey_id = self.kwargs.get('survey_id')
         survey = Survey.objects.get(pk=survey_id)
+
         if survey.active:
             survey.active = False
         else:
             survey.active = True
+
+        survey.save()
+        return redirect('/surveys/'+str(survey_id))
 
 
 class SurveyDelete(UpdateView):
