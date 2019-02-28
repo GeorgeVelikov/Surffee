@@ -15,10 +15,26 @@ from ..forms.users import ResearcherCreationForm
 
 def base(request):
     username = "Profile"
+    surveys_active = []
+    surveys_inactive = []
+
     if request.user.is_authenticated:
         username = request.user.username
+        all_surveys = Survey.objects.filter(creator=request.user.pk)
+
+        for survey in all_surveys:
+            if survey.active:
+                surveys_active.append(survey)
+            else:
+                surveys_inactive.append(survey)
+
+    else:
+        surveys_active = None
+        surveys_inactive = None
 
     context = {'username': username,
+               'surveys_active': surveys_active,
+               'surveys_inactive': surveys_inactive,
                }
 
     return context

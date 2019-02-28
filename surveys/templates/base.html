@@ -103,48 +103,41 @@
                                                     <span>General</span>
                                                 </li>
                                                 <!-- Dashboard drop-down -->
-                                                <li class="sidebar-dropdown active">
-                                                    <a href="#">
-                                                        <i class="fa fa-tachometer"></i>
-                                                        <span>Dashboard</span>
-                                                    </a>
-                                                    <div class="sidebar-submenu" style="display:block;">
-                                                        <ul>
-                                                            <li>
-                                                                <a href="#">Dashboard 1</a>
-                                                            </li>
-                                                            <li>
-                                                                <a href="#">Dashboard 2</a>
-                                                            </li>
-                                                            <li>
-                                                                <a href="#">Dashboard 3</a>
-                                                            </li>
-                                                        </ul>
-                                                    </div>
-                                                </li>
+                                                {% if surveys_active %}
+                                                    <li class="sidebar-dropdown">
+                                                        <a href="#">
+                                                            <i class="fa fa-tachometer"></i>
+                                                            <span>Active</span>
+                                                        </a>
+                                                        <div class="sidebar-submenu" style="display:block;">
+                                                            <ul>
+                                                                {% for survey in surveys_active %}
+                                                                    <li>
+                                                                        <a href="#">{{survey}}</a>
+                                                                    </li>
+                                                                {% endfor %}
+                                                            </ul>
+                                                        </div>
+                                                    </li>
+                                                {% endif %}
                                                 <!-- Charts drop-down -->
-                                                <li class="sidebar-dropdown">
-                                                    <a href="#">
-                                                        <i class="fa fa-line-chart"></i>
-                                                        <span>Charts</span>
-                                                    </a>
-                                                    <div class="sidebar-submenu">
-                                                        <ul>
-                                                            <li>
-                                                                <a href="#">Pie chart</a>
-                                                            </li>
-                                                            <li>
-                                                                <a href="#">Line chart</a>
-                                                            </li>
-                                                            <li>
-                                                                <a href="#">Bar chart</a>
-                                                            </li>
-                                                            <li>
-                                                                <a href="#">Histogram</a>
-                                                            </li>
-                                                        </ul>
-                                                    </div>
-                                                </li>
+                                                {% if surveys_inactive %}
+                                                    <li class="sidebar-dropdown">
+                                                        <a href="#">
+                                                            <i class="fa fa-line-chart"></i>
+                                                            <span>Inactive</span>
+                                                        </a>
+                                                        <div class="sidebar-submenu">
+                                                            <ul>
+                                                                {% for survey in surveys_inactive %}
+                                                                    <li>
+                                                                        <a href="#">{{survey}}</a>
+                                                                    </li>
+                                                                {% endfor %}
+                                                            </ul>
+                                                        </div>
+                                                    </li>
+                                                {% endif %}
                                                 <!--Extras header -->
                                                 <li class="header-menu">
                                                     <span>Extra</span>
