@@ -29,20 +29,6 @@
         <h5>Description: {{survey.description}}</h5>
     </div>
 
-    <!-- HOLY FUCK THIS WAS ANNOYING, WHY IS IT HERE
-         Just for clarity, these are notification bubbles
-        {% if user.is_superuser %}
-
-            <div class="alert alert-info alert-dismissible">
-                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-                <strong>Heads up!</strong> You're logged in under superuser privileges. All surveys are shown.
-            </div>
-        {% elif user == survey.creator %}
-            <p>You are the creator of this survey</p>
-        {% endif %}
-    -->
-
-
     <!-- Personal data grand design -->
     <div class="container-fluid col-gap-40">
         <div class="row">
@@ -62,67 +48,56 @@
                     </div>
                 </div>
             {% endif %}
-
-            <!-- TODO: Figure our how we can use survey.name instead of survey.id, just cus it looks cooler -->
-            <div class="col">
-                <a class="btn btn-lg btn-info text-light float-right" href="../answer/{{survey.id}}/agreement" style="font-size: medium; padding-top: 20px; padding-right: 15px; padding-left: 15px; padding-bottom: 20px;">
-                    Link for respondents
-                </a>
-            </div>
         </div>
     </div>
-
 
     <!-- Empty spaces what are we living for...-->
     <div class="container col-gap-40">
         <br/>
-        <br/>
     </div>
 
+    <!-- Question cards loopy-->
+    {% for question in survey.question_set.all %} <!-- yeah this is how you go up the foreign key -->
+        <div class="card bg-light mb-3" >
+            <div class="card-header bg-dark text-light">Question {{ question.id }} -
+                <a href="../{{survey.id}}/edit_question/{{question.id}}" style="font-size: large;">
+                    {{ question.question_text }}
+                </a>
 
-    <!-- Question container -->
-    <div class="container-fluid">
-        <!-- Question cards loopy-->
-        {% for question in survey.question_set.all %} <!-- yeah this is how you go up the foreign key -->
-            <div class="card bg-light mb-3" >
-                <div class="card-header bg-dark text-light">Question {{ question.id }} -
-                    <a href="../{{survey.id}}/edit_question/{{question.id}}" style="font-size: large;">
-                        {{ question.question_text }}
-                    </a>
-
-                    <!-- rem question button -->
-                    <a href="../{{survey.id}}/delete_question/{{question.id}}" class="btn btn-primary btn-danger float-right">
-                        <span class="fa fa-remove">
-                            Delete
-                        </span>
-                    </a>
-                </div>
-
-                <!-- Card body not needed after all. we can just use list. if you prefer add card-body div around-->
-
-                {% for choice in question.choice_set.all %}
-                        <div class="list-group">
-                             <a class="list-group-item list-group-item-action">
-                                 <!-- choices listed -->
-                                {{ choice.choice_text }}
-                                 <p class="float-right">(Votes:  <span class="badge badge-primary badge-pill">{{ choice.votes }} </span>)</p>
-                             </a>
-                        </div>
-                {% endfor %}
-
+                <!-- rem question button -->
+                <a href="../{{survey.id}}/delete_question/{{question.id}}" class="btn btn-primary btn-danger float-right">
+                    <span class="fa fa-remove">
+                        Delete
+                    </span>
+                </a>
             </div>
-        {% endfor %}
-    </div>
 
+            <!-- Card body not needed after all. we can just use list. if you prefer add card-body div around-->
 
-    <!--Add Question button with JS magic -->
-    <br>
-    <div class="row">
-        <a class="btn btn-lg btn-success text-light" onclick="window.location.href='add_question/'" style="margin-left: 15px;">
-            <i class="fa fa-check-square-o"></i>
-            Add question to the survey
-        </a>
+            {% for choice in question.choice_set.all %}
+                <div class="list-group">
+                     <a class="list-group-item list-group-item-action">
+                         <!-- choices listed -->
+                        {{ choice.choice_text }}
+                         <p class="float-right">(Votes:  <span class="badge badge-primary badge-pill">{{ choice.votes }} </span>)</p>
+                     </a>
+                </div>
+            {% endfor %}
+
+        </div>
+    {% endfor %}
+
+    <div class="container-fluid">
+        <div class="row">
+            <a class="col-sm-3 btn btn-lg btn-success text-light" onclick="window.location.href='add_question/'">
+                <i class="fa fa-check-square-o"></i>
+                Add question to the survey
+            </a>
+
+            <a class="offset-sm-6 col-sm-3 btn btn-lg btn-info text-light float-right" href="../answer/{{survey.id}}/agreement">
+                Link for respondents
+            </a>
+        </div>
     </div>
-    <br/>
 
 {% endblock %}

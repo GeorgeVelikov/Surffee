@@ -16,13 +16,13 @@ urlpatterns = [
          page.detail,                               name="detail"),
 
     path('<int:survey_id>/add_question/',
-         surveys.CreateQuestion.as_view(),          name='add_question'),
+         surveys.QuestionCreate.as_view(), name='add_question'),
 
     path('<int:survey_id>/edit_question/<int:question_id>',
-         surveys.EditQuestion.as_view(),            name='edit_question'),
+         surveys.QuestionEdit.as_view(), name='edit_question'),
 
     path('<int:survey_id>/delete_question/<int:question_id>',
-         surveys.DeleteQuestion.as_view(),          name='delete_question'),
+         surveys.QuestionDelete.as_view(), name='delete_question'),
 
     path('answer/<int:survey_id>/agreement/',
          surveys.ResearchAgreement.as_view(),       name='answer_research_agreement'),
@@ -31,10 +31,13 @@ urlpatterns = [
          surveys.AnswerSurveyQuestions.as_view(),   name='answer_survey'),
 
     path('create/',
-         surveys.CreateNewSurvey.as_view(),         name='create'),
+         surveys.SurveyCreate.as_view(), name='create'),
+
+    path('toggle_active/<int:survey_id>',
+         surveys.SurveyActiveToggle.as_view(), name='toggle_active_survey'),
 
     path('delete_survey/<int:survey_id>',
-         surveys.DeleteSurvey.as_view(),            name='delete_survey'),
+         surveys.SurveyDelete.as_view(), name='delete_survey'),
 
     path('active/',
          page.active,                               name='active'),

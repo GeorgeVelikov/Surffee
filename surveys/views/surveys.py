@@ -6,7 +6,7 @@ from ..forms.surveys import AnswerSurveyQuestionsForm, PersonalInformationForm
 from ast import literal_eval
 
 
-class CreateNewSurvey(UpdateView):
+class SurveyCreate(UpdateView):
     template_name = 'surveys/create_survey.html'
     model = Survey
     form_class = ResearcherCreateSurvey
@@ -42,7 +42,19 @@ class CreateNewSurvey(UpdateView):
         return self.render_to_response(self.get_context_data(form=form))
 
 
-class DeleteSurvey(UpdateView):
+class SurveyActiveToggle(UpdateView):
+    model = Survey
+
+    def get(self, request, *args, **kwargs):
+        survey_id = self.kwargs('survey_id')
+        survey = Survey.objects.get(pk=survey_id)
+        if survey.active:
+            survey.active = False
+        else:
+            survey.active = True
+
+
+class SurveyDelete(UpdateView):
     model = Survey
 
     def get(self, request, *args, **kwargs):
@@ -52,7 +64,7 @@ class DeleteSurvey(UpdateView):
         return redirect('/surveys/')
 
 
-class CreateQuestion(CreateView):
+class QuestionCreate(CreateView):
     template_name = 'surveys/add_question.html'
     model = Question
     form_class = ResearcherCreateQuestion
@@ -95,7 +107,7 @@ class CreateQuestion(CreateView):
         )
 
 
-class EditQuestion(UpdateView):
+class QuestionEdit(UpdateView):
     template_name = 'surveys/edit_question.html'
     model = Question
     form_class = ResearcherCreateQuestion
@@ -169,7 +181,7 @@ class EditQuestion(UpdateView):
         )
 
 
-class DeleteQuestion(UpdateView):
+class QuestionDelete(UpdateView):
     model = Question
 
     def get(self, request, *args, **kwargs):
