@@ -165,39 +165,24 @@ class QuestionEdit(UpdateView):
         question = Question.objects.get(pk=question_id)
         choices = Choice.objects.filter(question_id=question_id)
 
-        if len(choice_form) == len(choices):
+        less_fields = min(len(choice_form), len(choices))
 
-            for x in range(len(choices)):
-                choice = Choice.objects.get(id=choices[x].id)
-                choice.question = question
-                choice.choice_text = (choice_form[x]["choice_text"]).value()
-                choice.save()
-                # TODO: choice_form[x]["DELETE"] needs to be altered, it's a checkbox
+        for x in range(less_fields):
+            choice = Choice.objects.get(id=choices[x].id)
+            choice.choice_text = (choice_form[x]["choice_text"]).value()
+            choice.save()
 
-        elif len(choice_form) > len(choices):
-            """ adding choices """
-            for x in range(len(choices)):
-                choice = Choice.objects.get(id=choices[x].id)
-                choice.choice_text = (choice_form[x]["choice_text"]).value()
-                choice.save()
+        if less_fields == len(choice_form):
+            for y in range(len(choice_form), len(choices)):
+                removed_choice = Choice.objects.get(id=choices[y].id)
+                removed_choice.delete()
 
+        elif less_fields == len(choices):
             for y in range(len(choices), len(choice_form)):
                 new_choice_text = (choice_form[y]["choice_text"]).value()
                 new_choice = Choice(question=question,
                                     choice_text=new_choice_text)
                 new_choice.save()
-
-        elif len(choice_form) < len(choices):
-            """ 'removing' choices """
-            for x in range(len(choice_form)):
-                choice = Choice.objects.get(id=choices[x].id)
-                choice.choice_text = (choice_form[x]["choice_text"]).value()
-                choice.save()
-
-            for y in range(len(choice_form), len(choices)):
-                removed_choice = Choice.objects.get(id=choices[y].id)
-                removed_choice.delete()
-
 
         self.object = form.save()
 
