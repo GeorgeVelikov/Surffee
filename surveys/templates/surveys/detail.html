@@ -63,40 +63,38 @@
         <br/>
     </div>
 
+    <!-- Question cards loopy-->
+    {% for question in survey.question_set.all %} <!-- yeah this is how you go up the foreign key -->
+        <div class="card bg-light mb-3" >
+            <div class="card-header bg-dark text-light">Question {{ question.id }} -
+                <a href="../{{survey.id}}/edit_question/{{question.id}}" style="font-size: large;">
+                    {{ question.question_text }}
+                </a>
 
-    <!-- Question container -->
-    <div class="container-fluid">
-        <!-- Question cards loopy-->
-        {% for question in survey.question_set.all %} <!-- yeah this is how you go up the foreign key -->
-            <div class="card bg-light mb-3" >
-                <div class="card-header bg-dark text-light">Question {{ question.id }} -
-                    <a href="../{{survey.id}}/edit_question/{{question.id}}" style="font-size: large;">
-                        {{ question.question_text }}
-                    </a>
-
-                    <!-- rem question button -->
-                    <a href="../{{survey.id}}/delete_question/{{question.id}}" class="btn btn-primary btn-danger float-right">
-                        <span class="fa fa-remove">
-                            Delete
-                        </span>
-                    </a>
-                </div>
-
-                <!-- Card body not needed after all. we can just use list. if you prefer add card-body div around-->
-
-                {% for choice in question.choice_set.all %}
-                        <div class="list-group">
-                             <a class="list-group-item list-group-item-action">
-                                 <!-- choices listed -->
-                                {{ choice.choice_text }}
-                                 <p class="float-right">(Votes:  <span class="badge badge-primary badge-pill">{{ choice.votes }} </span>)</p>
-                             </a>
-                        </div>
-                {% endfor %}
-
+                <!-- rem question button -->
+                <a href="../{{survey.id}}/delete_question/{{question.id}}" class="btn btn-primary btn-danger float-right">
+                    <span class="fa fa-remove">
+                        Delete
+                    </span>
+                </a>
             </div>
-        {% endfor %}
 
+            <!-- Card body not needed after all. we can just use list. if you prefer add card-body div around-->
+
+            {% for choice in question.choice_set.all %}
+                <div class="list-group">
+                     <a class="list-group-item list-group-item-action">
+                         <!-- choices listed -->
+                        {{ choice.choice_text }}
+                         <p class="float-right">(Votes:  <span class="badge badge-primary badge-pill">{{ choice.votes }} </span>)</p>
+                     </a>
+                </div>
+            {% endfor %}
+
+        </div>
+    {% endfor %}
+
+    <div class="container-fluid">
         <div class="row">
             <a class="col-sm-3 btn btn-lg btn-success text-light" onclick="window.location.href='add_question/'">
                 <i class="fa fa-check-square-o"></i>
