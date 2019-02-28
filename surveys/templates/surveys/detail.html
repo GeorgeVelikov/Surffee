@@ -29,20 +29,6 @@
         <h5>Description: {{survey.description}}</h5>
     </div>
 
-    <!-- HOLY FUCK THIS WAS ANNOYING, WHY IS IT HERE
-         Just for clarity, these are notification bubbles
-        {% if user.is_superuser %}
-
-            <div class="alert alert-info alert-dismissible">
-                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-                <strong>Heads up!</strong> You're logged in under superuser privileges. All surveys are shown.
-            </div>
-        {% elif user == survey.creator %}
-            <p>You are the creator of this survey</p>
-        {% endif %}
-    -->
-
-
     <!-- Personal data grand design -->
     <div class="container-fluid col-gap-40">
         <div class="row">
@@ -65,9 +51,7 @@
 
             <!-- TODO: Figure our how we can use survey.name instead of survey.id, just cus it looks cooler -->
             <div class="col">
-                <a class="btn btn-lg btn-info text-light float-right" href="../answer/{{survey.id}}/agreement" style="font-size: medium; padding-top: 20px; padding-right: 15px; padding-left: 15px; padding-bottom: 20px;">
-                    Link for respondents
-                </a>
+
             </div>
         </div>
     </div>
@@ -112,17 +96,17 @@
 
             </div>
         {% endfor %}
-    </div>
 
+        <div class="row">
+            <a class="col-sm-3 btn btn-lg btn-success text-light" onclick="window.location.href='add_question/'">
+                <i class="fa fa-check-square-o"></i>
+                Add question to the survey
+            </a>
 
-    <!--Add Question button with JS magic -->
-    <br>
-    <div class="row">
-        <a class="btn btn-lg btn-success text-light" onclick="window.location.href='add_question/'" style="margin-left: 15px;">
-            <i class="fa fa-check-square-o"></i>
-            Add question to the survey
-        </a>
+            <a class="offset-sm-6 col-sm-3 btn btn-lg btn-info text-light float-right" href="../answer/{{survey.id}}/agreement">
+                Link for respondents
+            </a>
+        </div>
     </div>
-    <br/>
 
 {% endblock %}
