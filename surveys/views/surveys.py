@@ -150,7 +150,6 @@ class QuestionEdit(UpdateView):
         question_id = self.kwargs.get('question_id')
 
         instance = Question.objects.get(pk=question_id)
-        choice_set = Choice.objects.select_related().filter(question_id=question_id)
 
         form = ResearcherUpdateQuestion(request.POST, instance=instance)
         choice_form = ChoiceFormSet(self.request.POST)
@@ -167,6 +166,7 @@ class QuestionEdit(UpdateView):
         choices = Choice.objects.filter(question_id=question_id)
 
         if len(choice_form) == len(choices):
+            """ replacing choices """
             for x in range(len(choices)):
                 choice = Choice.objects.get(id=choices[x].id)
                 choice.question = question
@@ -175,12 +175,25 @@ class QuestionEdit(UpdateView):
                 # TODO: choice_form[x]["DELETE"] needs to be altered, it's a checkbox
 
         elif len(choice_form) > len(choices):
-            """ adding questions """
+            """ adding choices """
             first_new_choice_index = len(choices)
             for i in range(first_new_choice_index, len(choice_form)):
                 new_choice_text = form.data['choice_set-'+str(i)+'-choice_text']
                 new_choice = Choice(question=question, choice_text=new_choice_text)
                 new_choice.save()
+
+        elif len(choice_form) < len(choices):
+            """ 'removing' choices """
+            for x in range(len(choice_form)):
+                choice = Choice.objects.get(id=choices[x].id)
+                choice.question = question
+                choice.choice_text = (choice_form[x]["choice_text"]).value()
+                choice.save()
+
+            for y in range(len(choice_form), len(choices)):
+                choice = Choice.objects.get(id=choices[y].id)
+                choice.delete()
+
 
         self.object = form.save()
 
@@ -212,6 +225,7 @@ class ChoiceDelete(UpdateView):
         choice = Choice.objects.get(pk=choice_id)
         choice.delete()
         return redirect('../')
+
 
 class ResearchAgreement(UpdateView):
     template_name = 'surveys/answer_research_agreement.html'
