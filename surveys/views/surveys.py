@@ -170,6 +170,14 @@ class QuestionEdit(UpdateView):
                 choice.save()
                 # TODO: choice_form[x]["DELETE"] needs to be altered, it's a checkbox
 
+        elif len(choice_form) > len(choices):
+            """ adding questions """
+            first_new_choice_index = len(choices)
+            for i in range(first_new_choice_index, len(choice_form)):
+                new_choice_text = form.data['choice_set-'+str(i)+'-choice_text']
+                new_choice = Choice(question=question, choice_text=new_choice_text)
+                new_choice.save()
+
         self.object = form.save()
 
         return redirect('../')
