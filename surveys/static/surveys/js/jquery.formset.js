@@ -214,6 +214,9 @@
         return $$;
     };
 
+
+
+
     /* Setup plugin defaults */
     $.fn.formset.defaults = {
         prefix: 'form',                  // The form prefix for your django formset
@@ -229,3 +232,28 @@
         removed: null                    // Function called each time a form is deleted
     };
 })(jQuery);
+
+jQuery(function ($) {
+    $(".sidebar-dropdown > a").click(function() {
+    $(".sidebar-submenu").slideUp(200);
+    if (
+        $(this)
+        .parent()
+        .hasClass("active")
+    ) {
+    $(".sidebar-dropdown").removeClass("active");
+    $(this)
+      .parent()
+      .removeClass("active");
+    } else {
+        $(".sidebar-dropdown").removeClass("active");
+        $(this)
+          .next(".sidebar-submenu")
+          .slideDown(200);
+        $(this)
+          .parent()
+          .addClass("active");
+    }
+    });
+
+    });

@@ -29,7 +29,7 @@
     <body style="background-image: url('{% static 'surveys/seigaiha.png' %}');">
         <!-- Navbar -->
         <nav class="navbar navbar-icon-top navbar-expand-lg navbar-dark sticky-top navbar-custom">
-            <a class="navbar-brand" href="{% url 'home' %}">Surffee</a>
+            <a class="navbar-brand" style="font-size: x-large;" href="{% url 'home' %}">Surffee</a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -91,27 +91,96 @@
                 <div class="col-2" >
                     <div class="container-fluid sidebar-container">
                         <div class="row">
-
-                             <div class="navbar-dark bg-dark text-white position-fixed h-100 align-self-start w-sidebar" style="background-image: url('{% static 'surveys/dark-honeycomb.png' %}');">
-
-                                 <!-- Sidebar title -->
-                                 <div style="border-bottom: 2px solid grey; border-bottom-right-radius: 25px; border-bottom-left-radius: 25px;">
-                                     <h4 class="px-3 pt-3" style="text-align: center;">Surveys</h4>
-                                 </div>
-
-                                 <ul class="nav flex-column flex-nowrap text-truncate">
-                                    <li class="nav-item">
-                                        <a class="nav-link active" style="font-size: large;" href="{% url 'surveys:inactive' %}">Inactive surveys <i class="fa fa-minus-circle" aria-hidden="true"></i></a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link active" style="font-size: large;" href="{% url 'surveys:active' %}">Active surveys <i class="fa fa-check-circle" aria-hidden="true"></i></a>
-                                    </li>
-                                </ul>
+                            <!-- sidebar-menu  -->
+                            <div class="page-wrapper chiller-theme toggled">
+                                <nav id="sidebar" class="sidebar-wrapper" style="margin-top: 65px;">
+                                    <div class="sidebar-content">
+                                        <div class="sidebar-brand">
+                                            <a class="text-center" style="font-size: large;" href="#">Surveys</a>
+                                        </div>
+                                        <!-- sidebar-header  -->
+                                        <div class="sidebar-menu">
+                                            <ul>
+                                                <!-- General Header -->
+                                                <li class="header-menu">
+                                                    <span>General</span>
+                                                </li>
+                                                <!-- Dashboard drop-down -->
+                                                <li class="sidebar-dropdown active">
+                                                    <a href="#">
+                                                        <i class="fa fa-tachometer"></i>
+                                                        <span>Dashboard</span>
+                                                    </a>
+                                                    <div class="sidebar-submenu" style="display:block;">
+                                                        <ul>
+                                                            <li>
+                                                                <a href="#">Dashboard 1</a>
+                                                            </li>
+                                                            <li>
+                                                                <a href="#">Dashboard 2</a>
+                                                            </li>
+                                                            <li>
+                                                                <a href="#">Dashboard 3</a>
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+                                                </li>
+                                                <!-- Charts drop-down -->
+                                                <li class="sidebar-dropdown">
+                                                    <a href="#">
+                                                        <i class="fa fa-line-chart"></i>
+                                                        <span>Charts</span>
+                                                    </a>
+                                                    <div class="sidebar-submenu">
+                                                        <ul>
+                                                            <li>
+                                                                <a href="#">Pie chart</a>
+                                                            </li>
+                                                            <li>
+                                                                <a href="#">Line chart</a>
+                                                            </li>
+                                                            <li>
+                                                                <a href="#">Bar chart</a>
+                                                            </li>
+                                                            <li>
+                                                                <a href="#">Histogram</a>
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+                                                </li>
+                                                <!--Extras header -->
+                                                <li class="header-menu">
+                                                    <span>Extra</span>
+                                                </li>
+                                                <!--Documentation link -->
+                                                <li>
+                                                    <a href="#">
+                                                        <i class="fa fa-book"></i>
+                                                        <span>Documentation</span>
+                                                    </a>
+                                                </li>
+                                                <!-- Calendar link -->
+                                                <li>
+                                                    <a href="#">
+                                                        <i class="fa fa-calendar"></i>
+                                                        <span>Calendar</span>
+                                                    </a>
+                                                </li>
+                                                <!-- Examples -->
+                                                <li>
+                                                    <a href="#">
+                                                        <i class="fa fa-folder"></i>
+                                                        <span>Examples</span>
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
                             </div>
-
                         </div>
                     </div>
                 </div>
+
 
                 <!-- main container -->
                 <div id="main" class="col-sm-10">
@@ -158,6 +227,7 @@
 
             </div>
         </section>
+
 
     </body>
 </html>
