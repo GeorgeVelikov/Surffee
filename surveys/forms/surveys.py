@@ -47,9 +47,10 @@ class ResearcherCreateSurvey(forms.ModelForm):
 
     pi_set = forms.MultipleChoiceField(label=INFORMATION,
                                        required=False,
-                                       widget=forms.CheckboxSelectMultiple(attrs={'class': ''}),
+                                       widget=forms.CheckboxSelectMultiple(),
                                        choices=PERSONAL_INFORMATION_CHOICE,
                                        )
+    pi_set.widget.attrs['style'] = 'display:none'
 
     class Meta:
         model = Survey
