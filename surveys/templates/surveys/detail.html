@@ -90,17 +90,27 @@
 
             {% for choice in question.choice_set.all %}
                 <div class="list-group">
-                     <a class="list-group-item list-group-item-action">
-                         <!-- choices listed -->
-                        {{ choice.choice_text }}
-                         <p class="float-right">(Votes:  <span class="badge badge-primary badge-pill">{{ choice.votes }} </span>)</p>
-                     </a>
-                    <!-- TODO: change CSS and make it harder to delete it by accident (i.e. add js alert prompt)-->
-                    <a href="../{{survey.id}}/delete_choice/{{choice.id}}" class="btn btn-primary btn-danger float-right">
-                    <span class="fa fa-remove">
-                        Delete
-                    </span>
-                </a>
+                    <div class="row">
+                        <div class="col-sm-11">
+                            <a class="list-group-item list-group-item-action">
+                             <!-- choices listed -->
+                                {{ choice.choice_text }}
+                                <p class="float-right">(Votes:
+                                    <span class="badge badge-primary badge-pill">
+                                        {{ choice.votes }}
+                                    </span>)
+                                </p>
+                            </a>
+                        </div>
+                        <div class="col-sm-1">
+                            <!-- TODO: change CSS and make it harder to delete it by accident (i.e. add js alert prompt)-->
+                            <a href="../{{survey.id}}/delete_choice/{{choice.id}}" class="btn btn-primary btn-danger float-right">
+                                <span class="fa fa-remove">
+                                    Delete
+                                </span>
+                            </a>
+                        </div>
+                    </div>
                 </div>
             {% endfor %}
 
