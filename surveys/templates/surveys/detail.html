@@ -24,11 +24,12 @@
     </div>
 
     <!--Alerts -->
-    {% if user.is_superuser %}
+    {% if user.is_superuser and user != survey.creator %}
         <!-- Dismissible alert. Wish it could just go away -->
         <div class="alert alert-info alert-dismissible">
             <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-            <strong>Heads up!</strong> You're logged in under superuser privileges. All surveys are shown.
+            <strong>Heads up!</strong> You are viewing this survey because you have superuser rights.
+                This survey was created by {{survey.creator}}.
         </div>
     {% elif user == survey.creator %}
         <p>You are the creator of this survey</p>

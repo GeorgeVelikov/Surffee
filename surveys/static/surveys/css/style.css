@@ -261,7 +261,7 @@ margin:20px 0px;}
 /*#######################  gap css ####################*/
 /*col gap 5px */
 .col-gap-5.container div[class*="col"] { padding-left: 2.5px !important; padding-right: 2.5px !important; }
-.col-gap-5.container > .row { margin-left: -17.px !important; margin-right: -17.5px !important; }
+.col-gap-5.container > .row { margin-left: -17px !important; margin-right: -17.5px !important; }
 /*col gap 10px */
 .col-gap-10.container div[class*="col"] { padding-left: 5px !important; padding-right: 5px !important; }
 .col-gap-10.container > .row { margin-left: -20px !important; margin-right: -20px !important; }
@@ -469,6 +469,10 @@ body {
   text-transform: uppercase;
   font-weight: bold;
   flex-grow: 1;
+}
+
+.sidebar-dropdown {
+  cursor: pointer;
 }
 
 .sidebar-wrapper .sidebar-brand #close-sidebar {
