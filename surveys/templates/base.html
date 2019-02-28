@@ -99,46 +99,49 @@
                                         <div class="sidebar-menu">
                                             <ul>
                                                 <!-- General Header -->
-                                                <li class="header-menu">
-                                                    <span>General</span>
-                                                </li>
-                                                <!-- Dashboard drop-down -->
-                                                {% if surveys_active %}
-                                                    <li class="sidebar-dropdown">
-                                                        <a href="#">
-                                                            <i class="fa fa-tachometer"></i>
-                                                            <span>Active</span>
-                                                        </a>
-                                                        <div class="sidebar-submenu" style="display:block;">
-                                                            <ul>
-                                                                {% for survey in surveys_active %}
-                                                                    <a href="surveys/{{survey.id}}">
-                                                                        {{survey}}
-                                                                    </a>
-                                                                {% endfor %}
-                                                            </ul>
-                                                        </div>
+                                                {% if user.is_authenticated %}
+                                                    <li class="header-menu">
+                                                        <span>Survey types</span>
                                                     </li>
-                                                {% endif %}
-                                                <!-- Charts drop-down -->
-                                                {% if surveys_inactive %}
-                                                    <li class="sidebar-dropdown">
-                                                        <a href="#">
-                                                            <i class="fa fa-line-chart"></i>
-                                                            <span>Inactive</span>
-                                                        </a>
-                                                        <div class="sidebar-submenu">
-                                                            <ul>
-                                                                {% for survey in surveys_inactive %}
-                                                                    <li>
+
+                                                    <!-- Dashboard drop-down -->
+                                                    {% if surveys_active %}
+                                                        <li class="sidebar-dropdown">
+                                                            <a href="#">
+                                                                <i class="fa fa-tachometer"></i>
+                                                                <span>Active</span>
+                                                            </a>
+                                                            <div class="sidebar-submenu" style="display:block;">
+                                                                <ul>
+                                                                    {% for survey in surveys_active %}
                                                                         <a href="surveys/{{survey.id}}">
                                                                             {{survey}}
                                                                         </a>
-                                                                    </li>
-                                                                {% endfor %}
-                                                            </ul>
-                                                        </div>
-                                                    </li>
+                                                                    {% endfor %}
+                                                                </ul>
+                                                            </div>
+                                                        </li>
+                                                    {% endif %}
+                                                    <!-- Charts drop-down -->
+                                                    {% if surveys_inactive %}
+                                                        <li class="sidebar-dropdown">
+                                                            <a href="#">
+                                                                <i class="fa fa-line-chart"></i>
+                                                                <span>Inactive</span>
+                                                            </a>
+                                                            <div class="sidebar-submenu">
+                                                                <ul>
+                                                                    {% for survey in surveys_inactive %}
+                                                                        <li>
+                                                                            <a href="surveys/{{survey.id}}">
+                                                                                {{survey}}
+                                                                            </a>
+                                                                        </li>
+                                                                    {% endfor %}
+                                                                </ul>
+                                                            </div>
+                                                        </li>
+                                                    {% endif %}
                                                 {% endif %}
                                                 <!--Extras header -->
                                                 <li class="header-menu">
