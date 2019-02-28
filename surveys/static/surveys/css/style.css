@@ -316,6 +316,13 @@ margin:20px 0px;}
     display: none !important;
 }
 
+.personal-data {
+  padding-left: 0;
+}
+
+.survey-description {
+  margin-bottom: 0;
+}
 
 
 /* New Side bar */

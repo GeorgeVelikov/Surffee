@@ -36,30 +36,32 @@
         </a>
     </div>
 
-    <!-- Description in an alert. really dont know how to make this look good -->
-    <div class="alert alert-info" role="alert">
-        <h5>Description: {{survey.description}}</h5>
-    </div>
+
 
     <!-- Personal data grand design -->
     <div class="container-fluid col-gap-40">
         <div class="row">
             {% if choices %}
-                <!-- Template questions used in a list inside a card -->
-                <div class="card bg-light" style="width: 18rem;">
-                    <div class="card-header">
-                        <h5>Personal data used:</h5>
-                    </div>
+                <div class="col-md-2 personal-data">
+                    <div class="card bg-light">
+                        <div class="card-header">
+                            <h5>Personal data used:</h5>
+                        </div>
 
-                    <div class="list-group list-group-flush">
-                        {% for ch in choices %}
-                            <li id="survey-list-i" class="list-group-item list-group-item-info list-group-item-action">
-                                {{ ch }}
-                            </li>
-                        {% endfor %}
+                        <div class="list-group list-group-flush">
+                            {% for ch in choices %}
+                                <li id="survey-list-i" class="list-group-item list-group-item-info list-group-item-action">
+                                    {{ ch }}
+                                </li>
+                            {% endfor %}
+                        </div>
                     </div>
                 </div>
             {% endif %}
+            <!-- Description in an alert. really dont know how to make this look good -->
+            <div class="col-md-10 alert alert-info survey-description" role="alert">
+                <h5><strong>Description:</strong> {{survey.description}}</h5>
+            </div>
         </div>
     </div>
 

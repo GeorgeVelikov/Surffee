@@ -20,7 +20,7 @@
             {% for ch in choice_set %}
                 <label class="btn btn-secondary btn-block text-left">
                     <input type="checkbox" value="{{ch.id}}" name="choices" class="answer_question_choice" id='choice_{{ch.id}}'>
-                    {{ ch }} - {{ ch.votes }}
+                    {{ ch }}
                 </label>
             {% endfor %}
             <button type="submit" class="btn btn-block btn-primary">Answer</button>
