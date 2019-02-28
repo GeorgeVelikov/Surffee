@@ -368,7 +368,7 @@ margin:20px 0px;}
     :hover background-color: #98465;
 }
 
-.answer_question_choice .pi_checkbox {
+.answer_question_choice, .pi_checkbox {
     display: none !important;
 }
 
