@@ -9,34 +9,37 @@
 
 {% block content %}
 
+    {% if user.is_superuser %}
+
     <div class="d-flex justify-content-between flex-wrap flex-sm-nowrap align-items-center pb-2 mb-3 border-bottom">
-        <h2>Inactive Surveys</h2>
+            <h2>You're logged in under superuser privileges. All inactive surveys are shown:</h2>
     </div>
 
-    {% if user.is_superuser %}
-        <div class="alert alert-info alert-dismissible">
-            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-            <strong>Heads up!</strong> You're logged in under superuser privileges. All surveys are shown.
-        </div>
-
-        <p>Here you can see your <strong>inactive</strong> surveys. Feel free to modify these and
-            once you are done make them active so they are able to be answered by the participants:</p>
-
     {% elif user.is_authenticated %}
-
-        <p>Here you can see your <strong>inactive</strong> surveys. Feel free to modify these and
-            once you are done make them active so they are able to be answered by the participants:</p>
+        <div class="d-flex justify-content-between flex-wrap flex-sm-nowrap align-items-center pb-2 mb-3 border-bottom">
+            <h2>Your inactive surveys:</h2>
+        </div>
 
     {% endif %}
 
-    <div class="list-group">
+
+
+
+    {% if surveys %}
+
+        <p>Here you can see your <strong>inactive</strong> surveys. Feel free to modify these and
+            once you are done make them active so they are able to be answered by the participants:</p>
+
         {% for survey in inactive_surveys %}
-                <a id="survey-list-i" class="list-group-item list-group-item-action" href=../{{survey.id}}>
-                    {{survey.name}}
-                </a>
-                
+            <a id="survey-list-i" class="list-group-item list-group-item-action" href=../{{survey.id}}>
+                {{survey.name}}
+            </a><br>
         {% endfor %}
-    </div>
+    {% else %}
+        <div class="alert alert-danger">
+            <strong>Heads up!</strong> No inactive surveys are available.
+        </div>
+    {% endif %}
 
 {% endblock %}
 

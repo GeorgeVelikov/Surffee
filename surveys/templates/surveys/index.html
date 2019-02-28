@@ -10,28 +10,30 @@
     {% if user.is_superuser %}
 
         <div class="d-flex justify-content-between flex-wrap flex-sm-nowrap align-items-center pb-2 mb-3 border-bottom">
-            <h2>Your surveys:</h2>
-        </div>
-
-        <div class="alert alert-info alert-dismissible">
-            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-            <strong>Heads up!</strong> You're logged in under superuser privileges. All surveys are shown.
+            <h2>You're logged in under superuser privileges. All active surveys are shown:</h2>
         </div>
 
     {% elif user.is_authenticated %}
 
         <div class="d-flex justify-content-between flex-wrap flex-sm-nowrap align-items-center pb-2 mb-3 border-bottom">
-            <h2>Your surveys:</h2>
+            <h2>Your active surveys:</h2>
         </div>
 
     {% endif %}
 
     <div class="list-group">
-        {% for survey in surveys %}
+        {% if surveys %}
+            {% for survey in surveys %}
                 <a id="survey-list-i" class="list-group-item list-group-item-action" href={{survey.id}}>
                     {{survey.name}}
                 </a><br>
-        {% endfor %}
+            {% endfor %}
+
+        {% else %}
+            <div class="alert alert-danger">
+                <strong>Heads up!</strong> No active surveys are available.
+            </div>
+        {% endif %}
     </div>
     {% endblock %}
 extra soi hello
