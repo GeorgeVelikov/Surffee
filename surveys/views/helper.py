@@ -1,6 +1,6 @@
 from django.shortcuts import redirect
 from django.core.exceptions import PermissionDenied
-from ..models import SurveyAnswer
+from ..models import SurveyAnswer, Question
 
 
 def get_ip(request):
@@ -16,6 +16,17 @@ def get_ip(request):
         ip = request.META.get('REMOTE_ADDR')
 
     return ip
+
+
+def get_next_question(answer_instance, question):
+    survey_all_questions = Question.objects.filter(survey=question.survey)
+    nextq = None
+    for sq in survey_all_questions:
+        if sq not in answer_instance.question.all():
+            nextq = sq
+            break
+    if nextq:
+        return nextq
 
 
 def permission_user_logged_in(request):

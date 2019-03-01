@@ -5,7 +5,8 @@ from ..models import Survey, Question, Choice, PersonalInformation, SurveyAnswer
 from ..forms.surveys import ResearcherCreateSurvey, ResearcherCreateQuestion, ResearcherUpdateQuestion, ChoiceFormSet
 from ..forms.surveys import AnswerSurveyQuestionsForm, PersonalInformationForm
 
-from .helper import get_ip, permission_user_logged_in, permission_user_owns_survey, permission_user_unique_answer
+from .helper import get_ip, get_next_question
+from .helper import permission_user_logged_in, permission_user_owns_survey, permission_user_unique_answer
 from ast import literal_eval
 
 
@@ -253,7 +254,14 @@ class ResearchAgreement(UpdateView):
         survey_id = self.kwargs.get('survey_id')
         survey = Survey.objects.get(pk=survey_id)
 
-        permission_user_unique_answer(request, survey)
+        if SurveyAnswer.objects.get(ip_address=get_ip(request), survey=survey):
+            survey_questions = Question.objects.filter(survey=survey)
+            survey_answer = SurveyAnswer.objects.get(ip_address=get_ip(request), survey=survey)
+            for next_question in survey_questions:
+                if next_question not in survey_answer.question.all():
+                    return redirect('../question/'+str(next_question.id))
+            permission_user_unique_answer(request, survey)
+
 
         form_class = self.get_form_class()
         form = self.get_form(form_class)
@@ -347,15 +355,10 @@ class AnswerSurveyQuestions(UpdateView):
         )
 
     def post(self, request, *args, **kwargs):
-        self.object = None
-
         question_id = self.kwargs.get('question_id')
         question = Question.objects.get(pk=question_id)
-
         choices = request.POST.getlist('choices')
-
         survey_answer = SurveyAnswer.objects.get(ip_address=get_ip(request), survey=question.survey)
-
         """
             Add the questions we have answered and the selected choices we've had, since our data structure is
             modeled to be a tree with the ability to access any branch of the tree (survey/question/choice) at O(1)
@@ -371,4 +374,9 @@ class AnswerSurveyQuestions(UpdateView):
             choice.save()
         survey_answer.save()
 
-        return redirect('/well_this_is_being_worked_on')
+        next_question = get_next_question(survey_answer, question)
+
+        if not next_question:
+            permission_user_unique_answer(request, question.survey)
+
+        return redirect('../'+str(next_question.id))
