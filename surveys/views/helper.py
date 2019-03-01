@@ -1,4 +1,3 @@
-from django.shortcuts import redirect
 from django.core.exceptions import PermissionDenied
 from ..models import SurveyAnswer, Question
 
@@ -6,8 +5,6 @@ from ..models import SurveyAnswer, Question
 def get_ip(request):
     # grab ip address of person
     forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
-    ip = None
-
     if forwarded_for:
         ip = forwarded_for.split(',')[-1].strip()
     elif request.META.get('HTTP_X_REAL_IP'):
