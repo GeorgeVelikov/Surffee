@@ -356,13 +356,19 @@ class AnswerSurveyQuestions(UpdateView):
 
         survey_answer = SurveyAnswer.objects.get(ip_address=get_ip(request), survey=question.survey)
 
+        """
+            Add the questions we have answered and the selected choices we've had, since our data structure is
+            modeled to be a tree with the ability to access any branch of the tree (survey/question/choice) at O(1)
+            time, given some way of uniquely identifying object instances. We store both choices and questions to
+            protect ourselves from possible future changes to the functionality of the system, namely adding more 
+            features than those we have planned.
+        """
         survey_answer.question.add(question)
-
         for ch in choices:
             choice = Choice.objects.get(pk=ch)
             survey_answer.choice.add(choice)
             choice.votes += 1
             choice.save()
-
         survey_answer.save()
+
         return redirect('/well_this_is_being_worked_on')
