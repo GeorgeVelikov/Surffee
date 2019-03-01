@@ -254,14 +254,13 @@ class ResearchAgreement(UpdateView):
         survey_id = self.kwargs.get('survey_id')
         survey = Survey.objects.get(pk=survey_id)
 
-        if SurveyAnswer.objects.get(ip_address=get_ip(request), survey=survey):
+        if SurveyAnswer.objects.filter(ip_address=get_ip(request), survey=survey).exists():
             survey_questions = Question.objects.filter(survey=survey)
             survey_answer = SurveyAnswer.objects.get(ip_address=get_ip(request), survey=survey)
             for next_question in survey_questions:
                 if next_question not in survey_answer.question.all():
                     return redirect('../question/'+str(next_question.id))
             permission_user_unique_answer(request, survey)
-
 
         form_class = self.get_form_class()
         form = self.get_form(form_class)
