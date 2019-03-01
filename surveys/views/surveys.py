@@ -324,17 +324,18 @@ class AnswerSurveyQuestions(UpdateView):
     form_class = AnswerSurveyQuestionsForm
 
     def get(self, request, *args, **kwargs):
-
         # TODO: mark answered and unanswered questions, get to unanswered one, if all answered, permission handle
         self.object = None
         # grab the objects we might need
         survey_id = self.kwargs.get('survey_id')
         survey = Survey.objects.get(pk=survey_id)
 
-        survey_answer = SurveyAnswer.objects.filter(ip_address=get_ip(request), survey=survey)
-
+        survey_answer = SurveyAnswer.objects.get(ip_address=get_ip(request), survey=survey)
         question_id = self.kwargs.get('question_id')
         question = Question.objects.get(pk=question_id)
+
+        print(survey_answer.question.all())
+        print(survey_answer.choice.all())
 
         choice_set = Choice.objects.filter(question=question)
         return self.render_to_response(
@@ -347,11 +348,21 @@ class AnswerSurveyQuestions(UpdateView):
 
     def post(self, request, *args, **kwargs):
         self.object = None
-        form_class = self.get_form_class()
-        form = self.get_form(form_class)
+
+        question_id = self.kwargs.get('question_id')
+        question = Question.objects.get(pk=question_id)
+
         choices = request.POST.getlist('choices')
+
+        survey_answer = SurveyAnswer.objects.get(ip_address=get_ip(request), survey=question.survey)
+
+        survey_answer.question.add(question)
+
         for ch in choices:
             choice = Choice.objects.get(pk=ch)
+            survey_answer.choice.add(choice)
             choice.votes += 1
             choice.save()
+
+        survey_answer.save()
         return redirect('/well_this_is_being_worked_on')
