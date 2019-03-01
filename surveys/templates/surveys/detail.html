@@ -76,7 +76,7 @@
     <!-- Question cards loopy-->
     {% for question in survey.question_set.all %} <!-- yeah this is how you go up the foreign key -->
         <div class="card bg-light mb-3" >
-            <div class="card-header bg-dark text-light">Question {{ question.id }} -
+            <div class="card-header bg-dark text-light">
                 <a href="../{{survey.id}}/edit_question/{{question.id}}" style="font-size: large;">
                     {{ question.question_text }}
                 </a>
