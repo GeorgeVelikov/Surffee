@@ -3,7 +3,6 @@ from django.views.generic import CreateView
 from django.urls import reverse_lazy
 from django.core.exceptions import PermissionDenied
 from ast import literal_eval
-from chartit import DataPool, Chart
 
 from ..models import *
 from ..forms.users import ResearcherCreationForm
@@ -32,48 +31,48 @@ class Results(CreateView):
     model = Survey
     form_class = ResearcherCreationForm
 
-    def create_chart_data(self, survey):
+    def chart_for_each_question(self, survey):
+        """ This method return a list of pairs (question_id, json_data)
+            Can be easily modified later to also modify
+            the size or type of chart                               """
+        chart_context = []
 
-        all_choices = Choice.objects.none()
-
+        question_count = 1
         for question in survey.question_set.all():
-            all_choices |= question.choice_set.all()
+            question_number = "Question " + str(question_count)
+            question_text = question.question_text
+            question_count += 1
 
-        data = DataPool(
-                series=[{
-                    'options': {
-                        'source': survey.question_set.all(),
-                        # 'legend_by': 'choice_text'
-                    },
-                    'terms': [
-                        'choice',
-                        'votes',
-                        'question_text'
-                    ]
-                }]
-            )
+            json_data = {
+                "chart": None,
+                "data": [],
+            }
 
-        return Chart(
-            datasource=data,
-            series_options=[{
-                    'options': {
-                        'type': 'column',
-                        'stacking': True,
-                        'stack': 0,
-                        'xAxis': 0,
-                        'yAxis': 0
-                    },
-                    'terms': {
-                        'question_text': ['votes']}
-            }])
+            # meta data for the chart
+            chart_config = {
+                "caption": question_number,
+                "subcaption": question_text,
+                "numbersuffix": " votes",
+                "theme": "candy",
+            }
+
+            for choice in question.choice_set.all():
+                json_data["data"].append({
+                    "label": choice.choice_text,
+                    "value": choice.votes,
+                })
+
+            json_data["chart"] = chart_config
+            chart_context.append((question_number, json_data))
+        return chart_context
 
     def get(self, request, *args, **kwargs):
         self.object = None
         survey_id = self.kwargs.get('survey_id')
         survey = Survey.objects.get(pk=survey_id)
-        cht = self.create_chart_data(survey)
 
-        return self.render_to_response({'chart': cht})
+        context = {"charts": self.chart_for_each_question(survey)}
+        return render(request, self.template_name, context)
 
 
 def detail(request, survey_id):
@@ -155,4 +154,68 @@ class SignUp(CreateView):
                     }
                 }]
             )
+
+
+    def fc(self, survey):
+
+        # Todo: question_text might be too long, consider just using "Question1, Question2,...".
+        #       Maybe cut the string if it's to long, display the cut string with elipsis
+        #       and show full text on hover
+
+        max_choices = 0
+        question_text = []
+        for question in survey.question_set.all():
+            question_text.append({"label": question.question_text})
+            choice_no = question.choice_set.all().count()
+            if choice_no > max_choices:
+                max_choices = choice_no
+
+        dataset = []
+        for question in survey.question_set.all():
+            votes = []
+            counter = max_choices
+            for choice in question.choice_set.all():
+                votes.append({"value": str(choice.votes)})
+                counter -= 1
+            if counter > 0:
+                votes.extend([{"value": "0"}]*counter)
+
+            
+            dataset.append({"seriesname": question.question_text,
+                            "data": votes})
+
+        # Todo: theme fusion displays number of votes in each element of stuck, check if possible with other themes
+        print("\n\n", str(dataset), "\n\n")
+
+        return FusionCharts(            # OPTIONS
+                 'stackedcolumn2d',     # specify type of chart
+                 'test',                # chart's id
+                 '100%',                # width
+                 '200%',                # height
+                 'results-chart',       # target dir
+                 'json',                # data format
+                                        # chart data
+                 """{                    
+          "chart": {
+            "caption": "%(survey_name)s",
+            "subcaption": "Subcaption, let's leave it here for now",
+            "numbersuffix": " votes",
+            "plottooltext": "<b>$dataValue</b> responded with $seriesName",
+            "theme": "candy",
+            "drawcrossline": "1"
+          },
+          "categories": [
+            {
+              "category": %(labels)s
+            }
+          ],
+          "dataset": %(ds)s
+        }"""
+                 % {
+                    'survey_name': survey.name,
+                    'labels': question_text,
+                    'ds': dataset
+                    }
+        )
+
 '''

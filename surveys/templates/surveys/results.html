@@ -5,5 +5,17 @@
 
 
 {% block content %}
-    <div id="results-chart"></div>
+    Didn't put any nice CSS in here yet
+    {% for name, json_data in charts %}
+        {% autoescape off %}
+        <script>
+            create_chart('{{ name }}', {{ json_data }});
+        </script>
+        {% endautoescape %}
+
+        <div id="body">
+            <span style="font-size:xx-large">{{ name }}</span>
+            <div id="{{ name }}" style="L"></div>
+        </div>
+    {% endfor %}
 {% endblock %}
