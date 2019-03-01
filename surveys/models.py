@@ -93,3 +93,4 @@ class SurveyAnswer(models.Model):
     question = models.ManyToManyField(Question, default=0)
     choice = models.ManyToManyField(Choice, default=0)
     ip_address = models.GenericIPAddressField()
+
