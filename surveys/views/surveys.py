@@ -15,6 +15,10 @@ class SurveyCreate(UpdateView):
 
     # can just increment id of the last survey
     def get(self, request, *args, **kwargs):
+        # TODO: add redirect message
+        if not request.user.is_authenticated:
+            return redirect('/')
+
         self.object = None
         form_class = self.get_form_class()
         form = self.get_form(form_class)
@@ -48,8 +52,13 @@ class SurveyActiveToggle(UpdateView):
     model = Survey
 
     def get(self, request, *args, **kwargs):
+
         survey_id = self.kwargs.get('survey_id')
         survey = Survey.objects.get(pk=survey_id)
+
+        # TODO: add redirect message
+        if not (request.user.is_authenticated and request.user.username == survey.creator):
+            return redirect('/')
 
         if survey.active:
             survey.active = False
@@ -66,6 +75,11 @@ class SurveyDelete(UpdateView):
     def get(self, request, *args, **kwargs):
         survey_id = self.kwargs.get('survey_id')
         survey = Survey.objects.get(pk=survey_id)
+
+        # TODO: add redirect message
+        if not (request.user.is_authenticated and request.user.username == survey.creator):
+            return redirect('/')
+
         survey.delete()
         return redirect('/surveys/')
 
@@ -79,6 +93,11 @@ class QuestionCreate(CreateView):
         self.object = None
         survey_id = self.kwargs.get('survey_id')
         survey = Survey.objects.get(pk=survey_id)
+
+        # TODO: add redirect message
+        if not (request.user.is_authenticated and request.user.username == survey.creator):
+            return redirect('/')
+
         form_class = self.get_form_class()
         form = self.get_form(form_class)
 
@@ -125,6 +144,10 @@ class QuestionEdit(UpdateView):
 
         survey = Survey.objects.get(pk=survey_id)
         question = Question.objects.get(pk=question_id)
+
+        # TODO: add redirect message
+        if not (request.user.is_authenticated and request.user.username == survey.creator):
+            return redirect('/')
 
         """
             - filter grabs only the choices belonging to this question
@@ -203,6 +226,11 @@ class QuestionDelete(UpdateView):
     def get(self, request, *args, **kwargs):
         question_id = self.kwargs.get('question_id')
         question = Question.objects.get(pk=question_id)
+
+        # TODO: add redirect message
+        if not (request.user.is_authenticated and request.user.username == question.survey.creator):
+            return redirect('/')
+
         question.delete()
         return redirect('../')
 
@@ -214,6 +242,11 @@ class ChoiceDelete(UpdateView):
     def get(self, request, *args, **kwargs):
         choice_id = self.kwargs.get('choice_id')
         choice = Choice.objects.get(pk=choice_id)
+
+        # TODO: add redirect message
+        if not (request.user.is_authenticated and request.user.username == choice.question.survey.creator):
+            return redirect('/')
+
         choice.delete()
         return redirect('../')
 
@@ -225,12 +258,16 @@ class ResearchAgreement(UpdateView):
 
     def get(self, request, *args, **kwargs):
         self.object = None
-        form_class = self.get_form_class()
-        form = self.get_form(form_class)
 
         survey_id = self.kwargs.get('survey_id')
         survey = Survey.objects.get(pk=survey_id)
 
+        # TODO: add redirect message
+        if SurveyAnswer.objects.filter(ip_address=get_ip(request), survey=survey).exists():
+            return redirect('/')
+
+        form_class = self.get_form_class()
+        form = self.get_form(form_class)
         self.clean_form(form, survey)
 
         return self.render_to_response(
@@ -263,16 +300,11 @@ class ResearchAgreement(UpdateView):
 
         question = Question.objects.filter(survey=survey)
 
-        # you've already answered some of it my boi, make a redirect to answer the unanswered questions
-        if SurveyAnswer.objects.filter(ip_address=ip, survey=survey).exists():
-            return redirect('/')
-
         # create an answer instance
-        else:
-            SurveyAnswer.objects.create(pi_questions=self.object,
-                                        survey=survey,
-                                        ip_address=ip,
-                                        )
+        SurveyAnswer.objects.create(pi_questions=self.object,
+                                    survey=survey,
+                                    ip_address=ip,
+                                    )
 
         return redirect('/surveys/answer/'+str(survey_id)+'/question/'+str(question.first().id))
 
