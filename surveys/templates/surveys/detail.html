@@ -21,13 +21,16 @@
             <a href="../toggle_active/{{survey.id}}" class="col-sm-2 btn btn-primary btn-success float-right">
                 <span class="fa fa-exchange">
                     Active
+                </span>
+            </a>
         {% else %}
             <a href="../toggle_active/{{survey.id}}" class="col-sm-2 btn btn-primary btn-secondary float-right">
                 <span class="fa fa-exchange">
                     Inactive
-        {% endif %}
-                </span>
+                 </span>
             </a>
+        {% endif %}
+
 
         <a href="../delete_survey/{{survey.id}}" class="col-sm-2 btn btn-primary btn-danger float-right">
             <span class="fa fa-remove">
@@ -124,9 +127,11 @@
                 Add question to the survey
             </a>
 
-            <a class="offset-sm-6 col-sm-3 btn btn-info text-light float-right" href="../answer/{{survey.id}}/agreement">
-                Link for respondents
-            </a>
+            {% if survey.active %}
+                <a class="offset-sm-6 col-sm-3 btn btn-info text-light float-right" href="../answer/{{survey.id}}/agreement">
+                    Link for respondents
+                </a>
+            {% endif %}
         </div>
     </div>
 

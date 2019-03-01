@@ -3,6 +3,8 @@ from django.views.generic import CreateView, UpdateView
 from ..models import Survey, Question, Choice, PersonalInformation, SurveyAnswer
 from ..forms.surveys import ResearcherCreateSurvey, ResearcherCreateQuestion, ResearcherUpdateQuestion, ChoiceFormSet
 from ..forms.surveys import AnswerSurveyQuestionsForm, PersonalInformationForm
+
+from .helper import get_ip
 from ast import literal_eval
 
 
@@ -247,22 +249,34 @@ class ResearchAgreement(UpdateView):
 
         self.clean_form(form, survey)
 
-        if form.is_valid():
-            return self.form_valid(form)
-        else:
-            return self.form_invalid(form)
+        ip = get_ip(request)
 
-    def form_valid(self, form):
+        if form.is_valid():
+            return self.form_valid(form, ip)
+        else:
+            return self.form_invalid(form, ip)
+
+    def form_valid(self, form, ip):
         self.object = form.save(commit=True)
         survey_id = self.kwargs.get('survey_id')
         survey = Survey.objects.get(pk=survey_id)
 
         question = Question.objects.filter(survey=survey)
-        # create an answer that connects the pi questions answers with the survey answers
-        answer_instance = SurveyAnswer.objects.create(survey=survey, pi_questions=self.object)
-        return redirect('/surveys/answer/'+str(answer_instance.id)+'/question/'+str(question.first().id))
 
-    def form_invalid(self, form):
+        # you've already answered some of it my boi, make a redirect to answer the unanswered questions
+        if SurveyAnswer.objects.filter(ip_address=ip, survey=survey).exists():
+            return redirect('/')
+
+        # create an answer instance
+        else:
+            SurveyAnswer.objects.create(pi_questions=self.object,
+                                        survey=survey,
+                                        ip_address=ip,
+                                        )
+
+        return redirect('/surveys/answer/'+str(survey_id)+'/question/'+str(question.first().id))
+
+    def form_invalid(self, form, ip):
         return self.render_to_response(self.get_context_data(form=form))
 
     def clean_form(self, form, survey):
@@ -291,15 +305,18 @@ class AnswerSurveyQuestions(UpdateView):
     def get(self, request, *args, **kwargs):
         self.object = None
         # grab the objects we might need
-        answer_survey_id = self.kwargs.get('survey_answer_id')
-        survey_answer = SurveyAnswer.objects.get(pk=answer_survey_id)
+        survey_id = self.kwargs.get('survey_id')
+        survey = Survey.objects.get(pk=survey_id)
+
+        survey_answer = SurveyAnswer.objects.get(ip_address=get_ip(request), survey=survey)
 
         question_id = self.kwargs.get('question_id')
         question = Question.objects.get(pk=question_id)
 
         choice_set = Choice.objects.filter(question=question)
         return self.render_to_response(
-            self.get_context_data(question=question,
+            self.get_context_data(survey=survey,
+                                  question=question,
                                   survey_answer=survey_answer,
                                   choice_set=choice_set,
                                   )
@@ -315,3 +332,5 @@ class AnswerSurveyQuestions(UpdateView):
             choice.votes += 1
             choice.save()
         return redirect('/well_this_is_being_worked_on')
+
+
