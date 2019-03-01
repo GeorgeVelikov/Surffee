@@ -1,10 +1,11 @@
 from django.shortcuts import redirect
 from django.views.generic import CreateView, UpdateView
+
 from ..models import Survey, Question, Choice, PersonalInformation, SurveyAnswer
 from ..forms.surveys import ResearcherCreateSurvey, ResearcherCreateQuestion, ResearcherUpdateQuestion, ChoiceFormSet
 from ..forms.surveys import AnswerSurveyQuestionsForm, PersonalInformationForm
 
-from .helper import get_ip
+from .helper import get_ip, permission_user_logged_in, permission_user_owns_survey, permission_user_unique_answer
 from ast import literal_eval
 
 
@@ -15,9 +16,7 @@ class SurveyCreate(UpdateView):
 
     # can just increment id of the last survey
     def get(self, request, *args, **kwargs):
-        # TODO: add redirect message
-        if not request.user.is_authenticated:
-            return redirect('/')
+        permission_user_logged_in(request)
 
         self.object = None
         form_class = self.get_form_class()
@@ -52,13 +51,11 @@ class SurveyActiveToggle(UpdateView):
     model = Survey
 
     def get(self, request, *args, **kwargs):
-
         survey_id = self.kwargs.get('survey_id')
         survey = Survey.objects.get(pk=survey_id)
 
-        # TODO: add redirect message
-        if not (request.user.is_authenticated and request.user.username == survey.creator):
-            return redirect('/')
+        permission_user_logged_in(request)
+        permission_user_owns_survey(request, survey)
 
         if survey.active:
             survey.active = False
@@ -76,9 +73,8 @@ class SurveyDelete(UpdateView):
         survey_id = self.kwargs.get('survey_id')
         survey = Survey.objects.get(pk=survey_id)
 
-        # TODO: add redirect message
-        if not (request.user.is_authenticated and request.user.username == survey.creator):
-            return redirect('/')
+        permission_user_logged_in(request)
+        permission_user_owns_survey(request, survey)
 
         survey.delete()
         return redirect('/surveys/')
@@ -94,9 +90,8 @@ class QuestionCreate(CreateView):
         survey_id = self.kwargs.get('survey_id')
         survey = Survey.objects.get(pk=survey_id)
 
-        # TODO: add redirect message
-        if not (request.user.is_authenticated and request.user.username == survey.creator):
-            return redirect('/')
+        permission_user_logged_in(request)
+        permission_user_owns_survey(request, survey)
 
         form_class = self.get_form_class()
         form = self.get_form(form_class)
@@ -145,9 +140,8 @@ class QuestionEdit(UpdateView):
         survey = Survey.objects.get(pk=survey_id)
         question = Question.objects.get(pk=question_id)
 
-        # TODO: add redirect message
-        if not (request.user.is_authenticated and request.user.username == survey.creator):
-            return redirect('/')
+        permission_user_logged_in(request)
+        permission_user_owns_survey(request, survey)
 
         """
             - filter grabs only the choices belonging to this question
@@ -227,9 +221,8 @@ class QuestionDelete(UpdateView):
         question_id = self.kwargs.get('question_id')
         question = Question.objects.get(pk=question_id)
 
-        # TODO: add redirect message
-        if not (request.user.is_authenticated and request.user.username == question.survey.creator):
-            return redirect('/')
+        permission_user_logged_in(request)
+        permission_user_owns_survey(request, question.survey)
 
         question.delete()
         return redirect('../')
@@ -243,9 +236,8 @@ class ChoiceDelete(UpdateView):
         choice_id = self.kwargs.get('choice_id')
         choice = Choice.objects.get(pk=choice_id)
 
-        # TODO: add redirect message
-        if not (request.user.is_authenticated and request.user.username == choice.question.survey.creator):
-            return redirect('/')
+        permission_user_logged_in(request)
+        permission_user_owns_survey(request, choice.question.survey)
 
         choice.delete()
         return redirect('../')
@@ -258,13 +250,10 @@ class ResearchAgreement(UpdateView):
 
     def get(self, request, *args, **kwargs):
         self.object = None
-
         survey_id = self.kwargs.get('survey_id')
         survey = Survey.objects.get(pk=survey_id)
 
-        # TODO: add redirect message
-        if SurveyAnswer.objects.filter(ip_address=get_ip(request), survey=survey).exists():
-            return redirect('/')
+        permission_user_unique_answer(request, survey)
 
         form_class = self.get_form_class()
         form = self.get_form(form_class)
