@@ -30,5 +30,7 @@ def permission_user_owns_survey(request, survey):
 
 
 def permission_user_unique_answer(request, survey):
+    # TODO: need to fix this, it's bad
     if SurveyAnswer.objects.filter(ip_address=get_ip(request), survey=survey).exists():
-        return PermissionDenied("You have already answered the survey")
+        if SurveyAnswer.objects.filter(ip_address=get_ip(request)).filter(survey=survey).exists():
+            return PermissionDenied("You have already answered the survey")

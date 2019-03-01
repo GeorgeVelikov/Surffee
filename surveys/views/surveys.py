@@ -255,6 +255,8 @@ class ResearchAgreement(UpdateView):
 
         permission_user_unique_answer(request, survey)
 
+        print(SurveyAnswer.objects.filter(survey=survey).filter(ip_address=get_ip(request)))
+
         form_class = self.get_form_class()
         form = self.get_form(form_class)
         self.clean_form(form, survey)
@@ -329,7 +331,7 @@ class AnswerSurveyQuestions(UpdateView):
         survey_id = self.kwargs.get('survey_id')
         survey = Survey.objects.get(pk=survey_id)
 
-        survey_answer = SurveyAnswer.objects.get(ip_address=get_ip(request), survey=survey)
+        survey_answer = SurveyAnswer.objects.filter(ip_address=get_ip(request), survey=survey)
 
         question_id = self.kwargs.get('question_id')
         question = Question.objects.get(pk=question_id)
