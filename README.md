@@ -13,6 +13,8 @@ Anton Trnovsky, Yiannis Keravnos, Martin Woznicki and Georgi Velikov
 # Source added libraries, found in /static:
 - feather.js (buttons!)
 - jquery.formset.js (helper functions for multi model forms/views)
+- fusioncharts library (graphs, charts, maps)
+    + fusioncharts maps extension
 
 # How to run:
 - make sure all requirements are met (installed)
