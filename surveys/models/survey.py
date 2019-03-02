@@ -10,7 +10,7 @@ class Survey(models.Model):
     creator = models.ForeignKey(Researcher, on_delete=models.CASCADE, default=0)
     name = models.CharField(max_length=2**8)
     creation_date = models.DateTimeField(default=timezone.now, editable=False)
-    description = models.CharField(max_length=2**16)
+    description = models.CharField(max_length=2**10)
     active = models.BooleanField(default=False)
     pi_choices = models.TextField(blank=True, null=True)
 
@@ -31,7 +31,7 @@ class PersonalInformation(models.Model):
 
     # minors cannot give consent
     age = models.IntegerField(default=18, validators=[MaxValueValidator(100), MinValueValidator(18)])
-    sex = models.CharField(max_length=30, choices=SEX_CHOICE, default='(select sex)')
+    sex = models.CharField(max_length=2*6, choices=SEX_CHOICE, default='(select sex)')
     country_of_birth = CountryField(blank_label='(select country)')
     country_of_residence = CountryField(blank_label='(select country)')
     sexual_orientation = models.CharField(max_length=2**8)
@@ -48,7 +48,7 @@ class Question(models.Model):
     )
     # TODO: specify on_delete // if u delete the question, keep survey but not the choices
     survey = models.ForeignKey(Survey, on_delete=models.CASCADE)
-    question_text = models.CharField(max_length=300)
+    question_text = models.CharField(max_length=2**8)
     # pub_date = models.DateTimeField('date published')
     type = models.CharField(choices=QUESTION_TYPES, max_length=1, default=0)
 
