@@ -4,10 +4,7 @@ from django.contrib.auth.models import AbstractUser
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django_countries.fields import CountryField
 
-
-"""          ""
-* USER MODELS *
-""          """
+# Custom user
 
 
 class Researcher(AbstractUser):
@@ -15,9 +12,23 @@ class Researcher(AbstractUser):
         return self.username
 
 
-"""            ""
-* SURVEY MODELS *
-""            """
+# Survey infrastructure
+
+
+class Survey(models.Model):
+    creator = models.ForeignKey(Researcher, on_delete=models.CASCADE, default=0)
+    name = models.CharField(max_length=2**8)
+    creation_date = models.DateTimeField(default=timezone.now, editable=False)
+    description = models.CharField(max_length=2**16)
+    active = models.BooleanField(default=False)
+    pi_choices = models.TextField(blank=True, null=True)
+
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        verbose_name = "Survey"
+        verbose_name_plural = "Surveys"
 
 
 class PersonalInformation(models.Model):
@@ -35,22 +46,6 @@ class PersonalInformation(models.Model):
     sexual_orientation = models.CharField(max_length=2**8)
     native_tongue = models.CharField(max_length=2**8)
     # TODO: add more presets for researchers to choose
-
-
-class Survey(models.Model):
-    creator = models.ForeignKey(Researcher, on_delete=models.CASCADE, default=0)
-    name = models.CharField(max_length=2**8)
-    creation_date = models.DateTimeField(default=timezone.now, editable=False)
-    description = models.CharField(max_length=2**16)
-    active = models.BooleanField(default=False)
-    pi_choices = models.TextField(blank=True, null=True)
-
-    def __str__(self):
-        return self.name
-
-    class Meta:
-        verbose_name = "Survey"
-        verbose_name_plural = "Surveys"
 
 
 class Question(models.Model):
@@ -85,12 +80,9 @@ class Choice(models.Model):
         verbose_name_plural = "Choices"
 
 
-# concept is storing the fields in personal information where the key is field name and value is answer to PI question
-# question choices works the same way, key for question, value for choice(s)
 class SurveyAnswer(models.Model):
     pi_questions = models.ForeignKey(PersonalInformation, on_delete=models.CASCADE, default=0)
     survey = models.ForeignKey(Survey, on_delete=models.CASCADE, default=0)
     question = models.ManyToManyField(Question, default=0)
     choice = models.ManyToManyField(Choice, default=0)
     ip_address = models.GenericIPAddressField()
-

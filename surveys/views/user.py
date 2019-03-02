@@ -1,10 +1,6 @@
-from django.shortcuts import render
 from django.views.generic import CreateView
 from django.urls import reverse_lazy
-from django.core.exceptions import PermissionDenied
-from ast import literal_eval
 
-from ..models import *
 from ..forms.users import ResearcherCreationForm
 
 
