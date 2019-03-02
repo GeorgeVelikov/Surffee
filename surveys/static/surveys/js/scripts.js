@@ -106,3 +106,17 @@ $(document).ready(function () {
 
 });
 
+// create_chart returns render of the chart
+// used in the results.html
+function create_chart(name, json_data) {
+    FusionCharts.ready(function(){
+        var chart = new FusionCharts({
+            type: 'Column3D',
+            width: '400',
+            height: '200',
+            dataFormat: 'json',
+            renderAt: name,
+            dataSource: json_data
+        }).render();
+    });
+}
