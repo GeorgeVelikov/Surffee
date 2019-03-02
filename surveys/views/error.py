@@ -2,6 +2,7 @@ from django.shortcuts import render
 from django.core.exceptions import PermissionDenied
 
 from ..models.answer import SurveyAnswer
+from .helper import get_ip
 
 
 def handler403(request, exception):
