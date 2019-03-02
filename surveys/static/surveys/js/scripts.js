@@ -100,7 +100,7 @@ $(document).ready(function () {
     });
 
     $(".select_me").select(function() {
-        alert($(".select_me").selection());
+       alert($(this).selection());
     });
 
     // just a helper function to test stuff
