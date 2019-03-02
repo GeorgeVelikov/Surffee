@@ -1,18 +1,9 @@
 from django.db import models
 from django.utils import timezone
-from django.contrib.auth.models import AbstractUser
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django_countries.fields import CountryField
 
-# Custom user
-
-
-class Researcher(AbstractUser):
-    def __str__(self):
-        return self.username
-
-
-# Survey infrastructure
+from .user import Researcher
 
 
 class Survey(models.Model):
@@ -78,11 +69,3 @@ class Choice(models.Model):
     class Meta:
         verbose_name = "Choice"
         verbose_name_plural = "Choices"
-
-
-class SurveyAnswer(models.Model):
-    pi_questions = models.ForeignKey(PersonalInformation, on_delete=models.CASCADE, default=0)
-    survey = models.ForeignKey(Survey, on_delete=models.CASCADE, default=0)
-    question = models.ManyToManyField(Question, default=0)
-    choice = models.ManyToManyField(Choice, default=0)
-    ip_address = models.GenericIPAddressField()

@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.core.exceptions import PermissionDenied
 
-from ..models import Survey
+from ..models.survey import Survey
 
 
 def base(request):

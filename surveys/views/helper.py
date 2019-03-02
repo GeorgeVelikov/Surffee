@@ -1,4 +1,4 @@
-from ..models import Question
+from ..models.survey import Question
 
 
 def get_ip(request):

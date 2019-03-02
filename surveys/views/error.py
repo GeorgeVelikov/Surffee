@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.core.exceptions import PermissionDenied
 
-from ..models import SurveyAnswer
+from ..models.answer import SurveyAnswer
 
 
 def handler403(request, exception):

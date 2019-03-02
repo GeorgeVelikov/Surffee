@@ -1,7 +1,9 @@
 from django.shortcuts import redirect
 from django.views.generic import UpdateView
 
-from ..models import Survey, Question, Choice, PersonalInformation, SurveyAnswer
+from ..models.survey import Survey, Question, Choice, PersonalInformation
+from ..models.answer import SurveyAnswer
+
 from ..forms.surveys import AnswerSurveyQuestionsForm, PersonalInformationForm
 
 from .helper import get_ip, get_next_question

@@ -1,7 +1,7 @@
 from django.shortcuts import redirect, render
 from django.views.generic import CreateView, UpdateView
 
-from ..models import Survey
+from ..models.survey import Survey
 from ..forms.surveys import ResearcherCreateSurvey
 from ..forms.users import ResearcherCreationForm
 

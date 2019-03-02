@@ -1,7 +1,7 @@
 from django import forms
 from django.forms.models import inlineformset_factory
 
-from ..models import Survey, Question, Choice, PersonalInformation, SurveyAnswer
+from ..models.survey import Survey, Question, Choice, PersonalInformation
 
 
 class ResearcherCreateChoice(forms.ModelForm):
