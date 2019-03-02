@@ -1,6 +1,6 @@
 from django.urls import path
 
-from .views import survey, question, choice, answer, site
+from .views import survey, question, choice, answer, site, annotation
 
 app_name = 'surveys'
 
@@ -36,6 +36,10 @@ urlpatterns = [
     path('<int:survey_id>/',
          survey.detail,
          name="detail"),
+
+    path('<int:survey_id>/annotate',
+         annotation.Create.as_view(),
+         name="annotate"),
 
     path('<int:survey_id>/add_question/',
          question.Create.as_view(),

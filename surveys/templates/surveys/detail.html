@@ -122,13 +122,18 @@
 
     <div class="container-fluid">
         <div class="row">
-            <a class="col-sm-3 btn btn-success text-light" onclick="window.location.href='add_question/'">
+            <a class="col-sm-3 btn btn-success text-light" href="./add_question">
                 <i class="fa fa-check-square-o"></i>
                 Add question to the survey
             </a>
 
+            <a class="offset-sm-1 col-sm-3 btn btn-success text-light" href="./annotate">
+                <i class="fa fa-list"></i>
+                Annotate survey
+            </a>
+
             {% if survey.active %}
-                <a class="offset-sm-6 col-sm-3 btn btn-info text-light float-right" href="../answer/{{survey.id}}/agreement">
+                <a class="offset-sm-2 col-sm-3 btn btn-info text-light float-right" href="../answer/{{survey.id}}/agreement">
                     Link for respondents
                 </a>
             {% endif %}

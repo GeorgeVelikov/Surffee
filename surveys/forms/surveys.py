@@ -2,6 +2,7 @@ from django import forms
 from django.forms.models import inlineformset_factory
 
 from ..models.survey import Survey, Question, Choice, PersonalInformation
+from ..models.annotation import Word
 
 
 class ResearcherCreateChoice(forms.ModelForm):
@@ -69,7 +70,13 @@ class PersonalInformationForm(forms.ModelForm):
 class AnswerSurveyQuestionsForm(forms.ModelForm):
     class Meta:
         model = Choice
-        exclude = ['']  # TODO: might want to exclude more stuff
+        exclude = ['']
+
+
+class AnnotationWordForm(forms.ModelForm):
+    class Meta:
+        model = Word
+        exclude = ['']
 
 
 ChoiceFormSet = inlineformset_factory(Question,
