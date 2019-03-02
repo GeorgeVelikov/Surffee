@@ -112,6 +112,7 @@ class Results(CreateView):
                 "theme": "candy",
             }
 
+            # choices data for the chart
             for choice in question.choice_set.all():
                 json_data["data"].append({
                     "label": choice.choice_text,
@@ -127,7 +128,10 @@ class Results(CreateView):
         survey_id = self.kwargs.get('survey_id')
         survey = Survey.objects.get(pk=survey_id)
 
-        context = {"charts": self.chart_for_each_question(survey)}
+        context = {
+            "charts": self.chart_for_each_question(survey),
+            "survey": survey
+        }
         return render(request, self.template_name, context)
 
 
