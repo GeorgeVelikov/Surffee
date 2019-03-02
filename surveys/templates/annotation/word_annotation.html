@@ -5,10 +5,6 @@
 <!-- include crispy -->
 {% load crispy_forms_tags %}
 
-<!--<head>-->
-    <!--<link href="{% static 'surveys/css/prettyfy.css' %}" rel="stylesheet" type="text/css" />-->
-<!--</head>-->
-
 {% block title %}Annotate{% endblock %}
 
 
@@ -24,9 +20,15 @@
         {{ form.id }}
 
         {% for choice_object, choice_text in choices.items %}
-            {% for word in choice_text %}
-                {{ word }} <br>
-            {% endfor %}
+            <div class="row">
+                {% for word in choice_text %}
+                    <label class="col-sm-1 btn btn-secondary text-left">
+                        <input type="checkbox" value="{{word}}" name="choices" id='{{choice_object.id}}'>
+                        {{ word }}
+                    </label>
+                {% endfor %}
+            </div>
+
         {% endfor %}
         <button type="submit" class="btn btn-block btn-primary">Save annotation</button>
     </form>
