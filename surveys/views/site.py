@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.core.exceptions import PermissionDenied
 
-from ..models import *
+from ..models import Survey
 
 
 def base(request):
@@ -44,7 +44,7 @@ def index(request):
     return render(request, template, context)
 
 
-def active(request):
+def active_surveys(request):
     active_surveys = None
     template = 'surveys/active.html'
     if not request.user.is_authenticated:  # user is not logged in
@@ -57,7 +57,7 @@ def active(request):
     return render(request, template, context)
 
 
-def inactive(request):
+def inactive_surveys(request):
     inactive_surveys = None
     template = 'surveys/inactive.html'
     if not request.user.is_authenticated:  # user is not logged in

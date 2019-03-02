@@ -5,7 +5,7 @@ from ..models import Survey, Question, Choice, PersonalInformation, SurveyAnswer
 from ..forms.surveys import AnswerSurveyQuestionsForm, PersonalInformationForm
 
 from .helper import get_ip, get_next_question
-from .helper import permission_user_unique_answer
+from .error import permission_user_unique_answer
 
 from ast import literal_eval
 

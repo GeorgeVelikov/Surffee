@@ -3,7 +3,7 @@ from django.views.generic import UpdateView
 
 from ..models import Question, Choice
 
-from .helper import permission_user_logged_in, permission_user_owns_survey
+from .error import permission_user_logged_in, permission_user_owns_survey
 
 
 class Delete(UpdateView):

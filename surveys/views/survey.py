@@ -5,7 +5,7 @@ from ..models import Survey
 from ..forms.surveys import ResearcherCreateSurvey
 from ..forms.users import ResearcherCreationForm
 
-from .helper import permission_user_logged_in, permission_user_owns_survey
+from .error import permission_user_logged_in, permission_user_owns_survey
 
 from django.core.exceptions import PermissionDenied
 from ast import literal_eval

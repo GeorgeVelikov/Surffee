@@ -4,7 +4,7 @@ from django.views.generic import CreateView, UpdateView
 from ..models import Survey, Question, Choice
 from ..forms.surveys import ResearcherCreateQuestion, ResearcherUpdateQuestion, ChoiceFormSet
 
-from .helper import permission_user_logged_in, permission_user_owns_survey
+from .error import permission_user_logged_in, permission_user_owns_survey
 
 
 class Create(CreateView):

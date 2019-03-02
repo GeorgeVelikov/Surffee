@@ -1,14 +1,21 @@
 from django.urls import path
 
-from .views import survey, question, choice, answer, page
-
+from .views import survey, question, choice, answer, site
 
 app_name = 'surveys'
 
 urlpatterns = [
     path('',
-         page.index,
+         site.index,
          name='index'),
+
+    path('active/',
+         site.active_surveys,
+         name='active'),
+
+    path('inactive/',
+         site.inactive_surveys,
+         name="inactive"),
 
     path('create/',
          survey.Create.as_view(),
@@ -22,18 +29,9 @@ urlpatterns = [
          survey.Delete.as_view(),
          name='delete_survey'),
 
-
     path('<int:survey_id>/results/',
          survey.Results.as_view(),
          name="results"),
-
-    path('active/',
-         page.active,
-         name='active'),
-
-    path('inactive/',
-         page.inactive,
-         name="inactive"),
 
     path('<int:survey_id>/',
          survey.detail,

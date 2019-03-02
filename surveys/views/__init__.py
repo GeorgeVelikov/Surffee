@@ -4,6 +4,6 @@ from .choice import *
 
 from .answer import *
 
-from .page import *
+from .site import *
 from .helper import *
 from .error import *
