@@ -1,6 +1,7 @@
 from django.shortcuts import redirect
 from django.views.generic import CreateView
 
+from ..models.survey import Survey, Question, Choice
 from ..models.annotation import Word
 from ..forms.surveys import AnnotationWordForm
 
@@ -15,8 +16,22 @@ class Create(CreateView):
         form_class = self.get_form_class()
         form = self.get_form(form_class)
 
+        survey_id = self.kwargs.get('survey_id')
+        survey = Survey.objects.get(pk=survey_id)
+
+        questions = Question.objects.filter(survey=survey_id)
+
+        choices = Choice.objects.filter(question__in=questions)
+
+        choice_dict = {}
+
+        for choice in choices:
+            choice_dict[choice] = choice.choice_text.split()
+
         return self.render_to_response(
             self.get_context_data(form=form,
+                                  survey=survey,
+                                  choices=choice_dict,
                                   )
         )
 

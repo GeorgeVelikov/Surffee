@@ -1,10 +1,34 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% extends 'base.html' %}
 
-</body>
-</html>
+{% load static from staticfiles %}
+
+<!-- include crispy -->
+{% load crispy_forms_tags %}
+
+<!--<head>-->
+    <!--<link href="{% static 'surveys/css/prettyfy.css' %}" rel="stylesheet" type="text/css" />-->
+<!--</head>-->
+
+{% block title %}Annotate{% endblock %}
+
+
+{% block content %}
+
+    <div class="d-flex justify-content-between flex-wrap flex-sm-nowrap align-items-center pb-2 mb-3 border-bottom">
+        <h1>Annotate {{survey}}</h1>
+    </div>
+
+
+    <form action="." method="post">
+        {% csrf_token %}
+        {{ form.id }}
+
+        {% for choice_object, choice_text in choices.items %}
+            {% for word in choice_text %}
+                {{ word }} <br>
+            {% endfor %}
+        {% endfor %}
+        <button type="submit" class="btn btn-block btn-primary">Save annotation</button>
+    </form>
+
+{% endblock %}
