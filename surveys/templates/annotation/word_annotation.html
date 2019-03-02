@@ -21,9 +21,8 @@
 
         {% for choice_object, choice_text in choices.items %}
             <div class="row" >
-                <label class="col-sm-1 btn btn-secondary text-left">
+                <label class="col-sm-1 text-left">
                     <input value="{{choice_object}}" name="words" class="select_me" id='{{choice_object.id}}'>
-                    {{ choice_text }}
                 </label>
             </div>
 
