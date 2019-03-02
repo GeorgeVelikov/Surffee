@@ -1,26 +1,12 @@
-"""Surffee URL Configuration
-
-The `urlpatterns` list routes URLs to views. For more information please see:
-    https://docs.djangoproject.com/en/2.1/topics/http/urls/
-Examples:
-Function views
-    1. Add an import:  from my_app import views
-    2. Add a URL to urlpatterns:  path('', views.home, name='home')
-Class-based views
-    1. Add an import:  from other_app.views import Home
-    2. Add a URL to urlpatterns:  path('', Home.as_view(), name='home')
-Including another URLconf
-    1. Import the include() function: from django.urls import include, path
-    2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
-"""
 from django.contrib import admin
 from django.urls import path, include
 from django.conf.urls import url
 from django.views.generic.base import TemplateView
-from surveys.views.page import SignUp
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 
-handler403 = 'surveys.views.page.handler403'
+from surveys.views import user
+
+handler403 = 'surveys.views.error.handler403'
 
 urlpatterns = [
     url(r'^nested_admin/',
@@ -34,7 +20,7 @@ urlpatterns = [
          admin.site.urls),
 
     path('account/',
-         SignUp.as_view(),
+         user.SignUp.as_view(),
          name='signup'),
 
     path('account/',

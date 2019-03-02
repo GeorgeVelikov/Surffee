@@ -42,3 +42,5 @@ def permission_user_unique_answer(request, survey):
     # TODO: add redirect message
     if SurveyAnswer.objects.filter(ip_address=get_ip(request), survey=survey).exists():
         raise PermissionDenied("You have already answered the survey")
+
+
