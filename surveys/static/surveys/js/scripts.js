@@ -99,6 +99,10 @@ $(document).ready(function () {
         }
     });
 
+    $(".select_me").select(function() {
+        alert($(".select_me").selection());
+    });
+
     // just a helper function to test stuff
     function redirect() {
         alert("what did you expect lmao");

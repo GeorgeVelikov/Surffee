@@ -20,17 +20,22 @@
         {{ form.id }}
 
         {% for choice_object, choice_text in choices.items %}
-            <div class="row">
-                {% for word in choice_text %}
-                    <label class="col-sm-1 btn btn-secondary text-left">
-                        <input type="checkbox" value="{{word}}" name="choices" id='{{choice_object.id}}'>
-                        {{ word }}
-                    </label>
-                {% endfor %}
+            <div class="row" >
+                <label class="col-sm-1 btn btn-secondary text-left">
+                    <input value="{{choice_object}}" name="words" class="select_me" id='{{choice_object.id}}'>
+                    {{ choice_text }}
+                </label>
             </div>
 
         {% endfor %}
         <button type="submit" class="btn btn-block btn-primary">Save annotation</button>
     </form>
 
+
+    <script>
+
+    </script>
+
 {% endblock %}
+
+
