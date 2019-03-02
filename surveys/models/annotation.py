@@ -2,8 +2,12 @@ from django.db import models
 from .survey import Choice
 
 
+class Word(models.Model):
+    text = models.CharField(max_length=2**6)  # limit word length to 64, because why would you need more
+    classification = models.CharField(max_length=2**6)  # name of word group, decided by researcher
+    color = models.CharField(max_length=2**3)  # this is in the example form of #FF00FF
+
+
 class Annotation(models.Model):
     choice = models.ForeignKey(Choice, on_delete=models.CASCADE)
-    word = models.CharField(max_length=2**8)
-    classifiction = models.CharField(max_length=2**6)
-    color = models.CharField(max_length=2*3)  # this is in the example form of #FF00FF
+    words = models.ManyToManyField(Word, default=0)
