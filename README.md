@@ -15,6 +15,7 @@ Anton Trnovsky, Yiannis Keravnos, Martin Woznicki and Georgi Velikov
 - jquery.formset.js (helper functions for multi model forms/views)
 - fusioncharts library (graphs, charts, maps)
     + fusioncharts maps extension
+- jquery.selection.js 
 
 # How to run:
 - make sure all requirements are met (installed)
@@ -23,4 +24,4 @@ Anton Trnovsky, Yiannis Keravnos, Martin Woznicki and Georgi Velikov
 - write "py manage.py runserver" 
 - open a browser and go to localhost:8000
 
-update: 17/02/2019 
+update: 03/03/2019 
