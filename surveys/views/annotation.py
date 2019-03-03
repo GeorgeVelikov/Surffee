@@ -22,7 +22,7 @@ class Create(CreateView):
         questions = Question.objects.filter(survey=survey_id)
 
         choices = Choice.objects.filter(question__in=questions)
-
+        print("GEEEEEEEEEEEEEETTTTTTTTT")
         choice_dict = {}
 
         for choice in choices:
@@ -39,8 +39,9 @@ class Create(CreateView):
         self.object = None
         form_class = self.get_form_class()
         form = self.get_form(form_class)
-        # TODO: not going in the post func
-        print("We are in the post request")
+
+        survey_id = self.kwargs.get('survey_id')
+        survey = Survey.objects.get(pk=survey_id)
         if form.is_valid():
             return self.form_valid(form)
         else:
@@ -48,7 +49,7 @@ class Create(CreateView):
 
     def form_valid(self, form):
         self.object = form.save(commit=True)
-        return redirect('/surveys')
+        return redirect('./')
 
     def form_invalid(self, form):
         return self.render_to_response(self.get_context_data(form=form))
