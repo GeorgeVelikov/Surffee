@@ -139,17 +139,15 @@
         </div>
 
         <br>
-        
-        <div class="row">
 
-            {% if survey.active %}
+        {% if survey.active %}
+            <div class="row">
                 <a class="offset-sm-4 col-sm-3 btn btn-info text-light float-right" href="../answer/{{survey.id}}/agreement">
                     Link for respondents
                 </a>
-            {% endif %}
-
-        </div>
-        <br>
+            </div>
+            <br>
+        {% endif %}
     </div>
 
 {% endblock %}
