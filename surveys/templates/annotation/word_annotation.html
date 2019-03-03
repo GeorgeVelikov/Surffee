@@ -19,14 +19,15 @@
         {% csrf_token %}
         {{ form.id }}
 
-        {% for choice_object, choice_text in choices.items %}
+
+        {% for choice in choices %}
             <div class="row" >
                 <label class="col-sm-1 text-left">
-                    <input value="{{choice_object}}" class="select_me nothing" id='{{choice_object.id}}'>
+                    <input value="{{choice}}" class="select_me nothing" id='{{choice_object.id}}'>
                 </label>
             </div>
-
         {% endfor %}
+
         <button type="submit" class="btn btn-block btn-primary">Save annotation</button>
     </form>
 

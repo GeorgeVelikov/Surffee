@@ -31,7 +31,7 @@ class Create(CreateView):
         return self.render_to_response(
             self.get_context_data(form=form,
                                   survey=survey,
-                                  choices=choice_dict,
+                                  choices=choices,
                                   )
         )
 
@@ -39,7 +39,8 @@ class Create(CreateView):
         self.object = None
         form_class = self.get_form_class()
         form = self.get_form(form_class)
-
+        # TODO: not going in the post func
+        print("We are in the post request")
         if form.is_valid():
             return self.form_valid(form)
         else:
@@ -47,7 +48,7 @@ class Create(CreateView):
 
     def form_valid(self, form):
         self.object = form.save(commit=True)
-        return redirect('/surveys/inactive')
+        return redirect('/surveys')
 
     def form_invalid(self, form):
         return self.render_to_response(self.get_context_data(form=form))
