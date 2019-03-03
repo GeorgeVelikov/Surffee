@@ -75,6 +75,16 @@
                                 My surveys
                             </a>
                         </li>
+
+                        <!-- Admin settings -->
+                        {% if user.is_superuser %}
+                            <li class="nav-item">
+                                <a class="nav-link" href="{% url 'admin:index' %}">
+                                    <i class="fa fa-cog" aria-hidden="true"></i>
+                                    Admin Settings
+                                </a>
+                            </li>
+                        {% endif %}
                     {% endif %}
 
                     <!-- User profile -->
@@ -84,13 +94,15 @@
                             {{ username }}
                         </a>
                         <ul class="dropdown-menu dropdown-menu-right navbar-dropdown-custom">
+<<<<<<< HEAD
                             {% if user.is_superuser %}
                                 <li><a class="nav-link" href="{% url 'admin:index' %}">Admin Settings  <span><i class="fa fa-cog" aria-hidden="true"></i></span></a></li>
                             {% endif %}
 
+=======
+                            <!-- TODO: put this as an option next to profile -->
+>>>>>>> parent of 6424dad... Revert "Edit base.html"
                             {% if user.is_authenticated %}
-                                <li><a class="nav-link" href="{% url 'surveys:index' %}">My surveys  <span ><i class="fa fa-file-text fa-1" aria-hidden="true"></i></span></a></li>
-                                <li><a class="nav-link" href="{% url 'surveys:create' %}">Create survey  <span data-feather="plus-circle"></span></a></li>
                                 <li><a class="nav-link" href="{% url 'password_reset' %}">Reset password  <span><i class="fa fa-eraser" aria-hidden="true"></i></span></a></li>
                                 <li><a class="nav-link" href="{% url 'logout' %}">Logout  <span><i class="fa fa-sign-out" aria-hidden="true"></i></span></a></li>
                             {% else %}
