@@ -99,8 +99,25 @@ $(document).ready(function () {
         }
     });
 
+    // doing this instead of .post as I wanted to package the data in the form post data
     $(".select_me").select(function() {
-       alert($(this).selection());
+        // grab the highlighted text on the select_me inputs
+        word_selection = $(this).selection();
+
+        // if we have a caching input field, just renew the value in it
+        if ($('#word_selection').length ) {
+            $('#word_selection').val(word_selection);
+        }
+        // else if we don't, create an input field with the specific id and name and populate it
+        else {
+            var input = $("<input>").attr("name", "word_selection")
+                                    .attr("id", "word_selection")
+                                    .attr("type", "hidden")
+                                    .val(word_selection);
+            $('.append_post').append($(input));
+        }
+
+        alert(word_selection);
     });
 
     // just a helper function to test stuff
