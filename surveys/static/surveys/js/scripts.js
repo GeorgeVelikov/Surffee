@@ -99,30 +99,22 @@ $(document).ready(function () {
         }
     });
 
-
-
-    $(".submit_selection").click(function () {
-        alert("submit");
-    });
-
      $(".select_me").select(function() {
         word_selection = $(this).selection();
 
+        // if we have a caching input field, just renew the value in it
         if ($('#word_selection').length ) {
             $('#word_selection').val(word_selection);
         }
-
+        // else if we don't, create an input field with the specific id and name and populate it
         else {
-            var input = $("<input>").attr("name", "word")
+            var input = $("<input>").attr("name", "word_selection")
                                     .attr("id", "word_selection")
+                                    .attr("type", "hidden")
                                     .val(word_selection);
+            $('.append_post').append($(input));
         }
-
-        $('.append_post').append($(input));
-        alert($('#word_selection').val());
     });
-
-
 
     // just a helper function to test stuff
     function redirect() {
