@@ -99,8 +99,12 @@ $(document).ready(function () {
         }
     });
 
+
+
+
     $(".select_me").select(function() {
-       alert($(this).selection());
+        word_selection = $(this).selection();
+        $.post( "word_context", { word_selection: word_selection } );
     });
 
     // just a helper function to test stuff
