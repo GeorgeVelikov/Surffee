@@ -1,5 +1,5 @@
 from django.db import models
-from .survey import Choice
+from .survey import Survey
 
 
 class Word(models.Model):
@@ -9,5 +9,5 @@ class Word(models.Model):
 
 
 class Annotation(models.Model):
-    choice = models.ForeignKey(Choice, on_delete=models.CASCADE)
+    survey = models.ForeignKey(Survey, on_delete=models.CASCADE)
     words = models.ManyToManyField(Word, default=0)

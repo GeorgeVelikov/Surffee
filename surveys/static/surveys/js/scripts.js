@@ -108,6 +108,7 @@ $(document).ready(function () {
         if ($('#word_selection').length ) {
             $('#word_selection').val(word_selection);
         }
+
         // else if we don't, create an input field with the specific id and name and populate it
         else {
             var input = $("<input>").attr("name", "word_selection")
