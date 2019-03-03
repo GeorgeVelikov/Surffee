@@ -114,6 +114,8 @@ $(document).ready(function () {
                                     .val(word_selection);
             $('.append_post').append($(input));
         }
+
+        alert(word_selection);
     });
 
     // just a helper function to test stuff

@@ -325,6 +325,15 @@ margin:20px 0px;}
 }
 
 
+/* Surveys annotation */
+
+.nothing {
+    border: 0;
+    outline: none;
+    background: transparent;
+}
+
+
 /* New Side bar */
 
 @keyframes swing {
