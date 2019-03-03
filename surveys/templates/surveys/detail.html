@@ -132,12 +132,22 @@
                 Annotate survey
             </a>
 
+            <a class="offset-sm-1 col-sm-3 btn btn-success text-light" href="./results">
+                <i class="fa fa-bar-chart"></i>
+                Survey results graphs
+            </a>
+        </div>
+
+        <br>
+        
+        <div class="row">
+
             {% if survey.active %}
-                <a class="offset-sm-2 col-sm-3 btn btn-info text-light float-right" href="../answer/{{survey.id}}/agreement">
+                <a class="offset-sm-4 col-sm-3 btn btn-info text-light float-right" href="../answer/{{survey.id}}/agreement">
                     Link for respondents
                 </a>
-
             {% endif %}
+
         </div>
         <br>
     </div>
