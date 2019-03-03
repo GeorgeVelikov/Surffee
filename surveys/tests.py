@@ -34,8 +34,7 @@ class LoginTests(TestCase):
         return self.client.post(reverse('login'), {
             'username': username,
             'password': password,
-        },
-                                follow=True)
+        },  follow=True)
 
     def test_login_success(self):
         """

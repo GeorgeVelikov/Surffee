@@ -7,7 +7,6 @@ from .error import permission_user_logged_in, permission_user_owns_survey
 
 
 class Delete(UpdateView):
-    # TODO: fix not showing of personal data used
     model = Question
 
     def get(self, request, *args, **kwargs):
