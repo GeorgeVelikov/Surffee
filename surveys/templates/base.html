@@ -35,7 +35,7 @@
 
     <body style="background-image: url('{% static 'surveys/seigaiha.png' %}');">
         <!-- Navbar -->
-        <nav class="navbar navbar-icon-top navbar-expand-lg navbar-dark sticky-top navbar-custom">
+        <nav id="navb" class="navbar navbar-icon-top navbar-expand-lg navbar-dark sticky-top navbar-custom">
             <a class="navbar-brand" style="font-size: x-large;" href="{% url 'home' %}">Surffee</a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
@@ -107,152 +107,144 @@
 
         </nav>
 
+
         <!-- Sidebar & Main content block -->
-        <div class="container-fluid" >
-            <div class = "row" >
-
-                <!-- sidebar starts here -->
-                <div class="col-2" >
-                    <div class="container-fluid sidebar-container">
-                        <div class="row">
-                            <!-- sidebar-menu  -->
-                            <div class="page-wrapper chiller-theme toggled">
-                                <nav id="sidebar" class="sidebar-wrapper" style="margin-top: 65px;">
-                                    <div class="sidebar-content">
-                                        <div class="sidebar-brand">
-                                            <a class="text-center" style="font-size: large;" href="{% url 'surveys:index' %}">Surveys</a>
-                                        </div>
-                                        <!-- sidebar-header  -->
-                                        <div class="sidebar-menu">
-                                            <ul>
-                                                <!-- General Header -->
-                                                {% if user.is_authenticated %}
-                                                    <li class="header-menu">
-                                                        <span>Survey types</span>
-                                                    </li>
-
-                                                    <!-- Active drop-down -->
-                                                    <li class="sidebar-dropdown">
-                                                        <a>
-                                                            <i class="fa fa-address-book-o"></i>
-                                                            <span>Active</span>
-                                                        </a>
-                                                        <div class="sidebar-submenu">
-                                                            <ul>
-                                                                {% if surveys_active %}
-                                                                    {% for survey in surveys_active %}
-                                                                        <li>
-                                                                            <a href="/surveys/{{survey.id}}">
-                                                                                {{survey}}
-                                                                            </a>
-                                                                        </li>
-                                                                    {% endfor %}
-                                                                {% else %}
-                                                                    <li>
-                                                                        <a class="disabled">No active surveys </a>
-                                                                    </li>
-                                                                {% endif %}
-                                                            </ul>
-                                                        </div>
-                                                    </li>
-                                                    <!-- Inactive drop-down -->
-
-                                                        <li class="sidebar-dropdown">
-                                                            <a>
-                                                                <i class="fa fa-address-book"></i>
-                                                                <span>Inactive</span>
-                                                            </a>
-                                                            <div class="sidebar-submenu">
-                                                                <ul>
-                                                                    {% if surveys_inactive %}
-                                                                        {% for survey in surveys_inactive %}
-                                                                            <li>
-                                                                                <a href="/surveys/{{survey.id}}">
-                                                                                    {{survey}}
-                                                                                </a>
-                                                                            </li>
-                                                                        {% endfor %}
-                                                                    {% else %}
-                                                                        <li>
-                                                                            <a class="disabled">No inactive surveys </a>
-                                                                        </li>
-                                                                    {% endif %}
-                                                                </ul>
-                                                            </div>
-                                                        </li>
-
-                                                {% endif %}
-
-                                                <li class="header-menu">
-                                                        <span>Analytics</span>
-                                                </li>
-                                                <!-- Analytics drop-down -->
-                                                <li class="sidebar-dropdown">
-                                                    <a>
-                                                        <i class="fa fa-line-chart"></i>
-                                                        <span>Statistics</span>
-                                                    </a>
-                                                    <div class="sidebar-submenu">
-                                                        <ul>
-                                                            <li>
-                                                             <a class="disabled">No statistics generated yet </a>
-                                                            </li>
-                                                        </ul>
-                                                    </div>
-                                                </li>
-
-                                                <!--Extras header -->
-                                                <li class="header-menu">
-                                                    <span>Extra</span>
-                                                </li>
-                                                <!--Documentation link -->
-                                                <li>
-                                                    <a>
-                                                        <i class="fa fa-book"></i>
-                                                        <span>Documentation</span>
-                                                    </a>
-                                                </li>
-                                                <!-- Calendar link -->
-                                                <li>
-                                                    <a href="#">
-                                                        <i class="fa fa-calendar"></i>
-                                                        <span>Calendar</span>
-                                                    </a>
-                                                </li>
-                                                <!-- Examples -->
-                                                <li>
-                                                    <a href="#">
-                                                        <i class="fa fa-folder"></i>
-                                                        <span>Examples</span>
-                                                    </a>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                </nav>
-                            </div>
+        <div class="page-wrapper chiller-theme toggled" style="position: absolute;">
+            <a id="show-sidebar" class="btn btn-dark" href="#" style="margin-top: 100px;">
+               <i class="fa fa-bars"></i>
+            </a>
+            <nav id="sidebar" class="sidebar-wrapper" style="margin-top: 65px;">
+                <div class="sidebar-content">
+                    <div class="sidebar-brand">
+                        <a class="text-center" style="font-size: large;" href="{% url 'surveys:index' %}">Surveys</a>
+                        <div id="close-sidebar">
+                          <i class="fa fa-times"></i>
                         </div>
                     </div>
-                </div>
+                    <!-- sidebar-header  -->
+                    <div class="sidebar-menu">
+                        <ul>
+                            <!-- General Header -->
+                            {% if user.is_authenticated %}
+                                <li class="header-menu">
+                                    <span>Survey types</span>
+                                </li>
 
+                                <!-- Active drop-down -->
+                                <li class="sidebar-dropdown">
+                                    <a>
+                                        <i class="fa fa-address-book-o"></i>
+                                        <span>Active</span>
+                                    </a>
+                                    <div class="sidebar-submenu">
+                                        <ul>
+                                            {% if surveys_active %}
+                                                {% for survey in surveys_active %}
+                                                    <li>
+                                                        <a href="/surveys/{{survey.id}}">
+                                                            {{survey}}
+                                                        </a>
+                                                    </li>
+                                                {% endfor %}
+                                            {% else %}
+                                                <li>
+                                                    <a class="disabled">No active surveys </a>
+                                                </li>
+                                            {% endif %}
+                                        </ul>
+                                    </div>
+                                </li>
+                                <!-- Inactive drop-down -->
 
-                <!-- main container -->
-                <div id="main" class="col-sm-10">
-                    <div class="container-fluid">
-                        <main role="main" class="main-content-block">
-                            {% if messages %}
-                                <ul class="messages">
-                                    {% for message in messages %}
-                                        <li {% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
-                                    {% endfor %}
-                                </ul>
+                                    <li class="sidebar-dropdown">
+                                        <a>
+                                            <i class="fa fa-address-book"></i>
+                                            <span>Inactive</span>
+                                        </a>
+                                        <div class="sidebar-submenu">
+                                            <ul>
+                                                {% if surveys_inactive %}
+                                                    {% for survey in surveys_inactive %}
+                                                        <li>
+                                                            <a href="/surveys/{{survey.id}}">
+                                                                {{survey}}
+                                                            </a>
+                                                        </li>
+                                                    {% endfor %}
+                                                {% else %}
+                                                    <li>
+                                                        <a class="disabled">No inactive surveys </a>
+                                                    </li>
+                                                {% endif %}
+                                            </ul>
+                                        </div>
+                                    </li>
+
                             {% endif %}
-                            {% block content %}
-                            {% endblock %}
-                        </main>
+
+                            <li class="header-menu">
+                                    <span>Analytics</span>
+                            </li>
+                            <!-- Analytics drop-down -->
+                            <li class="sidebar-dropdown">
+                                <a>
+                                    <i class="fa fa-line-chart"></i>
+                                    <span>Statistics</span>
+                                </a>
+                                <div class="sidebar-submenu">
+                                    <ul>
+                                        <li>
+                                         <a class="disabled">No statistics generated yet </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </li>
+
+                            <!--Extras header -->
+                            <li class="header-menu">
+                                <span>Extra</span>
+                            </li>
+                            <!--Documentation link -->
+                            <li>
+                                <a>
+                                    <i class="fa fa-book"></i>
+                                    <span>Documentation</span>
+                                </a>
+                            </li>
+                            <!-- Calendar link -->
+                            <li>
+                                <a href="#">
+                                    <i class="fa fa-calendar"></i>
+                                    <span>Calendar</span>
+                                </a>
+                            </li>
+                            <!-- Examples -->
+                            <li>
+                                <a href="#">
+                                    <i class="fa fa-folder"></i>
+                                    <span>Examples</span>
+                                </a>
+                            </li>
+                        </ul>
                     </div>
                 </div>
+            </nav>
+        </div>
 
+        <!-- main container -->
+        <div id="main" class="page-content">
+            <div class="container-fluid">
+                <main role="main" class="main-content-block">
+                    {% if messages %}
+                        <ul class="messages">
+                            {% for message in messages %}
+                                <li {% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+                            {% endfor %}
+                        </ul>
+                    {% endif %}
+                    {% block content %}
+                    {% endblock %}
+                </main>
             </div>
         </div>
 
@@ -281,7 +273,6 @@
 
             </div>
         </section>
-
 
     </body>
 </html>
