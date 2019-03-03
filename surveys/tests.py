@@ -29,18 +29,37 @@ class LoginTests(TestCase):
         self.user.save()
         self.superuser.save()
 
-    def test_login_success(self):
-        """
-        Check if the user is redirected to index on successful login
-        :return:
-        """
-        resp = self.client.post(reverse('login'), {
-            'username': 'user',
-            'password': 'password',
+    """ helper method: login with username and password"""
+    def login_response(self, username, password):
+        return self.client.post(reverse('login'), {
+            'username': username,
+            'password': password,
         },
                                 follow=True)
-        self.assertEqual(resp.status_code, 200)
-        self.assertIn('_auth_user_id', self.client.session)     # this checks if client is logged in
+
+    def test_login_success(self):
+        """
+         Check if user can log in
+         :return:
+        """
+        resp = self.login_response('user', 'password')
+        self.assertRedirects(resp, reverse('home'))
+        self.assertTemplateUsed(resp, 'home.html')
+        self.assertIn('_auth_user_id', self.client.session)
+        self.client.logout()
+
+    def test_login_wrong_password(self):
+        """
+        Check if user can log in with wrong password
+        :return:
+        """
+        resp = self.login_response('user', 'not_the_password')
+        self.assertTemplateUsed(resp, 'registration/login.html')
+        self.assertNotIn('auth_user_id', self.client.session)
+        # This didn't work for some reason, the resp's chain of redirects is empty in this case
+        # self.assertRedirects(resp, reverse('login'), status_code=200)
+        self.client.logout()
+
 
 class IndexTests(TestCase):
 
