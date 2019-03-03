@@ -44,7 +44,6 @@ class LoginTests(TestCase):
         """
         resp = self.login_response('user', 'password')
         self.assertRedirects(resp, reverse('home'))
-        self.assertTemplateUsed(resp, 'home.html')
         self.assertIn('_auth_user_id', self.client.session)
         self.client.logout()
 
@@ -60,8 +59,24 @@ class LoginTests(TestCase):
         # self.assertRedirects(resp, reverse('login'), status_code=200)
         self.client.logout()
 
+    def test_login_empty_input(self):
+        """
+         Check if user can log in with no username and password
+        :return:
+        """
+        self.login_response('', '')
+        self.assertNotIn('auth_user_id', self.client.session)
 
-class IndexTests(TestCase):
+
+class HomeViewTests(TestCase):
+
+    def test_template(self):
+        resp = self.client.get(reverse('home'))
+        self.assertEqual(resp.status_code, 200)
+        self.assertTemplateUsed(resp, 'home.html')
+
+
+class IndexViewTests(TestCase):
 
     def setUp(self):
         self.client = Client()
