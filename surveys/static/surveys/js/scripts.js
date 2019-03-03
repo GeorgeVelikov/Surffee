@@ -101,11 +101,28 @@ $(document).ready(function () {
 
 
 
-
-    $(".select_me").select(function() {
-        word_selection = $(this).selection();
-        $.post( "word_context", { word_selection: word_selection } );
+    $(".submit_selection").click(function () {
+        alert("submit");
     });
+
+     $(".select_me").select(function() {
+        word_selection = $(this).selection();
+
+        if ($('#word_selection').length ) {
+            $('#word_selection').val(word_selection);
+        }
+
+        else {
+            var input = $("<input>").attr("name", "word")
+                                    .attr("id", "word_selection")
+                                    .val(word_selection);
+        }
+
+        $('.append_post').append($(input));
+        alert($('#word_selection').val());
+    });
+
+
 
     // just a helper function to test stuff
     function redirect() {

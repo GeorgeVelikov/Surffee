@@ -15,7 +15,7 @@
     </div>
 
 
-    <form action="." method="post">
+    <form action="." method="post" class="append_post">
         {% csrf_token %}
         {{ form.id }}
 
@@ -27,7 +27,7 @@
             </div>
 
         {% endfor %}
-        <button type="submit" class="btn btn-block btn-primary">Save annotation</button>
+        <button type="submit" class="submit_selection btn btn-block btn-primary">Save annotation</button>
     </form>
 
 
