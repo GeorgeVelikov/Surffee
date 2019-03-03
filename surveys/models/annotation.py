@@ -9,5 +9,5 @@ class Word(models.Model):
 
 
 class Annotation(models.Model):
-    survey = models.ForeignKey(Survey, on_delete=models.CASCADE)
+    survey = models.ForeignKey(Survey, on_delete=models.CASCADE, default=0)
     words = models.ManyToManyField(Word, default=0)
