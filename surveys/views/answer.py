@@ -99,7 +99,6 @@ class SurveyQuestions(UpdateView):
     form_class = AnswerSurveyQuestionsForm
 
     def get(self, request, *args, **kwargs):
-        # TODO: mark answered and unanswered questions, get to unanswered one, if all answered, permission handle
         self.object = None
         # grab the objects we might need
         survey_id = self.kwargs.get('survey_id')
