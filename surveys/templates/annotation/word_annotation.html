@@ -23,7 +23,7 @@
 
         {% for word in all_words %}
             <div style="background:{{word.color}}">
-                {{ word.text }}
+                {{word.classification}} - {{ word.text }}
             </div>
         {% endfor %}
 
@@ -51,7 +51,8 @@
             <div class="col-sm-2">
                 {{ form.classification }}
             </div>
-            <div id="selection" class="col-sm-2">
+
+            <div class="col-sm-2" id="selection" >
                 <input id="annotation_help"
                        value="Please make your selection"
                        class="textinput textInput form-control"

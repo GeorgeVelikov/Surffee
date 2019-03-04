@@ -338,6 +338,7 @@ margin:20px 0px;}
 /* Surveys annotation */
 
 .nothing {
+    width: 100%;
     border: 0;
     outline: none;
     background: transparent;
