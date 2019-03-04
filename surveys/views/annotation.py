@@ -32,13 +32,14 @@ class Create(CreateView):
             added = False
             for word in all_words:
                 if word.text in choice.choice_text:
-                    new_choice = choice.choice_text.replace(word.text, '<label style=background-color:' + str(word.color) + '>' +
+                    choice.choice_text = choice.choice_text.replace(word.text, '<label style=background-color:' + str(word.color) + '>' +
                                                             str(word.text) + '</label>')
                     added = True
+
             if not added:
                 choices_colored.append(choice)
             else:
-                choices_colored.append(new_choice)
+                choices_colored.append(choice.choice_text)
 
         return self.render_to_response(
             self.get_context_data(form=form,
