@@ -116,9 +116,9 @@ $(document).ready(function () {
         else {
             var input = $("<input>").attr("name", "word_selection")
                                     .attr("id", "word_selection")
-                                    .attr("type", "hidden")
+                                    .attr("disabled", "")
                                     .val(word_selection);
-            $('.append_post').append($(input));
+            $('#selection').append($(input));
         }
     });
 

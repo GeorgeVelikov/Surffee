@@ -5,6 +5,9 @@
 <!-- include crispy -->
 {% load crispy_forms_tags %}
 
+<!-- Load custom tags for templates -->
+{% load define_action %}
+
 {% block title %}Annotate{% endblock %}
 
 
@@ -14,18 +17,29 @@
     </div>
 
 
-    <form action="" method="post" class="append_post">
+    <form action="" method="post">
         {% csrf_token %}
         {{ form.id }}
         {{ form.classification|as_crispy_field }}
 
         {% for choice in choices %}
-            <div class="row" >
-                <label class="col-sm-1 text-left">
+            {% if forloop.counter|divisibleby:2 %}
+                {% define "background: white;" as bg_colour %}
+            {% else %}
+                {% define "background: lightgray;" as bg_colour %}
+            {% endif %}
+
+            <div class="row">
+                <label class="col-sm-1 text-left" style="{{bg_colour}}">
                     <input value="{{choice}}" disabled class="select_me nothing" id='{{choice_object.id}}'>
                 </label>
             </div>
+
         {% endfor %}
+
+        <div id="selection">
+            <!-- this is where we put our selected text -->
+        </div>
 
         <button type="submit" class="btn btn-block btn-primary">Save annotation</button>
     </form>
