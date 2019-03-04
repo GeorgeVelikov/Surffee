@@ -22,16 +22,15 @@ body {
 /* Navbar */
 
 #con{
-  padding-left: 0px;
-  padding-right: 0px;
+  padding: 0px;
 
 }
 
 #navb {
-  position: sticky;
-  top: 0px;
+ width:100%;
+ position: fixed;
+ top: 0;
 }
-
 
 .navbar-dropdown-custom  {
     color: #434343;

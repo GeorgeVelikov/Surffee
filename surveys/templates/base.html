@@ -35,90 +35,90 @@
 
     <body style="background-image: url('{% static 'surveys/seigaiha.png' %}');">
 
+        <!-- Navbar -->
+        <nav id="navb" class="navbar navbar-icon-top navbar-expand-lg navbar-dark sticky-top navbar-custom">
+                <a class="navbar-brand" style="font-size: x-large;" href="{% url 'home' %}">Surffee</a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <!-- Actual navbar options -->
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+
+                    <!-- left -->
+                    <ul class="navbar-nav mr-auto">
+                        <!--Home-->
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'home' %}">
+                                <i class="fa fa-home"></i>
+                                Home
+                                <span class="sr-only">(current)</span>
+                            </a>
+                        </li>
+                    </ul>
+
+                    <!-- right -->
+                    <ul class="navbar-nav">
+
+                        <!-- Create Survey -->
+                        {% if user.is_authenticated %}
+                            <li class="nav-item">
+                                <a class="nav-link" href="{% url 'surveys:create' %}">
+                                    <i class="fa fa-plus-square-o" aria-hidden="true"></i>
+                                    Create survey
+                                </a>
+                            </li>
+
+                            <!-- My Surveys -->
+                            <li class="nav-item">
+                                <a class="nav-link" href="{% url 'surveys:index' %}">
+                                    <i class="fa fa-file-text fa-1" aria-hidden="true"></i>
+                                    My surveys
+                                </a>
+                            </li>
+
+
+                            {% if user.is_superuser %}
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{% url 'admin:index' %}">
+                                        <i class="fa fa-cog" aria-hidden="true"></i>
+                                        Admin Settings
+                                    </a>
+                                </li>
+                            {% endif %}
+
+                        {% endif %}
+
+                        <!-- User profile -->
+                        <li class="nav-item">
+                            <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">
+                                <i class="fa fa-user"></i>
+                                {{ username }}
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-right navbar-dropdown-custom">
+
+                                {% if user.is_authenticated %}
+                                    <li><a class="nav-link" href="{% url 'password_reset' %}">Reset password  <span><i class="fa fa-eraser" aria-hidden="true"></i></span></a></li>
+                                    <li><a class="nav-link" href="{% url 'logout' %}">Logout  <span><i class="fa fa-sign-out" aria-hidden="true"></i></span></a></li>
+                                {% else %}
+                                    <li><a class="nav-link" href="{% url 'login' %}">Login  <span><i class="fa fa-sign-in" aria-hidden="true"></i></span></a></li>
+                                    <li><a class="nav-link" href="{% url 'signup' %}">Signup  <span><i class="fa fa-user-plus" aria-hidden="true"></i></span></a></li>
+                                {% endif %}
+                            </ul>
+                        </li>
+
+                    </ul>
+
+                </div>
+
+            </nav>
 
         <div class="container-fluid" id="con">
 
-            <!-- Navbar -->
-            <nav id="navb" class="navbar navbar-icon-top navbar-expand-lg navbar-dark sticky-top navbar-custom">
-                    <a class="navbar-brand" style="font-size: x-large;" href="{% url 'home' %}">Surffee</a>
-                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                        <span class="navbar-toggler-icon"></span>
-                    </button>
-
-                    <!-- Actual navbar options -->
-                    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-
-                        <!-- left -->
-                        <ul class="navbar-nav mr-auto">
-                            <!--Home-->
-                            <li class="nav-item">
-                                <a class="nav-link" href="{% url 'home' %}">
-                                    <i class="fa fa-home"></i>
-                                    Home
-                                    <span class="sr-only">(current)</span>
-                                </a>
-                            </li>
-                        </ul>
-
-                        <!-- right -->
-                        <ul class="navbar-nav">
-
-                            <!-- Create Survey -->
-                            {% if user.is_authenticated %}
-                                <li class="nav-item">
-                                    <a class="nav-link" href="{% url 'surveys:create' %}">
-                                        <i class="fa fa-plus-square-o" aria-hidden="true"></i>
-                                        Create survey
-                                    </a>
-                                </li>
-
-                                <!-- My Surveys -->
-                                <li class="nav-item">
-                                    <a class="nav-link" href="{% url 'surveys:index' %}">
-                                        <i class="fa fa-file-text fa-1" aria-hidden="true"></i>
-                                        My surveys
-                                    </a>
-                                </li>
-
-
-                                {% if user.is_superuser %}
-                                    <li class="nav-item">
-                                        <a class="nav-link" href="{% url 'admin:index' %}">
-                                            <i class="fa fa-cog" aria-hidden="true"></i>
-                                            Admin Settings
-                                        </a>
-                                    </li>
-                                {% endif %}
-
-                            {% endif %}
-
-                            <!-- User profile -->
-                            <li class="nav-item">
-                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">
-                                    <i class="fa fa-user"></i>
-                                    {{ username }}
-                                </a>
-                                <ul class="dropdown-menu dropdown-menu-right navbar-dropdown-custom">
-
-                                    {% if user.is_authenticated %}
-                                        <li><a class="nav-link" href="{% url 'password_reset' %}">Reset password  <span><i class="fa fa-eraser" aria-hidden="true"></i></span></a></li>
-                                        <li><a class="nav-link" href="{% url 'logout' %}">Logout  <span><i class="fa fa-sign-out" aria-hidden="true"></i></span></a></li>
-                                    {% else %}
-                                        <li><a class="nav-link" href="{% url 'login' %}">Login  <span><i class="fa fa-sign-in" aria-hidden="true"></i></span></a></li>
-                                        <li><a class="nav-link" href="{% url 'signup' %}">Signup  <span><i class="fa fa-user-plus" aria-hidden="true"></i></span></a></li>
-                                    {% endif %}
-                                </ul>
-                            </li>
-
-                        </ul>
-
-                    </div>
-
-                </nav>
-
-
-            <!-- Sidebar & Main content block -->
+            <!-- Sidebar/Main/Footer blocks -->
             <section class="page-wrapper chiller-theme toggled">
+
+                <!-- Sidebar -->
                 <a id="show-sidebar" class="btn btn-dark" href="#" style="margin-top: 100px;">
                    <i class="fa fa-bars"></i>
                 </a>
@@ -239,7 +239,7 @@
                     </div>
                 </nav>
 
-                <!-- main container -->
+                <!-- Main Container -->
                 <div  class="page-content">
                     <div class="container-fluid">
                         <div id="main" role="main" class="main-content-block">
@@ -285,6 +285,7 @@
                     </div>
                 </section>
             </section>
+
         </div>
 
     </body>
