@@ -1,6 +1,8 @@
 {% extends 'base.html' %}
 {% load static from staticfiles %}
-
+<head>
+    <link href="{% static 'surveys/css/survey.css' %}" rel="stylesheet" type="text/css" />
+</head>
 <!-- include crispy -->
 {% load crispy_forms_tags %}
 
@@ -39,8 +41,6 @@
         </a>
     </div>
 
-
-
     <!-- Personal data grand design -->
     <div class="container-fluid col-gap-40">
         <div class="row">
@@ -73,52 +73,63 @@
         <br/>
     </div>
 
-    <!-- Question cards loopy-->
+    <!-- Questions and Choices Section -->
     {% for question in survey.question_set.all %} <!-- yeah this is how you go up the foreign key -->
-        <div class="card bg-light mb-3" >
-            <div class="card-header bg-dark text-light text-truncate ">
-                <a href="../{{survey.id}}/edit_question/{{question.id}}" style="font-size: large;">
-                    {{ question.question_text }}
-                </a>
-
-                <!-- rem question button -->
-                <a href="../{{survey.id}}/delete_question/{{question.id}}" class="btn btn-primary btn-danger float-right">
-                    <span class="fa fa-remove">
-                        Delete
-                    </span>
-                </a>
-            </div>
-
-            <!-- Card body not needed after all. we can just use list. if you prefer add card-body div around-->
-
-            {% for choice in question.choice_set.all %}
-                <div class="list-group">
-                    <div class="row">
-                        <div class="col-sm-10">
-                            <a class="list-group-item list-group-item-action text-truncate">
-                             <!-- choices listed -->
-                                {{ choice.choice_text }}
-                                <p class="float-right">(Votes:
-                                    <span class="badge badge-primary badge-pill">
-                                        {{ choice.votes }}
-                                    </span>)
-                                </p>
-                            </a>
-                        </div>
-                        <div class="container-fluid col-sm-2">
-                            <!-- TODO: change CSS and make it harder to delete it by accident (i.e. add js alert prompt)-->
-                            <a href="../{{survey.id}}/delete_choice/{{choice.id}}" class="btn btn-primary btn-danger float-right">
-                                <span class="fa fa-remove">
-                                    Delete
-                                </span>
-                            </a>
+    <div class="card">
+         <div class="my-3 p-3 rounded box-shadow" style="float: none; display: block; position: static; top: auto; text-align: justify; text-decoration-line: none;">
+             <!-- Questions section -->
+             <div class="row" style="border-bottom: 5px;">
+                 <div class="col-sm-10">
+                     <p class="border-bottom border-gray pb-2 mb-0 text-truncate" style="font-size: large;">
+                         {{ question.question_text }}
+                     </p>
+                 </div>
+                 <div class="col-sm-2">
+                     <!-- Default dropleft button -->
+                    <div class="btn-group dropleft float-right">
+                        <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Options
+                        </button>
+                        <div class="dropdown-menu">
+                            <!-- Dropdown menu links -->
+                            <h6 class="dropdown-header">Dropdown header</h6>
+                            <a class="btn dropdown-item" href="../{{survey.id}}/edit_question/{{question.id}}">Edit</a>
+                            <a class="btn dropdown-item" href="../{{survey.id}}/delete_question/{{question.id}}">Delete</a>
                         </div>
                     </div>
-                </div>
-            {% endfor %}
+
+                 </div>
+             </div>
+
+             <!-- Choices section -->
+             {% for choice in question.choice_set.all %}
+                 <div class="media text-muted pt-3 text-truncate">
+                  <div class="media-body pb-3 mb-0 small lh-125 border-bottom border-gray text-truncate">
+                        <div class="d-flex justify-content-between align-items-center w-100 text-truncate">
+                                <!-- Each choice -->
+                                <div class="col-sm-10">
+                                    <p class="text-gray-dark text-truncate" style="font-size: small;">{{ choice.choice_text }}</p>
+                                    <a class="float-left" style="font-size: small;">(Votes:
+                                        <span class="badge badge-primary badge-pill">{{ choice.votes }}</span>)
+                                    </a>
+                                </div>
+                                <!-- Each choice's remove button -->
+                                <div class="col-sm-2">
+                                    <a class="btn btn-danger float-right" style="border-radius: 80%;" href="../{{survey.id}}/delete_choice/{{choice.id}}">
+                                        <span class="fa fa-remove"></span>
+                                    </a>
+                                </div>
+                        </div>
+                    </div>
+                 </div>
+             {% endfor %}
 
         </div>
+    </div>
+    <br> <!-- get a break between each panel -->
     {% endfor %}
+
+    <!-- Testing ends -->
 
     <div class="container-fluid">
         <div class="row">
