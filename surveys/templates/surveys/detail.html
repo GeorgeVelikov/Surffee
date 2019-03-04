@@ -34,7 +34,7 @@
         {% endif %}
 
 
-        <a href="../delete_survey/{{survey.id}}" class="col-sm-2 btn btn-primary btn-danger float-right">
+        <a href="../delete_survey/{{survey.id}}" onclick="return confirm('Are you sure you want to delete?')" class="col-sm-2 btn btn-primary btn-danger float-right">
             <span class="fa fa-remove">
                 Delete survey
             </span>
