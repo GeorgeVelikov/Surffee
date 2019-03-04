@@ -118,62 +118,37 @@
 
 
             <!-- Sidebar & Main content block -->
-            <div class="page-wrapper chiller-theme toggled">
+            <section class="page-wrapper chiller-theme toggled">
                 <a id="show-sidebar" class="btn btn-dark" href="#" style="margin-top: 100px;">
                    <i class="fa fa-bars"></i>
                 </a>
                 <nav id="sidebar" class="sidebar-wrapper" style="margin-top: 60px;">
-                <div class="sidebar-content">
-                    <div class="sidebar-brand">
-                        <a class="text-center" style="font-size: large;">Surveys</a>
-                        <div id="close-sidebar">
-                          <i class="fa fa-times"></i>
+                    <div class="sidebar-content">
+                        <div class="sidebar-brand">
+                            <a class="text-center" style="font-size: large;">Surveys</a>
+                            <div id="close-sidebar">
+                              <i class="fa fa-times"></i>
+                            </div>
                         </div>
-                    </div>
-                    <!-- sidebar-header  -->
-                    <div class="sidebar-menu">
-                        <ul>
-                            <!-- General Header -->
-                            {% if user.is_authenticated %}
-                                <li class="header-menu">
-                                    <span>Survey types</span>
-                                </li>
+                        <!-- sidebar-header  -->
+                        <div class="sidebar-menu">
+                            <ul>
+                                <!-- General Header -->
+                                {% if user.is_authenticated %}
+                                    <li class="header-menu">
+                                        <span>Survey types</span>
+                                    </li>
 
-                                <!-- Active drop-down -->
-                                <li class="sidebar-dropdown">
-                                    <a>
-                                        <i class="fa fa-address-book-o"></i>
-                                        <span>Active</span>
-                                    </a>
-                                    <div class="sidebar-submenu">
-                                        <ul>
-                                            {% if surveys_active %}
-                                                {% for survey in surveys_active %}
-                                                    <li>
-                                                        <a href="/surveys/{{survey.id}}">
-                                                            {{survey}}
-                                                        </a>
-                                                    </li>
-                                                {% endfor %}
-                                            {% else %}
-                                                <li>
-                                                    <a class="disabled">No active surveys </a>
-                                                </li>
-                                            {% endif %}
-                                        </ul>
-                                    </div>
-                                </li>
-                                <!-- Inactive drop-down -->
-
+                                    <!-- Active drop-down -->
                                     <li class="sidebar-dropdown">
                                         <a>
-                                            <i class="fa fa-address-book"></i>
-                                            <span>Inactive</span>
+                                            <i class="fa fa-address-book-o"></i>
+                                            <span>Active</span>
                                         </a>
                                         <div class="sidebar-submenu">
                                             <ul>
-                                                {% if surveys_inactive %}
-                                                    {% for survey in surveys_inactive %}
+                                                {% if surveys_active %}
+                                                    {% for survey in surveys_active %}
                                                         <li>
                                                             <a href="/surveys/{{survey.id}}">
                                                                 {{survey}}
@@ -182,108 +157,134 @@
                                                     {% endfor %}
                                                 {% else %}
                                                     <li>
-                                                        <a class="disabled">No inactive surveys </a>
+                                                        <a class="disabled">No active surveys </a>
                                                     </li>
                                                 {% endif %}
                                             </ul>
                                         </div>
                                     </li>
+                                    <!-- Inactive drop-down -->
 
-                            {% endif %}
-
-                            <li class="header-menu">
-                                    <span>Analytics</span>
-                            </li>
-                            <!-- Analytics drop-down -->
-                            <li class="sidebar-dropdown">
-                                <a>
-                                    <i class="fa fa-line-chart"></i>
-                                    <span>Statistics</span>
-                                </a>
-                                <div class="sidebar-submenu">
-                                    <ul>
-                                        <li>
-                                         <a class="disabled">No statistics generated yet </a>
+                                        <li class="sidebar-dropdown">
+                                            <a>
+                                                <i class="fa fa-address-book"></i>
+                                                <span>Inactive</span>
+                                            </a>
+                                            <div class="sidebar-submenu">
+                                                <ul>
+                                                    {% if surveys_inactive %}
+                                                        {% for survey in surveys_inactive %}
+                                                            <li>
+                                                                <a href="/surveys/{{survey.id}}">
+                                                                    {{survey}}
+                                                                </a>
+                                                            </li>
+                                                        {% endfor %}
+                                                    {% else %}
+                                                        <li>
+                                                            <a class="disabled">No inactive surveys </a>
+                                                        </li>
+                                                    {% endif %}
+                                                </ul>
+                                            </div>
                                         </li>
-                                    </ul>
-                                </div>
-                            </li>
 
-                            <!--Extras header -->
-                            <li class="header-menu">
-                                <span>Extra</span>
-                            </li>
-                            <!--Documentation link -->
-                            <li>
-                                <a>
-                                    <i class="fa fa-book"></i>
-                                    <span>Documentation</span>
-                                </a>
-                            </li>
-                            <!-- Calendar link -->
-                            <li>
-                                <a href="#">
-                                    <i class="fa fa-calendar"></i>
-                                    <span>Calendar</span>
-                                </a>
-                            </li>
-                            <!-- Examples -->
-                            <li>
-                                <a href="#">
-                                    <i class="fa fa-folder"></i>
-                                    <span>Examples</span>
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </nav>
+                                {% endif %}
 
-            <!-- main container -->
-            <div  class="page-content">
-                <div class="container-fluid">
-                    <div id="main" role="main" class="main-content-block">
-                        {% if messages %}
-                            <ul class="messages">
-                                {% for message in messages %}
-                                    <li {% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
-                                {% endfor %}
-                            </ul>
-                        {% endif %}
-                        {% block content %}
-                        {% endblock %}
-                    </div>
-                </div>
-            </div>
+                                <li class="header-menu">
+                                        <span>Analytics</span>
+                                </li>
+                                <!-- Analytics drop-down -->
+                                <li class="sidebar-dropdown">
+                                    <a>
+                                        <i class="fa fa-line-chart"></i>
+                                        <span>Statistics</span>
+                                    </a>
+                                    <div class="sidebar-submenu">
+                                        <ul>
+                                            <li>
+                                             <a class="disabled">No statistics generated yet </a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </li>
 
-
-            <!-- Footer -->
-            <section  id="footer">
-                <div class="container">
-                    <div class="row">
-                        <div class="col-xs-12 col-sm-12 col-md-12 mt-2 mt-sm-5">
-                            <ul class="list-unstyled list-inline social text-center">
-                                <li class="list-inline-item"><a data-toggle="tooltip" data-placement="top" title="IN DEVELOPMENT" href="javascript:redirect();"><i class="fa fa-facebook"></i></a></li>
-                                <li class="list-inline-item"><a data-toggle="tooltip" data-placement="top" title="IN DEVELOPMENT" href="javascript:redirect();"><i class="fa fa-twitter"></i></a></li>
-                                <li class="list-inline-item"><a data-toggle="tooltip" data-placement="top" title="IN DEVELOPMENT" href="javascript:redirect();"><i class="fa fa-instagram"></i></a></li>
-                                <li class="list-inline-item"><a data-toggle="tooltip" data-placement="top" title="IN DEVELOPMENT" href="javascript:redirect();"><i class="fa fa-google-plus"></i></a></li>
-                                <li class="list-inline-item"><a data-toggle="tooltip" data-placement="top" title="IN DEVELOPMENT" href="javascript:redirect();" target="_blank"><i class="fa fa-envelope"></i></a></li>
+                                <!--Extras header -->
+                                <li class="header-menu">
+                                    <span>Extra</span>
+                                </li>
+                                <!--Documentation link -->
+                                <li>
+                                    <a>
+                                        <i class="fa fa-book"></i>
+                                        <span>Documentation</span>
+                                    </a>
+                                </li>
+                                <!-- Calendar link -->
+                                <li>
+                                    <a href="#">
+                                        <i class="fa fa-calendar"></i>
+                                        <span>Calendar</span>
+                                    </a>
+                                </li>
+                                <!-- Examples -->
+                                <li>
+                                    <a href="#">
+                                        <i class="fa fa-folder"></i>
+                                        <span>Examples</span>
+                                    </a>
+                                </li>
                             </ul>
                         </div>
                     </div>
+                </nav>
 
-                    <!--Footer info-->
-                    <div class="row">
-                        <div class="col-xs-12 col-sm-12 col-md-12 mt-2 mt-sm-2 text-center text-white">
-                            <p class="h6">University of Aberdeen - Project Surffee - Intelligent Survey Systems</p>
-                            <p>Georgi Velikov - Anton Trnovsky - Yiannis Keravnos - Martin Woznicki - Julian Lorenz</p>
+                <!-- main container -->
+                <div  class="page-content">
+                    <div class="container-fluid">
+                        <div id="main" role="main" class="main-content-block">
+                            {% if messages %}
+                                <ul class="messages">
+                                    {% for message in messages %}
+                                        {% if message.tags %}
+                                            <li  class="{{ message.tags }}">{{ message }}</li>
+                                        {% endif %}
+                                    {% endfor %}
+                                </ul>
+                            {% endif %}
+                            {% block content %}
+                            {% endblock %}
                         </div>
                     </div>
-
                 </div>
-            </div>
 
-            </div>
+
+                <!-- Footer -->
+                <section  id="footer">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-xs-12 col-sm-12 col-md-12 mt-2 mt-sm-5">
+                                <ul class="list-unstyled list-inline social text-center">
+                                    <li class="list-inline-item"><a data-toggle="tooltip" data-placement="top" title="IN DEVELOPMENT" href="javascript:redirect();"><i class="fa fa-facebook"></i></a></li>
+                                    <li class="list-inline-item"><a data-toggle="tooltip" data-placement="top" title="IN DEVELOPMENT" href="javascript:redirect();"><i class="fa fa-twitter"></i></a></li>
+                                    <li class="list-inline-item"><a data-toggle="tooltip" data-placement="top" title="IN DEVELOPMENT" href="javascript:redirect();"><i class="fa fa-instagram"></i></a></li>
+                                    <li class="list-inline-item"><a data-toggle="tooltip" data-placement="top" title="IN DEVELOPMENT" href="javascript:redirect();"><i class="fa fa-google-plus"></i></a></li>
+                                    <li class="list-inline-item"><a data-toggle="tooltip" data-placement="top" title="IN DEVELOPMENT" href="javascript:redirect();" target="_blank"><i class="fa fa-envelope"></i></a></li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <!--Footer info-->
+                        <div class="row">
+                            <div class="col-xs-12 col-sm-12 col-md-12 mt-2 mt-sm-2 text-center text-white">
+                                <p class="h6">University of Aberdeen - Project Surffee - Intelligent Survey Systems</p>
+                                <p>Georgi Velikov - Anton Trnovsky - Yiannis Keravnos - Martin Woznicki - Julian Lorenz</p>
+                            </div>
+                        </div>
+
+                    </div>
+                </section>
+            </section>
         </div>
 
     </body>
