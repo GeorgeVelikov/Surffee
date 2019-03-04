@@ -26,16 +26,25 @@ class Create(CreateView):
         questions = Question.objects.filter(survey=survey_id)
 
         choices = Choice.objects.filter(question__in=questions)
-        choice_dict = {}
+        choices_colored = []
 
         for choice in choices:
-            choice_dict[choice] = choice.choice_text.split()
+            added = False
+            for word in all_words:
+                if word.text in choice.choice_text:
+                    new_choice = choice.choice_text.replace(word.text, '<label style=color:' + str(word.color) + '">' +
+                                                            str(word.text) + '</label>')
+                    choices_colored.append(new_choice)
+                    added = True
+            if not added:
+                choices_colored.append(choice)
 
         return self.render_to_response(
             self.get_context_data(form=form,
                                   survey=survey,
                                   choices=choices,
                                   all_words=all_words,
+                                  choices_colored=choices_colored,
                                   )
         )
 

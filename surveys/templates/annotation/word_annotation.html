@@ -28,7 +28,7 @@
         {% endfor %}
 
         <div class="container-fluid">
-            {% for choice in choices %}
+            {% for choice in choices_colored %}
                 {% if forloop.counter|divisibleby:2 %}
                     {% define "white;" as bg_colour %}
                 {% else %}
