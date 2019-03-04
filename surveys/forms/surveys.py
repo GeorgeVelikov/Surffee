@@ -78,6 +78,7 @@ class AnnotationWordForm(forms.ModelForm):
         super(AnnotationWordForm, self).__init__(*args, **kwargs)
         self.fields['classification'].label = "Word type"
         self.fields['classification'].widget.attrs['class'] = "textinput textInput form-control"
+        self.fields['classification'].widget.attrs['placeholder'] = "Please enter a classification"
 
     class Meta:
         model = Word
