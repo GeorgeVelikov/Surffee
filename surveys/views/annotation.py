@@ -21,6 +21,8 @@ class Create(CreateView):
         survey_id = self.kwargs.get('survey_id')
         survey = Survey.objects.get(pk=survey_id)
 
+        all_words = Word.objects.all()
+
         questions = Question.objects.filter(survey=survey_id)
 
         choices = Choice.objects.filter(question__in=questions)
@@ -33,6 +35,7 @@ class Create(CreateView):
             self.get_context_data(form=form,
                                   survey=survey,
                                   choices=choices,
+                                  all_words=all_words,
                                   )
         )
 

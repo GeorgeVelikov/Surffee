@@ -120,7 +120,7 @@ $(document).ready(function () {
         else {
             var input = $("<input>").attr("name", "word_selection")
                                     .attr("id", "word_selection")
-                                    .attr("disabled", "")
+                                    .attr("readonly", "")
                                     .attr("class", "textinput textInput form-control")
                                     .val(word_selection);
             $('#selection').append($(input));
