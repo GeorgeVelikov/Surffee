@@ -25,25 +25,30 @@
         <div class="container-fluid">
             {% for choice in choices %}
                 {% if forloop.counter|divisibleby:2 %}
-                    {% define "background: white;" as bg_colour %}
+                    {% define "white;" as bg_colour %}
                 {% else %}
-                    {% define "background: lightgray;" as bg_colour %}
+                    {% define "lightgray;" as bg_colour %}
                 {% endif %}
 
                 <div class="row">
-                    <label class="col-sm-12 text-left" style="{{bg_colour}}">
+                    <label class="col-sm-12 text-left" style="background:{{bg_colour}}">
                         <input value="{{choice}}" disabled class="select_me nothing" id='{{choice_object.id}}'>
                     </label>
                 </div>
-
             {% endfor %}
         </div>
 
         {{ form.classification|as_crispy_field }}
         <div class="row container-fluid">
-            <div id="selection">
-                <!-- this is where we put our selected text -->
+            <button type="button" class="offset-sm-1 col-sm-2 btn-success">Add to all</button>
+            <button type="button" class="col-sm-2 btn-info  ">Add to single</button>
+            <div id="selection" class="col-sm-2">
+                <label id="annotation_help">
+                    Please make your selection
+                </label>
             </div>
+            <button type="button" class="col-sm-2 btn-warning">Remove single</button>
+            <button type="button" class="col-sm-2 btn-danger">Remove all</button>
         </div>
 
         <button type="submit" class="btn btn-block btn-primary">Save annotation</button>

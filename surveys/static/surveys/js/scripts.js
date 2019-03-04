@@ -107,6 +107,10 @@ $(document).ready(function () {
         // grab the highlighted text on the select_me inputs
         word_selection = $(this).selection();
 
+        if ($('#annotation_help').length ) {
+            $('#annotation_help').remove();
+        }
+
         // if we have a caching input field, just renew the value in it
         if ($('#word_selection').length ) {
             $('#word_selection').val(word_selection);
@@ -117,6 +121,7 @@ $(document).ready(function () {
             var input = $("<input>").attr("name", "word_selection")
                                     .attr("id", "word_selection")
                                     .attr("disabled", "")
+                                    .attr("class", "input-group-text")
                                     .val(word_selection);
             $('#selection').append($(input));
         }
