@@ -50,8 +50,14 @@ class Create(CreateView):
         random_hex_color = "#%06x" % random.randint(0, 0xFFFFFF)
 
         request.POST._mutable = True
+
         form.data['text'] = form.data['word_selection']
-        form.data['color'] = random_hex_color
+
+        if Word.objects.filter(classification=form.data['classification']).exists():
+            form.data['color'] = Word.objects.filter(classification=form.data['classification']).first().color
+        else:
+            form.data['color'] = random_hex_color
+
         request.POST._mutable = False
 
         if form.is_valid():
