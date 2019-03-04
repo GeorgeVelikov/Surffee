@@ -21,6 +21,11 @@
         {% csrf_token %}
         {{ form.id }}
 
+        {% for word in all_words %}
+            <div style="background:{{word.color}}">
+                {{ word.text }}
+            </div>
+        {% endfor %}
 
         <div class="container-fluid">
             {% for choice in choices %}
@@ -47,8 +52,7 @@
                 {{ form.classification }}
             </div>
             <div id="selection" class="col-sm-2">
-                <input id="word_selection"
-                       name="word_selection"
+                <input id="annotation_help"
                        value="Please make your selection"
                        class="textinput textInput form-control"
                        disabled >
