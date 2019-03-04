@@ -26,7 +26,7 @@
             <script type="text/javascript" src="{% static 'fusioncharts/themes/fusioncharts.theme.candy.js' %}"></script>
             <script type="text/javascript" src="{% static 'fusioncharts/themes/fusioncharts.theme.fint.js' %}"></script>
         <!-- CSS static files -->
-            <link rel="shortcut icon" type="image/png" href="{% static 'favicon.ico' %}"/>
+            <link rel="shortcut icon" type="image/png" href="{% static '/surveys/favicon.ico' %}"/>
             <link href="{% static 'surveys/css/style.css' %}" rel="stylesheet" type="text/css" />
 
         <title>{% block title %} Surffee app {% endblock %}</title>
@@ -34,89 +34,100 @@
     </head>
 
     <body style="background-image: url('{% static 'surveys/seigaiha.png' %}');">
-        <!-- Navbar -->
-        <nav id="navb" class="navbar navbar-icon-top navbar-expand-lg navbar-dark sticky-top navbar-custom">
-            <a class="navbar-brand" style="font-size: x-large;" href="{% url 'home' %}">Surffee</a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
 
-            <!-- Actual navbar options -->
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
 
-                <!-- left -->
-                <ul class="navbar-nav mr-auto">
-                    <!--Home-->
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'home' %}">
-                            <i class="fa fa-home"></i>
-                            Home
-                            <span class="sr-only">(current)</span>
-                        </a>
-                    </li>
-                </ul>
+        <div class="container-fluid" id="con">
 
-                <!-- right -->
-                <ul class="navbar-nav">
+            <!-- Navbar -->
+            <nav id="navb" class="navbar navbar-icon-top navbar-expand-lg navbar-dark sticky-top navbar-custom">
+                    <a class="navbar-brand" style="font-size: x-large;" href="{% url 'home' %}">Surffee</a>
+                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
 
-                    <!-- Create Survey -->
-                    {% if user.is_authenticated %}
-                        <li class="nav-item">
-                            <a class="nav-link" href="{% url 'surveys:create' %}">
-                                <i class="fa fa-plus-square-o" aria-hidden="true"></i>
-                                Create survey
-                            </a>
-                        </li>
+                    <!-- Actual navbar options -->
+                    <div class="collapse navbar-collapse" id="navbarSupportedContent">
 
-                        <!-- My Surveys -->
-                        <li class="nav-item">
-                            <a class="nav-link" href="{% url 'surveys:index' %}">
-                                <i class="fa fa-file-text fa-1" aria-hidden="true"></i>
-                                My surveys
-                            </a>
-                        </li>
-                    {% endif %}
-
-                    <!-- User profile -->
-                    <li class="nav-item">
-                        <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">
-                            <i class="fa fa-user"></i>
-                            {{ username }}
-                        </a>
-                        <ul class="dropdown-menu dropdown-menu-right navbar-dropdown-custom">
-                            <!-- TODO: put this as an option next to profile -->
-                            {% if user.is_superuser %}
-                                <li><a class="nav-link" href="{% url 'admin:index' %}">Admin Settings  <span><i class="fa fa-cog" aria-hidden="true"></i></span></a></li>
-                            {% endif %}
-
-                            {% if user.is_authenticated %}
-                                <li><a class="nav-link" href="{% url 'surveys:index' %}">My surveys  <span ><i class="fa fa-file-text fa-1" aria-hidden="true"></i></span></a></li>
-                                <li><a class="nav-link" href="{% url 'surveys:create' %}">Create survey  <span data-feather="plus-circle"></span></a></li>
-                                <li><a class="nav-link" href="{% url 'password_reset' %}">Reset password  <span><i class="fa fa-eraser" aria-hidden="true"></i></span></a></li>
-                                <li><a class="nav-link" href="{% url 'logout' %}">Logout  <span><i class="fa fa-sign-out" aria-hidden="true"></i></span></a></li>
-                            {% else %}
-                                <li><a class="nav-link" href="{% url 'login' %}">Login  <span><i class="fa fa-sign-in" aria-hidden="true"></i></span></a></li>
-                                <li><a class="nav-link" href="{% url 'signup' %}">Signup  <span><i class="fa fa-user-plus" aria-hidden="true"></i></span></a></li>
-                            {% endif %}
+                        <!-- left -->
+                        <ul class="navbar-nav mr-auto">
+                            <!--Home-->
+                            <li class="nav-item">
+                                <a class="nav-link" href="{% url 'home' %}">
+                                    <i class="fa fa-home"></i>
+                                    Home
+                                    <span class="sr-only">(current)</span>
+                                </a>
+                            </li>
                         </ul>
-                    </li>
 
-                </ul>
+                        <!-- right -->
+                        <ul class="navbar-nav">
 
-            </div>
+                            <!-- Create Survey -->
+                            {% if user.is_authenticated %}
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{% url 'surveys:create' %}">
+                                        <i class="fa fa-plus-square-o" aria-hidden="true"></i>
+                                        Create survey
+                                    </a>
+                                </li>
 
-        </nav>
+                                <!-- My Surveys -->
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{% url 'surveys:index' %}">
+                                        <i class="fa fa-file-text fa-1" aria-hidden="true"></i>
+                                        My surveys
+                                    </a>
+                                </li>
 
 
-        <!-- Sidebar & Main content block -->
-        <div class="page-wrapper chiller-theme toggled" style="position: absolute;">
-            <a id="show-sidebar" class="btn btn-dark" href="#" style="margin-top: 100px;">
-               <i class="fa fa-bars"></i>
-            </a>
-            <nav id="sidebar" class="sidebar-wrapper" style="margin-top: 65px;">
+                                {% if user.is_superuser %}
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="{% url 'admin:index' %}">
+                                            <i class="fa fa-cog" aria-hidden="true"></i>
+                                            Admin Settings
+                                        </a>
+                                    </li>
+                                {% endif %}
+
+                            {% endif %}
+
+                            <!-- User profile -->
+                            <li class="nav-item">
+                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">
+                                    <i class="fa fa-user"></i>
+                                    {{ username }}
+                                </a>
+                                <ul class="dropdown-menu dropdown-menu-right navbar-dropdown-custom">
+
+                                    {% if user.is_authenticated %}
+                                        <li><a class="nav-link" href="{% url 'surveys:index' %}">My surveys  <span ><i class="fa fa-file-text fa-1" aria-hidden="true"></i></span></a></li>
+                                        <li><a class="nav-link" href="{% url 'surveys:create' %}">Create survey  <span data-feather="plus-circle"></span></a></li>
+                                        <li><a class="nav-link" href="{% url 'password_reset' %}">Reset password  <span><i class="fa fa-eraser" aria-hidden="true"></i></span></a></li>
+                                        <li><a class="nav-link" href="{% url 'logout' %}">Logout  <span><i class="fa fa-sign-out" aria-hidden="true"></i></span></a></li>
+                                    {% else %}
+                                        <li><a class="nav-link" href="{% url 'login' %}">Login  <span><i class="fa fa-sign-in" aria-hidden="true"></i></span></a></li>
+                                        <li><a class="nav-link" href="{% url 'signup' %}">Signup  <span><i class="fa fa-user-plus" aria-hidden="true"></i></span></a></li>
+                                    {% endif %}
+                                </ul>
+                            </li>
+
+                        </ul>
+
+                    </div>
+
+                </nav>
+
+
+            <!-- Sidebar & Main content block -->
+            <div class="page-wrapper chiller-theme toggled">
+                <a id="show-sidebar" class="btn btn-dark" href="#" style="margin-top: 100px;">
+                   <i class="fa fa-bars"></i>
+                </a>
+                <nav id="sidebar" class="sidebar-wrapper" style="margin-top: 65px;">
                 <div class="sidebar-content">
                     <div class="sidebar-brand">
-                        <a class="text-center" style="font-size: large;" href="{% url 'surveys:index' %}">Surveys</a>
+                        <a class="text-center" style="font-size: large;">Surveys</a>
                         <div id="close-sidebar">
                           <i class="fa fa-times"></i>
                         </div>
@@ -229,50 +240,54 @@
                     </div>
                 </div>
             </nav>
-        </div>
 
-        <!-- main container -->
-        <div id="main" class="page-content">
-            <div class="container-fluid">
-                <main role="main" class="main-content-block">
-                    {% if messages %}
-                        <ul class="messages">
-                            {% for message in messages %}
-                                <li {% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
-                            {% endfor %}
-                        </ul>
-                    {% endif %}
-                    {% block content %}
-                    {% endblock %}
-                </main>
-            </div>
-        </div>
-
-        <!-- Footer -->
-        <section id="footer">
-            <div class="container">
-                <div class="row">
-                    <div class="col-xs-12 col-sm-12 col-md-12 mt-2 mt-sm-5">
-                        <ul class="list-unstyled list-inline social text-center">
-                            <li class="list-inline-item"><a data-toggle="tooltip" data-placement="top" title="IN DEVELOPMENT" href="javascript:redirect();"><i class="fa fa-facebook"></i></a></li>
-                            <li class="list-inline-item"><a data-toggle="tooltip" data-placement="top" title="IN DEVELOPMENT" href="javascript:redirect();"><i class="fa fa-twitter"></i></a></li>
-                            <li class="list-inline-item"><a data-toggle="tooltip" data-placement="top" title="IN DEVELOPMENT" href="javascript:redirect();"><i class="fa fa-instagram"></i></a></li>
-                            <li class="list-inline-item"><a data-toggle="tooltip" data-placement="top" title="IN DEVELOPMENT" href="javascript:redirect();"><i class="fa fa-google-plus"></i></a></li>
-                            <li class="list-inline-item"><a data-toggle="tooltip" data-placement="top" title="IN DEVELOPMENT" href="javascript:redirect();" target="_blank"><i class="fa fa-envelope"></i></a></li>
-                        </ul>
+            <!-- main container -->
+            <div  class="page-content">
+                <div class="container-fluid">
+                    <div id="main" role="main" class="main-content-block">
+                        {% if messages %}
+                            <ul class="messages">
+                                {% for message in messages %}
+                                    <li {% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+                                {% endfor %}
+                            </ul>
+                        {% endif %}
+                        {% block content %}
+                        {% endblock %}
                     </div>
                 </div>
-
-                <!--Footer info-->
-                <div class="row">
-                    <div class="col-xs-12 col-sm-12 col-md-12 mt-2 mt-sm-2 text-center text-white">
-                        <p class="h6">University of Aberdeen - Project Surffee - Intelligent Survey Systems</p>
-                        <p>Georgi Velikov - Anton Trnovsky - Yiannis Keravnos - Martin Woznicki - Julian Lorenz</p>
-                    </div>
-                </div>
-
             </div>
-        </section>
+
+
+            <!-- Footer -->
+            <section  id="footer">
+                <div class="card-footer" >
+                    <div class="row">
+                        <div class="col-xs-12 col-sm-12 col-md-12 mt-2 mt-sm-5">
+                            <ul class="list-unstyled list-inline social text-center">
+                                <li class="list-inline-item"><a data-toggle="tooltip" data-placement="top" title="IN DEVELOPMENT" href="javascript:redirect();"><i class="fa fa-facebook"></i></a></li>
+                                <li class="list-inline-item"><a data-toggle="tooltip" data-placement="top" title="IN DEVELOPMENT" href="javascript:redirect();"><i class="fa fa-twitter"></i></a></li>
+                                <li class="list-inline-item"><a data-toggle="tooltip" data-placement="top" title="IN DEVELOPMENT" href="javascript:redirect();"><i class="fa fa-instagram"></i></a></li>
+                                <li class="list-inline-item"><a data-toggle="tooltip" data-placement="top" title="IN DEVELOPMENT" href="javascript:redirect();"><i class="fa fa-google-plus"></i></a></li>
+                                <li class="list-inline-item"><a data-toggle="tooltip" data-placement="top" title="IN DEVELOPMENT" href="javascript:redirect();" target="_blank"><i class="fa fa-envelope"></i></a></li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!--Footer info-->
+                    <div class="row">
+                        <div class="col-xs-12 col-sm-12 col-md-12 mt-2 mt-sm-2 text-center text-white">
+                            <p class="h6">University of Aberdeen - Project Surffee - Intelligent Survey Systems</p>
+                            <p>Georgi Velikov - Anton Trnovsky - Yiannis Keravnos - Martin Woznicki - Julian Lorenz</p>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+</div>
 
     </body>
+
 </html>

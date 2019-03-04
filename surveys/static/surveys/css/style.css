@@ -20,9 +20,23 @@ body {
 
 
 /* Navbar */
+
+#con{
+  padding-left: 0px;
+  padding-right: 0px;
+
+}
+
+#navb {
+  position: sticky;
+  top: 0;
+}
+
+
 .navbar-dropdown-custom  {
     color: #434343;
     background-color: #434343;
+    position: sticky;
 
 }
 
@@ -147,8 +161,9 @@ section .section-title {
 }
 
 #footer {
-    position:absolute;
-    bottom:0;
+    padding-right: 0px !important;
+    position: fixed;
+    bottom: 0;
     left:0;
     right:0;
     width: 100%;
@@ -237,11 +252,6 @@ section .section-title {
     padding-top: 24px;
     padding-bottom: 180px;
 
-}
-
-#main {
-   margin-left: 260px;
-   height: 100%;
 }
 
 
@@ -336,7 +346,6 @@ margin:20px 0px;}
 
 /* New Side bar */
 
-
 @keyframes swing {
   0% {
     transform: rotate(0deg);
@@ -389,13 +398,7 @@ body {
 .sidebar-wrapper .sidebar-search input.search-menu,
 .sidebar-wrapper .sidebar-search .input-group-text,
 .sidebar-wrapper .sidebar-menu ul li a,
-#show-sidebar{
-  -webkit-transition: all 0.3s ease;
-  -moz-transition: all 0.3s ease;
-  -ms-transition: all 0.3s ease;
-  -o-transition: all 0.3s ease;
-  transition: all 0.3s ease;
-}
+#show-sidebar,
 #close-sidebar {
   -webkit-transition: all 0.3s ease;
   -moz-transition: all 0.3s ease;
@@ -422,7 +425,7 @@ body {
   background: #1e2229;
 }
 
-/*----------------toggeled sidebar----------------*/
+/*----------------toggled sidebar----------------*/
 
 .page-wrapper.toggled .sidebar-wrapper {
   left: 0px;
@@ -498,56 +501,6 @@ body {
   cursor: pointer;
   font-size: 20px;
 }
-/*--------------------sidebar-header----------------------*/
-
-.sidebar-wrapper .sidebar-header {
-  padding: 20px;
-  overflow: hidden;
-}
-
-.sidebar-wrapper .sidebar-header .user-pic {
-  float: left;
-  width: 60px;
-  padding: 2px;
-  border-radius: 12px;
-  margin-right: 15px;
-  overflow: hidden;
-}
-
-.sidebar-wrapper .sidebar-header .user-pic img {
-  object-fit: cover;
-  height: 100%;
-  width: 100%;
-}
-
-.sidebar-wrapper .sidebar-header .user-info {
-  float: left;
-}
-
-.sidebar-wrapper .sidebar-header .user-info > span {
-  display: block;
-}
-
-.sidebar-wrapper .sidebar-header .user-info .user-role {
-  font-size: 12px;
-}
-
-.sidebar-wrapper .sidebar-header .user-info .user-status {
-  font-size: 11px;
-  margin-top: 4px;
-}
-
-.sidebar-wrapper .sidebar-header .user-info .user-status i {
-  font-size: 8px;
-  margin-right: 4px;
-  color: #5cb85c;
-}
-
-/*-----------------------sidebar-search------------------------*/
-
-.sidebar-wrapper .sidebar-search > div {
-  padding: 10px 20px;
-}
 
 /*----------------------sidebar-menu-------------------------*/
 
@@ -586,7 +539,7 @@ body {
 }
 
 .sidebar-wrapper .sidebar-menu .sidebar-dropdown > a:after {
-  font-family: "Font Awesome 5 Free";
+  font-family: "Font Awesome 4 Free";
   font-weight: 900;
   content: ">";
   font-style: normal;
@@ -614,7 +567,7 @@ body {
 
 .sidebar-wrapper .sidebar-menu .sidebar-dropdown .sidebar-submenu li a:before {
   content: ">";
-  font-family: "Font Awesome 5 Free";
+  font-family: "Font Awesome 4 Free";
   font-weight: 400;
   font-style: normal;
   display: inline-block;
@@ -656,14 +609,17 @@ body {
   width: 100%;
   padding-left: 0px;
   padding-top: 20px;
+
 }
 
 .page-wrapper .page-content > div {
   padding: 20px 40px;
+
 }
 
 .page-wrapper .page-content {
   overflow-x: hidden;
+
 }
 
 /*------scroll bar---------------------*/
