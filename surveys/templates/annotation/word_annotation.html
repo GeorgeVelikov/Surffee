@@ -38,19 +38,23 @@
             {% endfor %}
         </div>
 
-        {{ form.classification|as_crispy_field }}
+
         <div class="row container-fluid">
-            <button type="button" class="offset-sm-1 btn-block col-sm-2 btn-success">Add to all</button>
+            <button type="button" class="col-sm-2 btn-success">Add to all</button>
             <button type="button" class="col-sm-2 btn-outline-success">Add to single</button>
-            <div id="selection" class="col-sm-2">
-                <label id="annotation_help">
-                    Please make your selection
-                </label>
+
+            <div class="col-sm-2">
+                {{ form.classification }}
             </div>
+            <div id="selection" class="col-sm-2">
+                <label id="annotation_help" class="col-form-label"> Please make your selection </label>
+            </div>
+
             <button type="button" class="col-sm-2 btn-outline-danger">Remove single</button>
             <button type="button" class="col-sm-2 btn-block btn-danger">Remove all</button>
         </div>
         <br>
+
         <button type="submit" class="btn btn-block btn-primary">Save annotation</button>
     </form>
 {% endblock %}

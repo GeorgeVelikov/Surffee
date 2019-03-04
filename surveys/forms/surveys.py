@@ -74,6 +74,11 @@ class AnswerSurveyQuestionsForm(forms.ModelForm):
 
 
 class AnnotationWordForm(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        super(AnnotationWordForm, self).__init__(*args, **kwargs)
+        self.fields['classification'].label = "Word type"
+        self.fields['classification'].widget.attrs['class'] = "textinput textInput form-control"
+
     class Meta:
         model = Word
         exclude = ['']

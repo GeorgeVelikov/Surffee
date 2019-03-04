@@ -121,7 +121,7 @@ $(document).ready(function () {
             var input = $("<input>").attr("name", "word_selection")
                                     .attr("id", "word_selection")
                                     .attr("disabled", "")
-                                    .attr("class", "input-group-text")
+                                    .attr("class", "textinput textInput form-control")
                                     .val(word_selection);
             $('#selection').append($(input));
         }
