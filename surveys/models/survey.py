@@ -46,7 +46,6 @@ class Question(models.Model):
         ('T', 'Text answer'),
         ('G', 'Gradient answer'),
     )
-    # TODO: specify on_delete // if u delete the question, keep survey but not the choices
     survey = models.ForeignKey(Survey, on_delete=models.CASCADE)
     question_text = models.CharField(max_length=2**8)
     # pub_date = models.DateTimeField('date published')

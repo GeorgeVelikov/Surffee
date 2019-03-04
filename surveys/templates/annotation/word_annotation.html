@@ -9,32 +9,26 @@
 
 
 {% block content %}
-
     <div class="d-flex justify-content-between flex-wrap flex-sm-nowrap align-items-center pb-2 mb-3 border-bottom">
         <h1>Annotate {{survey}}</h1>
     </div>
 
 
-    <form action="." method="post" class="append_post">
+    <form action="" method="post" class="append_post">
         {% csrf_token %}
         {{ form.id }}
+        {{ form.classification|as_crispy_field }}
 
-        {% for choice_object, choice_text in choices.items %}
+        {% for choice in choices %}
             <div class="row" >
                 <label class="col-sm-1 text-left">
-                    <input value="{{choice_object}}" class="select_me nothing" id='{{choice_object.id}}'>
+                    <input value="{{choice}}" disabled class="select_me nothing" id='{{choice_object.id}}'>
                 </label>
             </div>
-
         {% endfor %}
+
         <button type="submit" class="btn btn-block btn-primary">Save annotation</button>
     </form>
-
-
-    <script>
-
-    </script>
-
 {% endblock %}
 
 

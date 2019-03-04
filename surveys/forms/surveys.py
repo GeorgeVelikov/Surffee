@@ -64,7 +64,7 @@ class ResearcherCreateSurvey(forms.ModelForm):
 class PersonalInformationForm(forms.ModelForm):
     class Meta:
         model = PersonalInformation
-        exclude = ['active, creator']  # TODO: might want to exclude more stuff
+        exclude = ['active, creator']
 
 
 class AnswerSurveyQuestionsForm(forms.ModelForm):
