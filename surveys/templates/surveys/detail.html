@@ -94,7 +94,7 @@
             {% for choice in question.choice_set.all %}
                 <div class="list-group">
                     <div class="row">
-                        <div class="col-sm-11">
+                        <div class="col-sm-10">
                             <a class="list-group-item list-group-item-action text-truncate">
                              <!-- choices listed -->
                                 {{ choice.choice_text }}
@@ -105,7 +105,7 @@
                                 </p>
                             </a>
                         </div>
-                        <div class="col-sm-1">
+                        <div class="container-fluid col-sm-2">
                             <!-- TODO: change CSS and make it harder to delete it by accident (i.e. add js alert prompt)-->
                             <a href="../{{survey.id}}/delete_choice/{{choice.id}}" class="btn btn-primary btn-danger float-right">
                                 <span class="fa fa-remove">
