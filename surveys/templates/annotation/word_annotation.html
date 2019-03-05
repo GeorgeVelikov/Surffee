@@ -21,12 +21,6 @@
         {% csrf_token %}
         {{ form.id }}
 
-        {% for word in all_words %}
-            <div style="background:{{word.color}}">
-                {{word.classification}} - {{ word.text }}
-            </div>
-        {% endfor %}
-
         <div class="container-fluid">
             {% for choice in choices %}
                 {% if forloop.counter|divisibleby:2 %}
