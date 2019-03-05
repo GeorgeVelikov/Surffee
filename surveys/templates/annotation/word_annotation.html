@@ -41,9 +41,15 @@
                         {% for color, text in choices_colored.items %}
                             {% if text in choice.choice_text %}
                                 ["{{text}}","{{ color }}"],
+                                <div style="background-color: {{ color }}; position:relative; z-index:10; opacity:0.3;">
+                                    {% for ch in text %}
+                                        &#160
+                                    {% endfor %}
+                                </div>
                             {% endif %}
                         {% endfor %}
                         ]
+
                         <input type="text" value="{{ choice }}" disabled class="select_me nothing">
 
                     </label>
