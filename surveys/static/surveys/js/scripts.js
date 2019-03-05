@@ -127,11 +127,9 @@ $(document).ready(function () {
         }
     });
 
-    $(".select_me").each(function() {
-        var text = $(this).val();
-        var array = eval(JSON.parse(text));
-        console.log(array);
-        console.log(text);
+    $(".annotation_id").each(function() {
+        var input_field = $(($(this).children()[0]))
+        console.log( input_field.val() );
     });
 
     // just a helper function to test stuff

@@ -36,15 +36,15 @@
                 {% endif %}
 
                 <div class="row">
-                    <label class="col-sm-12 text-left" style="background:{{bg_colour}}">
-                        {% autoescape off %}
-                            {% for color, text in choices_colored.items %}
-                                {% if text in choice.choice_text %}
-                                    {{ color }}
-                                {% endif %}
-                            {% endfor %}
-                        {% endautoescape %}
-                        <input type="text" value="{{ choice }}" disabled class="select_me nothing" id='{{choice_object.id}}'>
+                    <label class="col-sm-12 text-left annotation_id" id="{{choice_object.id}}" style="background:{{bg_colour}}">
+                        [
+                        {% for color, text in choices_colored.items %}
+                            {% if text in choice.choice_text %}
+                                ["{{text}}","{{ color }}"],
+                            {% endif %}
+                        {% endfor %}
+                        ]
+                        <input type="text" value="{{ choice }}" disabled class="select_me nothing">
 
                     </label>
                 </div>
