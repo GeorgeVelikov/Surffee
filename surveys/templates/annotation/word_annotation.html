@@ -37,20 +37,21 @@
 
                 <div class="row">
                     <label class="col-sm-12 text-left annotation_id" id="{{choice_object.id}}" style="background:{{bg_colour}}">
-                        [
+                        <input type="text" style="z-index:2;" value="{{ choice }}" disabled class="select_me nothing">
+
                         {% for color, text in choices_colored.items %}
                             {% if text in choice.choice_text %}
-                                ["{{text}}","{{ color }}"],
-                                <div style="background-color: {{ color }}; position:relative; z-index:10; opacity:0.3;">
-                                    {% for ch in text %}
-                                        &#160
-                                    {% endfor %}
+                                <div style="position:absolute; z-index:1; top:-30px; opacity:0.3;">
+                                    <span style="background-color: {{ color }}; width:auto;">
+                                        {% for ch in text %}
+                                            &#160
+                                        {% endfor %}
+                                    </span>
                                 </div>
                             {% endif %}
                         {% endfor %}
-                        ]
 
-                        <input type="text" value="{{ choice }}" disabled class="select_me nothing">
+
 
                     </label>
                 </div>
