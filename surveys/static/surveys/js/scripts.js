@@ -104,7 +104,7 @@ $(document).ready(function () {
 
     // doing this instead of .post as I wanted to package the data in the form post data
     $(".select_me").select(function() {
-        // grab the highlighted text on the select_me inputs
+            // grab the highlighted text on the select_me inputs
         word_selection = $(this).selection();
 
         if ($('#annotation_help').length ) {
