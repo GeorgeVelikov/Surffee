@@ -26,36 +26,15 @@ class Create(CreateView):
         questions = Question.objects.filter(survey=survey_id)
 
         choices = Choice.objects.filter(question__in=questions)
-        choices_colored = []
+        choices_colored = {}
 
         for choice in choices:
-            choice.choice_text = choice.choice_text.replace(str(choice.choice_text),
-                                                            "["+str(choice.choice_text)+"]")
-            added = False
             for word in all_words:
                 if word.text in choice.choice_text:
-                    if not added:
-                        choice.choice_text = choice.choice_text.replace(word.text,
-                                                                        '{"' + str(word.color) +
-                                                                        '":"' + str(word.text) + '"}')
-                        added = True
-
+                    if word.color in choices_colored:
+                        choices_colored[str(word.color)] += str(word.text)
                     else:
-                        choice.choice_text = choice.choice_text.replace(('"'+str(word.text)+'"'), word.text)
-
-                        choice.choice_text = choice.choice_text.replace(word.text,
-                                                                        ',{"' + str(word.color) +
-                                                                        '":"' + str(word.text) + '"}')
-
-            if not added:
-                choices_colored.append(choice.choice_text.replace(str(choice.choice_text),
-                                                                  '["' +
-                                                                  str(choice.choice_text)
-                                                                  .replace("[", "")
-                                                                  .replace("]", "")
-                                                                  + '"]'))
-            else:
-                choices_colored.append(choice.choice_text)
+                        choices_colored[str(word.color)] = str(word.text)
 
         return self.render_to_response(
             self.get_context_data(form=form,

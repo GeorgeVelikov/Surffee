@@ -28,7 +28,7 @@
         {% endfor %}
 
         <div class="container-fluid">
-            {% for choice in choices_colored %}
+            {% for choice in choices %}
                 {% if forloop.counter|divisibleby:2 %}
                     {% define "white;" as bg_colour %}
                 {% else %}
@@ -38,7 +38,9 @@
                 <div class="row">
                     <label class="col-sm-12 text-left" style="background:{{bg_colour}}">
                         {% autoescape off %}
-                            {{ choice }}
+                            {% for color, text in choices_colored.items %}
+                                {{ color }}
+                            {% endfor %}
                         {% endautoescape %}
                         <input type="text" value="{{ choice }}" disabled class="select_me nothing" id='{{choice_object.id}}'>
 
