@@ -29,15 +29,31 @@ class Create(CreateView):
         choices_colored = []
 
         for choice in choices:
+            choice.choice_text = choice.choice_text.replace(str(choice.choice_text),
+                                                            "["+str(choice.choice_text)+"]")
             added = False
             for word in all_words:
                 if word.text in choice.choice_text:
-                    choice.choice_text = choice.choice_text.replace(word.text, '<label style=background-color:' + str(word.color) + '>' +
-                                                            str(word.text) + '</label>')
-                    added = True
+                    if not added:
+                        choice.choice_text = choice.choice_text.replace(word.text,
+                                                                        '{"' + str(word.color) +
+                                                                        '":"' + str(word.text) + '"}')
+                        added = True
+
+                    else:
+                        choice.choice_text = choice.choice_text.replace(('"'+str(word.text)+'"'), word.text)
+
+                        choice.choice_text = choice.choice_text.replace(word.text,
+                                                                        ',{"' + str(word.color) +
+                                                                        '":"' + str(word.text) + '"}')
 
             if not added:
-                choices_colored.append(choice)
+                choices_colored.append(choice.choice_text.replace(str(choice.choice_text),
+                                                                  '["' +
+                                                                  str(choice.choice_text)
+                                                                  .replace("[", "")
+                                                                  .replace("]", "")
+                                                                  + '"]'))
             else:
                 choices_colored.append(choice.choice_text)
 

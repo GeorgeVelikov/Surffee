@@ -127,6 +127,13 @@ $(document).ready(function () {
         }
     });
 
+    $(".select_me").each(function() {
+        var text = $(this).val();
+        var array = eval(JSON.parse(text));
+        console.log(array);
+        console.log(text);
+    });
+
     // just a helper function to test stuff
     function redirect() {
         alert("what did you expect lmao");

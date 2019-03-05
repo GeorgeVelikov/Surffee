@@ -39,8 +39,9 @@
                     <label class="col-sm-12 text-left" style="background:{{bg_colour}}">
                         {% autoescape off %}
                             {{ choice }}
-                        <input value="{{ choice }}" disabled class="select_me nothing" id='{{choice_object.id}}'>
                         {% endautoescape %}
+                        <input type="text" value="{{ choice }}" disabled class="select_me nothing" id='{{choice_object.id}}'>
+
                     </label>
                 </div>
             {% endfor %}
