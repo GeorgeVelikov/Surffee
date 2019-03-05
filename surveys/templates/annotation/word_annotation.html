@@ -35,10 +35,10 @@
                 {% endif %}
 
                 <div class="row">
-                    <label class="col-sm-12 text-left annotation_id" id="{{choice_object.id}}" style=" background:{{bg_colour}}">
+                    <label class="col-sm-12 text-left annotation_id" id="{{choice_object.id}}" style="z-index:0; background:{{bg_colour}}">
                         {% for color, text in choices_colored.items %}
                             {% if text in choice.choice_text %}
-                                <div style="position:absolute;">
+                                <div style="position:absolute; z-index:-1;">
                                     <span style="background-color:{{ color }};  width:auto;">
                                         {% for ch in text %}
                                             &#160
@@ -47,7 +47,7 @@
                                 </div>
                             {% endif %}
                         {% endfor %}
-                        <input type="text" value="{{ choice }}" disabled class="select_me nothing">
+                        <input type="text" value="{{ choice }}" style="z-index:1;" disabled class="select_me nothing">
                     </label>
                 </div>
             {%  endfor %}
