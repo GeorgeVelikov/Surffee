@@ -16,6 +16,11 @@
         <h1>Annotate: {{survey}}</h1>
     </div>
 
+        {% for word in all_words %}
+            <div style="background:{{word.color}}">
+                {{word.classification}} - {{ word.text }}
+            </div>
+        {% endfor %}
 
     <form action="" method="post">
         {% csrf_token %}
@@ -33,7 +38,7 @@
                     <label class="col-sm-12 text-left annotation_id" id="{{choice_object.id}}" style=" background:{{bg_colour}}">
                         {% for color, text in choices_colored.items %}
                             {% if text in choice.choice_text %}
-                                <div style="position:absolute; top:-30px;">
+                                <div style="position:absolute;">
                                     <span style="background-color:{{ color }};  width:auto;">
                                         {% for ch in text %}
                                             &#160
