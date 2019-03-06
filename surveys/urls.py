@@ -37,7 +37,7 @@ urlpatterns = [
          survey.detail,
          name="detail"),
 
-    path('<int:survey_id>/annotate',
+    path('<int:survey_id>/annotate/<int:annotation_id>',
          annotation.Create.as_view(),
          name="annotate"),
 

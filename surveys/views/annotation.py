@@ -22,7 +22,7 @@ class Create(CreateView):
             current_annotation = Annotation.objects.filter(survey=survey).first()
         else:
             # TODO: redirect user to create name for annotation
-            current_annotation = Annotation.objects.create(name="Placeholder annotation", survey=survey)
+            current_annotation = Annotation.objects.create(name="Standard annotation", survey=survey)
 
         classifications = Classification.objects.filter(annotation=current_annotation.id)
         words = Word.objects.filter(classification__in=classifications)
