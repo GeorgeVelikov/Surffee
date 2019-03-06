@@ -132,8 +132,8 @@
     <div class="container-fluid">
         <div class="row">
             <a class="col-sm-3 btn btn-success text-light" href="./add_question">
-                <i class="fa fa-check-square-o"></i>
-                Add question to the survey
+                <i class="fa fa-plus"></i>
+                Add question
             </a>
 
             <a class="offset-sm-1 col-sm-3 btn btn-success text-light" href="./annotate/1">
@@ -143,7 +143,7 @@
 
             <a class="offset-sm-1 col-sm-3 btn btn-success text-light" href="./results">
                 <i class="fa fa-bar-chart"></i>
-                Survey results graphs
+                Results / Graphs
             </a>
         </div>
 
@@ -151,7 +151,7 @@
 
         {% if survey.active %}
             <div class="row">
-                <a class="offset-sm-4 col-sm-3 btn btn-info text-light float-right" href="../answer/{{survey.id}}/agreement">
+                <a class="offset-sm-4 col-sm-3 btn btn-info" href="../answer/{{survey.id}}/agreement">
                     Link for respondents
                 </a>
             </div>
