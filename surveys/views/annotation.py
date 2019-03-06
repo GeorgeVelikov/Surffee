@@ -2,7 +2,7 @@ from django.shortcuts import redirect
 from django.views.generic import CreateView
 
 from ..models.survey import Survey, Question, Choice
-from ..models.annotation import Word
+from ..models.annotation import Annotation, Classification, Word
 from ..forms.surveys import AnnotationWordForm
 
 import random
@@ -15,33 +15,31 @@ class Create(CreateView):
 
     def get(self, request, *args, **kwargs):
         self.object = None
-        form_class = self.get_form_class()
-        form = self.get_form(form_class)
-
         survey_id = self.kwargs.get('survey_id')
         survey = Survey.objects.get(pk=survey_id)
 
-        all_words = Word.objects.all()
+        if Annotation.objects.filter(survey=survey).exists():
+            current_annotation = Annotation.objects.filter(survey=survey).first()
+        else:
+            # TODO: redirect user to create name for annotation
+            current_annotation = Annotation.objects.create(name="Placeholder annotation", survey=survey)
+
+        classifications = Classification.objects.filter(annotation=current_annotation.id)
+        words = Word.objects.filter(classification__in=classifications)
 
         questions = Question.objects.filter(survey=survey_id)
-
         choices = Choice.objects.filter(question__in=questions)
-        choices_colored = {}
 
-        for choice in choices:
-            for word in all_words:
-                if word.text in choice.choice_text:
-                    if word.color in choices_colored:
-                        choices_colored[str(word.color)] += str(word.text)
-                    else:
-                        choices_colored[str(word.color)] = str(word.text)
+        form_class = self.get_form_class()
+        form = self.get_form(form_class)
 
         return self.render_to_response(
             self.get_context_data(form=form,
+                                  current_annotation=current_annotation,
+                                  classifications=classifications,
+                                  words=words,
                                   survey=survey,
                                   choices=choices,
-                                  all_words=all_words,
-                                  choices_colored=choices_colored,
                                   )
         )
 

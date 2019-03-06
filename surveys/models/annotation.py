@@ -1,13 +1,23 @@
 from django.db import models
-from .survey import Survey
+from .survey import Survey, Choice
+
+
+class Annotation(models.Model):
+    name = models.CharField(max_length=2**6)
+    survey = models.ForeignKey(Survey, on_delete=models.CASCADE, default=0)
+
+
+class Classification(models.Model):
+    name = models.CharField(max_length=2 ** 6)  # name of word group, decided by researcher
+    color = models.CharField(max_length=2 ** 3)  # colour of the classification
+    annotation = models.ForeignKey(Annotation, on_delete=models.CASCADE)
 
 
 class Word(models.Model):
     text = models.CharField(max_length=2**6)  # limit word length to 64, because why would you need more
-    classification = models.CharField(max_length=2**6)  # name of word group, decided by researcher
-    color = models.CharField(max_length=2**3)  # this is in the example form of #FF00FF
+    start = models.IntegerField()
+    end = models.IntegerField()
+    choice = models.ForeignKey(Choice, on_delete=models.CASCADE)
+    classification = models.ForeignKey(Classification, on_delete=models.CASCADE)
 
 
-class Annotation(models.Model):
-    survey = models.ForeignKey(Survey, on_delete=models.CASCADE, default=0)
-    words = models.ManyToManyField(Word, default=0)

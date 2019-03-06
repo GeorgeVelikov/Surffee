@@ -51,7 +51,7 @@ class ResearcherCreateSurvey(forms.ModelForm):
                                        widget=forms.CheckboxSelectMultiple(),
                                        choices=PERSONAL_INFORMATION_CHOICE,
                                        )
-    pi_set.widget.attrs['class'] = 'pi_checkbox '
+    pi_set.widget.attrs['class'] = 'pi_checkbox'
 
     class Meta:
         model = Survey
@@ -74,15 +74,17 @@ class AnswerSurveyQuestionsForm(forms.ModelForm):
 
 
 class AnnotationWordForm(forms.ModelForm):
-    def __init__(self, *args, **kwargs):
-        super(AnnotationWordForm, self).__init__(*args, **kwargs)
-        self.fields['classification'].label = "Word type"
-        self.fields['classification'].widget.attrs['class'] = "textinput textInput form-control"
-        self.fields['classification'].widget.attrs['placeholder'] = "Please enter a classification"
+    classification = forms.CharField(required=True, max_length=2**6)
+
+    classification.widget.attrs['class'] = "textinput textInput form-control"
+    classification.widget.attrs['placeholder'] = "Please enter a classification"
 
     class Meta:
         model = Word
         exclude = ['']
+
+    def save(self, commit=True):
+        return super(AnnotationWordForm, self).save(commit=commit)
 
 
 ChoiceFormSet = inlineformset_factory(Question,
