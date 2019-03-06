@@ -59,40 +59,46 @@ class Create(CreateView):
         annotation_id = self.kwargs.get('annotation_id')
         annotation = Annotation.objects.get(pk=annotation_id)
 
-        # make sure we get a unique color
-        random_hex_color = "#%06x" % random.randint(0, 0xFFFFFF)
-        while Classification.objects.filter(annotation=annotation, color=random_hex_color).exists():
-            random_hex_color = "#%06x" % random.randint(0, 0xFFFFFF)
+        choice = Choice.objects.get(pk=form.data['choice_id_selected'])
+        word_text = form.data['word_selection']
+
+        word_start = choice.choice_text.find(word_text)
+        word_end = word_start + len(word_text)
 
         # this is where POST data transformations and magic happens
-
         request.POST._mutable = True
         # Our form is using the model Word
-        form.data['text'] = form.data['word_selection']
-        form.data['choice'] = Choice.objects.get(pk=form.data['choice_id_selected'])
+        form.data['text'] = word_text
+        form.data['choice'] = choice.pk
+        form.data['start'] = word_start
+        form.data['end'] = word_end
 
         # check if the classification existing already
         # if yes    -> store word in it,
         # else      -> create new classification and store word in there
-        if Classification.objects.filter(name=form.data['classification'], survey=survey).exists():
-            form.data['classification'] = Classification.objects.get(name=form.data['classification'],
-                                                                     survey=survey)
+        if Classification.objects.filter(name=form.data['classification_name'], annotation=annotation).exists():
+            form.data['classification'] = Classification.objects.get(name=form.data['classification_name'],
+                                                                     annotation=annotation).pk
         else:
-            form.data['classification'] = Classification.objects.create(name=form.data['classification'],
-                                                                        survey=survey,
-                                                                        color=random_hex_color)
+            # make sure we get a unique color
+            random_hex_color = "#%06x" % random.randint(0, 0xFFFFFF)
+            while Classification.objects.filter(annotation=annotation, color=random_hex_color).exists():
+                random_hex_color = "#%06x" % random.randint(0, 0xFFFFFF)
+
+            form.data['classification'] = Classification.objects.create(name=form.data['classification_name'],
+                                                                        annotation=annotation,
+                                                                        color=random_hex_color).pk
 
         request.POST._mutable = False
 
         if form.is_valid():
-            return self.form_valid(form)
+            return self.form_valid(form, annotation_id)
         else:
             return self.form_invalid(form)
 
-    def form_valid(self, form):
+    def form_valid(self, form, id):
         self.object = form.save(commit=True)
-        print(self.object)
-        return redirect('./annotate')
+        return redirect('./'+str(id))
 
     def form_invalid(self, form):
         return self.render_to_response(self.get_context_data(form=form))
