@@ -1,11 +1,16 @@
 {% extends 'base.html' %}
 <!-- include crispy -->
-{% load static from staticfiles %}
+
 {% load crispy_forms_tags %}
+{% load static from staticfiles %}
 {% block title %}Results{% endblock %}
 
 
 {% block content %}
+    <!-- charts static files -->
+        <script type="text/javascript" src="{% static 'fusioncharts/fusioncharts.js' %}"></script>
+        <script type="text/javascript" src="{% static 'fusioncharts/themes/fusioncharts.theme.candy.js' %}"></script>
+        <script type="text/javascript" src="{% static 'fusioncharts/themes/fusioncharts.theme.fint.js' %}"></script>
 
     <div class="d-flex justify-content-between flex-wrap flex-sm-nowrap align-items-center pb-2 mb-3 border-bottom">
         <h2>
