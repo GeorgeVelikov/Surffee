@@ -65,14 +65,22 @@ class Create(CreateView):
             random_hex_color = "#%06x" % random.randint(0, 0xFFFFFF)
 
         # this is where POST data transformations and magic happens
+
         request.POST._mutable = True
         # Our form is using the model Word
         form.data['text'] = form.data['word_selection']
+        form.data['choice'] = Choice.objects.get(pk=form.data['choice_id_selected'])
 
-        if Word.objects.filter(classification=form.data['classification']).exists():
-            form.data['color'] = Word.objects.filter(classification=form.data['classification']).first().color
+        # check if the classification existing already
+        # if yes    -> store word in it,
+        # else      -> create new classification and store word in there
+        if Classification.objects.filter(name=form.data['classification'], survey=survey).exists():
+            form.data['classification'] = Classification.objects.get(name=form.data['classification'],
+                                                                     survey=survey)
         else:
-            form.data['color'] = random_hex_color
+            form.data['classification'] = Classification.objects.create(name=form.data['classification'],
+                                                                        survey=survey,
+                                                                        color=random_hex_color)
 
         request.POST._mutable = False
 
