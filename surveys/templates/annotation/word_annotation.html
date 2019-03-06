@@ -13,7 +13,7 @@
 
 {% block content %}
     <div class="d-flex justify-content-between flex-wrap flex-sm-nowrap align-items-center pb-2 mb-3 border-bottom">
-        <h1>Annotate: {{survey}} as {{ current_annotation.name }} </h1>
+        <h1>Annotate: {{survey}} as {{ annotation.name }} </h1>
     </div>
 
         {% for word in all_words %}
@@ -35,7 +35,7 @@
                 {% endif %}
 
                 <div class="row">
-                    <label class="col-sm-12 text-left annotation_id" id="{{choice_object.id}}" style="background:{{bg_colour}}">
+                    <label class="col-sm-12 text-left annotation_id" id="{{choice.id}}" style="background:{{bg_colour}}">
                         <div class="row">
                             <div class="colours">
                                 <!-- legacy code was here -->

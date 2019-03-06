@@ -106,6 +106,8 @@ $(document).ready(function () {
     $(".select_me").select(function() {
             // grab the highlighted text on the select_me inputs
         word_selection = $(this).selection();
+        choice_id = $($(this).parent()).attr('id');
+        console.log(choice_id);
 
         if ($('#annotation_help').length ) {
             $('#annotation_help').remove();
@@ -123,6 +125,19 @@ $(document).ready(function () {
                                     .attr("readonly", "")
                                     .attr("class", "textinput textInput form-control")
                                     .val(word_selection);
+            $('#selection').append($(input));
+        }
+
+        if ($('#choice_id_post').length ) {
+            $('#choice_id_post').val(choice_id);
+        }
+        else {
+            var input = $("<input>").attr("name", "choice_id_selected")
+                                    .attr("id", "choice_id_post")
+                                    .attr("readonly", "")
+                                    .attr("hidden", "")
+                                    .attr("class", "textinput textInput form-control")
+                                    .val(choice_id);
             $('#selection').append($(input));
         }
     });

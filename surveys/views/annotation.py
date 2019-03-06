@@ -18,13 +18,18 @@ class Create(CreateView):
         survey_id = self.kwargs.get('survey_id')
         survey = Survey.objects.get(pk=survey_id)
 
+        annotation_id = self.kwargs.get('survey_id')
+
         if Annotation.objects.filter(survey=survey).exists():
-            current_annotation = Annotation.objects.filter(survey=survey).first()
+            if Annotation.objects.get(pk=annotation_id):
+                annotation = Annotation.objects.get(pk=annotation_id)
+            else:
+                annotation = Annotation.objects.get(pk=1)
         else:
             # TODO: redirect user to create name for annotation
-            current_annotation = Annotation.objects.create(name="Standard annotation", survey=survey)
+            annotation = Annotation.objects.create(name="Standard annotation", survey=survey)
 
-        classifications = Classification.objects.filter(annotation=current_annotation.id)
+        classifications = Classification.objects.filter(annotation=annotation.id)
         words = Word.objects.filter(classification__in=classifications)
 
         questions = Question.objects.filter(survey=survey_id)
@@ -35,7 +40,7 @@ class Create(CreateView):
 
         return self.render_to_response(
             self.get_context_data(form=form,
-                                  current_annotation=current_annotation,
+                                  annotation=annotation,
                                   classifications=classifications,
                                   words=words,
                                   survey=survey,
@@ -51,10 +56,17 @@ class Create(CreateView):
         survey_id = self.kwargs.get('survey_id')
         survey = Survey.objects.get(pk=survey_id)
 
+        annotation_id = self.kwargs.get('annotation_id')
+        annotation = Annotation.objects.get(pk=annotation_id)
+
+        # make sure we get a unique color
         random_hex_color = "#%06x" % random.randint(0, 0xFFFFFF)
+        while Classification.objects.filter(annotation=annotation, color=random_hex_color).exists():
+            random_hex_color = "#%06x" % random.randint(0, 0xFFFFFF)
 
+        # this is where POST data transformations and magic happens
         request.POST._mutable = True
-
+        # Our form is using the model Word
         form.data['text'] = form.data['word_selection']
 
         if Word.objects.filter(classification=form.data['classification']).exists():
