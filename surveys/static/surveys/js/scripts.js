@@ -106,19 +106,20 @@ $(document).ready(function () {
     $(".select_me").select(function() {
             // grab the highlighted text on the select_me inputs
         word_selection = $(this).selection();
-        choice_id = $($(this).parent()).attr('id');
-        console.log(choice_id);
 
+        parent_element = $($(this).parent());
+        choice_id = parent_element.attr('id');
+
+        // removes the help text if we make a selection
         if ($('#annotation_help').length ) {
             $('#annotation_help').remove();
         }
 
-        // if we have a caching input field, just renew the value in it
+        // if we have a caching field, just update val in it; else if we don't, create an input field and populate it
         if ($('#word_selection').length ) {
+
             $('#word_selection').val(word_selection);
         }
-
-        // else if we don't, create an input field with the specific id and name and populate it
         else {
             var input = $("<input>").attr("name", "word_selection")
                                     .attr("id", "word_selection")
@@ -128,7 +129,9 @@ $(document).ready(function () {
             $('#selection').append($(input));
         }
 
+        // same as word_selection, only used for choice ID
         if ($('#choice_id_post').length ) {
+
             $('#choice_id_post').val(choice_id);
         }
         else {
