@@ -33,14 +33,13 @@ def base(request):
 
 def index(request):
     template = 'surveys/index.html'
-    surveys = None
+    context = {}
     if not request.user.is_authenticated:  # user is not logged in
         raise PermissionDenied("User is not logged in")
     if request.user.is_superuser:
-        surveys = Survey.objects.all
-    elif request.user.is_authenticated:
-        surveys = Survey.objects.filter(creator=request.user)
-    context = {'surveys': surveys}
+        context['all_surveys'] = Survey.objects.all
+    if request.user.is_authenticated:
+        context['my_surveys'] = Survey.objects.filter(creator=request.user)
     return render(request, template, context)
 
 
