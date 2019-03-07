@@ -9,6 +9,8 @@ from .models.user import Researcher
     it sets up the testing environment   
                                         """
 
+# TODO: Remove the skipTest tags
+
 
 class SignUpTests(TestCase):
 
@@ -48,6 +50,32 @@ class SignUpTests(TestCase):
         """
         username = ''
         password = 'TestPassword123456'
+        email = 'test.email@ihate.django'
+
+        self.signup_response(username, password, password, email)
+        self.assertNotIn(username, [str(user) for user in Researcher.objects.all()])
+
+    def test_signup_with_short_username(self):
+        """
+         Test if user can sign up with username shorter than 5 characters
+        :return:
+        """
+        self.skipTest('Remove the skip, once boys fixed it')
+        username = 'Test'
+        password = 'TestPassword123456'
+        email = 'test.email@ihate.django'
+
+        self.signup_response(username, password, password, email)
+        self.assertNotIn(username, [str(user) for user in Researcher.objects.all()])
+
+    def test_signup_with_short_password(self):
+        """
+         Test if user can sign up with password shorter than 8 characters
+        :return:
+        """
+        self.skipTest('Remove the skip, once boys fixed it')
+        username = 'TestUser'
+        password = 'Test'
         email = 'test.email@ihate.django'
 
         self.signup_response(username, password, password, email)
