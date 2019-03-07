@@ -143,12 +143,28 @@ $(document).ready(function () {
                                     .val(choice_id);
             $('#selection').append($(input));
         }
+
+        updateAnnotationOperationHref();
     });
 
     $(".annotation_id").each(function() {
         var input_field = $(($(this).children()[0]))
         console.log( input_field.val() );
     });
+
+    $("#id_classification_name").on('input', updateAnnotationOperationHref);
+
+    function updateAnnotationOperationHref() {
+        $(".annotation_operation").each(function() {
+            var operation = $(this).attr('id');
+            var choice_id = $('#choice_id_post').val();
+            var word_text = $('#word_selection').val();
+            var class_name = $("#id_classification_name").val();
+
+            $(this).attr('href', './' + annotation_id + '/' + operation);
+            console.log($(this).attr('href'), choice_id, word_text, class_name);
+        });
+    }
 
     // just a helper function to test stuff
     function redirect() {

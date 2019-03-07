@@ -12,6 +12,9 @@
 
 
 {% block content %}
+    <script>
+        var annotation_id = {{ annotation.id }};
+    </script>
     <div class="d-flex justify-content-between flex-wrap flex-sm-nowrap align-items-center pb-2 mb-3 border-bottom">
         <h1>Annotate: {{survey}} as {{ annotation.name }} </h1>
     </div>
@@ -59,8 +62,8 @@
 
 
         <div class="row container-fluid">
-            <a href="./{{annotation.id}}/add_all" class="text-light col-sm-2 btn rounded-0 btn-success">Add to all</a>
-            <a href="./{{annotation.id}}/add_one" class="text-dark col-sm-2 btn rounded-0 btn-outline-success">Add to single</a>
+            <a id="add_all" class="annotation_operation text-light col-sm-2 btn rounded-0 btn-success">Add to all</a>
+            <a id="add_one" class="annotation_operation text-dark col-sm-2 btn rounded-0 btn-outline-success">Add to single</a>
 
             <div class="col-sm-2">
                 {{ form.classification_name }}
@@ -73,8 +76,8 @@
                        disabled >
             </div>
 
-            <a href="./{{annotation.id}}/delete_one" class="text-dark col-sm-2 btn rounded-0 btn-outline-danger">Remove single</a>
-            <a href="./{{annotation.id}}/delete_all" class="text-light col-sm-2 btn rounded-0 btn-block btn-danger">Remove all</a>
+            <a id="delete_one" class="annotation_operation text-dark col-sm-2 btn rounded-0 btn-outline-danger">Remove single</a>
+            <a id="delete_all" class="annotation_operation text-light col-sm-2 btn rounded-0 btn-block btn-danger">Remove all</a>
         </div>
         <br>
 

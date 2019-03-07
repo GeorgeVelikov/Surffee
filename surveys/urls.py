@@ -45,7 +45,7 @@ urlpatterns = [
          annotation.AddAll.as_view(),
          name="annotate_add_all"),
 
-    path('<int:survey_id>/annotate/<int:annotation_id>/add_one',
+    path('<int:survey_id>/annotate/<int:annotation_id>/add_one/<int:choice_id>/<str:class>/<str:word_text>',
          annotation.AddOne.as_view(),
          name="annotate_add_one"),
 
