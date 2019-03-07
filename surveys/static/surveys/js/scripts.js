@@ -143,7 +143,7 @@ $(document).ready(function () {
                                     .val(choice_id);
             $('#selection').append($(input));
         }
-        highlight($(this));
+
         updateAnnotationOperationHref();
     });
 

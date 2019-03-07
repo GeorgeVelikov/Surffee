@@ -136,7 +136,6 @@ class Create(CreateView):
 class AddOne(UpdateView):
     def get(self, request, *args, **kwargs):
         self.object = None
-
         survey = Survey.objects.get(pk=self.kwargs.get('survey_id'))
         annotation = Annotation.objects.get(pk=self.kwargs.get('annotation_id'))
         choice = Choice.objects.get(pk=self.kwargs.get('choice_id'))
@@ -174,36 +173,78 @@ class AddOne(UpdateView):
 class AddAll(UpdateView):
     def get(self, request, *args, **kwargs):
         self.object = None
-        survey_id = self.kwargs.get('survey_id')
-        survey = Survey.objects.get(pk=survey_id)
+        survey = Survey.objects.get(pk=self.kwargs.get('survey_id'))
+        annotation = Annotation.objects.get(pk=self.kwargs.get('annotation_id'))
+        choice = Choice.objects.get(pk=self.kwargs.get('choice_id'))
 
-        annotation_id = self.kwargs.get('annotation_id')
-        annotation = Survey.objects.get(pk=annotation_id)
+        classification_name = self.kwargs.get('class')
+        word_text = self.kwargs.get('word_text')
 
-        return redirect('/surveys/'+str(survey_id)+'/annotate/'+str(annotation_id))
+        all_questions = Question.objects.filter(survey=choice.question.survey)
+        all_choices = Choice.objects.filter(question__in=all_questions)
+        all_words = Word.objects.filter(choice__in=all_choices)
+
+        classification_annotation = Classification.objects.filter(name=classification_name,
+                                                                  annotation=annotation)
+
+        for choice in all_choices:
+            if choice.choice_text.find(word_text) == -1:
+                continue
+            word_start = choice.choice_text.find(word_text)
+            word_end = word_start + len(word_text)
+
+            if classification_annotation.exists():
+                for word in all_words:
+                    if word_text in word.text and len(word.text) < len(word_text):
+                        continue
+
+                    if word.text in word_text and word.id:
+                        word.delete()
+
+                classification = Classification.objects.get(name=classification_name,
+                                                            annotation=annotation)
+
+            else:
+                classification = create_new_classification(classification_name, annotation)
+                classification.save()
+
+            word = Word.objects.create(text=word_text,
+                                       start=word_start,
+                                       end=word_end,
+                                       choice=choice,
+                                       classification=classification)
+            word.save()
+
+        return redirect('/surveys/'+str(survey.id)+'/annotate/'+str(annotation.id))
 
 
 class DeleteOne(UpdateView):
     def get(self, request, *args, **kwargs):
         self.object = None
-        survey_id = self.kwargs.get('survey_id')
-        survey = Survey.objects.get(pk=survey_id)
+        survey = Survey.objects.get(pk=self.kwargs.get('survey_id'))
+        annotation = Annotation.objects.get(pk=self.kwargs.get('annotation_id'))
+        choice = Choice.objects.get(pk=self.kwargs.get('choice_id'))
 
-        annotation_id = self.kwargs.get('annotation_id')
-        annotation = Survey.objects.get(pk=annotation_id)
+        classification_name = self.kwargs.get('class')
+        word_text = self.kwargs.get('word_text')
 
-        return redirect('/surveys/'+str(survey_id)+'/annotate/'+str(annotation_id))
+        word_start = choice.choice_text.find(word_text)
+        word_end = word_start + len(word_text)
+
+        return redirect('/surveys/' + str(survey.id) + '/annotate/' + str(annotation.id))
 
 
 class DeleteAll(UpdateView):
     def get(self, request, *args, **kwargs):
         self.object = None
-        survey_id = self.kwargs.get('survey_id')
-        survey = Survey.objects.get(pk=survey_id)
+        survey = Survey.objects.get(pk=self.kwargs.get('survey_id'))
+        annotation = Annotation.objects.get(pk=self.kwargs.get('annotation_id'))
+        choice = Choice.objects.get(pk=self.kwargs.get('choice_id'))
 
-        annotation_id = self.kwargs.get('annotation_id')
-        annotation = Survey.objects.get(pk=annotation_id)
+        classification_name = self.kwargs.get('class')
+        word_text = self.kwargs.get('word_text')
 
-        return redirect('/surveys/'+str(survey_id)+'/annotate/'+str(annotation_id))
+        word_start = choice.choice_text.find(word_text)
+        word_end = word_start + len(word_text)
 
-
+        return redirect('/surveys/' + str(survey.id) + '/annotate/' + str(annotation.id))
