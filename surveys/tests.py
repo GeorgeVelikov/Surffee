@@ -10,6 +10,27 @@ from .models.user import Researcher
                                         """
 
 
+class SignUpTests(TestCase):
+
+    def test_signup(self):
+        '''
+         Test if signing up creates a new user
+        :return:
+        '''
+        username = 'TestUser'
+        password = 'TestPassword123456'
+        test_email = 'test.email@ihate.django'
+
+        self.client.post(reverse('signup'), {
+            'username': username,
+            'password1': password,
+            'password2': password,
+            'email': test_email
+        })
+        self.assertIn(username, [str(user) for user in Researcher.objects.all()])
+        test_user = Researcher.objects.get(username=username)
+        self.assertEqual(test_email, test_user.email)
+
 class LoginTests(TestCase):
 
     def setUp(self):
