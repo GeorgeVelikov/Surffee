@@ -23,7 +23,7 @@ class SignUpTests(TestCase):
             'email': email,
         },  follow=True)
 
-    def test_template(self):
+    def test_signup_template(self):
         """
          Test if appropriate template is used for the sign up view
         :return:
@@ -165,6 +165,13 @@ class SignUpTests(TestCase):
 
 class LoginTests(TestCase):
 
+    """ helper method: login with username and password"""
+    def login_response(self, username, password):
+        return self.client.post(reverse('login'), {
+            'username': username,
+            'password': password,
+        },  follow=True)
+
     def setUp(self):
         self.client = Client()
         self.user = Researcher.objects.create_user(username='TestUser',
@@ -172,12 +179,14 @@ class LoginTests(TestCase):
                                                    )
         self.user.save()
 
-    """ helper method: login with username and password"""
-    def login_response(self, username, password):
-        return self.client.post(reverse('login'), {
-            'username': username,
-            'password': password,
-        },  follow=True)
+    def test_login_template(self):
+        """
+         Check if appropriate template is being displayed
+        :return:
+        """
+        resp = self.client.get(reverse('login'))
+        self.assertEqual(resp.status_code, 200)
+        self.assertTemplateUsed(resp, 'registration/login.html')
 
     def test_login_success(self):
         """
@@ -194,7 +203,7 @@ class LoginTests(TestCase):
 
     def test_login_without_username(self):
         """
-         Check if user can log in with no username and password
+         Check if user can log in with no username
         :return:
         """
         username = ''
@@ -205,10 +214,21 @@ class LoginTests(TestCase):
 
     def test_login_without_password(self):
         """
-         Check if user can log in with no username and password
+         Check if user can log in with no password
         :return:
         """
         username = 'TestUser'
+        password = ''
+
+        self.login_response(username, password)
+        self.assertNotIn('auth_user_id', self.client.session)
+
+    def test_login_without_login_and_password(self):
+        """
+         Check if user can log in with no login and password
+        :return:
+        """
+        username = ''
         password = ''
 
         self.login_response(username, password)
@@ -229,10 +249,31 @@ class LoginTests(TestCase):
 
 class HomeViewTests(TestCase):
 
-    def test_template(self):
+    def setUp(self):
+        self.client = Client()
+        self.user = Researcher.objects.create_user(username='TestUser',
+                                                   password='TestPassword123456'
+                                                   )
+        self.user.save()
+
+    def test_home_template(self):
+        """
+         Check if appropriate template is being displayed
+        :return:
+        """
         resp = self.client.get(reverse('home'))
         self.assertEqual(resp.status_code, 200)
         self.assertTemplateUsed(resp, 'home.html')
+
+    def test_home_greeting_username(self):
+        """
+         Check if appropriate username is given at greeting
+        :return:
+        """
+        self.client.force_login(self.user)
+        resp = self.client.get(reverse('home'))
+        name = resp.context['user'].username
+        self.assertEqual(name, self.user.username)
 
 
 class IndexViewTests(TestCase):

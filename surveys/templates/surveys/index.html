@@ -9,6 +9,7 @@
 {% block content %}
     {% if user.is_authenticated %}
 
+        <!-- MY ACTIVE SURVEYS -->
         <div class="d-flex justify-content-between flex-wrap flex-sm-nowrap align-items-center pb-2 mb-3 border-bottom">
             <h2>Your active surveys:</h2>
         </div>
@@ -29,6 +30,7 @@
         </div>
 
         <br>
+        <!-- MY INACTIVE SURVEYS -->
         <div class="d-flex justify-content-between flex-wrap flex-sm-nowrap align-items-center pb-2 mb-3 border-bottom">
             <h2>Your inactive surveys:</h2>
         </div>
@@ -55,6 +57,7 @@
             <h2>[superuser] All active surveys are shown:</h2>
         </div>
 
+        <!-- ALL ACTIVE SURVEYS -->
         <div class="list-group">
             {% if all_active_surveys %}
                 {% for survey in all_active_surveys %}
@@ -71,6 +74,7 @@
         </div>
 
         <br>
+        <!-- ALL INACTIVE SURVEYS -->
         <div class="d-flex justify-content-between flex-wrap flex-sm-nowrap align-items-center pb-2 mb-3 border-bottom">
             <h2>[superuser] All inactive surveys are shown:</h2>
         </div>
