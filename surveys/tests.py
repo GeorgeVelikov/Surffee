@@ -12,24 +12,46 @@ from .models.user import Researcher
 
 class SignUpTests(TestCase):
 
-    def test_signup(self):
-        '''
-         Test if signing up creates a new user
+    def signup_response(self, username, password1, password2, email):
+        return self.client.post(reverse('signup'), {
+            'username': username,
+            'password1': password1,
+            'password2': password2,
+            'email': email,
+        },  follow=True)
+
+    def test_template(self):
+        signup_response = self.client.get(reverse('signup'))
+        self.assertEqual(signup_response.status_code, 200)
+        self.assertTemplateUsed(signup_response, 'signup.html')
+
+    def test_signup_success(self):
+        """
+         Test if signing up creates a new user with appropriate data
         :return:
-        '''
+        """
         username = 'TestUser'
         password = 'TestPassword123456'
-        test_email = 'test.email@ihate.django'
+        email = 'test.email@ihate.django'
 
-        self.client.post(reverse('signup'), {
-            'username': username,
-            'password1': password,
-            'password2': password,
-            'email': test_email
-        })
+        self.signup_response(username, password, password, email)
         self.assertIn(username, [str(user) for user in Researcher.objects.all()])
         test_user = Researcher.objects.get(username=username)
-        self.assertEqual(test_email, test_user.email)
+        self.assertEqual(email, test_user.email)
+
+    def test_signup_without_email(self):
+        """
+         Test if user can sign up without providing an e-mail address
+        :return:
+        """
+        username = 'TestUser'
+        password = 'TestPassword123456'
+        email = ''
+
+        self.signup_response(username, password, password, email)
+        self.assertNotIn(username, [user for user in Researcher.objects.all()])
+
+
 
 class LoginTests(TestCase):
 
