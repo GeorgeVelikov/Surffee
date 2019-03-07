@@ -12,6 +12,7 @@ from .models.user import Researcher
 
 class SignUpTests(TestCase):
 
+    """ helper method to sign up with given details """
     def signup_response(self, username, password1, password2, email):
         return self.client.post(reverse('signup'), {
             'username': username,
@@ -40,17 +41,55 @@ class SignUpTests(TestCase):
         test_user = Researcher.objects.get(username=username)
         self.assertEqual(email, test_user.email)
 
-    def test_signup_without_email(self):
+    def test_signup_without_username(self):
         """
-         Test if user can sign up without providing an e-mail address
+         Test if user can sign up without providing a username
         :return:
         """
-        username = 'TestUser'
+        username = ''
         password = 'TestPassword123456'
-        email = ''
+        email = 'test.email@ihate.django'
 
         self.signup_response(username, password, password, email)
-        self.assertNotIn(username, [user for user in Researcher.objects.all()])
+        self.assertNotIn(username, [str(user) for user in Researcher.objects.all()])
+
+    def test_signup_without_password1(self):
+        """
+         Test if user can sign up on empty password1('')
+            :return:
+        """
+        username = "TestUser"
+        password1 = ''
+        password2 = 'TestPassword123456'
+        email = 'test.email@ihate.django'
+
+        self.signup_response(username, password1, password2, email)
+        self.assertNotIn(username, [str(user) for user in Researcher.objects.all()])
+
+    def test_signup_without_password2(self):
+        """
+         Test if user can sign up on empty password2('')
+            :return:
+        """
+        username = "TestUser"
+        password1 = 'TestPassword123456'
+        password2 = ''
+        email = 'test.email@ihate.django'
+
+        self.signup_response(username, password1, password2, email)
+        self.assertNotIn(username, [str(user) for user in Researcher.objects.all()])
+
+    def test_signup_without_both_passwords(self):
+        """
+         Test if user can sign up on empty passwords('')
+        :return:
+        """
+        username = "TestUser"
+        password = ''
+        email = 'test.email@ihate.django'
+
+        self.signup_response(username, password, password, email)
+        self.assertNotIn(username, [str(user) for user in Researcher.objects.all()])
 
     def test_signup_with_unmatching_passwords(self):
         """
@@ -63,8 +102,34 @@ class SignUpTests(TestCase):
         email = 'test.email@ihate.django'
 
         self.signup_response(username, password1, password2, email)
-        self.assertNotIn(username, [user for user in Researcher.objects.all()])
-        
+        self.assertNotIn(username, [str(user) for user in Researcher.objects.all()])
+
+    def test_signup_without_email(self):
+        """
+         Test if user can sign up without providing an e-mail address
+        :return:
+        """
+        self.skipTest('Remove the skip, once boys made email required')
+        username = 'TestUser'
+        password = 'TestPassword123456'
+        email = ''
+
+        self.signup_response(username, password, password, email)
+        self.assertNotIn(username, [str(user) for user in Researcher.objects.all()])
+
+    def test_signup_with_incorrect_email(self):
+        """
+         Test if user can sign up with wrongly formatted e-mail address
+        :return:
+        """
+        self.skipTest('Remove the skip, once boys made email required')
+        username = 'TestUser'
+        password = 'TestPassword123456'
+        email = '.this.is.an!incorrect password'
+
+        self.signup_response(username, password, password, email)
+        self.assertNotIn(username, [str(user) for user in Researcher.objects.all()])
+
 
 class LoginTests(TestCase):
 
