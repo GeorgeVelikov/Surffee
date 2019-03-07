@@ -13,42 +13,82 @@
             <h2>Your active surveys:</h2>
         </div>
 
-    <div class="list-group">
-        {% if my_surveys %}
-            {% for survey in my_surveys %}
-                <a id="survey-list-i" class="list-group-item list-group-item-action" href={{survey.id}}>
-                    {{survey.name}}
-                </a>
-            {% endfor %}
+        <div class="list-group">
+            {% if my_active_surveys %}
+                {% for survey in my_active_surveys %}
+                    <a id="survey-list-i" class="list-group-item list-group-item-action" href={{survey.id}}>
+                        {{survey.name}}
+                    </a>
+                {% endfor %}
 
-        {% else %}
-            <div class="alert alert-danger">
-                <strong>Heads up!</strong> You have no active surveys.
-            </div>
-        {% endif %}
-    </div>
+            {% else %}
+                <div class="alert alert-danger">
+                    <strong>Heads up!</strong> You have no active surveys.
+                </div>
+            {% endif %}
+        </div>
+
+        <br>
+        <div class="d-flex justify-content-between flex-wrap flex-sm-nowrap align-items-center pb-2 mb-3 border-bottom">
+            <h2>Your inactive surveys:</h2>
+        </div>
+
+        <div class="list-group">
+            {% if my_inactive_surveys %}
+                {% for survey in my_inactive_surveys %}
+                    <a id="survey-list-i" class="list-group-item list-group-item-action" href={{survey.id}}>
+                        {{survey.name}}
+                    </a>
+                {% endfor %}
+
+            {% else %}
+                <div class="alert alert-danger">
+                    <strong>Heads up!</strong> You have no inactive surveys.
+                </div>
+            {% endif %}
+        </div>
 
     {% endif %}
     {% if user.is_superuser %}
-
+        <br>
         <div class="d-flex justify-content-between flex-wrap flex-sm-nowrap align-items-center pb-2 mb-3 border-bottom">
-            <h2>You're logged in under superuser privileges. All active surveys are shown:</h2>
+            <h2>[superuser] All active surveys are shown:</h2>
         </div>
 
-    <div class="list-group">
-        {% if all_surveys %}
-            {% for survey in all_surveys %}
-                <a id="survey-list-i" class="list-group-item list-group-item-action" href={{survey.id}}>
-                    {{survey.name}}
-                </a>
-            {% endfor %}
+        <div class="list-group">
+            {% if all_active_surveys %}
+                {% for survey in all_active_surveys %}
+                    <a id="survey-list-i" class="list-group-item list-group-item-action" href={{survey.id}}>
+                        {{survey.name}}
+                    </a>
+                {% endfor %}
 
-        {% else %}
-            <div class="alert alert-danger">
-                <strong>Heads up!</strong> You have no active surveys.
-            </div>
-        {% endif %}
-    </div>
+            {% else %}
+                <div class="alert alert-danger">
+                    <strong>Heads up!</strong> There are no active surveys.
+                </div>
+            {% endif %}
+        </div>
+
+        <br>
+        <div class="d-flex justify-content-between flex-wrap flex-sm-nowrap align-items-center pb-2 mb-3 border-bottom">
+            <h2>[superuser] All inactive surveys are shown:</h2>
+        </div>
+
+        <div class="list-group">
+            {% if all_inactive_surveys %}
+                {% for survey in all_inactive_surveys %}
+                    <a id="survey-list-i" class="list-group-item list-group-item-action" href={{survey.id}}>
+                        {{survey.name}}
+                    </a>
+                {% endfor %}
+
+            {% else %}
+                <div class="alert alert-danger">
+                    <strong>Heads up!</strong> There are no inactive surveys.
+                </div>
+            {% endif %}
+        </div>
 
     {% endif %}
 
