@@ -161,7 +161,7 @@ $(document).ready(function () {
             var word_text = $('#word_selection').val();
             var class_name = $("#id_classification_name").val();
 
-            $(this).attr('href', './' + annotation_id + '/' + operation);
+            $(this).attr('href', './' + annotation_id + '/' + operation + '/' + choice_id + '/' + class_name + '/' + word_text);
             console.log($(this).attr('href'), choice_id, word_text, class_name);
         });
     }

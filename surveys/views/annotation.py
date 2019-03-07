@@ -140,7 +140,7 @@ class AddOne(UpdateView):
         annotation_id = self.kwargs.get('annotation_id')
         annotation = Survey.objects.get(pk=annotation_id)
 
-        return redirect('../'+str(annotation_id))
+        return redirect('/surveys/'+str(survey_id)+'/annotate/'+str(annotation_id))
 
 
 class AddAll(UpdateView):
@@ -152,7 +152,7 @@ class AddAll(UpdateView):
         annotation_id = self.kwargs.get('annotation_id')
         annotation = Survey.objects.get(pk=annotation_id)
 
-        return redirect('../'+str(annotation_id))
+        return redirect('/surveys/'+str(survey_id)+'/annotate/'+str(annotation_id))
 
 
 class DeleteOne(UpdateView):
@@ -164,7 +164,7 @@ class DeleteOne(UpdateView):
         annotation_id = self.kwargs.get('annotation_id')
         annotation = Survey.objects.get(pk=annotation_id)
 
-        return redirect('../'+str(annotation_id))
+        return redirect('/surveys/'+str(survey_id)+'/annotate/'+str(annotation_id))
 
 
 class DeleteAll(UpdateView):
@@ -176,4 +176,4 @@ class DeleteAll(UpdateView):
         annotation_id = self.kwargs.get('annotation_id')
         annotation = Survey.objects.get(pk=annotation_id)
 
-        return redirect('../'+str(annotation_id))
+        return redirect('/surveys/'+str(survey_id)+'/annotate/'+str(annotation_id))
