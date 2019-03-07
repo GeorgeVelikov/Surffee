@@ -7,6 +7,8 @@ from ..forms.surveys import AnnotationWordForm
 
 import random
 
+from .helper import check_existing_word_dominates_new_word, check_overwrite_existing_word, create_new_classification
+
 
 class Create(CreateView):
     template_name = 'annotation/word_annotation.html'
@@ -134,11 +136,43 @@ class Create(CreateView):
 class AddOne(UpdateView):
     def get(self, request, *args, **kwargs):
         self.object = None
+
         survey_id = self.kwargs.get('survey_id')
         survey = Survey.objects.get(pk=survey_id)
 
         annotation_id = self.kwargs.get('annotation_id')
-        annotation = Survey.objects.get(pk=annotation_id)
+        annotation = Annotation.objects.get(pk=annotation_id)
+
+        choice_id = self.kwargs.get('choice_id')
+        choice = Choice.objects.get(pk=choice_id)
+
+        classification_name = self.kwargs.get('class')
+
+        word_text = self.kwargs.get('word_text')
+
+        word_start = choice.choice_text.find(word_text)
+        word_end = word_start + len(word_text)
+
+        classification_annotation = Classification.objects.filter(name=classification_name,
+                                                                  annotation=annotation)
+        if classification_annotation.exists():
+            check_overwrite_existing_word(choice, classification_annotation, word_text)
+
+            check_existing_word_dominates_new_word(choice, classification_annotation, annotation, word_text, survey_id)
+
+            classification = Classification.objects.get(name=classification_name,
+                                                        annotation=annotation).pk
+
+        else:
+            classification = create_new_classification(classification_name, annotation)
+            classification.save()
+
+        word = Word.objects.create(text=word_text,
+                                   start=word_start,
+                                   end=word_end,
+                                   choice=choice,
+                                   classification=classification)
+        word.save()
 
         return redirect('/surveys/'+str(survey_id)+'/annotate/'+str(annotation_id))
 
@@ -177,3 +211,5 @@ class DeleteAll(UpdateView):
         annotation = Survey.objects.get(pk=annotation_id)
 
         return redirect('/surveys/'+str(survey_id)+'/annotate/'+str(annotation_id))
+
+
