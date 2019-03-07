@@ -76,7 +76,31 @@ class Create(CreateView):
         # check if the classification existing already
         # if yes    -> store word in it,
         # else      -> create new classification and store word in there
-        if Classification.objects.filter(name=form.data['classification_name'], annotation=annotation).exists():
+        classification_annotation = Classification.objects.filter(name=form.data['classification_name'],
+                                                                  annotation=annotation)
+        if classification_annotation.exists():
+
+            sub_words = Word.objects.filter(choice=choice.pk,
+                                            classification=classification_annotation.first().pk)
+
+            if sub_words.exists():
+
+                # define sub_word as a word contained in our new selected text for some choice
+                # e.g. sub_word -> "ello", selection -> "Hello World"
+                for sub_word in sub_words:
+                    if sub_word.text in word_text and len(sub_word.text) < len(word_text):
+                        sub_word.delete()
+
+            # define dom_word as a word that contains the new selected text for some choice
+            # e.g. dom_word -> "Some word", selection -> "SoMe"
+            dom_words = Word.objects.filter(choice=choice.pk,
+                                            text__icontains=word_text,
+                                            classification=classification_annotation.first().pk)
+            if dom_words.exists():
+                for dom_word in dom_words:
+                    if word_text in dom_word.text:
+                        return redirect('./' + str(annotation_id))
+
             form.data['classification'] = Classification.objects.get(name=form.data['classification_name'],
                                                                      annotation=annotation).pk
         else:
@@ -91,10 +115,7 @@ class Create(CreateView):
 
         request.POST._mutable = False
 
-        if form.is_valid():
-            return self.form_valid(form, annotation_id)
-        else:
-            return self.form_invalid(form)
+        return self.finish(form, annotation_id)
 
     def form_valid(self, form, id):
         self.object = form.save(commit=True)
@@ -102,3 +123,25 @@ class Create(CreateView):
 
     def form_invalid(self, form):
         return self.render_to_response(self.get_context_data(form=form))
+
+    def finish(self, form, id):
+        if form.is_valid():
+            return self.form_valid(form, id)
+        else:
+            return self.form_invalid(form)
+
+
+class AddOne(CreateView):
+    pass
+
+
+class AddAll(CreateView):
+    pass
+
+
+class DeleteOne(CreateView):
+    pass
+
+
+class DeleteAll(CreateView):
+    pass

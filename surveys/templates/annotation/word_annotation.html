@@ -37,12 +37,17 @@
                 <div class="row">
                     <label class="col-sm-12 text-left annotation_id" id="{{choice.id}}" style="z-index:0; background:{{bg_colour}}">
                         <div class="row">
-                            <div class="colours ml-3" style="z-index:-1; position:absolute;">
+                            <div class="colours ml-3" style="z-index:-1;">
                                 {%for word in words%}
+
                                     {%if choice.id == word.choice.id%}
+                                        {% define forloop.counter as pos %}
+                                        <div style="position:absolute;">
                                         <!-- this fucking thing has to be like this, or else it wont work :) -->
                                         {%for ch in choice.choice_text%}{%if word.start > forloop.counter%}<span class="invisible">{{ch}}</span>{%elif forloop.counter > word.start and forloop.counter <= word.end%}<span class="pb-1" style="background-color:{{word.classification.color}};"><span class="invisible">{{ch}}</span></span>{%else%}<span class="invisible">{{ch}}</span>{%endif%}{%endfor%}
+                                        </div>
                                     {%endif%}
+
                                 {%endfor%}
                             </div>
                         </div>
