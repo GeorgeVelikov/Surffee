@@ -26,14 +26,18 @@
                     {{ form.question_text|as_crispy_field }}
                 </div>
 
-                <div class="col-sm-1">
+                <div class="col-sm-1 text-center">
                     <legend class="col-form-label">Add</legend>
-                    <button type="button" id="add-new-choice" class="btn btn-success add-form-row"> + </button>
+                    <button type="button" id="add-new-choice" class="btn btn-lg btn-success add-form-row" style="border-radius: 100%;">
+                        <i class="fa fa-plus" aria-hidden="true"></i>
+                    </button>
                 </div>
 
-                <div class="col-sm-1">
+                <div class="col-sm-1 text-center">
                     <legend class="col-form-label">Remove</legend>
-                    <button type="button" id="delete-choice" class="btn btn-danger add-form-row"> - </button>
+                    <button type="button" id="delete-choice" class="btn btn-lg btn-danger add-form-row" style="border-radius: 100%;">
+                        <i class="fa fa-minus" aria-hidden="true"></i>
+                    </button>
                 </div>
                 <div class="col-sm-2">
                     {{ form.type|as_crispy_field }}
