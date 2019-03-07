@@ -295,14 +295,15 @@ class IndexViewTests(TestCase):
         self.user.save()
         self.superuser.save()
 
-    def test_index_status(self):
+    def test_index_template(self):
         """
         Check if the index page is being displayed
         :return:
         """
         self.client.force_login(self.user)
-        response = self.client.get(reverse('surveys:index'))
-        self.assertEqual(response.status_code, 200)
+        resp = self.client.get(reverse('surveys:index'))
+        self.assertEqual(resp.status_code, 200)
+        self.assertTemplateUsed(resp, 'surveys/index.html')
 
 
 class CreateViewTests(TestCase):
