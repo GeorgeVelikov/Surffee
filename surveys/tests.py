@@ -34,7 +34,8 @@ class SignUpTests(TestCase):
         password = 'TestPassword123456'
         email = 'test.email@ihate.django'
 
-        self.signup_response(username, password, password, email)
+        response = self.signup_response(username, password, password, email)
+        self.assertRedirects(response, reverse('login'))
         self.assertIn(username, [str(user) for user in Researcher.objects.all()])
         test_user = Researcher.objects.get(username=username)
         self.assertEqual(email, test_user.email)
@@ -51,7 +52,19 @@ class SignUpTests(TestCase):
         self.signup_response(username, password, password, email)
         self.assertNotIn(username, [user for user in Researcher.objects.all()])
 
+    def test_signup_with_unmatching_passwords(self):
+        """
+         Test if user can signup with the two password being different
+        :return:
+        """
+        username = 'TestUser'
+        password1 = 'TestPassword123456'
+        password2 = 'PasswordTest123456'
+        email = 'test.email@ihate.django'
 
+        self.signup_response(username, password1, password2, email)
+        self.assertNotIn(username, [user for user in Researcher.objects.all()])
+        
 
 class LoginTests(TestCase):
 
