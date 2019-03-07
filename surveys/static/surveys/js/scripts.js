@@ -81,6 +81,7 @@ $(document).ready(function () {
         if (choices.length > textBoxCounter-1) {
             let choice = choices[textBoxCounter - 1];
 
+            // it does not matter, they're both integers
             if (choices.length === textBoxCounter) {
                 str = choice.slice(1,-1);
             }
@@ -117,7 +118,7 @@ $(document).ready(function () {
         // if we have a caching field, just update val in it; else if we don't, create an input field and populate it
         if ($('#word_selection').length ) {
 
-            $(this).val(word_selection);
+            $('#word_selection').val(word_selection);
         }
         else {
             let input = $("<input>").attr("name", "word_selection")

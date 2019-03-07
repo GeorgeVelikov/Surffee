@@ -137,17 +137,11 @@ class AddOne(UpdateView):
     def get(self, request, *args, **kwargs):
         self.object = None
 
-        survey_id = self.kwargs.get('survey_id')
-        survey = Survey.objects.get(pk=survey_id)
-
-        annotation_id = self.kwargs.get('annotation_id')
-        annotation = Annotation.objects.get(pk=annotation_id)
-
-        choice_id = self.kwargs.get('choice_id')
-        choice = Choice.objects.get(pk=choice_id)
+        survey = Survey.objects.get(pk=self.kwargs.get('survey_id'))
+        annotation = Annotation.objects.get(pk=self.kwargs.get('annotation_id'))
+        choice = Choice.objects.get(pk=self.kwargs.get('choice_id'))
 
         classification_name = self.kwargs.get('class')
-
         word_text = self.kwargs.get('word_text')
 
         word_start = choice.choice_text.find(word_text)
@@ -158,7 +152,7 @@ class AddOne(UpdateView):
         if classification_annotation.exists():
             check_overwrite_existing_word(choice, classification_annotation, word_text)
 
-            check_existing_word_dominates_new_word(choice, classification_annotation, annotation, word_text, survey_id)
+            check_existing_word_dominates_new_word(choice, classification_annotation, annotation, word_text, survey.id)
 
             classification = Classification.objects.get(name=classification_name,
                                                         annotation=annotation).pk
@@ -174,7 +168,7 @@ class AddOne(UpdateView):
                                    classification=classification)
         word.save()
 
-        return redirect('/surveys/'+str(survey_id)+'/annotate/'+str(annotation_id))
+        return redirect('/surveys/'+str(survey.id)+'/annotate/'+str(annotation.id))
 
 
 class AddAll(UpdateView):
