@@ -41,6 +41,22 @@ urlpatterns = [
          annotation.Create.as_view(),
          name="annotate"),
 
+    path('<int:survey_id>/annotate/<int:annotation_id>/add_all',
+         annotation.AddAll.as_view(),
+         name="annotate_add_all"),
+
+    path('<int:survey_id>/annotate/<int:annotation_id>/add_one',
+         annotation.AddOne.as_view(),
+         name="annotate_add_one"),
+
+    path('<int:survey_id>/annotate/<int:annotation_id>/delete_one',
+         annotation.DeleteOne.as_view(),
+         name="annotate_delete_one"),
+
+    path('<int:survey_id>/annotate/<int:annotation_id>/delete_all',
+         annotation.DeleteAll.as_view(),
+         name="annotate_delete_all"),
+
     path('<int:survey_id>/add_question/',
          question.Create.as_view(),
          name='add_question'),

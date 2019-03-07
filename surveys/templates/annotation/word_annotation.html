@@ -59,8 +59,8 @@
 
 
         <div class="row container-fluid">
-            <button type="button" class="col-sm-2 btn-success">Add to all</button>
-            <button type="button" class="col-sm-2 btn-outline-success">Add to single</button>
+            <a href="./{{annotation.id}}/add_all" class="text-light col-sm-2 btn rounded-0 btn-success">Add to all</a>
+            <a href="./{{annotation.id}}/add_one" class="text-dark col-sm-2 btn rounded-0 btn-outline-success">Add to single</a>
 
             <div class="col-sm-2">
                 {{ form.classification_name }}
@@ -73,8 +73,8 @@
                        disabled >
             </div>
 
-            <button type="button" class="col-sm-2 btn-outline-danger">Remove single</button>
-            <button type="button" class="col-sm-2 btn-block btn-danger">Remove all</button>
+            <a href="./{{annotation.id}}/delete_one" class="text-dark col-sm-2 btn rounded-0 btn-outline-danger">Remove single</a>
+            <a href="./{{annotation.id}}/delete_all" class="text-light col-sm-2 btn rounded-0 btn-block btn-danger">Remove all</a>
         </div>
         <br>
 

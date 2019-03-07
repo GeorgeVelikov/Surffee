@@ -1,5 +1,5 @@
 from django.shortcuts import redirect
-from django.views.generic import CreateView
+from django.views.generic import CreateView, UpdateView
 
 from ..models.survey import Survey, Question, Choice
 from ..models.annotation import Annotation, Classification, Word
@@ -131,17 +131,49 @@ class Create(CreateView):
             return self.form_invalid(form)
 
 
-class AddOne(CreateView):
-    pass
+class AddOne(UpdateView):
+    def get(self, request, *args, **kwargs):
+        self.object = None
+        survey_id = self.kwargs.get('survey_id')
+        survey = Survey.objects.get(pk=survey_id)
+
+        annotation_id = self.kwargs.get('annotation_id')
+        annotation = Survey.objects.get(pk=annotation_id)
+
+        return redirect('../'+str(annotation_id))
 
 
-class AddAll(CreateView):
-    pass
+class AddAll(UpdateView):
+    def get(self, request, *args, **kwargs):
+        self.object = None
+        survey_id = self.kwargs.get('survey_id')
+        survey = Survey.objects.get(pk=survey_id)
+
+        annotation_id = self.kwargs.get('annotation_id')
+        annotation = Survey.objects.get(pk=annotation_id)
+
+        return redirect('../'+str(annotation_id))
 
 
-class DeleteOne(CreateView):
-    pass
+class DeleteOne(UpdateView):
+    def get(self, request, *args, **kwargs):
+        self.object = None
+        survey_id = self.kwargs.get('survey_id')
+        survey = Survey.objects.get(pk=survey_id)
+
+        annotation_id = self.kwargs.get('annotation_id')
+        annotation = Survey.objects.get(pk=annotation_id)
+
+        return redirect('../'+str(annotation_id))
 
 
-class DeleteAll(CreateView):
-    pass
+class DeleteAll(UpdateView):
+    def get(self, request, *args, **kwargs):
+        self.object = None
+        survey_id = self.kwargs.get('survey_id')
+        survey = Survey.objects.get(pk=survey_id)
+
+        annotation_id = self.kwargs.get('annotation_id')
+        annotation = Survey.objects.get(pk=annotation_id)
+
+        return redirect('../'+str(annotation_id))
