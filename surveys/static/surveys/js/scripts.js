@@ -32,13 +32,16 @@ $(document).ready(function () {
                 newTextBox.attr("required", '');
                 newTextBox.val(str);
 
-                let newRowDiv = $("<div>").addClass('row').attr('id', "row_div_" + textBoxCounter).append(
-                    $("<div>").addClass('col-sm-2').text("Choice " + (textBoxCounter + 1)),
-                    $("<div>").addClass('col-sm-6 form-group').attr('id', "col_div_" + textBoxCounter)
-                );
+                let newRowDiv = $("<div>").addClass('row').attr('id', "row_div_"+textBoxCounter).append(
+                    $("<div>").addClass('col-sm-1'),
+                    $("<div>").addClass('col-sm-6 form-group').attr('id', "col_div_"+textBoxCounter).append(
+                    $("<div>").addClass('input-group mb-3 fieldWrapper').attr('id', "wrap_div_"+textBoxCounter).append(
+                    $("<div>").addClass('input-group-prepend').attr('id', "pre_div_"+textBoxCounter).append(
+                    $("<span>").addClass('input-group-text').text("Choice "+(textBoxCounter+1)))))
+                    );
 
                 $("#answer-bois").append(newRowDiv);
-                $("#col_div_"+textBoxCounter).append(newTextBox);
+                $("#wrap_div_"+textBoxCounter).append(newTextBox);
                 $("#id_choice_set-TOTAL_FORMS").val(++textBoxCounter);
             }
         });
@@ -72,7 +75,7 @@ $(document).ready(function () {
         if (textBoxCounter>1) {
             textBoxCounter--;
         }
-        $("#col_div_"+textBoxCounter).remove();
+
         $("#row_div_"+textBoxCounter).remove();
         $("#id_choice_set-TOTAL_FORMS").val(textBoxCounter);
     });
