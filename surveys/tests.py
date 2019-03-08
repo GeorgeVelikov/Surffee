@@ -13,7 +13,7 @@ from .models.survey import Survey
 # TODO: Remove the skipTest tags
 
 
-class SignUpTests(TestCase):
+class SignUpViewTests(TestCase):
 
     """ helper method to sign up with given details """
     def signup_response(self, username, password1, password2, email):
@@ -164,7 +164,7 @@ class SignUpTests(TestCase):
         self.assertNotIn(username, [str(user) for user in Researcher.objects.all()])
 
 
-class LoginTests(TestCase):
+class LoginViewTests(TestCase):
 
     """ helper method: login with username and password"""
     def login_response(self, username, password):
@@ -343,6 +343,90 @@ class IndexViewTests(TestCase):
         resp = self.client.get(reverse('surveys:index'))
         self.assertNotIn('my_active_surveys', resp.context)
         self.assertNotIn('my_inactive_surveys', resp.context)
+
+
+class ActiveViewTests(TestCase):
+
+    """ Helper method to create a new survey """
+    def create_survey(self, name, creator, active=True, commit=True):
+        survey = Survey(creator=creator,
+                             name=name,
+                             active=active)
+        if commit:
+            survey.save()
+        return survey
+
+        # TODO: Currently only creates surveys for regular user
+        #   change if superuser's index page shows anything else
+
+    def setUp(self):
+        self.client = Client()
+        self.user = Researcher.objects.create_user(
+            username='TestUser',
+            password='TestPassword123456'
+        )
+        self.superuser = Researcher.objects.create_superuser(
+            username='superuser',
+            password='TestPassword123456',
+            email=None,
+            is_staff=True,          # not sure if this is redundant, if we already make him a superuser
+            is_superuser=True
+        )
+
+        self.user.save()
+        self.superuser.save()
+
+    def test_active_template(self):
+        """
+        Check if the active page is being displayed
+        :return:
+        """
+        self.client.force_login(self.user)
+        resp = self.client.get(reverse('surveys:active'))
+        self.assertEqual(resp.status_code, 200)
+        self.assertTemplateUsed(resp, 'surveys/active.html')
+
+    def test_active_with_survey(self):
+        """
+         Test if existing surveys are being displayed
+        :return:
+        """
+        active_s = self.create_survey("Active Survey",
+                                      self.user,
+                                      active=True,
+                                      commit=True)
+
+        self.client.force_login(self.user)
+        resp = self.client.get(reverse('surveys:active'))
+        self.assertIn(active_s, resp.context['active_surveys'])
+
+    def test_active_without_survey(self):
+        """
+         Test if no surveys are being displayed when none exist
+        :return:
+        """
+        self.client.force_login(self.user)
+        resp = self.client.get(reverse('surveys:index'))
+        self.assertNotIn('active_surveys', resp.context)
+
+    def test_active_with_surveys_from_different_users(self):
+        """
+         Test if the user can see other users' surveys
+        :return:
+        """
+        users_s = self.create_survey("User's Survey", self.user)
+        superusers_s = self.create_survey("Superuser's Survey", self.superuser)
+
+        self.client.force_login(self.user)
+        resp = self.client.get(reverse('survey:active'))
+        self.assertIn(users_s, resp.context['active_surveys'])
+        self.assertNotIn(superusers_s, resp.context['active_surveys'])
+
+
+class InactiveViewTests(TestCase):
+
+    def placehoflder(self):
+        return 'a'
 
 
 class CreateViewTests(TestCase):
