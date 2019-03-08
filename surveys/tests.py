@@ -280,10 +280,10 @@ class HomeViewTests(TestCase):
 class IndexViewTests(TestCase):
 
     """ Helper method to create a new survey """
-    def create_survey(self, name, active=True, commit=True):
-        survey = Survey(creator=self.user,
-                             name=name,
-                             active=active)
+    def create_survey(self, name, creator, active=True, commit=True):
+        survey = Survey(creator=creator,
+                        name=name,
+                        active=active)
         if commit:
             survey.save()
         return survey
@@ -324,9 +324,11 @@ class IndexViewTests(TestCase):
         :return:
         """
         active_s = self.create_survey("Active Survey",
+                                      self.user,
                                       active=True,
                                       commit=True)
         inactive_s = self.create_survey("Inactive Survey",
+                                        self.user,
                                         active=False,
                                         commit=True)
 
@@ -343,8 +345,21 @@ class IndexViewTests(TestCase):
 
         self.client.force_login(self.user)
         resp = self.client.get(reverse('surveys:index'))
-        self.assertNotIn('my_active_surveys', resp.context)
-        self.assertNotIn('my_inactive_surveys', resp.context)
+        self.assertQuerysetEqual(Survey.objects.none(), resp.context['my_active_surveys'])
+        self.assertQuerysetEqual(Survey.objects.none(), resp.context['my_inactive_surveys'])
+
+    def test_index_with_surveys_from_different_users(self):
+        """
+         Test if the user can see other users' surveys
+        :return:
+        """
+        users_s = self.create_survey("User's Survey", self.user)
+        superusers_s = self.create_survey("Superuser's Survey", self.superuser)
+
+        self.client.force_login(self.user)
+        resp = self.client.get(reverse('surveys:index'))
+        self.assertIn(users_s, resp.context['my_active_surveys'])
+        self.assertNotIn(superusers_s, resp.context['my_active_surveys'])
 
 
 class ActiveViewTests(TestCase):
@@ -352,8 +367,8 @@ class ActiveViewTests(TestCase):
     """ Helper method to create a new survey """
     def create_survey(self, name, creator, active=True, commit=True):
         survey = Survey(creator=creator,
-                             name=name,
-                             active=active)
+                        name=name,
+                        active=active)
         if commit:
             survey.save()
         return survey
@@ -420,7 +435,7 @@ class ActiveViewTests(TestCase):
         superusers_s = self.create_survey("Superuser's Survey", self.superuser)
 
         self.client.force_login(self.user)
-        resp = self.client.get(reverse('survey:active'))
+        resp = self.client.get(reverse('surveys:active'))
         self.assertIn(users_s, resp.context['active_surveys'])
         self.assertNotIn(superusers_s, resp.context['active_surveys'])
 
