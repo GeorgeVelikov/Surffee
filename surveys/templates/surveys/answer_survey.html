@@ -21,10 +21,8 @@
         <div class="col-sm-8 offset-sm-2">
             {% csrf_token %}
             {% for ch in choice_set %}
-                <label class="btn btn-secondary btn-block text-wrap text-break" style="height: 100px;">
-                    <input type="checkbox" value="{{ch.id}}" name="choices" class="answer_question_choice" id='choice_{{ch.id}}'>
-                    {{ ch }}
-                </label>
+                <input hidden id='choice_{{ch.id}}' name="choices" type="{% if question.type == 'M' %}checkbox{% elif question.type == 'S'%}radio{% elif question.type == 'T' %}text{% endif%}" value="{{ch.id}}">
+                 <label for="choice_{{ch.id}}" class="btn btn-secondary btn-block text-wrap text-break" style="height: 100px;">{{ ch }}</label>
             {% endfor %}
             <br>
         </div>
@@ -32,5 +30,5 @@
             <button type="submit" class="btn btn-block btn-primary ">Answer</button>
         </div>
     </form>
-
+    <!-- TODO: make buttons change colour depending on the current answer -->
 {% endblock %}
