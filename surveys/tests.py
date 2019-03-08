@@ -3,6 +3,7 @@ from django.urls import reverse
 from django.test import Client
 
 from .models.user import Researcher
+from .models.survey import Survey
 
 """ 
     setUp(self) works similarly to __init__, 
@@ -278,6 +279,18 @@ class HomeViewTests(TestCase):
 
 class IndexViewTests(TestCase):
 
+    """ Helper method to create a new survey """
+    def create_survey(self, name, active=True, commit=True):
+        survey = Survey(creator=self.user,
+                             name=name,
+                             active=active)
+        if commit:
+            survey.save()
+        return survey
+
+        # TODO: Currently only creates surveys for regular user
+        #   change if superuser's index page shows anything else
+
     def setUp(self):
         self.client = Client()
         self.user = Researcher.objects.create_user(
@@ -304,6 +317,32 @@ class IndexViewTests(TestCase):
         resp = self.client.get(reverse('surveys:index'))
         self.assertEqual(resp.status_code, 200)
         self.assertTemplateUsed(resp, 'surveys/index.html')
+
+    def test_index_with_surveys(self):
+        """
+         Test if existing surveys are being displayed
+        :return:
+        """
+        active_s = self.create_survey("Active Survey",
+                                      active=True,
+                                      commit=True)
+        inactive_s = self.create_survey("Inactive Survey",
+                                        active=False,
+                                        commit=True)
+
+        self.client.force_login(self.user)
+        resp = self.client.get(reverse('surveys:index'))
+        self.assertIn(active_s, resp.context['my_active_surveys'])
+        self.assertIn(inactive_s, resp.context['my_inactive_surveys'])
+
+    def test_index_without_surveys(self):
+        """
+         Test if no surveys are being displayed when none exist
+        :return:
+        """
+        resp = self.client.get(reverse('surveys:index'))
+        self.assertNotIn('my_active_surveys', resp.context)
+        self.assertNotIn('my_inactive_surveys', resp.context)
 
 
 class CreateViewTests(TestCase):
