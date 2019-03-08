@@ -9,6 +9,9 @@ class ResearcherCreateChoice(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super(ResearcherCreateChoice, self).__init__(*args, **kwargs)
         self.fields['choice_text'].label = False
+        for field in self.fields:
+            self.fields[field].widget.attrs['class'] = 'form-control'
+
 
     class Meta:
         model = Choice
