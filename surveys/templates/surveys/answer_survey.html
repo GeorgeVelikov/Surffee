@@ -2,7 +2,7 @@
 
 <!-- include crispy -->
 {% load crispy_forms_tags %}
-
+{% load define_action %}
 {% block title %}Answer survey{% endblock %}
 
 {% block content %}
@@ -15,14 +15,20 @@
         <div class="col-md-12 alert alert-info survey-description" role="alert">
             <h5> Question: {{ question }} </h5>
         </div>
-
+        {% if question.type == 'M' %}
+            {% define "checkbox" as input_type %}
+        {% elif question.type == 'S'%}
+            {% define "radio" as input_type %}
+        {% elif question.type == 'T' %}
+            {% define "text" as input_type %}
+        {% endif%}
         <br>
 
         <div class="col-sm-8 offset-sm-2">
             {% csrf_token %}
             {% for ch in choice_set %}
-                <input hidden id='choice_{{ch.id}}' name="choices" type="{% if question.type == 'M' %}checkbox{% elif question.type == 'S'%}radio{% elif question.type == 'T' %}text{% endif%}" value="{{ch.id}}">
-                 <label for="choice_{{ch.id}}" class="btn btn-secondary btn-block text-wrap text-break" style="height: 100px;">{{ ch }}</label>
+                <input hidden class="answer_question_choice" id='choice_{{ch.id}}' name="choices" type="{{ input_type }}" value="{{ch.id}}">
+                <label for="choice_{{ch.id}}" class="btn btn-secondary btn-block text-wrap text-break" style="height: 100px;">{{ ch }}</label>
             {% endfor %}
             <br>
         </div>
@@ -30,5 +36,5 @@
             <button type="submit" class="btn btn-block btn-primary ">Answer</button>
         </div>
     </form>
-    <!-- TODO: make buttons change colour depending on the current answer -->
+    <!-- TODO: fix buttons change colour depending on the current answer -->
 {% endblock %}
