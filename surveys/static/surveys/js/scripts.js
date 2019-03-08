@@ -94,13 +94,15 @@ $(document).ready(function () {
     });
 
     $(".answer_question_choice").change(function () {
-        if(this.checked) {
-            $("#"+this.id).parent().attr('class', 'btn btn-success btn-block text-left');
-        }
+        $(".answer_question_choice").each(function () {
+            if(this.checked) {
+                $("label[for*="+this.id+"]").attr('class', 'btn btn-success btn-block text-left');
+            }
 
-        else {
-            $("#"+this.id).parent().attr('class', 'btn btn-secondary btn-block text-left');
-        }
+            else {
+                $("label[for*="+this.id+"]").attr('class', 'btn btn-secondary btn-block text-left');
+            }
+        });
     });
 
     // doing this instead of .post as I wanted to package the data in the form post data
