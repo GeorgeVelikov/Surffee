@@ -340,6 +340,8 @@ class IndexViewTests(TestCase):
          Test if no surveys are being displayed when none exist
         :return:
         """
+
+        self.client.force_login(self.user)
         resp = self.client.get(reverse('surveys:index'))
         self.assertNotIn('my_active_surveys', resp.context)
         self.assertNotIn('my_inactive_surveys', resp.context)
