@@ -13,6 +13,16 @@ from .models.survey import Survey
 # TODO: Remove the skipTest tags
 
 
+def create_survey(name, creator, active=True, commit=True):
+    """ Helper method to create a new survey """
+    survey = Survey(creator=creator,
+                    name=name,
+                    active=active)
+    if commit:
+        survey.save()
+    return survey
+
+
 class SignUpViewTests(TestCase):
 
     """ helper method to sign up with given details """
@@ -279,18 +289,6 @@ class HomeViewTests(TestCase):
 
 class IndexViewTests(TestCase):
 
-    """ Helper method to create a new survey """
-    def create_survey(self, name, creator, active=True, commit=True):
-        survey = Survey(creator=creator,
-                        name=name,
-                        active=active)
-        if commit:
-            survey.save()
-        return survey
-
-        # TODO: Currently only creates surveys for regular user
-        #   change if superuser's index page shows anything else
-
     def setUp(self):
         self.client = Client()
         self.user = Researcher.objects.create_user(
@@ -323,19 +321,32 @@ class IndexViewTests(TestCase):
          Test if existing surveys are being displayed
         :return:
         """
-        active_s = self.create_survey("Active Survey",
-                                      self.user,
-                                      active=True,
-                                      commit=True)
-        inactive_s = self.create_survey("Inactive Survey",
-                                        self.user,
-                                        active=False,
-                                        commit=True)
+        active_s = create_survey("Active Survey",
+                                 self.user,
+                                 active=True,
+                                 commit=True)
+        inactive_s = create_survey("Inactive Survey",
+                                   self.user,
+                                   active=False,
+                                   commit=True)
 
         self.client.force_login(self.user)
         resp = self.client.get(reverse('surveys:index'))
         self.assertIn(active_s, resp.context['my_active_surveys'])
         self.assertIn(inactive_s, resp.context['my_inactive_surveys'])
+
+    def test_index_with_surveys_from_different_users(self):
+        """
+         Test if the user can see other users' surveys
+        :return:
+        """
+        users_s = create_survey("User's Survey", self.user)
+        superusers_s = create_survey("Superuser's Survey", self.superuser)
+
+        self.client.force_login(self.user)
+        resp = self.client.get(reverse('surveys:index'))
+        self.assertIn(users_s, resp.context['my_active_surveys'])
+        self.assertNotIn(superusers_s, resp.context['my_active_surveys'])
 
     def test_index_without_surveys(self):
         """
@@ -348,33 +359,8 @@ class IndexViewTests(TestCase):
         self.assertQuerysetEqual(Survey.objects.none(), resp.context['my_active_surveys'])
         self.assertQuerysetEqual(Survey.objects.none(), resp.context['my_inactive_surveys'])
 
-    def test_index_with_surveys_from_different_users(self):
-        """
-         Test if the user can see other users' surveys
-        :return:
-        """
-        users_s = self.create_survey("User's Survey", self.user)
-        superusers_s = self.create_survey("Superuser's Survey", self.superuser)
-
-        self.client.force_login(self.user)
-        resp = self.client.get(reverse('surveys:index'))
-        self.assertIn(users_s, resp.context['my_active_surveys'])
-        self.assertNotIn(superusers_s, resp.context['my_active_surveys'])
-
 
 class ActiveViewTests(TestCase):
-
-    """ Helper method to create a new survey """
-    def create_survey(self, name, creator, active=True, commit=True):
-        survey = Survey(creator=creator,
-                        name=name,
-                        active=active)
-        if commit:
-            survey.save()
-        return survey
-
-        # TODO: Currently only creates surveys for regular user
-        #   change if superuser's index page shows anything else
 
     def setUp(self):
         self.client = Client()
@@ -408,10 +394,7 @@ class ActiveViewTests(TestCase):
          Test if existing surveys are being displayed
         :return:
         """
-        active_s = self.create_survey("Active Survey",
-                                      self.user,
-                                      active=True,
-                                      commit=True)
+        active_s = create_survey("Active Survey", self.user)
 
         self.client.force_login(self.user)
         resp = self.client.get(reverse('surveys:active'))
@@ -431,8 +414,8 @@ class ActiveViewTests(TestCase):
          Test if the user can see other users' surveys
         :return:
         """
-        users_s = self.create_survey("User's Survey", self.user)
-        superusers_s = self.create_survey("Superuser's Survey", self.superuser)
+        users_s = create_survey("User's Survey", self.user)
+        superusers_s = create_survey("Superuser's Survey", self.superuser)
 
         self.client.force_login(self.user)
         resp = self.client.get(reverse('surveys:active'))
