@@ -154,7 +154,7 @@ class AddOne(UpdateView):
             check_existing_word_dominates_new_word(choice, classification_annotation, annotation, word_text, survey.id)
 
             classification = Classification.objects.get(name=classification_name,
-                                                        annotation=annotation).pk
+                                                        annotation=annotation)
 
         else:
             classification = create_new_classification(classification_name, annotation)
