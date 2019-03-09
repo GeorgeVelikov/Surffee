@@ -3,7 +3,6 @@
 <!-- include crispy -->
 {% load crispy_forms_tags %}
 
-
 {% block title %}Add question{% endblock %}
 
     <script type="text/javascript">
@@ -81,15 +80,12 @@
                         <button type="submit" class="btn btn-block btn-primary float-right">Add question</button>
                     </div>
                 </div>
-
             </div>
-
         </form>
 
-    <!-- TODO: Djangofy this as this should be done in the views -->
     <script type="text/javascript">
           $("#id_survey").hide();
           $("#id_survey").val("{{survey.id}}");
     </script>
-
+    <!-- TODO: Djangofy this as this should be done in the views -->
 {% endblock %}
