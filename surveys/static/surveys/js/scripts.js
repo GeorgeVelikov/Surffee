@@ -23,9 +23,13 @@ $(document).ready(function () {
                 if (textBoxCounter === choices.length-1) {
                     str = choice.slice(1,-1);
                 }
-                else{
+                else if (textBoxCounter <= choices.length-1){
                     str = choice.substr(1);
                 }
+                else {
+                    break;
+                }
+
 
                 newTextBox.attr("name",     "choice_set-"   + textBoxCounter + "-choice_text");
                 newTextBox.attr("id",       "id_choice_set-"+ textBoxCounter + "-choice_text");
@@ -73,7 +77,6 @@ $(document).ready(function () {
         if (textBoxCounter>1) {
             textBoxCounter--;
         }
-
         $("#row_div_"+textBoxCounter).remove();
         $("#id_choice_set-TOTAL_FORMS").val(textBoxCounter);
     });
@@ -85,7 +88,6 @@ $(document).ready(function () {
 
         if (choices.length > textBoxCounter-1) {
             let choice = choices[textBoxCounter - 1];
-
             // it does not matter, they're both integers
             if (choices.length === textBoxCounter) {
                 str = choice.slice(1,-1);
