@@ -43,28 +43,33 @@
             </div>
                 {{ choice_form.management_form }}
                 {{ choice_form.non_form_errors }}
-            <div id="answer-bois">
-                {% for form in choice_form %}
-                    {{ form.id }}
-                        {{ form.non_field_errors }}
-                        <div class="row">
-                            <div class="col-sm-1">
-                            </div>
-                            <div class="col-sm-6">
-                                <div class="input-group mb-3 fieldWrapper">
-                                  <div class="input-group-prepend">
-                                      <span class="input-group-text" id="basic-addon1">Choice 1</span>
-                                  </div>
-                                    {{ form.choice_text }}
+            <div class="container">
+                <div id="answer-bois">
+                    {% for form in choice_form %}
+                        {{ form.id }}
+                            {{ form.non_field_errors }}
+                            <div class="row">
+                                <div class="col-sm-1">
                                 </div>
-                                <br>
+                                <div class="col-sm-6">
+                                    <div class="input-group mb-3 fieldWrapper">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text" id="basic-addon1">Choice 1</span>
+                                        </div>
+                                        {{ form.choice_text }}
+                                    </div>
+                                    <br>
+                                </div>
                             </div>
-                        </div>
-                {% endfor %}
-            </div>
+                    {% endfor %}
+                </div>
 
-            <div class="container col-sm-6">
-                <button type="submit" class="btn btn-block btn-primary">Edit question</button>
+                <div class="row">
+                        <div class="col-sm-1"></div>
+                        <div class="col-sm-6">
+                            <button type="submit" class="btn btn-block btn-primary">Add question</button>
+                        </div>
+                    </div>
             </div>
         </form>
 

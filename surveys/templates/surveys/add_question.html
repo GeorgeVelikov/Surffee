@@ -1,5 +1,8 @@
 {% extends 'base.html' %}
-
+{% load static from staticfiles %}
+<head>
+    <link href="{% static 'surveys/css/survey.css' %}" rel="stylesheet" type="text/css" />
+</head>
 <!-- include crispy -->
 {% load crispy_forms_tags %}
 
@@ -21,57 +24,65 @@
         <form action="." method="post">
             {% csrf_token %}
             <!-- Question text, Add, Remove and type -->
+            {{ form.survey }}
             <div class="row">
-                {{ form.survey }}
-                <div class="col-sm-8">
+                <!-- Question box -->
+                <div class="col-8">
                     {{ form.question_text|as_crispy_field }}
+                    {{ choice_form.management_form }}
+                    {{ choice_form.non_form_errors }}
+                    <!-- Choices -->
+                    <div class="container">
+                        <div id="answer-bois">
+                            {% for form in choice_form %}
+                                {{ form.id }}
+                                    {{ form.non_field_errors }}
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="input-group mb-3 fieldWrapper">
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text" id="basic-addon1">Choice 1</span>
+                                                </div>
+                                                {{ form.choice_text }}
+                                            </div>
+                                            <br>
+                                        </div>
+                                    </div>
+                            {% endfor %}
+                        </div>
+                    </div>
                 </div>
+                <!-- Side panel -->
+                <div id="action-bar" class="col-4 alert alert-info" role="alert" style="height: fit-content;">
+                    <div class="row">
+                        <div class="col-sm-6 text-center">
+                            <legend class="col-form-label">Add</legend>
+                            <button type="button" id="add-new-choice" class="btn btn-lg btn-success add-form-row" style="border-radius: 100%;">
+                                <i class="fa fa-plus" aria-hidden="true"></i>
+                            </button>
+                        </div>
 
-                <div class="col-sm-1 text-center">
-                    <legend class="col-form-label">Add</legend>
-                    <button type="button" id="add-new-choice" class="btn btn-lg btn-success add-form-row" style="border-radius: 100%;">
-                        <i class="fa fa-plus" aria-hidden="true"></i>
-                    </button>
-                </div>
-
-                <div class="col-sm-1 text-center">
-                    <legend class="col-form-label">Remove</legend>
-                    <button type="button" id="delete-choice" class="btn btn-lg btn-danger add-form-row" style="border-radius: 100%;">
-                        <i class="fa fa-minus" aria-hidden="true"></i>
-                    </button>
-                </div>
-                <div class="col-sm-2">
-                    {{ form.type|as_crispy_field }}
-                </div>
-            </div>
-                {{ choice_form.management_form }}
-                {{ choice_form.non_form_errors }}
-            <!-- Choices -->
-            <div id="answer-bois">
-                {% for form in choice_form %}
-                    {{ form.id }}
-                        {{ form.non_field_errors }}
-                        <div class="row">
-                            <div class="col-sm-1">
-                            </div>
-                            <div class="col-sm-6">
-                                <div class="input-group mb-3 fieldWrapper">
-                                  <div class="input-group-prepend">
-                                      <span class="input-group-text" id="basic-addon1">Choice 1</span>
-                                  </div>
-                                    <!-- TODO: there is something different on the first text-box..might not be loading bs4 -->
-                                    {{ form.choice_text }}
-                                </div>
-                                <br>
+                        <div class="col-sm-6 text-center">
+                            <legend class="col-form-label">Remove</legend>
+                            <button type="button" id="delete-choice" class="btn btn-lg btn-danger add-form-row" style="border-radius: 100%;">
+                                <i class="fa fa-minus" aria-hidden="true"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="container-fluid">
+                            <div class="col-sm-12">
+                                {{ form.type|as_crispy_field }}
                             </div>
                         </div>
-                {% endfor %}
+                    </div>
+                    <div class="row">
+                        <button type="submit" class="btn btn-block btn-primary float-right">Add question</button>
+                    </div>
+                </div>
+
             </div>
 
-            <div class="container">
-
-                <button type="submit" class="btn btn-block btn-primary">Add question</button>
-            </div>
         </form>
 
     <!-- TODO: Djangofy this as this should be done in the views -->

@@ -33,8 +33,7 @@ $(document).ready(function () {
                 newTextBox.val(str);
 
                 let newRowDiv = $("<div>").addClass('row').attr('id', "row_div_"+textBoxCounter).append(
-                    $("<div>").addClass('col-sm-1'),
-                    $("<div>").addClass('col-sm-6 form-group').attr('id', "col_div_"+textBoxCounter).append(
+                    $("<div>").addClass('col-md-12 form-group').attr('id', "col_div_"+textBoxCounter).append(
                     $("<div>").addClass('input-group mb-3 fieldWrapper').attr('id', "wrap_div_"+textBoxCounter).append(
                     $("<div>").addClass('input-group-prepend').attr('id', "pre_div_"+textBoxCounter).append(
                     $("<span>").addClass('input-group-text').text("Choice "+(textBoxCounter+1)))))
@@ -57,8 +56,7 @@ $(document).ready(function () {
         newTextBox.val("");
 
         var newRowDiv = $("<div>").addClass('row').attr('id', "row_div_"+textBoxCounter).append(
-            $("<div>").addClass('col-sm-1'),
-            $("<div>").addClass('col-sm-6 form-group').attr('id', "col_div_"+textBoxCounter).append(
+            $("<div>").addClass('col-md-12 form-group').attr('id', "col_div_"+textBoxCounter).append(
             $("<div>").addClass('input-group mb-3 fieldWrapper').attr('id', "wrap_div_"+textBoxCounter).append(
             $("<div>").addClass('input-group-prepend').attr('id', "pre_div_"+textBoxCounter).append(
             $("<span>").addClass('input-group-text').text("Choice "+(textBoxCounter+1)))))
