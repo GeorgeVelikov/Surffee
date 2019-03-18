@@ -24,9 +24,15 @@
               Join hands with scientists in this intelligent survey platform, designed for analysis of participant trends
               and intelligent questionnaire design. Don't take our word for it. Try it yourself.
           </p>
-            <a href="{% url 'signup' %}" class="btn btn-lg btn-success float-left"><span class="fa fa-check"></span> Create an account now</a>
-            <a href="{% url 'login' %}" class="btn btn-lg btn-success float-right"><span class="fa fa-sign-in"></span> or Log in here</a>
-
+            <div class="row">
+                <div class="col-sm-4">
+                    <a href="{% url 'signup' %}" class="btn btn-lg btn-success"><span class="fa fa-check"></span> Create an account now</a>
+                </div>
+                <div class="col-sm-4"></div>
+                <div class="col-sm-4">
+                    <a href="{% url 'login' %}" class="btn btn-lg btn-success"><span class="fa fa-sign-in"></span> or Log in here</a>
+                </div>
+            </div>
         </div>
 
         <!-- Empty spaces what are we living for...-->
