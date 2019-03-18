@@ -256,13 +256,13 @@ section .section-title {
 
 /* Columns of main page */
 
-.row .col-md-4 .wrap{color:#fff;padding:20px 15px;}
-.row .col-md-4 .wrap h2{margin:20px 0px;}
-.row .col-md-4 .wrap a{padding:7px 30px;display:inline-block;
+.row .col-sm-4 .wrap{color:#fff;padding:20px 15px;}
+.row .col-sm-4 .wrap h2{margin:20px 0px;}
+.row .col-sm-4 .wrap a{padding:7px 30px;display:inline-block;
 margin:20px 0px;}
-.row .col-md-4:nth-child(1) .wrap{background:#343a40;}
-.row .col-md-4:nth-child(2) .wrap{background:#343a40;}
-.row .col-md-4:nth-child(3) .wrap{background:#343a40;}
+.row .col-sm-4:nth-child(1) .wrap{background:#343a40;}
+.row .col-sm-4:nth-child(2) .wrap{background:#343a40;}
+.row .col-sm-4:nth-child(3) .wrap{background:#343a40;}
 /*.container{margin-bottom:50px;} */
 .mb-20{margin-bottom:20px;}
 
