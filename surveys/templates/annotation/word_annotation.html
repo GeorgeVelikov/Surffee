@@ -61,23 +61,24 @@
         </div>
 
 
-        <div class="row container-fluid">
-            <a id="add_all" class="annotation_operation text-light col-sm-2 btn rounded-0 btn-success">Add to all</a>
-            <a id="add_one" class="annotation_operation text-dark col-sm-2 btn rounded-0 btn-outline-success">Add to single</a>
+        <div class="row justify-content-center">
+            <div class="input-group-prepend btn-group">
+                <button id="add_all" class="annotation_operation text-light btn btn-success">Add to all</button>
+                <button id="add_one" class="annotation_operation text-dark btn btn-outline-success">Add to single</button>
 
-            <div class="col-sm-2">
-                {{ form.classification_name }}
+                <div class="col-sm-auto">
+                    {{ form.classification_name }}
+                </div>
+
+                <div class="col-sm-auto" id="selection" >
+                    <input id="annotation_help"
+                           value="Please make your selection"
+                           class="textinput textInput form-control"
+                           disabled >
+                </div>
             </div>
-
-            <div class="col-sm-2" id="selection" >
-                <input id="annotation_help"
-                       value="Please make your selection"
-                       class="textinput textInput form-control"
-                       disabled >
-            </div>
-
-            <a id="delete_one" class="annotation_operation text-dark col-sm-2 btn rounded-0 btn-outline-danger">Remove single</a>
-            <a id="delete_all" class="annotation_operation text-light col-sm-2 btn rounded-0 btn-block btn-danger">Remove all</a>
+                <button id="delete_one" class="annotation_operation text-dark btn btn-outline-danger">Remove single</button>
+                <button id="delete_all" class="annotation_operation text-light btn btn-danger">Remove all</button>
         </div>
         <br>
 
