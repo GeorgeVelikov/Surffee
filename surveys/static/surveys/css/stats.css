@@ -1,0 +1,24 @@
+@import url('https://fonts.googleapis.com/css?family=Montserrat|Oswald');
+
+#card-con{
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+#card-cols .col-sm-4{
+    padding: 20px;
+    padding-top: 30px;
+    margin: auto;
+}
+
+#card-cols .col-sm-4 :hover{
+    background-color: #004d66;
+    border-radius: 15%;
+    border-color: #80dfff;
+}
+
+#card-cols .col-sm-4 .btn .fa :hover{
+    background-color: #004d66;
+
+
+}

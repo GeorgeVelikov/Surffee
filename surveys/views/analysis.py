@@ -1,4 +1,4 @@
 
 
 class Create(CreateView):
-    template_name = 'surveys/te.html'
+    template_name = 'surveys/single.html'

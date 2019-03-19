@@ -72,6 +72,6 @@ def inactive_surveys(request):
 
 
 def analysis(request):
-    template = 'analysis/single.html'
+    template = 'analysis/create_analysis.html'
     context = {'analysis': analysis}
     return render(request, template, context)
