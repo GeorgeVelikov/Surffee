@@ -19,11 +19,21 @@
         <h1>Annotate: {{survey}} as {{ annotation.name }} </h1>
     </div>
 
-        {% for word in words %}
-            <div style="background:{{word.classification.color}}">
-                {{word.classification.name}} - {{ word.text }}
+        <div class="card" style="width: fit-content; width: -moz-fit-content;">
+            <div class="card-header">
+                    <h2>Annotated Content</h2>
             </div>
-        {% endfor %}
+            <ul class="card-block list-group list-group-flush">
+                {% for word in words %}
+                    <li class="list-group-item" style="background:{{word.classification.color}}">
+                        {{word.classification.name}} - {{ word.text }}
+                    </li>
+                {% endfor %}
+            </ul>
+            <div class="card-footer text-muted">
+            </div>
+        </div>
+        </br>
 
     <form action="" method="post">
         {% csrf_token %}
@@ -77,8 +87,8 @@
                            disabled >
                 </div>
             </div>
-                <button id="delete_one" class="annotation_operation text-dark btn btn-outline-danger">Remove single</button>
-                <button id="delete_all" class="annotation_operation text-light btn btn-danger">Remove all</button>
+            <button id="delete_one" class="annotation_operation text-dark btn btn-outline-danger">Remove single</button>
+            <button id="delete_all" class="annotation_operation text-light btn btn-danger">Remove all</button>
         </div>
         <br>
 
