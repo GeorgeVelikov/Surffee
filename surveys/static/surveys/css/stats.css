@@ -8,6 +8,7 @@
 #card-cols .col-sm-4{
     padding: 20px;
     padding-top: 30px;
+    padding-bottom: 30px;
     margin: auto;
 }
 
@@ -19,6 +20,8 @@
 
 #card-cols .col-sm-4 .btn .fa :hover{
     background-color: #004d66;
+}
 
-
+#card-cols .col-sm-4 .btn .text-break {
+    font-size: large;
 }
