@@ -19,21 +19,21 @@
         <h1>Annotate: {{survey}} as {{ annotation.name }} </h1>
     </div>
 
-        <div class="card" style="width: fit-content; width: -moz-fit-content;">
-            <div class="card-header">
-                    <h2>Annotated Content</h2>
-            </div>
-            <ul class="card-block list-group list-group-flush">
-                {% for word in words %}
-                    <li class="list-group-item" style="background:{{word.classification.color}}">
-                        {{word.classification.name}} - {{ word.text }}
-                    </li>
-                {% endfor %}
-            </ul>
-            <div class="card-footer text-muted">
-            </div>
+    <div class="card" style="width: fit-content; width: -moz-fit-content;">
+        <div class="card-header">
+                <h2>Annotated Content</h2>
         </div>
-        </br>
+        <ul class="card-block list-group list-group-flush">
+            {% for word in words %}
+                <li class="list-group-item" style="background:{{word.classification.color}}">
+                    {{word.classification.name}} - {{ word.text }}
+                </li>
+            {% endfor %}
+        </ul>
+        <div class="card-footer text-muted">
+        </div>
+    </div>
+    </br>
 
     <form action="" method="post">
         {% csrf_token %}
