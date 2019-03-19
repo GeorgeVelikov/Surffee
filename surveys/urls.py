@@ -21,6 +21,10 @@ urlpatterns = [
          survey.Create.as_view(),
          name='create'),
 
+    path('analysis/',
+         site.analysis,
+         name='analysis'),
+
     path('toggle_active/<int:survey_id>',
          survey.ActiveToggle.as_view(),
          name='toggle_active_survey'),

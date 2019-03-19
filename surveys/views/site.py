@@ -69,3 +69,9 @@ def inactive_surveys(request):
         inactive_surveys = Survey.objects.filter(creator=request.user, active=False)
     context = {'inactive_surveys': inactive_surveys}
     return render(request, template, context)
+
+
+def analysis(request):
+    template = 'analysis/single.html'
+    context = {'analysis': analysis}
+    return render(request, template, context)
