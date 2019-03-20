@@ -19,7 +19,7 @@
         <h1>Annotate: {{survey}} as {{ annotation.name }} </h1>
     </div>
 
-
+    <!-- Annotated Content -->
     <div class="card" style="width: fit-content; width: -moz-fit-content;">
         <div class="card-header">
             <div class="row">
@@ -48,9 +48,9 @@
             <p>Press the arrow-down button to expand/collapse this card</p>
         </div>
     </div>
-
     </br>
 
+    <!-- Annotate Interface -->
     <form action="" method="post">
         {% csrf_token %}
         {{ form.id }}
@@ -91,23 +91,25 @@
 
          <div class="card-footer text-muted">
             <div class="row justify-content-center">
-
+                <div class="col-3">
                     <button id="add_all" class="annotation_operation text-light btn btn-success">Add to all</button>
                     <button id="add_one" class="annotation_operation text-dark btn btn-outline-success">Add to single</button>
+                </div>
+                <div class="col-3">
+                    {{ form.classification_name }}
+                </div>
 
-                    <div class="col-sm-auto">
-                        {{ form.classification_name }}
-                    </div>
+                <div class="col-3" id="selection" >
+                    <input id="annotation_help"
+                           value="Please make your selection"
+                           class="textinput textInput form-control"
+                           disabled >
+                </div>
 
-                    <div class="col-sm-auto" id="selection" >
-                        <input id="annotation_help"
-                               value="Please make your selection"
-                               class="textinput textInput form-control"
-                               disabled >
-                    </div>
-
-                <button id="delete_one" class="annotation_operation text-dark btn btn-outline-danger">Remove single</button>
-                <button id="delete_all" class="annotation_operation text-light btn btn-danger">Remove all</button>
+                <div class="col-3">
+                    <button id="delete_one" class="annotation_operation text-dark btn btn-outline-danger">Remove single</button>
+                    <button id="delete_all" class="annotation_operation text-light btn btn-danger">Remove all</button>
+                </div>
             </div>
          </div>
 
