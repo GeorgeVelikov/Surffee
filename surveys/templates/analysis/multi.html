@@ -1,0 +1,169 @@
+{% extends 'base.html' %}
+{% load static from staticfiles %}
+
+<!-- include crispy -->
+{% load crispy_forms_tags %}
+
+{% block title %}Single Term Analysis{% endblock %}
+
+{% block content %}
+
+<div class="container-fluid">
+    <div class="row">
+      <div class="col-md-12 ml-sm-auto col-lg-12 pt-3 px-4">
+        <div class="container-fluid">
+          <div class = "col col-md-auto card card-body bg-dark text-white" style="margin:24px 0px 24px 0px">
+            <div class = "row text-center ">
+              <div class = "col">
+                <p class="lead">Add new term</p>
+                <div class="input-group" role="group" aria-label="Basic example">
+                  <select class="custom-select" id="addmultform">
+                    <option>test</option>
+                  </select>
+                  <div class = "input-group-append">
+                    <button type="button" class="btn btn-info" id="addmultterm">Add</button>
+                  </div>
+                </div>
+              </div>
+              <div class = "col">
+                <p class="lead">Add constraint</p>
+                <div class="input-group" role="group" aria-label="Basic example">
+                  <select class="custom-select" id="addconform">
+                    <option>test</option>
+                  </select>
+                  <div class = "input-group-append">
+                    <button type="button" class="btn btn-info" id="addconstraint">Add</button>
+                  </div>
+                </div>
+              </div>
+              <div class = "col">
+                <p class="lead">Remove field</p>
+                <div class="input-group" role="group" aria-label="Basic example">
+                  <select class="custom-select" id="remmultform">
+                  </select>
+                  <div class = "input-group-append">
+                    <button type="button" class="btn btn-secondary" id="remmultterm">Remove</button>
+                  </div>
+                </div>
+              </div>
+              <div class = "col">
+                <p class="lead">Delete Term Statistics Page</p>
+                <button type="button" class="btn btn-danger" id="delmultpage">Delete</button>
+              </div>
+            </div>
+          </div>
+
+          <div class = "col card card-body bg-light text-center" style="margin:24px 0px 24px 0px" id="multtables">
+          </div>
+
+          <!-- HYPOTHESIS TESTING -->
+
+          <div class = "col col-md-auto card card-body bg-dark text-white" style="margin-top:24px">
+            <div class = "row text-center ">
+              <div class = "col">
+                <p class="lead">Hypothesis Pattern</p>
+                <div class="input-group" role="group" aria-label="Basic example">
+                  <select class="custom-select" id="patform">
+                    <option id="one">1 - Threshold pattern</option>
+                    <option id="two">2 - Comparator pattern</option>
+                  </select>
+                  <div class = "input-group-append">
+                    <button type="button" class="btn btn-secondary" id="patternsel">Select</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          <!-- Pattern one -->
+
+            <div class = "row align-items-center text-center" style="margin-top:24px;display:none" id= "hypoone">
+              <div class = "col">
+                <p class="lead">First Instance</p>
+                <div class="input-group" role="group" aria-label="Basic example">
+                  <select class="custom-select addfirstform" id="onefirstform">
+                  </select>
+                </div>
+                <div class="slidecontainer" style = "margin-top:24px">
+                  <input type="range" min="0" max="100" value="50" class="slider" id="rangeone">
+                  <p>Value: <span id="onevalue"></span>%</p>
+                </div>
+              </div>
+              <div class = "col">
+                <p class="lead">Second Instance</p>
+                <div class="input-group" role="group" aria-label="Basic example">
+                  <select class="custom-select addsecondform" id="onesecondform">
+                  </select>
+                </div>
+                <div class="slidecontainer" style = "margin-top:24px">
+                  <input type="range" min="0" max="100" value="50" class="slider" id="rangetwo">
+                  <p>Value: <span id="twovalue"></span>%</p>
+                </div>
+              </div>
+              <div class = "col-md-auto">
+                <button type="button" class="btn btn-primary" id="addhypoone">Add hypothesis</button>
+              </div>
+            </div>
+
+          <!-- Pattern two -->
+
+              <div class = "row align-items-end text-center" style="margin-top:24px;display:none" id= "hypotwo">
+              <div class = "col">
+                <p class="lead">First Instance</p>
+                  <select class="custom-select addfirstform" id="twofirstform">
+                  </select>
+              </div>
+              <div class = "col">
+                <p class="lead">Second Instance</p>
+                  <select class="custom-select addsecondform" id="twosecondform">
+                  </select>
+              </div>
+              <div class = "col-md-auto">
+                <button type="button" class="btn btn-primary" id="addhypotwo">Add hypothesis</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Hypothesis Graph -->
+
+        </div>
+        <div class="card card-body bg-light text-center" style="margin:24px 0px 24px 0px">
+          <div>
+            <h1 class = "display-4">Hypothesis</h1>
+            <p class="lead"> <b>Hypothesis Pattern 1</b> - Considering two instances, when I(A) crosses threshold x, I(B) should cross threshold y. If I(A) doesn't, I(B) shouldn't either.</p>
+          </div>
+          <hr>
+          <div id="hypotableone">
+          </div>
+          <hr>
+          <div>
+            <p class="lead"> <b>Hypothesis Pattern 2</b> - Considering two instances, checks how I(A) compares to I(B) regarding the defined function.</p>
+          </div>
+          <hr>
+          <div id="hypotabletwo">
+          </div>
+          <div class="input-group" role="group" aria-label="Basic example">
+            <select class="custom-select" id="remhypoform">
+            </select>
+            <div class = "input-group-append">
+              <button type="button" class="btn btn-secondary" id="remhypo">Remove Hypothesis</button>
+            </div>
+          </div>
+        </div>
+          <!-- MultStats GRAPHS -->
+        <div class = "col col-md-auto card card-body bg-light text-center" style="margin:24px 0px 24px 0px">
+            <h1 class = "display-4">Graphs</h1>
+            <div class="container">
+              <div class="row justify-content-center">
+                <div class="col-md-auto" id="barchart"></div>
+              </div>
+              <div class="row justify-content-center">
+                <div  id="pie">
+                </div>
+              </div>
+              <div id="lines"></div>
+            </div>
+          </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}
