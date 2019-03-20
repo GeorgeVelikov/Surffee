@@ -130,18 +130,18 @@
 
 
     <div class="container-fluid">
-        <div class="row">
-            <a class="col-sm-3 btn btn-success text-light" href="./add_question">
+        <div class="row justify-content-center">
+            <a class="col-auto btn btn-success text-light" href="./add_question">
                 <i class="fa fa-plus"></i>
                 Add question
             </a>
 
-            <a class="offset-sm-1 col-sm-3 btn btn-success text-light" href="./annotate/1">
+            <a class="offset-sm-1 col-auto btn btn-success text-light" href="./annotate/1">
                 <i class="fa fa-list"></i>
-                Annotate survey
+                Annotate
             </a>
 
-            <a class="offset-sm-1 col-sm-3 btn btn-success text-light" href="./results">
+            <a class="offset-sm-1 col-auto btn btn-success text-light" href="./results">
                 <i class="fa fa-bar-chart"></i>
                 Results / Graphs
             </a>
@@ -151,7 +151,7 @@
 
         {% if survey.active %}
             <div class="row">
-                <a class="offset-sm-4 col-sm-3 btn btn-info" href="../answer/{{survey.id}}/agreement">
+                <a class="offset-sm-4 col-4 btn btn-info" href="../answer/{{survey.id}}/agreement">
                     Link for respondents
                 </a>
             </div>
