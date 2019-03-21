@@ -162,7 +162,9 @@ class AddOne(UpdateView):
             classification = create_new_classification(classification_name, annotation)
             classification.save()
 
-        delete_sub_words = Word.objects.filter(start__lte=word_start)
+        delete_sub_words = Word.objects.filter(choice=choice, start__lte=word_start, end__gte=word_end) | \
+                           Word.objects.filter(choice=choice, start__lt=word_end, end__gt=word_start)
+
         for del_word in delete_sub_words:
             del_word.delete()
 
@@ -184,24 +186,24 @@ class AddAll(UpdateView):
         choice = Choice.objects.get(pk=self.kwargs.get('choice_id'))
 
         classification_name = self.kwargs.get('class')
-        word_text = self.kwargs.get('word_text')
+        word_text_checkPoint = self.kwargs.get('word_text')
 
         all_questions = Question.objects.filter(survey=choice.question.survey)
         all_choices = Choice.objects.filter(question__in=all_questions)
-        all_words = Word.objects.filter(choice__in=all_choices)
 
         classification_annotation = Classification.objects.filter(name=classification_name,
                                                                   annotation=annotation)
 
         for choice in all_choices:
-            while choice.choice_text.find(word_text):
+            word_text = word_text_checkPoint
+            if choice.choice_text.find(word_text) != -1:
                 word_start = choice.choice_text.find(word_text)
                 word_end = word_start + len(word_text)
 
                 if classification_annotation.exists():
-                    for word in all_words:
-                        if word_text in word.text and word.choice != choice:
-                            continue
+                    check_overwrite_existing_word(choice, classification_annotation, word_text)
+                    check_existing_word_dominates_new_word(choice, classification_annotation, annotation, word_text,
+                                                           survey.id)
 
                     classification = Classification.objects.get(name=classification_name,
                                                                 annotation=annotation)
@@ -209,6 +211,12 @@ class AddAll(UpdateView):
                 else:
                     classification = create_new_classification(classification_name, annotation)
                     classification.save()
+
+                delete_sub_words = Word.objects.filter(choice=choice, start__lte=word_start, end__gte=word_end) | \
+                                   Word.objects.filter(choice=choice, start__lt=word_end, end__gt=word_start)
+
+                for del_word in delete_sub_words:
+                    del_word.delete()
 
                 word = Word.objects.create(text=word_text,
                                            start=word_start,
@@ -218,9 +226,7 @@ class AddAll(UpdateView):
                 word.save()
 
                 word_text = choice.choice_text[word_end::]
-                print(word_text)
-                if word_text == None or choice.choice_text.find(word_text) == -1:
-                    break
+
 
         return redirect('/surveys/'+str(survey.id)+'/annotate/'+str(annotation.id))
 
