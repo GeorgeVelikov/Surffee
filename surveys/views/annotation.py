@@ -186,7 +186,7 @@ class AddAll(UpdateView):
         choice = Choice.objects.get(pk=self.kwargs.get('choice_id'))
 
         classification_name = self.kwargs.get('class')
-        word_text_checkPoint = self.kwargs.get('word_text')
+        word_to_annotate = self.kwargs.get('word_text')
 
         all_questions = Question.objects.filter(survey=choice.question.survey)
         all_choices = Choice.objects.filter(question__in=all_questions)
@@ -195,14 +195,15 @@ class AddAll(UpdateView):
                                                                   annotation=annotation)
 
         for choice in all_choices:
-            word_text = word_text_checkPoint
-            if choice.choice_text.find(word_text) != -1:
-                word_start = choice.choice_text.find(word_text)
-                word_end = word_start + len(word_text)
+            word_text = choice.choice_text
+            word_count_track = 0
+            while word_text.find(word_to_annotate) >= 0:
+                word_start = word_text.find(word_to_annotate) + word_count_track
+                word_end = word_start + len(word_to_annotate)
 
                 if classification_annotation.exists():
-                    check_overwrite_existing_word(choice, classification_annotation, word_text)
-                    check_existing_word_dominates_new_word(choice, classification_annotation, annotation, word_text,
+                    check_overwrite_existing_word(choice, classification_annotation, word_to_annotate)
+                    check_existing_word_dominates_new_word(choice, classification_annotation, annotation, word_to_annotate,
                                                            survey.id)
 
                     classification = Classification.objects.get(name=classification_name,
@@ -218,7 +219,7 @@ class AddAll(UpdateView):
                 for del_word in delete_sub_words:
                     del_word.delete()
 
-                word = Word.objects.create(text=word_text,
+                word = Word.objects.create(text=word_to_annotate,
                                            start=word_start,
                                            end=word_end,
                                            choice=choice,
@@ -226,7 +227,7 @@ class AddAll(UpdateView):
                 word.save()
 
                 word_text = choice.choice_text[word_end::]
-
+                word_count_track += (word_end-word_count_track)
 
         return redirect('/surveys/'+str(survey.id)+'/annotate/'+str(annotation.id))
 
