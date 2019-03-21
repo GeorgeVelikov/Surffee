@@ -160,6 +160,15 @@ class AddOne(UpdateView):
             classification = create_new_classification(classification_name, annotation)
             classification.save()
 
+        delete_sub_words = Word.objects.filter(start__lte=word_start, end__gte=word_end, choice=choice.pk)
+        delete_dom_words = Word.objects.filter(start__gte=word_start, end__lte=word_end, choice=choice.pk)
+
+        for del_word in delete_sub_words:
+            del_word.delete()
+
+        for del_word in delete_dom_words:
+            del_word.delete()
+
         word = Word.objects.create(text=word_text,
                                    start=word_start,
                                    end=word_end,
@@ -188,32 +197,34 @@ class AddAll(UpdateView):
                                                                   annotation=annotation)
 
         for choice in all_choices:
-            if choice.choice_text.find(word_text) == -1:
-                continue
-            word_start = choice.choice_text.find(word_text)
-            word_end = word_start + len(word_text)
+            while choice.choice_text.find(word_text):
+                word_start = choice.choice_text.find(word_text)
+                word_end = word_start + len(word_text)
 
-            if classification_annotation.exists():
-                for word in all_words:
-                    if word_text in word.text and len(word.text) < len(word_text):
-                        continue
+                if classification_annotation.exists():
+                    for word in all_words:
+                        if word_text in word.text and word.choice != choice:
+                            continue
 
-                    if word.text in word_text and word.id:
-                        word.delete()
 
-                classification = Classification.objects.get(name=classification_name,
-                                                            annotation=annotation)
+                    classification = Classification.objects.get(name=classification_name,
+                                                                annotation=annotation)
 
-            else:
-                classification = create_new_classification(classification_name, annotation)
-                classification.save()
+                else:
+                    classification = create_new_classification(classification_name, annotation)
+                    classification.save()
 
-            word = Word.objects.create(text=word_text,
-                                       start=word_start,
-                                       end=word_end,
-                                       choice=choice,
-                                       classification=classification)
-            word.save()
+                word = Word.objects.create(text=word_text,
+                                           start=word_start,
+                                           end=word_end,
+                                           choice=choice,
+                                           classification=classification)
+                word.save()
+
+                word_text = choice.choice_text[word_end::]
+                print(word_text)
+                if word_text == None or choice.choice_text.find(word_text) == -1:
+                    break
 
         return redirect('/surveys/'+str(survey.id)+'/annotate/'+str(annotation.id))
 
