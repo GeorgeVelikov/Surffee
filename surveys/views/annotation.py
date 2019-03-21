@@ -146,6 +146,8 @@ class AddOne(UpdateView):
         word_start = choice.choice_text.find(word_text)
         word_end = word_start + len(word_text)
 
+        print("i want to fucking die \n\n\n\n")
+
         classification_annotation = Classification.objects.filter(name=classification_name,
                                                                   annotation=annotation)
         if classification_annotation.exists():
@@ -160,13 +162,8 @@ class AddOne(UpdateView):
             classification = create_new_classification(classification_name, annotation)
             classification.save()
 
-        delete_sub_words = Word.objects.filter(start__lte=word_start, end__gte=word_end, choice=choice.pk)
-        delete_dom_words = Word.objects.filter(start__gte=word_start, end__lte=word_end, choice=choice.pk)
-
+        delete_sub_words = Word.objects.filter(start__lte=word_start)
         for del_word in delete_sub_words:
-            del_word.delete()
-
-        for del_word in delete_dom_words:
             del_word.delete()
 
         word = Word.objects.create(text=word_text,
@@ -205,7 +202,6 @@ class AddAll(UpdateView):
                     for word in all_words:
                         if word_text in word.text and word.choice != choice:
                             continue
-
 
                     classification = Classification.objects.get(name=classification_name,
                                                                 annotation=annotation)

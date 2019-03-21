@@ -170,7 +170,7 @@ $(document).ready(function () {
             let word_text = $('#word_selection').val();
             let class_name = $("#id_classification_name").val();
 
-            $(this).attr('href', './' +
+            $(this).attr('href', "./" +
                           annotation_id + '/' +
                           operation + '/' +
                           choice_id + '/' +
@@ -178,6 +178,7 @@ $(document).ready(function () {
                           word_text);
         });
     }
+
 
     // just a helper function to test stuff
     function redirect() {
