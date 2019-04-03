@@ -9,7 +9,7 @@ from .helper import check_existing_word_dominates_new_word, check_overwrite_exis
     delete_overlay_word_classifications, delete_unused_classifications
 
 
-class RedirectToAnnotation(CreateView):
+class RedirectToAnnotation(UpdateView):
     def get(self, request, *args, **kwargs):
         survey_id = self.kwargs.get('survey_id')
         survey = Survey.objects.get(pk=survey_id)
@@ -24,6 +24,11 @@ class RedirectToAnnotation(CreateView):
             survey.save()
 
         return redirect('/surveys/' + str(survey.id) + '/annotate/' + str(annotation.id))
+
+
+class ChangeActiveAnnotation(UpdateView):
+    def get(self, request, *args, **kwargs):
+        pass
 
 
 class AnnotationManager(CreateView):

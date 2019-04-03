@@ -2,7 +2,7 @@ from django import forms
 from django.forms.models import inlineformset_factory
 
 from ..models.survey import Survey, Question, Choice, PersonalInformation
-from ..models.annotation import Word
+from ..models.annotation import Annotation
 
 
 class ResearcherCreateChoice(forms.ModelForm):
@@ -11,7 +11,6 @@ class ResearcherCreateChoice(forms.ModelForm):
         self.fields['choice_text'].label = False
         for field in self.fields:
             self.fields[field].widget.attrs['class'] = 'form-control'
-
 
     class Meta:
         model = Choice
@@ -83,7 +82,7 @@ class AnnotationWordForm(forms.ModelForm):
     classification_name.widget.attrs['placeholder'] = "Please enter a classification"
 
     class Meta:
-        model = Word
+        model = Annotation
         exclude = ['']
 
     def save(self, commit=True):
