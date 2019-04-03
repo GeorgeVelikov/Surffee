@@ -735,3 +735,30 @@ body {
 .chiller-theme .sidebar-footer>a:last-child {
     border-right: none;
 }
+
+
+/* annotation stuff */
+.annotation_id {
+    transition: background 1s;
+}
+
+.annotation_id:hover{
+    background:rgba(0, 0, 255, 0.2) !important;
+}
+
+
+@-webkit-keyframes fadeOut {
+    from { opacity: 1; }
+      to { opacity: 0; }
+}
+@keyframes fadeOut {
+    from { opacity: 1; }
+      to { opacity: 0; }
+}
+
+.annotation_id:hover .colour_overlay{
+    -webkit-animation: fadeOut 1s;
+    animation: fadeOut 1s;
+    opacity:0;
+    z-index:-2;
+}
