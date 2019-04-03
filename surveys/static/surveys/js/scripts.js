@@ -170,12 +170,21 @@ $(document).ready(function () {
             let word_text = $('#word_selection').val();
             let class_name = $("#id_classification_name").val();
 
-            $(this).attr('href', "./" +
-                          annotation_id + '/' +
-                          operation + '/' +
-                          choice_id + '/' +
-                          class_name + '/' +
-                          word_text);
+            if (operation === "add_one" || operation === "add_all") {
+                $(this).attr('href', "./" +
+                              annotation_id + '/' +
+                              operation + '/' +
+                              choice_id + '/' +
+                              class_name + '/' +
+                              word_text);
+            }
+            else {
+                $(this).attr('href', "./" +
+                              annotation_id + '/' +
+                              operation + '/' +
+                              choice_id + '/' +
+                              word_text);
+            }
         });
     }
 

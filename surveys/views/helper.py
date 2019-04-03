@@ -66,3 +66,10 @@ def check_existing_word_dominates_new_word(choice, classification, annotation, w
             if word_text in dom_word.text:
                 return redirect('/surveys/' + str(survey_id) + '/annotate/' + str(annotation.id))
 
+
+def delete_overlay_word_annotations(choice, annotation_start, annotation_end):
+    delete_sub_words = Word.objects.filter(choice=choice, start__lte=annotation_start, end__gte=annotation_end) | \
+                       Word.objects.filter(choice=choice, start__lt=annotation_end, end__gt=annotation_start)
+
+    for del_word in delete_sub_words:
+        del_word.delete()

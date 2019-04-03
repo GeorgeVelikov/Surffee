@@ -34,7 +34,7 @@
                             <!-- TABS -->
                             <div class="nav nav-tabs" id="nav-tab" role="tablist">
                                 {% for class in classifications %}
-                                    <a class="nav-item nav-link active" id="{{ class }}-tab" data-toggle="tab" href="#{{ class }}" role="tab" aria-controls="{{ class }}" aria-selected="true" style="background:{{class.color}};">
+                                    <a class="nav-item nav-link active" id="{{ class.name }}-tab" data-toggle="tab" href="#{{ class.name }}" role="tab" aria-controls="{{ class.name }}" aria-selected="false" style="background:{{class.color}};">
                                         <span style="color:{{class.color}}; filter:invert(1);">{{ class.name }}</span>
                                     </a>
                                 {% endfor %}

@@ -53,11 +53,11 @@ urlpatterns = [
          annotation.AddOne.as_view(),
          name="annotate_add_one"),
 
-    path('<int:survey_id>/annotate/<int:annotation_id>/delete_one/<int:choice_id>/<str:class>/<str:word_text>',
+    path('<int:survey_id>/annotate/<int:annotation_id>/delete_one/<int:choice_id>/<str:word_text>',
          annotation.DeleteOne.as_view(),
          name="annotate_delete_one"),
 
-    path('<int:survey_id>/annotate/<int:annotation_id>/delete_all/<int:choice_id>/<str:class>/<str:word_text>',
+    path('<int:survey_id>/annotate/<int:annotation_id>/delete_all/<int:choice_id>/<str:word_text>',
          annotation.DeleteAll.as_view(),
          name="annotate_delete_all"),
 
