@@ -41,6 +41,10 @@ urlpatterns = [
          survey.detail,
          name="detail"),
 
+    path('<int:survey_id>/annotate/',
+         annotation.RedirectToAnnotation.as_view(),
+         name="annotate_redirect"),
+
     path('<int:survey_id>/annotate/<int:annotation_id>',
          annotation.Create.as_view(),
          name="annotate"),

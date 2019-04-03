@@ -9,6 +9,21 @@ from .helper import check_existing_word_dominates_new_word, check_overwrite_exis
     delete_overlay_word_classifications, delete_unused_classifications
 
 
+class RedirectToAnnotation(CreateView):
+    def get(self, request, *args, **kwargs):
+        survey_id = self.kwargs.get('survey_id')
+        survey = Survey.objects.get(pk=survey_id)
+
+        if Annotation.objects.filter(survey=survey).exists():
+            # if we have annotations, pick the first one (this should usually be the buffer annotation)
+            annotation = Annotation.objects.filter(survey=survey)[0]
+        else:
+            # creates the placeholder annotation for the survey (this is used as a buffer)
+            annotation = Annotation.objects.create(name="Buffer annotation", survey=survey)
+
+        return redirect('/surveys/' + str(survey.id) + '/annotate/' + str(annotation.id))
+
+
 class Create(CreateView):
     template_name = 'annotation/word_annotation.html'
     model = Word
@@ -18,17 +33,9 @@ class Create(CreateView):
         self.object = None
         survey_id = self.kwargs.get('survey_id')
         survey = Survey.objects.get(pk=survey_id)
+        annotation_id = self.kwargs.get('annotation_id')
 
-        annotation_id = self.kwargs.get('survey_id')
-
-        if Annotation.objects.filter(survey=survey).exists():
-            if Annotation.objects.get(pk=annotation_id):
-                annotation = Annotation.objects.get(pk=annotation_id)
-            else:
-                annotation = Annotation.objects.get(pk=1)
-        else:
-            # creates the placeholder annotation for the survey (this is used as a buffer)
-            annotation = Annotation.objects.create(name="Buffer annotation", survey=survey)
+        annotation = Annotation.objects.get(pk=annotation_id)
 
         classifications = delete_unused_classifications(annotation)
         words = Word.objects.filter(classification__in=classifications)
