@@ -68,10 +68,10 @@
     <!-- testing ends -->
 
     <!-- TODO: YIANNIS PLS MAKE THIS GOOD LOOKING -->
-    THESE ARE THE ANNOTATIONS THAT THE SURVEY "OWNS"
+    THESE ARE THE ANNOTATIONS THAT THE SURVEY "OWNS", they'll change the active annotation
     <br>
     {% for annot in all_annotations %}
-        {{ annot.name }}
+        <a href="#" >{{ annot.name }}</a>
     {% endfor %}
 
 
@@ -219,21 +219,3 @@
         <button type="submit" class="btn btn-block btn-primary">Save annotation</button>
     </form>
 {% endblock %}
-
-
-<!-- LEGACY
-
-{% for color, text in choices_colored.items %}
-    {% if text in choice.choice_text %}
-        <div style=" z-index:-1;">
-            <span style="background-color:{{ color }}; position:absolute; height; 100%; width:auto;">
-                {% for ch in text %}
-
-                    &#160
-                {% endfor %}
-            </span>
-        </div>
-    {% endif %}
-{% endfor %}
-
--->
