@@ -179,11 +179,6 @@ $(document).ready(function () {
             noerrors = false;
         }
 
-        if (!operation) {
-            alert("No operation", operation);
-            noerrors = false;
-        }
-
         if (noerrors) {
             if (operation === "add_one" || operation === "add_all") {
                 window.location.href = "./" + +

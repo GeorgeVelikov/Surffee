@@ -16,10 +16,12 @@ class RedirectToAnnotation(CreateView):
 
         if Annotation.objects.filter(survey=survey).exists():
             # if we have annotations, pick the first one (this should usually be the buffer annotation)
-            annotation = Annotation.objects.filter(survey=survey)[0]
+            annotation = Annotation.objects.get(pk=survey.active_annotation)
         else:
             # creates the placeholder annotation for the survey (this is used as a buffer)
             annotation = Annotation.objects.create(name="Buffer annotation", survey=survey)
+            survey.active_annotation = annotation.pk
+            survey.save()
 
         return redirect('/surveys/' + str(survey.id) + '/annotate/' + str(annotation.id))
 

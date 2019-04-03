@@ -13,6 +13,7 @@ class Survey(models.Model):
     description = models.CharField(max_length=2**10)
     active = models.BooleanField(default=False)
     pi_choices = models.TextField(blank=True, null=True)
+    active_annotation = models.IntegerField(blank=True, null=True)
 
     def __str__(self):
         return self.name
