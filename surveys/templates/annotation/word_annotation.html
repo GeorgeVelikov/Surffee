@@ -68,12 +68,22 @@
     <!-- testing ends -->
 
     <!-- TODO: YIANNIS PLS MAKE THIS GOOD LOOKING -->
-    THESE ARE THE CLASSIFICATION NAMES WE USE <br>
+    THESE ARE THE ANNOTATIONS THAT THE SURVEY "OWNS"
+    <br>
+    {% for annot in all_annotations %}
+        {{ annot.name }}
+    {% endfor %}
+
+
+    <br><br><br>
+    THESE ARE THE CLASSIFICATION NAMES WE USE
+    <br>
     {% for class in classifications %}
             <span style="background:{{class.color}};">
                 <span style="color:{{class.color}}; filter:invert(1);">
                     {{ class.name }}</span></span> <!-- dont put these in a new line, try it and see why -->
     {% endfor %}
+    <br><br>
 
     <!-- Annotated Content & Instructions -->
     <div class="row">

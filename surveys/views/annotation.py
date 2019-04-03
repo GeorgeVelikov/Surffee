@@ -24,7 +24,7 @@ class RedirectToAnnotation(CreateView):
         return redirect('/surveys/' + str(survey.id) + '/annotate/' + str(annotation.id))
 
 
-class Create(CreateView):
+class AnnotationManager(CreateView):
     template_name = 'annotation/word_annotation.html'
     model = Word
     form_class = AnnotationWordForm
@@ -36,6 +36,8 @@ class Create(CreateView):
         annotation_id = self.kwargs.get('annotation_id')
 
         annotation = Annotation.objects.get(pk=annotation_id)
+
+        all_survey_annotations = Annotation.objects.filter(survey=survey)
 
         classifications = delete_unused_classifications(annotation)
         words = Word.objects.filter(classification__in=classifications)
@@ -49,6 +51,7 @@ class Create(CreateView):
         return self.render_to_response(
             self.get_context_data(form=form,
                                   annotation=annotation,
+                                  all_annotations=all_survey_annotations,
                                   classifications=classifications,
                                   words=words,
                                   survey=survey,
