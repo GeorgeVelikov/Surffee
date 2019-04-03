@@ -42,24 +42,21 @@
                         </nav>
                     </div>
                     <div class="tab-content" id="nav-tabContent">
-
-                        <div class="tab-pane fade show active" id="{{ class }}" role="tabpanel" aria-labelledby="{{ class }}-tab">
+                        {% for class in classifications %}
+                        <div class="tab-pane fade show active" id="{{ class.name }}" role="tabpanel" aria-labelledby="{{ class.name }}-tab">
                             <div class="collapse multi-collapse" id="collapse2">
                                 <ul class="card-block list-group list-group-flush">
                                     {% for word in words %}
-                                        {% if word.classification == class.name %}
-                                            <!-- TODO: HOW DOES THIS WORK????? -->
-                                        {% endif %}
-                                        <!-- put these inside i guess and change them -->
-                                        <li class="list-group-item" style="background:{{word.classification.color}}">
+                                        {% if word.classification.name == class.name %}
+                                            <li class="list-group-item" style="background:{{word.classification.color}}">
                                                 {{word.classification.name}} - {{ word.text }}
-                                        </li>
-                                        <!-- -->
+                                            </li>
+                                        {% endif %}
                                     {% endfor %}
                                 </ul>
                             </div>
                         </div>
-
+                        {% endfor %}
                     </div>
                     <div class="card-footer text-muted">
                         <p>Press the arrow-down button to expand/collapse this card</p>
