@@ -183,11 +183,16 @@ class DeleteOne(UpdateView):
         choice = Choice.objects.get(pk=self.kwargs.get('choice_id'))
 
         word_text = self.kwargs.get('word_text')
+        leftover_word = choice.choice_text
+        word_count_track = 0
 
-        word_start = choice.choice_text.find(word_text)
-        word_end = word_start + len(word_text)
+        while leftover_word.find(word_text) >= 0:
+            word_start = leftover_word.find(word_text) + word_count_track
+            word_end = word_start + len(word_text)
 
-        delete_overlay_word_classifications(choice, word_start, word_end)
+            delete_overlay_word_classifications(choice, word_start, word_end)
+            leftover_word = choice.choice_text[word_end::]
+            word_count_track += (word_end - word_count_track)
 
         return redirect('/surveys/' + str(survey.id) + '/annotate/' + str(annotation.id))
 
@@ -208,6 +213,15 @@ class DeleteAll(UpdateView):
         all_choices = Choice.objects.filter(question__in=all_questions)
 
         for ch in all_choices:
-            delete_overlay_word_classifications(ch, word_start, word_end)
+            leftover_word = ch.choice_text
+            word_count_track = 0
+
+            while leftover_word.find(word_text) >= 0:
+                word_start = leftover_word.find(word_text) + word_count_track
+                word_end = word_start + len(word_text)
+
+                delete_overlay_word_classifications(ch, word_start, word_end)
+                leftover_word = ch.choice_text[word_end::]
+                word_count_track += (word_end - word_count_track)
 
         return redirect('/surveys/' + str(survey.id) + '/annotate/' + str(annotation.id))
