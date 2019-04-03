@@ -5,11 +5,9 @@ from ..models.survey import Survey, Question, Choice
 from ..models.annotation import Annotation, Classification, Word
 from ..forms.surveys import AnnotationWordForm
 
-import time
-import random
-
 from .helper import check_existing_word_dominates_new_word, check_overwrite_existing_word, create_new_classification, \
-    delete_overlay_word_annotations
+    delete_overlay_word_classifications, delete_unused_classifications
+
 
 class Create(CreateView):
     template_name = 'annotation/word_annotation.html'
@@ -29,20 +27,11 @@ class Create(CreateView):
             else:
                 annotation = Annotation.objects.get(pk=1)
         else:
-            # TODO: redirect user to create name for annotation
-            annotation = Annotation.objects.create(name="Standard annotation", survey=survey)
+            # creates the placeholder annotation for the survey (this is used as a buffer)
+            annotation = Annotation.objects.create(name="Buffer annotation", survey=survey)
 
-        classifications = Classification.objects.filter(annotation=annotation.id)
-        set_of_used_classifications = set()
+        classifications = delete_unused_classifications(annotation)
         words = Word.objects.filter(classification__in=classifications)
-
-        for word in words:
-            set_of_used_classifications.add(word.classification.name)
-
-        for classif in classifications:
-            if classif.name not in set_of_used_classifications:
-                classif.delete()
-                classifications = classifications.exclude(name=classif.name)
 
         questions = Question.objects.filter(survey=survey_id)
         choices = Choice.objects.filter(question__in=questions)
@@ -121,7 +110,7 @@ class AddOne(UpdateView):
                 classification = create_new_classification(classification_name, annotation)
                 classification.save()
 
-            delete_overlay_word_annotations(choice, word_start, word_end)
+            delete_overlay_word_classifications(choice, word_start, word_end)
 
             word = Word.objects.create(text=word_text,
                                        start=word_start,
@@ -171,7 +160,7 @@ class AddAll(UpdateView):
                     classification = create_new_classification(classification_name, annotation)
                     classification.save()
 
-                delete_overlay_word_annotations(choice, word_start, word_end)
+                delete_overlay_word_classifications(choice, word_start, word_end)
 
                 word = Word.objects.create(text=word_to_annotate,
                                            start=word_start,
@@ -198,7 +187,7 @@ class DeleteOne(UpdateView):
         word_start = choice.choice_text.find(word_text)
         word_end = word_start + len(word_text)
 
-        delete_overlay_word_annotations(choice, word_start, word_end)
+        delete_overlay_word_classifications(choice, word_start, word_end)
 
         return redirect('/surveys/' + str(survey.id) + '/annotate/' + str(annotation.id))
 
@@ -219,6 +208,6 @@ class DeleteAll(UpdateView):
         all_choices = Choice.objects.filter(question__in=all_questions)
 
         for ch in all_choices:
-            delete_overlay_word_annotations(ch, word_start, word_end)
+            delete_overlay_word_classifications(ch, word_start, word_end)
 
         return redirect('/surveys/' + str(survey.id) + '/annotate/' + str(annotation.id))

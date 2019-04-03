@@ -67,9 +67,25 @@ def check_existing_word_dominates_new_word(choice, classification, annotation, w
                 return redirect('/surveys/' + str(survey_id) + '/annotate/' + str(annotation.id))
 
 
-def delete_overlay_word_annotations(choice, annotation_start, annotation_end):
+def delete_overlay_word_classifications(choice, annotation_start, annotation_end):
     delete_sub_words = Word.objects.filter(choice=choice, start__lte=annotation_start, end__gte=annotation_end) | \
                        Word.objects.filter(choice=choice, start__lt=annotation_end, end__gt=annotation_start)
 
     for del_word in delete_sub_words:
         del_word.delete()
+
+def delete_unused_classifications(annotation):
+    set_of_used_classifications = set()
+    all_classifications_annotation = Classification.objects.filter(annotation=annotation.id)
+    all_words_classifications = Word.objects.filter(classification__in=all_classifications_annotation)
+
+    for word in all_words_classifications:
+        set_of_used_classifications.add(word.classification.name)
+
+    for classif in all_classifications_annotation:
+        if classif.name not in set_of_used_classifications:
+            classif.delete()
+            all_classifications_annotation = all_classifications_annotation.exclude(name=classif.name)
+
+    # this gives a cleansed queryset
+    return all_classifications_annotation
