@@ -153,7 +153,6 @@ $(document).ready(function () {
             $('#selection').append($(input));
         }
 
-        updateAnnotationOperationHref();
     });
 
     $(".annotation_id").each(function() {
@@ -161,33 +160,48 @@ $(document).ready(function () {
         console.log( input_field.val() );
     });
 
-    $("#id_classification_name").on('input', updateAnnotationOperationHref);
 
-    function updateAnnotationOperationHref() {
-        $(".annotation_operation").each(function() {
-            let operation = $(this).attr('id');
-            let choice_id = $('#choice_id_post').val();
-            let word_text = $('#word_selection').val();
-            let class_name = $("#id_classification_name").val();
+    $(".annotation_operation").click(function () {
+        noerrors = true;
+        let operation = this.id;
+        let choice_id = $('#choice_id_post').val();
+        let word_text = $('#word_selection').val();
+        let class_name = $("#id_classification_name").val();
 
+        if (class_name === "") {
+            alert("You need to define the classification of the selection.");
+            noerrors = false;
+        }
+
+        // if the element does not exist, it's created dynamically
+        if (!word_text) {
+            alert("You need to make a selection which to classify.");
+            noerrors = false;
+        }
+
+        if (!operation) {
+            alert("No operation", operation);
+            noerrors = false;
+        }
+
+        if (noerrors) {
             if (operation === "add_one" || operation === "add_all") {
-                $(this).attr('href', "./" +
-                              annotation_id + '/' +
-                              operation + '/' +
-                              choice_id + '/' +
-                              class_name + '/' +
-                              word_text);
+                window.location.href = "./" + +
+                                       annotation_id + '/' +
+                                       operation + '/' +
+                                       choice_id + '/' +
+                                       class_name + '/' +
+                                       word_text;
             }
             else {
-                $(this).attr('href', "./" +
-                              annotation_id + '/' +
-                              operation + '/' +
-                              choice_id + '/' +
-                              word_text);
+                window.location.href = "./" +
+                                       annotation_id + '/' +
+                                       operation + '/' +
+                                       choice_id + '/' +
+                                       word_text;
             }
-        });
-    }
-
+        }
+    });
 
     // just a helper function to test stuff
     function redirect() {
