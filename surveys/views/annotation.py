@@ -5,6 +5,7 @@ from ..models.survey import Survey, Question, Choice
 from ..models.annotation import Annotation, Classification, Word
 from ..forms.surveys import AnnotationWordForm
 
+import time
 import random
 
 from .helper import check_existing_word_dominates_new_word, check_overwrite_existing_word, create_new_classification
@@ -32,7 +33,16 @@ class Create(CreateView):
             annotation = Annotation.objects.create(name="Standard annotation", survey=survey)
 
         classifications = Classification.objects.filter(annotation=annotation.id)
+        set_of_used_classifications = set()
         words = Word.objects.filter(classification__in=classifications)
+
+        for word in words:
+            set_of_used_classifications.add(word.classification.name)
+
+        for classif in classifications:
+            if classif.name not in set_of_used_classifications:
+                classif.delete()
+                classifications = classifications.exclude(name=classif.name)
 
         questions = Question.objects.filter(survey=survey_id)
         choices = Choice.objects.filter(question__in=questions)
@@ -64,59 +74,6 @@ class Create(CreateView):
         choice = Choice.objects.get(pk=form.data['choice_id_selected'])
         word_text = form.data['word_selection']
 
-        word_start = choice.choice_text.find(word_text)
-        word_end = word_start + len(word_text)
-
-        # this is where POST data transformations and magic happens
-        request.POST._mutable = True
-        # Our form is using the model Word
-        form.data['text'] = word_text
-        form.data['choice'] = choice.pk
-        form.data['start'] = word_start
-        form.data['end'] = word_end
-
-        # check if the classification existing already
-        # if yes    -> store word in it,
-        # else      -> create new classification and store word in there
-        classification_annotation = Classification.objects.filter(name=form.data['classification_name'],
-                                                                  annotation=annotation)
-        if classification_annotation.exists():
-
-            sub_words = Word.objects.filter(choice=choice.pk,
-                                            classification=classification_annotation.first().pk)
-
-            if sub_words.exists():
-
-                # define sub_word as a word contained in our new selected text for some choice
-                # e.g. sub_word -> "ello", selection -> "Hello World"
-                for sub_word in sub_words:
-                    if sub_word.text in word_text and len(sub_word.text) < len(word_text):
-                        sub_word.delete()
-
-            # define dom_word as a word that contains the new selected text for some choice
-            # e.g. dom_word -> "Some word", selection -> "SoMe"
-            dom_words = Word.objects.filter(choice=choice.pk,
-                                            text__icontains=word_text,
-                                            classification=classification_annotation.first().pk)
-            if dom_words.exists():
-                for dom_word in dom_words:
-                    if word_text in dom_word.text:
-                        return redirect('./' + str(annotation_id))
-
-            form.data['classification'] = Classification.objects.get(name=form.data['classification_name'],
-                                                                     annotation=annotation).pk
-        else:
-            # make sure we get a unique color
-            random_hex_color = "#%06x" % random.randint(0, 0xFFFFFF)
-            while Classification.objects.filter(annotation=annotation, color=random_hex_color).exists():
-                random_hex_color = "#%06x" % random.randint(0, 0xFFFFFF)
-
-            form.data['classification'] = Classification.objects.create(name=form.data['classification_name'],
-                                                                        annotation=annotation,
-                                                                        color=random_hex_color).pk
-
-        request.POST._mutable = False
-
         return self.finish(form, annotation_id)
 
     def form_valid(self, form, id):
@@ -142,38 +99,43 @@ class AddOne(UpdateView):
 
         classification_name = self.kwargs.get('class')
         word_text = self.kwargs.get('word_text')
+        leftover_word = choice.choice_text
 
-        word_start = choice.choice_text.find(word_text)
-        word_end = word_start + len(word_text)
+        word_count_track = 0
 
-        print("i want to fucking die \n\n\n\n")
+        while leftover_word.find(word_text) >= 0:
+            word_start = leftover_word.find(word_text) + word_count_track
+            word_end = word_start + len(word_text)
 
-        classification_annotation = Classification.objects.filter(name=classification_name,
-                                                                  annotation=annotation)
-        if classification_annotation.exists():
-            check_overwrite_existing_word(choice, classification_annotation, word_text)
+            classification_annotation = Classification.objects.filter(name=classification_name,
+                                                                      annotation=annotation)
+            if classification_annotation.exists():
+                check_overwrite_existing_word(choice, classification_annotation, word_text)
 
-            check_existing_word_dominates_new_word(choice, classification_annotation, annotation, word_text, survey.id)
+                check_existing_word_dominates_new_word(choice, classification_annotation, annotation, word_text, survey.id)
 
-            classification = Classification.objects.get(name=classification_name,
-                                                        annotation=annotation)
+                classification = Classification.objects.get(name=classification_name,
+                                                            annotation=annotation)
 
-        else:
-            classification = create_new_classification(classification_name, annotation)
-            classification.save()
+            else:
+                classification = create_new_classification(classification_name, annotation)
+                classification.save()
 
-        delete_sub_words = Word.objects.filter(choice=choice, start__lte=word_start, end__gte=word_end) | \
-                           Word.objects.filter(choice=choice, start__lt=word_end, end__gt=word_start)
+            delete_sub_words = Word.objects.filter(choice=choice, start__lte=word_start, end__gte=word_end) | \
+                               Word.objects.filter(choice=choice, start__lt=word_end, end__gt=word_start)
 
-        for del_word in delete_sub_words:
-            del_word.delete()
+            for del_word in delete_sub_words:
+                del_word.delete()
 
-        word = Word.objects.create(text=word_text,
-                                   start=word_start,
-                                   end=word_end,
-                                   choice=choice,
-                                   classification=classification)
-        word.save()
+            word = Word.objects.create(text=word_text,
+                                       start=word_start,
+                                       end=word_end,
+                                       choice=choice,
+                                       classification=classification)
+
+            leftover_word = choice.choice_text[word_end::]
+            word_count_track += (word_end - word_count_track)
+            word.save()
 
         return redirect('/surveys/'+str(survey.id)+'/annotate/'+str(annotation.id))
 
@@ -203,8 +165,8 @@ class AddAll(UpdateView):
 
                 if classification_annotation.exists():
                     check_overwrite_existing_word(choice, classification_annotation, word_to_annotate)
-                    check_existing_word_dominates_new_word(choice, classification_annotation, annotation, word_to_annotate,
-                                                           survey.id)
+                    check_existing_word_dominates_new_word(choice, classification_annotation, annotation,
+                                                           word_to_annotate, survey.id)
 
                     classification = Classification.objects.get(name=classification_name,
                                                                 annotation=annotation)
