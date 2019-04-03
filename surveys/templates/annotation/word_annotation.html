@@ -20,9 +20,13 @@
     </div>
 
 
-            {% for class in classifications %}
-            {{ class.name }},
-        {% endfor %}
+    <!-- TODO: YIANNIS PLS MAKE THIS GOOD LOOKING -->
+    THESE ARE THE CLASSIFICATION NAMES WE USE <br>
+    {% for class in classifications %}
+            <span style="background:{{class.color}};">
+                <span style="color:{{class.color}}; filter:invert(1);">
+                    {{ class.name }}</span></span> <!-- dont put these in a new line, try it and see why -->
+    {% endfor %}
 
     <div class="row">
          <!-- Annotated Content -->
@@ -111,7 +115,7 @@
                             </div>
 
                         </div>
-                        
+
                         <!-- don't move this because it breaks everything -->
                         <input type="text" style="z-index:-1;" value="{{ choice }}" disabled class="select_me nothing">
                     </label>
