@@ -126,8 +126,12 @@
          <div class="card-footer text-muted">
             <div class="row justify-content-center">
                 <div class="col-3">
-                    <a id="add_all" class="annotation_operation text-light btn btn-success">Add to all</a>
-                    <a id="add_one" class="annotation_operation text-dark btn btn-outline-success">Add to single</a>
+                     <div class="row">
+                        <div class="col">
+                            <a id="add_all" class="annotation_operation text-light btn btn-success">Add to all</a>
+                            <a id="add_one" class="annotation_operation text-dark btn btn-outline-success">Add to single</a>
+                        </div>
+                     </div>
                 </div>
                 <div class="col-3">
                     {{ form.classification_name }}
@@ -141,8 +145,12 @@
                 </div>
 
                 <div class="col-3">
-                    <a id="delete_one" class="annotation_operation text-dark btn btn-outline-danger">Remove single</a>
-                    <a id="delete_all" class="annotation_operation text-light btn btn-danger">Remove all</a>
+                    <div class="row float-right">
+                        <div class="col">
+                            <a id="delete_one" class="annotation_operation text-dark btn btn-outline-danger">Remove single</a>
+                            <a id="delete_all" class="annotation_operation text-light btn btn-danger">Remove all</a>
+                        </div>
+                    </div>
                 </div>
             </div>
          </div>
