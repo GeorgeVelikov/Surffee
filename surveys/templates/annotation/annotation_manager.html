@@ -29,7 +29,7 @@
                         <p class="lead mb-0">Annotations List</p>
                     </div>
                     <div class="card-body">
-                        <select class="custom-select annotations" size="3">
+                        <select class="custom-select annotations" size="5">
                             {% for annot in all_annotations %}
                               <option class="list-group-item" value="{{annot.pk}}">{{ annot.name }}</option>
                             {% endfor %}
@@ -47,7 +47,7 @@
                       <p class="lead mb-0">Annotation Classes</p>
                   </div>
                   <div class = "card-body">
-                      <select class="custom-select classifications" size="3">
+                      <select class="custom-select classifications" size="7">
                       </select>
                   </div>
                   <div class="card-footer">
@@ -69,7 +69,6 @@
           <div class="input-group col justify-content-center">
             <div class="input-group-prepend justify-content-center">
                 <button type="submit" class = "btn btn-lg btn-success" id = "new">Create Annotation</button>
-                <button type="button" class = "btn btn-lg btn-dark"  id = "show">Show Classes</button>
             </div>
             <div class="input-group-append">
                 <button type="button" class = "btn btn-lg btn-danger"  id = "delete">Delete Annotation</button>
