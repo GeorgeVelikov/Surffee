@@ -27,7 +27,6 @@
     {% endfor %}
     </br>
 
-    <!-- testing -->
     <!-- Annotated Content with tabs -->
     <div class="row">
         <div class="col">
@@ -88,60 +87,6 @@
                 </div>
             </div>
         </div>
-    </div>
-    </br>
-    <!-- testing ends -->
-
-    <!-- Annotated Content & Instructions -->
-    <div class="row">
-         <!-- Annotated Content -->
-        <div class="col">
-            <div class="card" style="width: fit-content; width: -moz-fit-content;">
-            <div class="card-header">
-                <div class="row">
-                    <div class="col-sm-auto">
-                        <h3>
-                            Annotated Content
-                        </h3>
-                    </div>
-                    <div class="col-sm-auto">
-                        <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                            <i class="fa fa-chevron-circle-down fa-2x" aria-hidden="true"></i>
-                        </button>
-                    </div>
-                </div>
-            </div>
-            <div class="collapse multi-collapse" id="collapseOne">
-                <ul class="card-block list-group list-group-flush">
-                    {% for word in words %}
-                        <li class="list-group-item" style="background:{{word.classification.color}}">
-                            {{word.classification.name}} - {{ word.text }}
-                        </li>
-                    {% endfor %}
-                </ul>
-            </div>
-            <div class="card-footer text-muted">
-                <p>Press the arrow-down button to expand/collapse this card</p>
-            </div>
-        </div>
-        </div>
-
-        <!-- Instructions -->
-        <div class="col align-self-end float-right">
-            <div class="card align-self-end">
-                <div class="card-header">
-                    <h3>
-                        Instructions
-                    </h3>
-                </div>
-                <div class="card-body">
-                    <p>To annotate the text, highlight the word (or words) and press 'Add'. To remove the annotation, highlight the word and press 'Remove'. </p>
-                </div>
-            </div>
-
-        </div>
-
-
     </div>
     </br>
 
