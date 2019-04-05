@@ -152,8 +152,24 @@ $(document).ready(function () {
                                     .val(choice_id);
             $('#selection').append($(input));
         }
-
     });
+
+
+    $('.annotations').change(function() {
+        // cleans all the listed classifications
+        $(".classifications").children().remove().end();
+
+        // save annot name, this is for testing really
+        var annot_name = $(this).val()
+
+        // create new option and add some text to it
+        var option = new Option()
+        $(option).html(annot_name);
+
+        // append option to select
+        $(".classifications").append(option);
+    });
+
 
     $(".annotation_id").each(function() {
         let input_field = $(($(this).children()[0]));

@@ -36,7 +36,10 @@ class AnnotationManager(CreateView):
         form.data['creator'] = request.user.pk
         request.POST._mutable = False
 
-        return self.finish(form)
+        if form.is_valid():
+            return self.form_valid(form)
+        else:
+            return self.form_invalid(form)
 
     def form_valid(self, form):
         self.object = form.save(commit=True)
