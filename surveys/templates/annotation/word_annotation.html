@@ -41,7 +41,7 @@
                         </h3>
                         <!-- TABS -->
                         <div class="nav nav-tabs" id="nav-tab" role="tablist">
-                            <a class="nav-item nav-link active" onclick="openTab(event, 'all-tab')" id="All-tab" data-toggle="tab" href="#all-tab" role="tab" aria-controls="all" aria-selected="false">All</a>
+                            <a class="nav-item nav-link active" onclick="openTab(event, 'all-tab')" data-toggle="tab" href="#all-tab" role="tab" aria-controls="all" aria-selected="false">All</a>
                             {% for class in classifications %}
                                 <a class="nav-item nav-link" onclick="openTab(event, '{{ class.name }}')" id="{{ class.name }}-tab1" data-toggle="tab" href="#{{ class.name }}" role="tab" aria-controls="{{ class.name }}" aria-selected="false" style="background:{{class.color}};">
                                     <span class="class_name" style="color:{{class.color}}; filter:invert(1);">{{ class.name }}</span>
@@ -57,7 +57,9 @@
                             <ul class="card-block list-group list-group-flush">
                                 {% for word in words %}
                                     <li class="list-group-item" style="background:{{word.classification.color}}">
-                                        {{word.classification.name}} - {{ word.text }}
+                                        <span style="color:{{word.classification.color}}; filter:invert(1);">
+                                            {{word.classification.name}} - {{ word.text }}
+                                        </span>
                                     </li>
                                 {% endfor %}
                             </ul>
