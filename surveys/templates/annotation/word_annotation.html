@@ -63,7 +63,9 @@
                                     {% for word in words %}
                                         {% if word.classification.name == class.name %}
                                             <li class="list-group-item" style="background:{{word.classification.color}}">
-                                                {{word.classification.name}} - {{ word.text }}
+                                                <span style="color:{{word.classification.color}}; filter:invert(1);">
+                                                    {{word.classification.name}} - {{ word.text }}
+                                                </span>
                                             </li>
                                         {% endif %}
                                     {% endfor %}
