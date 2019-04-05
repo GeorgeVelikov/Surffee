@@ -13,7 +13,16 @@
 
 {% block content %}
 
-    {{form|crispy}}
+    {{form.name|as_crispy_field}}
+
+
+        <!-- TODO: YIANNIS PLS MAKE THIS GOOD LOOKING -->
+        THESE ARE THE ANNOTATIONS THAT THE SURVEY "OWNS"
+        <br>
+        {% for annot in all_annotations %}
+            <a href="#" >{{ annot.name }}</a>
+        {% endfor %}
+        </br>
 
         <a href="#" class="col-sm-5 btn btn-block btn-primary mr-1">Create annotation</a>
         <a href="#" class="align-right col-sm-5 btn btn-block btn-primary ml-1 mt-0">Load annotation</a>
