@@ -1,10 +1,11 @@
 from django.db import models
-from .survey import Survey, Choice
+from .survey import Choice
+from .user import Researcher
 
 
 class Annotation(models.Model):
     name = models.CharField(max_length=2**6)
-    survey = models.ForeignKey(Survey, on_delete=models.CASCADE, default=0)
+    creator = models.ForeignKey(Researcher, on_delete=models.CASCADE, default=0)
 
 
 class Classification(models.Model):
