@@ -195,7 +195,21 @@
         </div>
         </br>
 
-        <button type="submit" class="btn btn-block btn-primary">Save annotation</button>
+        <!-- annot name -->
+        {{form.name|as_crispy_field}}
+
+        <!-- which buttons to display -->
+        <div class="container-fluid">
+            {% if annotation.name == "Buffer annotation" %}
+                <div class="row">
+                    <!-- TODO: yiannis make this pretty pls -->
+                    <button type="submit" class="col-sm-5 btn btn-block btn-primary mr-1">Save annotation</button>
+                    <button type="submit" class="align-right col-sm-5 btn btn-block btn-primary ml-1 mt-0">Overwrite annotation</button>
+                </div>
+            {% else %}
+                <button type="submit" class="btn btn-block btn-primary">Save annotation</button>
+            {% endif %}
+        </div>
     </form>
 
 

@@ -78,6 +78,7 @@ def delete_overlay_word_classifications(choice, annotation_start, annotation_end
     for del_word in delete_sub_words:
         del_word.delete()
 
+
 def delete_unused_classifications(annotation):
     set_of_used_classifications = set()
     all_classifications_annotation = Classification.objects.filter(annotation=annotation.id)
