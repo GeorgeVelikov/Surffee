@@ -30,14 +30,18 @@ def get_next_question(answer_instance, question):
 
 
 def create_new_classification(classification_name, annotation):
+    random_hex_color = random.randint(0x000000, 0xFFFFFF)
     # make sure we get a unique color
-    random_hex_color = "#%06x" % random.randint(0x000000, 0xFFFFFF)
-    while Classification.objects.filter(annotation=annotation, color=random_hex_color).exists():
-        random_hex_color = "#%06x" % random.randint(0x000000, 0xFFFFFF)
+    while 0x505050 < random_hex_color < 0xAEAEAE or not random_hex_color:
+        random_hex_color = random.randint(0x000000, 0xFFFFFF)
+
+    while Classification.objects.filter(annotation=annotation, color=("#%06x" % random_hex_color)).exists():
+        while 0x505050 < random_hex_color < 0xAEAEAE or not random_hex_color:
+            random_hex_color = random.randint(0x000000, 0xFFFFFF)
 
     instance = Classification.objects.create(name=classification_name,
                                              annotation=annotation,
-                                             color=random_hex_color
+                                             color=("#%06x" % random_hex_color)
                                              )
     return instance
 
