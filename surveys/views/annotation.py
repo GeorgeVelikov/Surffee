@@ -17,16 +17,46 @@ class AnnotationManager(CreateView):
     def get(self, request, *args, **kwargs):
         self.object = None
         all_user_surveys = Survey.objects.filter(creator=request.user)
-        all_user_survey_annotations = Annotation.objects.filter(survey__in=all_user_surveys)
+        all_user_annotations = Annotation.objects.filter(creator=request.user)
 
         form_class = self.get_form_class()
         form = self.get_form(form_class)
 
         return self.render_to_response(
             self.get_context_data(form=form,
-                                  all_annotations=all_user_survey_annotations,
+                                  all_annotations=all_user_annotations,
                                   )
         )
+
+
+    def post(self, request, *args, **kwargs):
+        self.object = None
+        form_class = self.get_form_class()
+        form = self.get_form(form_class)
+
+        request.POST._mutable = True
+        form.data['creator'] = request.user.pk
+        request.POST._mutable = False
+        print(form.data)
+
+
+        return self.finish(form)
+
+    def form_valid(self, form):
+        self.object = form.save(commit=True)
+        print(self.object)
+        print("WWWWWWWWWWWWWWWWWW")
+        return redirect('./')
+
+    def form_invalid(self, form):
+        print(form.errors)
+        return self.render_to_response(self.get_context_data(form=form))
+
+    def finish(self, form):
+        if form.is_valid():
+            return self.form_valid(form)
+        else:
+            return self.form_invalid(form)
 
 
 class AnnotationSelector(CreateView):
@@ -95,35 +125,6 @@ class ClassificationCreator(CreateView):
                                   choices=choices,
                                   )
         )
-
-    def post(self, request, *args, **kwargs):
-        self.object = None
-        form_class = self.get_form_class()
-        form = self.get_form(form_class)
-
-        survey_id = self.kwargs.get('survey_id')
-        survey = Survey.objects.get(pk=survey_id)
-
-        annotation_id = self.kwargs.get('annotation_id')
-        annotation = Annotation.objects.get(pk=annotation_id)
-
-        choice = Choice.objects.get(pk=form.data['choice_id_selected'])
-        word_text = form.data['word_selection']
-
-        return self.finish(form, annotation_id)
-
-    def form_valid(self, form, id):
-        self.object = form.save(commit=True)
-        return redirect('./'+str(id))
-
-    def form_invalid(self, form):
-        return self.render_to_response(self.get_context_data(form=form))
-
-    def finish(self, form, id):
-        if form.is_valid():
-            return self.form_valid(form, id)
-        else:
-            return self.form_invalid(form)
 
 
 class AddOne(UpdateView):

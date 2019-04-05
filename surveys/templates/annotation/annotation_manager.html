@@ -8,25 +8,28 @@
 <!-- Load custom tags for templates -->
 {% load define_action %}
 
-{% block title %}Annotate{% endblock %}
+{% block title %}Annotation Manager{% endblock %}
 
 
 {% block content %}
-    <div class="d-flex justify-content-between flex-wrap flex-sm-nowrap align-items-center pb-2 mb-3 border-bottom">
-        <h1>Annotation Creation </h1>
-    </div>
-    {{form.name|as_crispy_field}}
+    <form action="" method="post">
+        {% csrf_token %}
+        <div class="d-flex justify-content-between flex-wrap flex-sm-nowrap align-items-center pb-2 mb-3 border-bottom">
+            <h1>Annotation Creation </h1>
+        </div>
+        {{form.name|as_crispy_field}}
 
 
-    <!-- TODO: YIANNIS PLS MAKE THIS GOOD LOOKING -->
-    THESE ARE THE ANNOTATIONS THAT THE SURVEY "OWNS"
-    <br>
-    {% for annot in all_annotations %}
-        <a href="./{{annot.pk}}" >{{ annot.name }}</a>
-    {% endfor %}
-    </br>
+        <!-- TODO: YIANNIS PLS MAKE THIS GOOD LOOKING -->
+        THESE ARE THE ANNOTATIONS THAT THE SURVEY "OWNS"
+        <br>
+        {% for annot in all_annotations %}
+            <a href="#" >{{ annot.name }}</a>
+        {% endfor %}
+        </br>
 
-    <a href="#" class="col-sm-5 btn btn-block btn-primary mr-1">Create annotation</a>
-    <a href="#" class="align-right col-sm-5 btn btn-block btn-primary ml-1 mt-0">Load annotation</a>
+        <button type="submit" class="col-sm-5 btn btn-block btn-primary mr-1">Create annotation</button>
+        <a href="#" class="align-right col-sm-5 btn btn-block btn-primary ml-1 mt-0">Load annotation</a>
+    </form>
 
 {% endblock %}

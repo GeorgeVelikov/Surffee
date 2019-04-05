@@ -76,7 +76,7 @@ class AnswerSurveyQuestionsForm(forms.ModelForm):
 
 
 class AnnotationWordForm(forms.ModelForm):
-    classification_name = forms.CharField(required=True, max_length=2**6)
+    classification_name = forms.CharField(required=False, max_length=2**6)
 
     classification_name.widget.attrs['class'] = "textinput textInput form-control"
     classification_name.widget.attrs['placeholder'] = "Please enter a classification"
