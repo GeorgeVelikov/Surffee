@@ -9,11 +9,17 @@ from .helper import check_existing_word_dominates_new_word, check_overwrite_exis
     delete_overlay_word_classifications, delete_unused_classifications
 
 
-class RedirectToAnnotation(UpdateView):
+class AnnotationManager(CreateView):
+    template_name = 'annotation/annotation_manager.html'
+    model = Annotation
+    form_class = AnnotationWordForm
+
     def get(self, request, *args, **kwargs):
+        self.object = None
         survey_id = self.kwargs.get('survey_id')
         survey = Survey.objects.get(pk=survey_id)
 
+        """
         if Annotation.objects.filter(survey=survey).exists():
             # if we have annotations, pick the first one (this should usually be the buffer annotation)
             annotation = Annotation.objects.get(pk=survey.active_annotation)
@@ -22,16 +28,19 @@ class RedirectToAnnotation(UpdateView):
             annotation = Annotation.objects.create(name="Buffer annotation", survey=survey)
             survey.active_annotation = annotation.pk
             survey.save()
+        """
 
-        return redirect('/surveys/' + str(survey.id) + '/annotate/' + str(annotation.id))
+        form_class = self.get_form_class()
+        form = self.get_form(form_class)
+
+        return self.render_to_response(
+            self.get_context_data(form=form,
+                                  survey=survey
+                                  )
+        )
 
 
-class ChangeActiveAnnotation(UpdateView):
-    def get(self, request, *args, **kwargs):
-        pass
-
-
-class AnnotationManager(CreateView):
+class ClassificationCreator(CreateView):
     template_name = 'annotation/word_annotation.html'
     model = Word
     form_class = AnnotationWordForm
