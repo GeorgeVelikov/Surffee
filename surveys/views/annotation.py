@@ -27,7 +27,6 @@ class AnnotationManager(CreateView):
                                   )
         )
 
-
     def post(self, request, *args, **kwargs):
         self.object = None
         form_class = self.get_form_class()
@@ -36,26 +35,15 @@ class AnnotationManager(CreateView):
         request.POST._mutable = True
         form.data['creator'] = request.user.pk
         request.POST._mutable = False
-        print(form.data)
-
 
         return self.finish(form)
 
     def form_valid(self, form):
         self.object = form.save(commit=True)
-        print(self.object)
-        print("WWWWWWWWWWWWWWWWWW")
-        return redirect('./')
+        return redirect('./annotation_manager')
 
     def form_invalid(self, form):
-        print(form.errors)
         return self.render_to_response(self.get_context_data(form=form))
-
-    def finish(self, form):
-        if form.is_valid():
-            return self.form_valid(form)
-        else:
-            return self.form_invalid(form)
 
 
 class AnnotationSelector(CreateView):
