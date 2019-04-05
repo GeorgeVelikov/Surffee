@@ -16,7 +16,6 @@ class AnnotationManager(CreateView):
 
     def get(self, request, *args, **kwargs):
         self.object = None
-        all_user_surveys = Survey.objects.filter(creator=request.user)
         all_user_annotations = Annotation.objects.filter(creator=request.user)
 
         form_class = self.get_form_class()
@@ -69,19 +68,7 @@ class AnnotationSelector(CreateView):
         survey_id = self.kwargs.get('survey_id')
         survey = Survey.objects.get(pk=survey_id)
 
-        all_user_surveys = Survey.objects.filter(creator=request.user)
-
-        all_survey_annotations = Annotation.objects.filter(survey__in=all_user_surveys)
-        """
-        if Annotation.objects.filter(survey=survey).exists():
-            # if we have annotations, pick the first one (this should usually be the buffer annotation)
-            annotation = Annotation.objects.get(pk=survey.active_annotation)
-        else:
-            # creates the placeholder annotation for the survey (this is used as a buffer)
-            annotation = Annotation.objects.create(name="Buffer annotation", survey=survey)
-            survey.active_annotation = annotation.pk
-            survey.save()
-        """
+        all_survey_annotations = Annotation.objects.filter(creator=request.user)
 
         form_class = self.get_form_class()
         form = self.get_form(form_class)
