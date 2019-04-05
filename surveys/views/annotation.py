@@ -19,7 +19,9 @@ class AnnotationManager(CreateView):
         survey_id = self.kwargs.get('survey_id')
         survey = Survey.objects.get(pk=survey_id)
 
-        all_survey_annotations = Annotation.objects.filter(survey=survey)
+        all_user_surveys = Survey.objects.filter(creator=request.user)
+
+        all_survey_annotations = Annotation.objects.filter(survey__in=all_user_surveys)
         """
         if Annotation.objects.filter(survey=survey).exists():
             # if we have annotations, pick the first one (this should usually be the buffer annotation)
