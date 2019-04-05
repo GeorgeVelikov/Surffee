@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% load static from staticfiles %}
+
+<!-- include crispy -->
+{% load crispy_forms_tags %}
+
+<!-- Load custom tags for templates -->
+{% load define_action %}
+
+{% block title %}Annotate{% endblock %}
+
+
+{% block content %}
+
+    <!-- TODO: YIANNIS PLS MAKE THIS GOOD LOOKING -->
+    THESE ARE THE ANNOTATIONS THAT THE SURVEY "OWNS"
+    <br>
+    {% for annot in all_annotations %}
+        <a href="./{{annot.pk}}" >{{ annot.name }}</a>
+    {% endfor %}
+    </br>
+
+
+    we make it fancy, click on annot and it shows you the classes in it, kinda like vocab in jeff's shit
+
+{% endblock %}
