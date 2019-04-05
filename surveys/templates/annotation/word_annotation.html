@@ -57,8 +57,9 @@
                             <ul class="card-block list-group list-group-flush">
                                 {% define "{{NULL}}" as curWord %}
                                 {% for word in words %}
-                                    {% if curWord != word.text %}
-                                        {% define word.text as curWord %}
+                                    <!-- creates a dict classification:wordtext -->
+                                    {% if curWord.classification != word.classification or curWord.text != word.text and curWord.classification == word.classification %}
+                                        {% define word as curWord %}
                                         <li class="list-group-item" style="background:{{word.classification.color}}">
                                             <span style="color:{{word.classification.color}}; filter:invert(1);">
                                                 {{word.classification.name}} - {{ word.text }}
