@@ -32,24 +32,51 @@
     </div>
     </br>
 
+
+    <!-- Annotations and their classes -->
     <div class="row">
-        <div class="col">
-            <div class="card">
+
+        <!-- Annotations List -->
+        <div class="col-6">
+            <div class="card bg-info text-white text-center">
                 <div class="card-header">
-                    <h3>
-                        Annotations
-                    </h3>
+                    <p class="lead mb-0">Annotations List</p>
                 </div>
-                <div class="list-group">
-                    {% for annot in all_annotations %}
-                        <a class="list-group-item" href="./{{annot.pk}}" >{{ annot.name }}</a>
-                    {% endfor %}
+                <div class="card-body">
+                    <select class="custom-select" size="3">
+                        {% for annot in all_annotations %}
+                          <option class="list-group-item" onclick="$(this).toggleClass('selected');" id="{{ annot.name }}" value="./{{annot.pk}}" >{{ annot.name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="card-footer">
                 </div>
             </div>
         </div>
-    </div>
-    </br>
 
-    we make it fancy, click on annot and it shows you the classes in it, kinda like vocab in jeff's shit
+<!--            onChange="window.location.href=this.value"-->
+
+        <!-- Classes -->
+        <div class="col-6">
+            <div class = "card bg-info text-white text-center">
+              <div class="card-header">
+                  <p class="lead mb-0">Annotation Classes</p>
+              </div>
+              <div class = "card-body">
+                  <select class="custom-select" size="3">
+                  </select>
+              </div>
+              <div class="card-footer">
+              </div>
+            </div>
+        </div>
+    </div>
+
+    </br>
+    <div class="row float-right">
+        <div class="col-6">
+            <button class="btn btn-lg btn-success" href="#" onclick="">Confirm annotation</button>
+        </div>
+    </div>
 
 {% endblock %}
