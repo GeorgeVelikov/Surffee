@@ -219,3 +219,34 @@ function create_chart(name, json_data) {
         }).render();
     });
 }
+
+
+
+function openTab(evt, tabid) {
+    var i, tabcontent, tablinks;
+
+    //hide active content first
+    tabcontent = document.getElementsByClassName("tabc");
+    for (i = 0; i < tabcontent.length; i++) {
+        tabcontent[i].style.display = "none";
+        tabcontent[i].className.replace("show", "");
+        tabcontent[i].className.replace("active", "");
+    }
+    //remove active classes from tabs
+    tablinks = document.getElementById("nav-tab").getElementsByTagName("a");
+    for (i = 0; i < tablinks.length; i++) {
+        tablinks[i].className = tablinks[i].className.replace("active", "");
+        tablinks[i].className = tablinks[i].className.replace("show", "");
+
+    }
+    //add active to new tab
+    evt.currentTarget.className += " active";
+
+    //display block on new content
+    document.getElementById(tabid).style.display = "block";
+    document.getElementById(tabid).className += " active show";
+
+
+}
+
+
