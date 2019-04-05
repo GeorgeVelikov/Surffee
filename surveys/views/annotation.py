@@ -19,6 +19,7 @@ class AnnotationManager(CreateView):
         survey_id = self.kwargs.get('survey_id')
         survey = Survey.objects.get(pk=survey_id)
 
+        all_survey_annotations = Annotation.objects.filter(survey=survey)
         """
         if Annotation.objects.filter(survey=survey).exists():
             # if we have annotations, pick the first one (this should usually be the buffer annotation)
@@ -35,7 +36,8 @@ class AnnotationManager(CreateView):
 
         return self.render_to_response(
             self.get_context_data(form=form,
-                                  survey=survey
+                                  survey=survey,
+                                  all_annotations=all_survey_annotations,
                                   )
         )
 
@@ -53,8 +55,6 @@ class ClassificationCreator(CreateView):
 
         annotation = Annotation.objects.get(pk=annotation_id)
 
-        all_survey_annotations = Annotation.objects.filter(survey=survey)
-
         classifications = delete_unused_classifications(annotation)
         words = Word.objects.filter(classification__in=classifications)
 
@@ -67,7 +67,6 @@ class ClassificationCreator(CreateView):
         return self.render_to_response(
             self.get_context_data(form=form,
                                   annotation=annotation,
-                                  all_annotations=all_survey_annotations,
                                   classifications=classifications,
                                   words=words,
                                   survey=survey,
