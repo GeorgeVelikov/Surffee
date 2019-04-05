@@ -56,12 +56,16 @@
                     <div class="tab-pane fade show active tabc" id="all-tab" role="tabpanel" aria-labelledby="all" style="">
                         <div class="collapse multi-collapse" id="collapse2">
                             <ul class="card-block list-group list-group-flush">
+                                {% define "{{NULL}}" as curWord %}
                                 {% for word in words %}
-                                    <li class="list-group-item" style="background:{{word.classification.color}}">
-                                        <span style="color:{{word.classification.color}}; filter:invert(1);">
-                                            {{word.classification.name}} - {{ word.text }}
-                                        </span>
-                                    </li>
+                                    {% if curWord != word.text %}
+                                        {% define word.text as curWord %}
+                                        <li class="list-group-item" style="background:{{word.classification.color}}">
+                                            <span style="color:{{word.classification.color}}; filter:invert(1);">
+                                                {{word.classification.name}} - {{ word.text }}
+                                            </span>
+                                        </li>
+                                    {% endif %}
                                 {% endfor %}
                             </ul>
                         </div>
@@ -71,13 +75,17 @@
                     <div class="tab-pane fade tabc" id="{{ class.name }}" role="tabpanel" aria-labelledby="{{ class.name }}-tab" style="display:none;">
                         <div class="collapse multi-collapse" id="collapse3">
                             <ul class="card-block list-group list-group-flush">
+                                {% define "{{NULL}}" as curWord %}
                                 {% for word in words %}
                                     {% if word.classification.name == class.name %}
-                                        <li class="list-group-item" style="background:{{word.classification.color}}">
-                                            <span style="color:{{word.classification.color}}; filter:invert(1);">
-                                                {{word.classification.name}} - {{ word.text }}
-                                            </span>
-                                        </li>
+                                        {% if curWord != word.text %}
+                                            {% define word.text as curWord %}
+                                            <li class="list-group-item" style="background:{{word.classification.color}}">
+                                                <span style="color:{{word.classification.color}}; filter:invert(1);">
+                                                    {{word.classification.name}} - {{ word.text }}
+                                                </span>
+                                            </li>
+                                        {% endif %}
                                     {% endif %}
                                 {% endfor %}
                             </ul>
