@@ -43,7 +43,7 @@
                     <p class="lead mb-0">Annotations List</p>
                 </div>
                 <div class="card-body">
-                    <select class="custom-select" size="3">
+                    <select class="custom-select" size="5">
                         {% for annot in all_annotations %}
                           <option class="list-group-item" onclick="$(this).toggleClass('selected');" id="{{ annot.name }}" value="./{{annot.pk}}" >{{ annot.name }}</option>
                         {% endfor %}
@@ -63,7 +63,8 @@
                   <p class="lead mb-0">Annotation Classes</p>
               </div>
               <div class = "card-body">
-                  <select class="custom-select" size="3">
+                  <select class="custom-select" size="5">
+
                   </select>
               </div>
               <div class="card-footer">
@@ -75,7 +76,7 @@
     </br>
     <div class="row float-right">
         <div class="col-6">
-            <button class="btn btn-lg btn-success" href="#" onclick="">Confirm annotation</button>
+            <button type="submit" class="btn btn-lg btn-success" href="#" onclick="">Confirm annotation</button>
         </div>
     </div>
 
