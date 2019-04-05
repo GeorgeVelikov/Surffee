@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% load static from staticfiles %}
+
+<!-- include crispy -->
+{% load crispy_forms_tags %}
+
+<!-- Load custom tags for templates -->
+{% load define_action %}
+
+{% block title %}Annotate{% endblock %}
+
+
+{% block content %}
+
+    {{form|crispy}}
+
+        <a href="#" class="col-sm-5 btn btn-block btn-primary mr-1">Create annotation</a>
+        <a href="#" class="align-right col-sm-5 btn btn-block btn-primary ml-1 mt-0">Load annotation</a>
+
+{% endblock %}
