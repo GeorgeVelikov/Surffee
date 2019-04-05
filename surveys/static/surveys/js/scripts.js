@@ -160,14 +160,20 @@ $(document).ready(function () {
         $(".classifications").children().remove().end();
 
         // save annot name, this is for testing really
-        var annot_name = $(this).val()
+        var annot_id = $(this).val()
 
         // create new option and add some text to it
-        var option = new Option()
-        $(option).html(annot_name);
+        for(i in all_classifications) {
+            var classif = all_classifications[i];
 
-        // append option to select
-        $(".classifications").append(option);
+            if (classif.annotation_id == annot_id) {
+                var option = new Option()
+                $(option).html(classif.name);
+
+                // append option to select
+                $(".classifications").append(option);
+            }
+        }
     });
 
 

@@ -12,6 +12,8 @@
 
 
 {% block content %}
+    <script> var all_classifications = {{all_classifications_js|safe}} </script>
+
     <div class="d-flex justify-content-between flex-wrap flex-sm-nowrap align-items-center pb-2 mb-3 border-bottom">
             <h1>Annotation Creation </h1>
     </div>
@@ -29,7 +31,7 @@
                     <div class="card-body">
                         <select class="custom-select annotations" size="3">
                             {% for annot in all_annotations %}
-                              <option class="list-group-item">{{ annot.name }}</option>
+                              <option class="list-group-item" value="{{annot.pk}}">{{ annot.name }}</option>
                             {% endfor %}
                         </select>
                     </div>

@@ -17,6 +17,7 @@ class AnnotationManager(CreateView):
     def get(self, request, *args, **kwargs):
         self.object = None
         all_user_annotations = Annotation.objects.filter(creator=request.user)
+        all_classifications = Classification.objects.filter(annotation__in=all_user_annotations)
 
         form_class = self.get_form_class()
         form = self.get_form(form_class)
@@ -24,6 +25,7 @@ class AnnotationManager(CreateView):
         return self.render_to_response(
             self.get_context_data(form=form,
                                   all_annotations=all_user_annotations,
+                                  all_classifications_js=list(all_classifications.values()),
                                   )
         )
 
