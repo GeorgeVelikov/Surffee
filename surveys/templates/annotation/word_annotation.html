@@ -19,76 +19,78 @@
         <h1>Annotate: {{survey}} as {{ annotation.name }} </h1>
     </div>
 
-   <!-- testing -->
-        <div class="row">
-            <div class="col">
-                <div class="card">
-                    <div class="card-header">
-                        <nav>
-                            <h3>
-                                Annotated Content
-                                <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapse2,#collapse3" aria-expanded="true" aria-controls="collapseOne">
-                                    <i class="fa fa-chevron-circle-down fa-2x" aria-hidden="true"></i>
-                                </button>
-                            </h3>
-                            <!-- TABS -->
-                            <div class="nav nav-tabs" id="nav-tab" role="tablist">
-                                <a class="nav-item nav-link active" onclick="openTab(event, 'all-tab')" id="All-tab" data-toggle="tab" href="#all-tab" role="tab" aria-controls="all" aria-selected="false">All</a>
-                                {% for class in classifications %}
-                                    <a class="nav-item nav-link" onclick="openTab(event, '{{ class.name }}')" id="{{ class.name }}-tab1" data-toggle="tab" href="#{{ class.name }}" role="tab" aria-controls="{{ class.name }}" aria-selected="false" style="background:{{class.color}};">
-                                        <span class="class_name" style="color:{{class.color}}; filter:invert(1);">{{ class.name }}</span>
-                                    </a>
-                                {% endfor %}
-                            </div>
-                        </nav>
-                    </div>
-                    <div class="tab-content" id="nav-tabContent">
-                        <!-- All tab content -->
-                        <div class="tab-pane fade show active tabc" id="all-tab" role="tabpanel" aria-labelledby="all" style="">
-                            <div class="collapse multi-collapse" id="collapse2">
-                                <ul class="card-block list-group list-group-flush">
-                                    {% for word in words %}
-                                        <li class="list-group-item" style="background:{{word.classification.color}}">
-                                            {{word.classification.name}} - {{ word.text }}
-                                        </li>
-                                    {% endfor %}
-                                </ul>
-                            </div>
-                        </div>
-                        <!-- Annotated tabs content -->
-                        {% for class in classifications %}
-                        <div class="tab-pane fade tabc" id="{{ class.name }}" role="tabpanel" aria-labelledby="{{ class.name }}-tab" style="display:none;">
-                            <div class="collapse multi-collapse" id="collapse3">
-                                <ul class="card-block list-group list-group-flush">
-                                    {% for word in words %}
-                                        {% if word.classification.name == class.name %}
-                                            <li class="list-group-item" style="background:{{word.classification.color}}">
-                                                <span style="color:{{word.classification.color}}; filter:invert(1);">
-                                                    {{word.classification.name}} - {{ word.text }}
-                                                </span>
-                                            </li>
-                                        {% endif %}
-                                    {% endfor %}
-                                </ul>
-                            </div>
-                        </div>
-                        {% endfor %}
-                    </div>
-                    <div class="card-footer text-muted">
-                        <p>Press the arrow-down button to expand/collapse this card</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-        </br>
-    <!-- testing ends -->
-
     <!-- TODO: YIANNIS PLS MAKE THIS GOOD LOOKING -->
     THESE ARE THE ANNOTATIONS THAT THE SURVEY "OWNS", they'll change the active annotation
     <br>
     {% for annot in all_annotations %}
         <a href="#" >{{ annot.name }}</a>
     {% endfor %}
+    </br>
+
+    <!-- testing -->
+    <!-- Annotated Content with tabs -->
+    <div class="row">
+        <div class="col">
+            <div class="card">
+                <div class="card-header">
+                    <nav>
+                        <h3>
+                            Annotated Content
+                            <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapse2,#collapse3" aria-expanded="true" aria-controls="collapseOne">
+                                <i class="fa fa-chevron-circle-down fa-2x" aria-hidden="true"></i>
+                            </button>
+                        </h3>
+                        <!-- TABS -->
+                        <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                            <a class="nav-item nav-link active" onclick="openTab(event, 'all-tab')" id="All-tab" data-toggle="tab" href="#all-tab" role="tab" aria-controls="all" aria-selected="false">All</a>
+                            {% for class in classifications %}
+                                <a class="nav-item nav-link" onclick="openTab(event, '{{ class.name }}')" id="{{ class.name }}-tab1" data-toggle="tab" href="#{{ class.name }}" role="tab" aria-controls="{{ class.name }}" aria-selected="false" style="background:{{class.color}};">
+                                    <span class="class_name" style="color:{{class.color}}; filter:invert(1);">{{ class.name }}</span>
+                                </a>
+                            {% endfor %}
+                        </div>
+                    </nav>
+                </div>
+                <div class="tab-content" id="nav-tabContent">
+                    <!-- All tab content -->
+                    <div class="tab-pane fade show active tabc" id="all-tab" role="tabpanel" aria-labelledby="all" style="">
+                        <div class="collapse multi-collapse" id="collapse2">
+                            <ul class="card-block list-group list-group-flush">
+                                {% for word in words %}
+                                    <li class="list-group-item" style="background:{{word.classification.color}}">
+                                        {{word.classification.name}} - {{ word.text }}
+                                    </li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    </div>
+                    <!-- Annotated tabs content -->
+                    {% for class in classifications %}
+                    <div class="tab-pane fade tabc" id="{{ class.name }}" role="tabpanel" aria-labelledby="{{ class.name }}-tab" style="display:none;">
+                        <div class="collapse multi-collapse" id="collapse3">
+                            <ul class="card-block list-group list-group-flush">
+                                {% for word in words %}
+                                    {% if word.classification.name == class.name %}
+                                        <li class="list-group-item" style="background:{{word.classification.color}}">
+                                            <span style="color:{{word.classification.color}}; filter:invert(1);">
+                                                {{word.classification.name}} - {{ word.text }}
+                                            </span>
+                                        </li>
+                                    {% endif %}
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+                <div class="card-footer text-muted">
+                    <p>Press the arrow-down button to expand/collapse this card</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    </br>
+    <!-- testing ends -->
 
     <!-- Annotated Content & Instructions -->
     <div class="row">
@@ -217,10 +219,26 @@
                 </div>
             </div>
          </div>
-
         </div>
+        </br>
 
-        <br/>
+        <!-- Instructions -->
+        <div class="row">
+            <div class="col">
+                <div class="card">
+                    <div class="card-header">
+                        <h3>
+                            Instructions
+                        </h3>
+                    </div>
+                    <div class="card-body">
+                        <p>To annotate the text, highlight the word (or words) and press 'Add'. To remove the annotation, highlight the word and press 'Remove'. </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        </br>
+
         <button type="submit" class="btn btn-block btn-primary">Save annotation</button>
     </form>
 
