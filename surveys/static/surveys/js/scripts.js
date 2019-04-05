@@ -229,14 +229,14 @@ function openTab(evt, tabid) {
     tabcontent = document.getElementsByClassName("tabc");
     for (i = 0; i < tabcontent.length; i++) {
         tabcontent[i].style.display = "none";
-        tabcontent[i].className = tabcontent[i].className.replace("show", "");
-        tabcontent[i].className = tabcontent[i].className.replace("active", "");
+        tabcontent[i].className = tabcontent[i].className.replace(" show", "");
+        tabcontent[i].className = tabcontent[i].className.replace(" active", "");
     }
     //remove active classes from tabs
     tablinks = document.getElementById("nav-tab").getElementsByTagName("a");
     for (i = 0; i < tablinks.length; i++) {
-        tablinks[i].className = tablinks[i].className.replace("active", "");
-        tablinks[i].className = tablinks[i].className.replace("show", "");
+        tablinks[i].className = tablinks[i].className.replace(" active", "");
+        tablinks[i].className = tablinks[i].className.replace(" show", "");
 
     }
     //add active to new tab
