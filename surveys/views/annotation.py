@@ -25,6 +25,7 @@ class AnnotationManager(CreateView):
         return self.render_to_response(
             self.get_context_data(form=form,
                                   all_annotations=all_user_annotations,
+                                  all_annotations_js=list(all_user_annotations.values()),
                                   all_classifications_js=list(all_classifications.values()),
                                   )
         )
@@ -34,9 +35,20 @@ class AnnotationManager(CreateView):
         form_class = self.get_form_class()
         form = self.get_form(form_class)
 
-        request.POST._mutable = True
-        form.data['creator'] = request.user.pk
-        request.POST._mutable = False
+        if "create" in form.data:
+            request.POST._mutable = True
+            form.data['creator'] = request.user.pk
+            request.POST._mutable = False
+        if "delete" in form.data:
+            annot_id = form.data["delete"]
+            annot_to_del = Annotation.objects.get(pk=annot_id)
+            all_classif_to_del = Classification.objects.filter(annotation=annot_to_del)
+            all_words_to_del = Word.objects.filter(classification__in=all_classif_to_del)
+
+            annot_to_del.delete()
+            all_classif_to_del.delete()
+            all_words_to_del.delete()
+            return redirect('/surveys/annotation_manager');
 
         if form.is_valid():
             return self.form_valid(form)

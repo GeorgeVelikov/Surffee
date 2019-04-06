@@ -81,6 +81,11 @@ class AnnotationWordForm(forms.ModelForm):
     classification_name.widget.attrs['class'] = "textinput textInput form-control"
     classification_name.widget.attrs['placeholder'] = "Please enter a classification"
 
+    def __init__(self, *args, **kwargs):
+        super(AnnotationWordForm, self).__init__(*args, **kwargs)
+        self.fields['name'].required = False
+        self.fields['name'].widget.attrs['class'] = 'annotation_name'
+
     class Meta:
         model = Annotation
         exclude = ['']

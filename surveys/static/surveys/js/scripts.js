@@ -99,6 +99,7 @@ $(document).ready(function () {
         $("#id_choice_set-"+(textBoxCounter-1)+"-choice_text").val(str);
     });
 
+
     $(".answer_question_choice").change(function () {
         $(".answer_question_choice").each(function () {
             if(this.checked) {
@@ -154,6 +155,24 @@ $(document).ready(function () {
     });
 
 
+    $('.annotation_name').keyup(function () {
+        var match = false;
+
+        for (annot in all_annotations) {
+                annot_name = all_annotations[annot].name
+                if (annot_name == $(this).val()) {
+                    match = true;
+                }
+            }
+
+        if ($(this).val().length == 0 || match) {
+            $("#new").attr("disabled", "");
+        }
+        else {
+            $("#new").removeAttr("disabled");
+        }
+    });
+
     $('.annotations').change(function() {
         var empty = true;
         // cleans all the listed classifications
@@ -161,6 +180,8 @@ $(document).ready(function () {
 
         // save annot name, this is for testing really
         var annot_id = $(this).val()
+
+        $("#delete").removeAttr("disabled");
 
         // create new option and add some text to it
         for(i in all_classifications) {
@@ -188,7 +209,12 @@ $(document).ready(function () {
         else {
             $(".classifications").css("background-color", "white");
         }
+
+        $(".annotation_manager_operation").each(function () {
+            this.value = annot_id;
+        });
     });
+
 
 
     $(".annotation_id").each(function() {

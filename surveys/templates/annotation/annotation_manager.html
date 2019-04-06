@@ -12,7 +12,10 @@
 
 
 {% block content %}
-    <script> var all_classifications = {{all_classifications_js|safe}} </script>
+    <script>
+            var all_classifications = {{all_classifications_js|safe}}
+            var all_annotations = {{all_annotations_js|safe}}
+    </script>
 
     <div class="d-flex justify-content-between flex-wrap flex-sm-nowrap align-items-center pb-2 mb-3 border-bottom">
             <h1>Annotation Creation </h1>
@@ -91,10 +94,10 @@
         <div class="row justify-content-center">
             <div class="input-group col justify-content-center" style="z-index: 0;">
                 <div class="input-group-prepend justify-content-center">
-                    <button type="submit" class = "btn btn-lg btn-success" id = "new"><i class="fa fa-plus" aria-hidden="true"></i> Create Annotation</button>
+                    <button type="submit" name="create" class = "annotation_manager_operation btn btn-lg btn-success" id = "new" disabled><i class="fa fa-plus" aria-hidden="true"></i> Create Annotation</button>
                 </div>
                 <div class="input-group-append">
-                    <button type="button" class = "btn btn-lg btn-danger"  id = "delete">Delete Annotation <i class="fa fa-trash" aria-hidden="true"></i></button>
+                    <button type="submit" name="delete" class = "annotation_manager_operation btn btn-lg btn-danger"  id = "delete" disabled>Delete Annotation <i class="fa fa-trash" aria-hidden="true"></i></button>
                 </div>
             </div>
         </div>
