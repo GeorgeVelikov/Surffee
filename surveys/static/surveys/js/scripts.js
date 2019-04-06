@@ -30,7 +30,6 @@ $(document).ready(function () {
                     break;
                 }
 
-
                 newTextBox.attr("name",     "choice_set-"   + textBoxCounter + "-choice_text");
                 newTextBox.attr("id",       "id_choice_set-"+ textBoxCounter + "-choice_text");
                 newTextBox.attr("required", '');
@@ -170,7 +169,7 @@ $(document).ready(function () {
             if (classif.annotation_id == annot_id) {
                 var option = new Option()
                 $(option).html(classif.name);
-
+                $(option).addClass("list-group-item");
                 // append option to select
                 $(".classifications").append(option);
                 empty = false;
@@ -178,8 +177,12 @@ $(document).ready(function () {
         }
         if (empty) {
             var option = new Option()
-            $(option).html("NO CLASSIFICATIONS EXIST FOR THIS ANNOTATION");
+            $(".classifications").css("background-color", "red");
+            $(option).html("NO CLASSIFICATIONS EXIST");
             $(".classifications").append(option);
+        }
+        else {
+            $(".classifications").css("background-color", "white");
         }
     });
 
@@ -227,12 +230,15 @@ $(document).ready(function () {
         }
     });
 
-    // just a helper function to test stuff
-    function redirect() {
-        alert("what did you expect lmao");
-    }
+
 
 });
+
+// just a helper function to test stuff
+function redirect() {
+
+        alert("what did you expect lmao");
+    }
 
 // create_chart returns render of the chart
 // used in the results.html
@@ -248,7 +254,6 @@ function create_chart(name, json_data) {
         }).render();
     });
 }
-
 
 
 function openTab(evt, tabid) {
@@ -277,5 +282,3 @@ function openTab(evt, tabid) {
 
 
 }
-
-
