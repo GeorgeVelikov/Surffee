@@ -25,7 +25,7 @@ SECRET_KEY = '+g@rz0x4zeurso^lyq((^z161!w-+hx4(yk5b#3$&r=xo2_5c*'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['surffee.herokuapp.com']
+ALLOWED_HOSTS = ['surffee.herokuapp.com', 'localhost']
 
 
 # Application definition
@@ -143,8 +143,11 @@ STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static'),
 ]
 
+# REMOVE THESE LINES SO LOCALHOST RUN ON PYCHARM WORKS
+"""
 STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
 
 import dj_database_url
 prod_db = dj_database_url.config(conn_max_age=500)
 DATABASES['default'].update(prod_db)
+"""
