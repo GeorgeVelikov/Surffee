@@ -179,6 +179,8 @@ $(document).ready(function () {
         if (empty) {
             var option = new Option()
             $(".classifications").css("background-color", "red");
+            $(option).css("font-size", 24);
+            $(option).css("color", "white");
             $(option).attr("disabled", "");
             $(option).html("NO CLASSIFICATIONS EXIST");
             $(".classifications").append(option);
