@@ -169,6 +169,7 @@ $(document).ready(function () {
             if (classif.annotation_id == annot_id) {
                 var option = new Option()
                 $(option).html(classif.name);
+                $(option).attr("disabled", "");
                 $(option).addClass("list-group-item");
                 // append option to select
                 $(".classifications").append(option);
@@ -178,6 +179,7 @@ $(document).ready(function () {
         if (empty) {
             var option = new Option()
             $(".classifications").css("background-color", "red");
+            $(option).attr("disabled", "");
             $(option).html("NO CLASSIFICATIONS EXIST");
             $(".classifications").append(option);
         }
