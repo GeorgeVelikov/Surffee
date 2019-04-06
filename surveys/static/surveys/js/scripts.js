@@ -156,6 +156,7 @@ $(document).ready(function () {
 
 
     $('.annotations').change(function() {
+        var empty = true;
         // cleans all the listed classifications
         $(".classifications").children().remove().end();
 
@@ -172,7 +173,13 @@ $(document).ready(function () {
 
                 // append option to select
                 $(".classifications").append(option);
+                empty = false;
             }
+        }
+        if (empty) {
+            var option = new Option()
+            $(option).html("NO CLASSIFICATIONS EXIST FOR THIS ANNOTATION");
+            $(".classifications").append(option);
         }
     });
 
