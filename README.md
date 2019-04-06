@@ -3,6 +3,9 @@ CS3528 Software Engineering project
 
 Anton Trnovsky, Yiannis Keravnos, Martin Woznicki and Georgi Velikov
 
+# Application demo
+https://surffee.herokuapp.com/
+
 # Requirements:
 - Python 3.x
 - coverage==4.5.2
@@ -35,4 +38,4 @@ Anton Trnovsky, Yiannis Keravnos, Martin Woznicki and Georgi Velikov
 - write "py manage.py runserver" 
 - open a browser and go to localhost:8000
 
-update: 03/03/2019 
+update: 06/04/2019 
