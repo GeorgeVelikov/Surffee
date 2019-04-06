@@ -12,6 +12,11 @@ class ResearcherCreationForm(UserCreationForm):
     password1 = forms.CharField(label='Password', widget=forms.PasswordInput)
     password2 = forms.CharField(label='Password confirmation', widget=forms.PasswordInput)
 
+    def __init__(self, *args, **kwargs):
+        # first call parent's constructor
+        super(ResearcherCreationForm, self).__init__(*args, **kwargs)
+        self.fields['email'].required = True
+
     class Meta(UserCreationForm):
         model = Researcher
         fields = ('username', 'password1', 'password2', 'email',)
