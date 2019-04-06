@@ -11,6 +11,10 @@
 {% block title  %}Annotation Selection{% endblock %}
 
 {% block content %}
+    <script>
+            var all_classifications = {{all_classifications_js|safe}}
+    </script>
+
 
     <div class="d-flex justify-content-between flex-wrap flex-sm-nowrap align-items-center pb-2 mb-3 border-bottom">
         <h1>Annotation Selection </h1>
@@ -33,49 +37,52 @@
     </div>
     </br>
 
+    <form action="" method="post">
+        {% csrf_token %}
+        <!-- Annotations and their classes -->
+        <div class="row">
 
-    <!-- Annotations and their classes -->
-    <div class="row">
+            <!-- Annotations List -->
+            <div class="col-6">
+                <div class="card bg-info text-white text-center">
+                    <div class="card-header">
+                        <p class="lead mb-0">Annotations List</p>
+                    </div>
+                    <div class="card-body">
+                        <select class="custom-select annotations" size="5">
+                            {% for annot in all_annotations %}
+                              <option class="list-group-item" onclick="$(this).toggleClass('selected');" value="./{{annot.pk}}" >{{ annot.name }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="card-footer">
+                    </div>
+                </div>
+            </div>
 
-        <!-- Annotations List -->
-        <div class="col-6">
-            <div class="card bg-info text-white text-center">
-                <div class="card-header">
-                    <p class="lead mb-0">Annotations List</p>
-                </div>
-                <div class="card-body">
-                    <select class="custom-select" size="5">
-                        {% for annot in all_annotations %}
-                          <option class="list-group-item" onclick="$(this).toggleClass('selected');" value="./{{annot.pk}}" >{{ annot.name }}</option>
-                        {% endfor %}
-                    </select>
-                </div>
-                <div class="card-footer">
+            <!-- Classes -->
+            <div class="col-6">
+                <div class = "card bg-info text-white text-center">
+                  <div class="card-header">
+                      <p class="lead mb-0">Annotation Classes</p>
+                  </div>
+                  <div class = "card-body">
+                      <select class="custom-select classifications" size="5">
+
+                      </select>
+                  </div>
+                  <div class="card-footer">
+                  </div>
                 </div>
             </div>
         </div>
 
-        <!-- Classes -->
-        <div class="col-6">
-            <div class = "card bg-info text-white text-center">
-              <div class="card-header">
-                  <p class="lead mb-0">Annotation Classes</p>
-              </div>
-              <div class = "card-body">
-                  <select class="custom-select" size="10">
-
-                  </select>
-              </div>
-              <div class="card-footer">
-              </div>
+        </br>
+        <div class="row justify-content-center">
+            <div class="col-8">
+                <button type="submit" name="select" class="btn btn-lg btn-block btn-success" id="select" disabled>Confirm Selected Annotation</button>
             </div>
         </div>
-    </div>
+    </form>
 
-    </br>
-    <div class="row justify-content-center">
-        <div class="col-8">
-            <button type="submit" class="btn btn-lg btn-block btn-success" href="#" onclick="">Confirm Selected Annotation</button>
-        </div>
-    </div>
 {% endblock %}

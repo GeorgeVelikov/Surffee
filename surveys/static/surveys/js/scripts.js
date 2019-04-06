@@ -182,6 +182,8 @@ $(document).ready(function () {
         var annot_id = $(this).val()
 
         $("#delete").removeAttr("disabled");
+        $("#select").removeAttr("disabled");
+        $("#select").val(annot_id.replace("./", ""));
 
         // create new option and add some text to it
         for(i in all_classifications) {

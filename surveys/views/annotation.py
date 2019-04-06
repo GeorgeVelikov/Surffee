@@ -48,7 +48,7 @@ class AnnotationManager(CreateView):
             annot_to_del.delete()
             all_classif_to_del.delete()
             all_words_to_del.delete()
-            return redirect('/surveys/annotation_manager');
+            return redirect('/surveys/annotation_manager')
 
         if form.is_valid():
             return self.form_valid(form)
@@ -73,7 +73,9 @@ class AnnotationSelector(CreateView):
         survey_id = self.kwargs.get('survey_id')
         survey = Survey.objects.get(pk=survey_id)
 
-        all_survey_annotations = Annotation.objects.filter(creator=request.user)
+        all_annot = Annotation.objects.all()
+        all_user_annotations = Annotation.objects.filter(creator=request.user)
+        all_classifications = Classification.objects.filter(annotation__in=all_user_annotations)
 
         form_class = self.get_form_class()
         form = self.get_form(form_class)
@@ -81,9 +83,21 @@ class AnnotationSelector(CreateView):
         return self.render_to_response(
             self.get_context_data(form=form,
                                   survey=survey,
-                                  all_annotations=all_survey_annotations,
+                                  all_annotations=all_user_annotations,
+                                  all_classifications_js=list(all_classifications.values()),
+                                  all_annot=all_annot,
                                   )
         )
+
+    def post(self, request, *args, **kwargs):
+        self.object = None
+        form_class = self.get_form_class()
+        form = self.get_form(form_class)
+
+        survey_id = self.kwargs.get('survey_id')
+        annotation_id = form.data['select']
+
+        return redirect('/surveys/'+str(survey_id)+'/annotate/'+str(annotation_id))
 
 
 class ClassificationCreator(CreateView):
