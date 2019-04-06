@@ -5,6 +5,7 @@
     margin-bottom: 20px;
 }
 
+
 #card-cols .col-4{
     padding: 20px;
     padding-top: 30px;
@@ -18,10 +19,7 @@
     border-color: #80dfff;
 }
 
-#card-cols .col-4 .btn .fa :hover{
-    background-color: #004d66;
-}
-
-#card-cols .col-4 .btn .text-break {
-    font-size: large;
+.btn-sq-lg {
+  width: 150px !important;
+  height: 150px !important;
 }

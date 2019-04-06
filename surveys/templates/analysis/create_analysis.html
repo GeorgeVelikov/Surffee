@@ -9,54 +9,60 @@
 {% block content %}
 
     <div class="d-flex justify-content-between flex-wrap flex-sm-nowrap align-items-center pb-2 mb-3 border-bottom">
-        <h2>Create an analysis page for {{survey.name}}</h2>
+        <h2>Create an analysis page</h2>
     </div>
 
     <div class="row">
         <div class="col-sm-12">
             <div class="card bg-dark text-white text-center" style="background-color:#333;">
                 <div class="card-header">
-                    <h2>Choose a type of analysis page to generate</h2>
+                    <h2>Choose a type of Analysis page to generate</h2>
                 </div>
-
                 <div class="card-block" id="card-con">
-                    <div class="row" id="card-cols">
-                        <div class="col-4">
-                            <div class="btn">
-
-                                <p class="text-break text-wrap">Single Term Analysis</p>
-
-                                <i class="fa fa-minus fa-border fa-4x" aria-hidden="true"></i>
-                            </div>
-                        </div>
-
-                        <div class="col-4">
-                            <div class="btn">
-
-                                <p class="text-break text-wrap">Multiple Term Analysis</p>
-
-                                <i class="fa fa-align-justify fa-border fa-4x" aria-hidden="true"></i>
-                            </div>
-                        </div>
-
-                        <div class="col-4">
-                            <div class="btn">
-
-                                <p class="text-break text-wrap">Graphical Analysis</p>
-
-                                <i class="fa fa-bar-chart fa-border fa-4x" aria-hidden="true"></i>
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="row" id="card-cols">
+                                <div class="col-4 justify-content-between">
+                                    <a href="#" class="btn btn-sq-lg btn-dark">
+                                        <i class="fa fa-minus fa-5x"></i>
+                                        <p class="text-break text-wrap">Single Term<br>Analysis</br></p>
+                                    </a>
+                                </div>
+                                <div class="col-4 justify-content-between">
+                                    <a href="#" class="btn btn-sq-lg btn-dark">
+                                        <i class="fa fa-align-justify fa-5x"></i>
+                                        <p class="text-break text-wrap">Multiple Term<br>Analysis</br></p>
+                                    </a>
+                                </div>
+                                <div class="col-4 justify-content-between">
+                                    <a href="#" class="btn btn-sq-lg btn-dark">
+                                        <i class="fa fa-bar-chart fa-5x"></i>
+                                        <p class="text-break text-wrap">Graphical<br>Analysis</br></p>
+                                    </a>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-
                 <div class="card-footer text-muted">
-                </br>
+                    <p>Choose Analysis type and name and hit create.</p>
                 </div>
             </div>
         </div>
       </div>
 
+
+    <!-- Replace with crispy -->
+    <br>
+    <div class="input-group mb-3">
+      <div class="input-group-prepend">
+        <span class="input-group-text" id="basic-addon1">Analysis name</span>
+      </div>
+      <input type="text" class="form-control" placeholder="Analysis name eg. Food survey analysis" aria-label="Username" aria-describedby="basic-addon1">
+    </div>
+
+
+    <!-- Button -->
     <br/>
     <div class="row justify-content-center">
         <div class="input-group col justify-content-center" style="z-index: 0;">
