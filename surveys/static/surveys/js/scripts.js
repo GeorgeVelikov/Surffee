@@ -188,8 +188,7 @@ $(document).ready(function () {
         // create new option and add some text to it
         for(i in all_classifications) {
             var classif = all_classifications[i];
-
-            if (classif.annotation_id == annot_id) {
+            if (classif.annotation_id == annot_id.replace("./", "")) {
                 var option = new Option()
                 $(option).html(classif.name);
                 $(option).attr("disabled", "");
