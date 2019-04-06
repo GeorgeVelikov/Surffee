@@ -17,6 +17,28 @@
     <div class="d-flex justify-content-between flex-wrap flex-sm-nowrap align-items-center pb-2 mb-3 border-bottom">
             <h1>Annotation Creation </h1>
     </div>
+
+    <!-- Instructions -->
+    <div class="row">
+        <div class="col">
+            <div class="card">
+                <div class="card-header">
+                    <h3>
+                        Instructions
+                    </h3>
+                </div>
+                <div class="card-body">
+                    <p>Annotation choices are listed below. Create a new annotation by entering a name below and hitting <b>'Create Annotation'</b>.
+                        Remove an annotation by hitting <b>'Delete Annotation'</b>. The available classes in each annotation can be viewed in the
+                        <b>'Annotation classes'</b> panel.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+    </br>
+
+
     <form action="" method="post">
         {% csrf_token %}
 
@@ -67,18 +89,18 @@
         <!-- Button group - New/Load/delete -->
         <!-- TODO: Connect to backend/ Submit no trabajo -->
         <div class="row justify-content-center">
-          <div class="input-group col justify-content-center">
-            <div class="input-group-prepend justify-content-center">
-                <button type="submit" class = "btn btn-lg btn-success" id = "new"><i class="fa fa-plus" aria-hidden="true"></i> Create Annotation</button>
+            <div class="input-group col justify-content-center">
+                <div class="input-group-prepend justify-content-center">
+                    <button type="submit" class = "btn btn-lg btn-success" id = "new"><i class="fa fa-plus" aria-hidden="true"></i> Create Annotation</button>
+                </div>
+                <div class="input-group-append">
+                    <button type="button" class = "btn btn-lg btn-danger"  id = "delete">Delete Annotation <i class="fa fa-trash" aria-hidden="true"></i></button>
+                </div>
             </div>
-            <div class="input-group-append">
-                <button type="button" class = "btn btn-lg btn-danger"  id = "delete">Delete Annotation <i class="fa fa-trash" aria-hidden="true"></i></button>
-            </div>
-          </div>
         </div>
         <br/>
 
-<!-- <input type="text" class="form-control" placeholder="New Annotation's name... E.g: 'empty'" aria-label="New Annotation's name" aria-describedby="basic-addon1" id="text">-->
+<!-- <input class="form-control" placeholder="New Annotation's name... E.g: 'empty'">-->
 
     </form>
 
