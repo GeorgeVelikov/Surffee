@@ -1,7 +1,6 @@
-2
+2 3
 User1;password;user1@test.mail;superuser
 User2;password;user2@test.mail
-3
 Test Survey 1;User1;active
 Test Survey 2;User1;inactive
 Test Survey 3;User2;active
