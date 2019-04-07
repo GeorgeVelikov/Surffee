@@ -19,6 +19,6 @@ class Create(CreateView):
 
         return self.render_to_response(
             self.get_context_data(form=form,
-                                  all_user_surveys=list(all_user_surveys),
+                                  all_user_surveys=all_user_surveys,
                                   )
         )
