@@ -1,0 +1,2 @@
+User1;password;user1@test.mail;superuser
+User2;password;user2@test.mail
