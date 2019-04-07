@@ -6,19 +6,9 @@
 }
 
 
-#card-cols .col-4{
+#card-cols .col .btn {
     padding: 20px;
     padding-top: 30px;
     padding-bottom: 30px;
     margin: auto;
-}
-
-#card-cols .col-4 :hover{
-    border-radius: 15%;
-    border-color: #80dfff;
-}
-
-.btn-sq-lg {
-  width: 150px !important;
-  height: 150px !important;
 }
