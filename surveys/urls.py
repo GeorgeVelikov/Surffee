@@ -1,6 +1,6 @@
 from django.urls import path
 
-from .views import survey, question, choice, answer, site, annotation
+from .views import survey, question, choice, answer, site, annotation, analysis
 
 app_name = 'surveys'
 
@@ -22,7 +22,7 @@ urlpatterns = [
          name='create'),
 
     path('analysis/',
-         site.analysis,
+         analysis.Create.as_view(),
          name='analysis'),
 
     path('toggle_active/<int:survey_id>',
