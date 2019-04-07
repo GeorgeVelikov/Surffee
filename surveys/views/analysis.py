@@ -1,18 +1,18 @@
 from django.views.generic import CreateView
 
-from surveys.forms import AnnotationWordForm
-from surveys.models.survey import Survey
 from surveys.models.annotation import Annotation
+from surveys.models.survey import Survey
+from surveys.forms.analysis import AnalysisCreator
 
 
 class Create(CreateView):
     template_name = 'analysis/create_analysis.html'
     model = Annotation
-    form_class = AnnotationWordForm
+    form_class = AnalysisCreator
     
     def get(self, request, *args, **kwargs):
         self.object = None
-        all_user_surveys = Survey.objects.filter(creator=request.user).values_list('id', 'name')
+        all_user_surveys = Survey.objects.filter(creator=request.user).values('pk', 'name')
 
         form_class = self.get_form_class()
         form = self.get_form(form_class)

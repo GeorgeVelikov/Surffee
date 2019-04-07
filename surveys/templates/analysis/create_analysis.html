@@ -57,9 +57,19 @@
     <br>
     <div class="input-group mb-3">
       <div class="input-group-prepend">
+        <span class="input-group-text" id="basic-addon2">Survey to analyse</span>
+      </div>
+        <select id="survey_select_list">
+            <option selected disabled hidden>Please select a survey</option>
+        </select>
+    </div>
+
+
+    <div class="input-group mb-3">
+      <div class="input-group-prepend">
         <span class="input-group-text" id="basic-addon1">Analysis name</span>
       </div>
-      <input type="text" class="form-control" placeholder="Analysis name eg. Food survey analysis" aria-label="Username" aria-describedby="basic-addon1">
+        {{form.analysis_name}}
     </div>
 
     <!-- Button -->

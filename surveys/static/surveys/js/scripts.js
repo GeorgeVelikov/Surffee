@@ -263,7 +263,12 @@ $(document).ready(function () {
 
     if (typeof all_user_surveys_analysis !== "undefined") {
         for (i in all_user_surveys_analysis) {
-            alert(all_user_surveys_analysis[i]);
+            var survey = all_user_surveys_analysis[i]
+            var option = new Option()
+
+            $(option).html(survey.name);
+            $(option).addClass("list-group-item");
+            $("#survey_select_list").append(option);
         }
     }
 
