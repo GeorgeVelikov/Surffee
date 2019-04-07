@@ -7,7 +7,8 @@
 {% block title %}Create Analysis{% endblock %}
 
 {% block content %}
-
+    <script> var all_user_surveys_analysis = {{all_user_surveys|safe}} </script>
+    {{all_user_surveys}}
     <div class="d-flex justify-content-between flex-wrap flex-sm-nowrap align-items-center pb-2 mb-3 border-bottom">
         <h2>Create an analysis page</h2>
     </div>
@@ -60,7 +61,6 @@
       </div>
       <input type="text" class="form-control" placeholder="Analysis name eg. Food survey analysis" aria-label="Username" aria-describedby="basic-addon1">
     </div>
-
 
     <!-- Button -->
     <br/>

@@ -5,7 +5,6 @@ $(document).ready(function () {
     // global tb counter
     let textBoxCounter = 1;
 
-
     // check if the element exists first
     if ($("#add-new-choice").length) {
         // shows all choices in a question as the page loads
@@ -261,6 +260,12 @@ $(document).ready(function () {
         }
     });
 
+
+    if (typeof all_user_surveys_analysis !== "undefined") {
+        for (i in all_user_surveys_analysis) {
+            alert(all_user_surveys_analysis[i]);
+        }
+    }
 
 
 });
