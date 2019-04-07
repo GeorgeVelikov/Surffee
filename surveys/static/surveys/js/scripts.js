@@ -261,17 +261,26 @@ $(document).ready(function () {
     });
 
 
-    if (typeof all_user_surveys_analysis !== "undefined") {
-        for (i in all_user_surveys_analysis) {
-            var survey = all_user_surveys_analysis[i]
-            var option = new Option()
 
-            $(option).html(survey.name);
-            $(option).addClass("list-group-item");
-            $("#survey_select_list").append(option);
+    // analyse generator page
+    $("#survey_select_list").change(function() {
+        enableAnalysisCreateButton();
+    });
+
+    $("#id_analysis_name").keyup(function() {
+        enableAnalysisCreateButton();
+    });
+
+    function enableAnalysisCreateButton() {
+        var analysisName = $("#id_analysis_name");
+
+        var hasSurvey = $("#survey_select_list").val();
+        var hasName = $("#id_analysis_name").val().length > 0;
+
+        if (hasName && hasSurvey) {
+            $("#create_analysis_button").removeAttr("disabled");
         }
     }
-
 
 });
 

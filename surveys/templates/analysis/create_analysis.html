@@ -7,80 +7,86 @@
 {% block title %}Create Analysis{% endblock %}
 
 {% block content %}
-    <script> var all_user_surveys_analysis = {{all_user_surveys|safe}} </script>
-    {{all_user_surveys}}
-    <div class="d-flex justify-content-between flex-wrap flex-sm-nowrap align-items-center pb-2 mb-3 border-bottom">
-        <h2>Create an analysis page</h2>
-    </div>
+    <form action="" method="post">
+        {% csrf_token %}
 
-    <div class="row">
-        <div class="col-sm-12">
-            <div class="card bg-dark text-white text-center" style="background-color:#333;">
-                <div class="card-header">
-                    <h2>Choose a type of Analysis page to generate</h2>
-                </div>
-                <div class="card-block" id="card-con">
-                    <div class="row">
-                        <div class="col-12">
-                            <div class="row" id="card-cols">
-                                <div class="col-4 justify-content-between">
-                                    <a href="#" class="btn btn-sq-lg btn-dark">
-                                        <i class="fa fa-minus fa-5x"></i>
-                                        <p class="text-break text-wrap">Single Term<br>Analysis</br></p>
-                                    </a>
-                                </div>
-                                <div class="col-4 justify-content-between">
-                                    <a href="#" class="btn btn-sq-lg btn-dark">
-                                        <i class="fa fa-align-justify fa-5x"></i>
-                                        <p class="text-break text-wrap">Multiple Term<br>Analysis</br></p>
-                                    </a>
-                                </div>
-                                <div class="col-4 justify-content-between">
-                                    <a href="#" class="btn btn-sq-lg btn-dark">
-                                        <i class="fa fa-bar-chart fa-5x"></i>
-                                        <p class="text-break text-wrap">Graphical<br>Analysis</br></p>
-                                    </a>
+        <div class="d-flex justify-content-between flex-wrap flex-sm-nowrap align-items-center pb-2 mb-3 border-bottom">
+            <h2>Create an analysis page</h2>
+        </div>
+
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="card bg-dark text-white text-center" style="background-color:#333;">
+                    <div class="card-header">
+                        <h2>Choose a type of Analysis page to generate</h2>
+                    </div>
+                    <div class="card-block" id="card-con">
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="row" id="card-cols">
+                                    <div class="col-4 justify-content-between">
+                                        <a href="#" class="btn btn-sq-lg btn-dark">
+                                            <i class="fa fa-minus fa-5x"></i>
+                                            <p class="text-break text-wrap">Single Term<br>Analysis<br></p>
+                                        </a>
+                                    </div>
+                                    <div class="col-4 justify-content-between">
+                                        <a href="#" class="btn btn-sq-lg btn-dark">
+                                            <i class="fa fa-align-justify fa-5x"></i>
+                                            <p class="text-break text-wrap">Multiple Term<br>Analysis<br></p>
+                                        </a>
+                                    </div>
+                                    <div class="col-4 justify-content-between">
+                                        <a href="#" class="btn btn-sq-lg btn-dark">
+                                            <i class="fa fa-bar-chart fa-5x"></i>
+                                            <p class="text-break text-wrap">Graphical<br>Analysis<br></p>
+                                        </a>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="card-footer text-muted">
-                    <p>Choose Analysis type and name and hit create.</p>
+                    <div class="card-footer text-muted">
+                        <p>Choose Analysis type and name and hit create.</p>
+                    </div>
                 </div>
             </div>
+          </div>
+
+
+        <!-- Replace with crispy -->
+        <br>
+        <div class="input-group mb-3">
+          <div class="input-group-prepend">
+            <span class="input-group-text" id="basic-addon2">Survey to analyse</span>
+          </div>
+            <select class="custom-select" id="survey_select_list" name="survey_to_analyse">
+                <option class="list-group-item" selected disabled hidden>Please select a survey</option>
+                {% for survey in all_user_surveys %}
+                        <option class="list-group-item" value="{{survey.pk}}">{{survey.name}}</option>
+                {% endfor %}
+            </select>
         </div>
-      </div>
 
 
-    <!-- Replace with crispy -->
-    <br>
-    <div class="input-group mb-3">
-      <div class="input-group-prepend">
-        <span class="input-group-text" id="basic-addon2">Survey to analyse</span>
-      </div>
-        <select id="survey_select_list">
-            <option selected disabled hidden>Please select a survey</option>
-        </select>
-    </div>
-
-
-    <div class="input-group mb-3">
-      <div class="input-group-prepend">
-        <span class="input-group-text" id="basic-addon1">Analysis name</span>
-      </div>
-        {{form.analysis_name}}
-    </div>
-
-    <!-- Button -->
-    <br/>
-    <div class="row justify-content-center">
-        <div class="input-group col justify-content-center" style="z-index: 0;">
-                <button type="submit" class = "btn btn-lg btn-success">
-                    <i class="fa fa-plus" aria-hidden="true"></i>
-                Create Analysis
-                </button>
+        <div class="input-group mb-3">
+          <div class="input-group-prepend">
+            <span class="input-group-text" id="basic-addon1">Analysis name</span>
+          </div>
+            {{form.analysis_name}}
         </div>
-    </div>
+
+        <!-- Button -->
+        <br/>
+        <div class="row justify-content-center">
+            <div class="input-group col justify-content-center" style="z-index: 0;">
+                    <button type="submit" id="create_analysis_button" class="btn btn-lg btn-success" disabled>
+                        <i class="fa fa-plus" aria-hidden="true"></i>
+                    Create Analysis
+                    </button>
+            </div>
+        </div>
+
+    </form>
 
 {% endblock %}

@@ -3,7 +3,7 @@ from django.views.generic import CreateView, UpdateView
 
 from ..models.survey import Survey, Question, Choice
 from ..models.annotation import Annotation, Classification, Word
-from ..forms.surveys import AnnotationWordForm
+from ..forms.annotation import AnnotationWordForm
 
 from .helper import check_existing_word_dominates_new_word, check_overwrite_existing_word, create_new_classification, \
     delete_overlay_word_classifications, delete_unused_classifications
