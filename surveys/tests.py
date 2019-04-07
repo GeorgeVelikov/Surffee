@@ -15,8 +15,8 @@ from .models.survey import Survey
 
 def create_survey(name, creator, active=True, commit=True):
     """ Helper method to create a new survey """
-    survey = Survey(creator=creator,
-                    name=name,
+    survey = Survey(name=name,
+                    creator=creator,
                     active=active)
     if commit:
         survey.save()
@@ -152,7 +152,6 @@ class SignUpViewTests(TestCase):
          Test if user can sign up without providing an e-mail address
         :return:
         """
-        self.skipTest('Remove the skip, once boys made email required')
         username = 'TestUser'
         password = 'TestPassword123456'
         email = ''
@@ -176,7 +175,7 @@ class SignUpViewTests(TestCase):
 
 class LoginViewTests(TestCase):
 
-    """ helper method: login with username and password"""
+    """ helper method: login with username and password """
     def login_response(self, username, password):
         return self.client.post(reverse('login'), {
             'username': username,
