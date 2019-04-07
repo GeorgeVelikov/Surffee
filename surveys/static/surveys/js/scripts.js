@@ -261,6 +261,27 @@ $(document).ready(function () {
     });
 
 
+
+    // analyse generator page
+    $("#survey_select_list").change(function() {
+        enableAnalysisCreateButton();
+    });
+
+    $("#id_analysis_name").keyup(function() {
+        enableAnalysisCreateButton();
+    });
+
+    function enableAnalysisCreateButton() {
+        var analysisName = $("#id_analysis_name");
+
+        var hasSurvey = $("#survey_select_list").val();
+        var hasName = $("#id_analysis_name").val().length > 0;
+
+        if (hasName && hasSurvey) {
+            $("#create_analysis_button").removeAttr("disabled");
+        }
+    }
+
 });
 
 // just a helper function to test stuff
