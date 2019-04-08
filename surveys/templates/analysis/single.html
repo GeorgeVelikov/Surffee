@@ -8,42 +8,48 @@
 
 {% block content %}
 
- <div class="container-fluid">
-    <div class="row">
-        <div class="container-fluid">
-          <div class = "row text-center">
-            <!-- JS magic tables -->
-            <div class = "col col-md-8 card card-body bg-light" style="margin:24px" id="termtables">
+    List of used annotations:<br>
+    {% for used in used_annotations %}
+        {{used.name}}<br>
+    {% endfor %}
+
+
+    <div class="container-fluid">
+        <div class="row">
+            <div class="container-fluid">
+                <div class = "row text-center">
+                    <!-- JS magic tables -->
+                    <div class = "col col-md-8 card card-body bg-light" style="margin:24px" id="termtables">
+                    </div>
+                    <!-- Right Sidebar -->
+                    <div class = "col col-md-auto card card-body bg-dark text-white" style="margin:24px 0px 24px 0px">
+                        <p class="lead">Add new term</p>
+                        <div class="btn-group-vertical" role="group" aria-label="Basic example" style="margin-bottom:24px">
+                            <select class="custom-select" id="addtermform">
+                              <option>test</option>
+                            </select>
+                            <button type="button" class="btn btn-info" id="addterm">Add</button>
+                        </div>
+                        <p class="lead">Add constraint</p>
+                        <div class="btn-group-vertical" role="group" aria-label="Basic example" style="margin-bottom:24px">
+                            <select class="custom-select" id="addconform">
+                              <option>test</option>
+                            </select>
+                            <button type="button" class="btn btn-info" id="addconstraint">Add</button>
+                        </div>
+                        <p class="lead">Remove field</p>
+                        <div class="btn-group-vertical" role="group" aria-label="Basic example" style="margin-bottom:72px">
+                            <select class="custom-select" id="remtermform">
+                            </select>
+                            <button type="button" class="btn btn-secondary" id="remterm">Remove</button>
+                        </div>
+                        <p class="lead">Delete Term Statistics Page</p>
+                        <button type="button" class="btn btn-danger" id="deltermpage">Delete</button>
+                    </div>
+                </div>
             </div>
-            <!-- Right Sidebar -->
-            <div class = "col col-md-auto card card-body bg-dark text-white" style="margin:24px 0px 24px 0px">
-              <p class="lead">Add new term</p>
-              <div class="btn-group-vertical" role="group" aria-label="Basic example" style="margin-bottom:24px">
-                <select class="custom-select" id="addtermform">
-                  <option>test</option>
-                </select>
-                <button type="button" class="btn btn-info" id="addterm">Add</button>
-              </div>
-              <p class="lead">Add constraint</p>
-              <div class="btn-group-vertical" role="group" aria-label="Basic example" style="margin-bottom:24px">
-                <select class="custom-select" id="addconform">
-                  <option>test</option>
-                </select>
-                <button type="button" class="btn btn-info" id="addconstraint">Add</button>
-              </div>
-              <p class="lead">Remove field</p>
-              <div class="btn-group-vertical" role="group" aria-label="Basic example" style="margin-bottom:72px">
-                <select class="custom-select" id="remtermform">
-                </select>
-                <button type="button" class="btn btn-secondary" id="remterm">Remove</button>
-              </div>
-              <p class="lead">Delete Term Statistics Page</p>
-              <button type="button" class="btn btn-danger" id="deltermpage">Delete</button>
-            </div>
-          </div>
         </div>
     </div>
-  </div>
 
 
 {% endblock %}
