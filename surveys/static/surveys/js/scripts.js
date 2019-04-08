@@ -263,6 +263,7 @@ $(document).ready(function () {
 
     // analyse generator page
     $("#survey_select_list").change(function() {
+        $("#annotation_select_list").children().remove().end();
         var survey_id = $(this).val();
 
         var option = new Option()
@@ -275,11 +276,13 @@ $(document).ready(function () {
 
         // wow set of arrays does not actually work, js is wonderful
         var annot_set = new Set();
+        var used_indexes = new Array();
         for (let annotuple of all_annotations_analysis[survey_id]) {
-            if (annotuple[0] !== last_id) {
+            if (jQuery.inArray(annotuple[0], used_indexes) ==-1) {
+                used_indexes.push(annotuple[0]);
                 annot_set.add(annotuple);
             }
-            var last_id = annotuple[0];
+
         }
 
         $("#annotation_select_list").removeAttr("disabled");

@@ -2,7 +2,7 @@ from django.shortcuts import redirect
 from django.views.generic import CreateView
 
 from surveys.models.annotation import Annotation, Classification, Word
-from surveys.models.survey import Survey
+from surveys.models.survey import Survey, Question, Choice
 from surveys.forms.analysis import AnalysisCreator
 
 
@@ -81,12 +81,19 @@ class AnalysisSingleTerm(CreateView):
         annotation = Annotation.objects.get(pk=get_variables['annotation'])
 
         classifications = Classification.objects.filter(annotation=annotation)
+        questions = Question.objects.filter(survey=survey_name)
+        choices = Choice.objects.filter(question__in=questions)
+        words = Word.objects.filter(classification__in=classifications, choice__in=choices)
+
+        analysis_data = dict()
+
 
         return self.render_to_response(
             self.get_context_data(form=form,
                                   analysis_name=analysis_name,
                                   survey_name=survey_name,
                                   classifications=classifications,
+                                  words=words,
                                   )
         )
 
