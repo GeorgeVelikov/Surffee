@@ -26,7 +26,7 @@ SECRET_KEY = '+g@rz0x4zeurso^lyq((^z161!w-+hx4(yk5b#3$&r=xo2_5c*'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['surffee.herokuapp.com', 'localhost']
+ALLOWED_HOSTS = ['surffee.herokuapp.com', 'localhost', '127.0.0.1']
 
 
 # Application definition
