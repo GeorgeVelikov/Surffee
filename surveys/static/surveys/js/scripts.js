@@ -287,6 +287,7 @@ $(document).ready(function () {
             var option = new Option()
             $(option).html(annot_tuple[1]);
             $(option).addClass("list-group-item");
+            $(option).attr("value", annot_tuple[0]);
             $("#annotation_select_list").append(option);
         }
 

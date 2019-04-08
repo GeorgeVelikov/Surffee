@@ -46,16 +46,21 @@ class Create(CreateView):
         form_class = self.get_form_class()
         form = self.get_form(form_class)
 
+        print(form.data)
+
         analysis_type = form.data['analysis_option']
         analysis_name = form.data['analysis_name']
         analysis_survey = form.data['survey_to_analyse']
+        analysis_annot = form.data['annotation_to_analyse']
+
+        post_variables = '?name=' + analysis_name + '&survey=' + analysis_survey + '&annotation=' + analysis_annot
 
         if analysis_type == "single":
-            return redirect('/surveys/analysis/single?name=' + analysis_name + '&survey=' + analysis_survey)
+            return redirect('/surveys/analysis/single' + post_variables)
         elif analysis_type == "multiple":
-            return redirect('/surveys/analysis/multiple')
+            return redirect('/surveys/analysis/multiple' + post_variables)
         elif analysis_type == "graph":
-            return redirect('/surveys/analysis/graph')
+            return redirect('/surveys/analysis/graph' + post_variables)
 
         # this is in case something goes wrong, just returns back to the same page
         return redirect('/surveys/analysis')
