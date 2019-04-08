@@ -271,13 +271,29 @@ $(document).ready(function () {
         enableAnalysisCreateButton();
     });
 
+    $(".analysis_option").change(function () {
+        $(".analysis_option").each(function () {
+            $(this).find('input').attr('checked', false);
+        });
+
+        $(this).find('input').attr('checked', true);
+        enableAnalysisCreateButton();
+    });
+
     function enableAnalysisCreateButton() {
         var analysisName = $("#id_analysis_name");
 
         var hasSurvey = $("#survey_select_list").val();
         var hasName = $("#id_analysis_name").val().length > 0;
+        var hasAnalysisType;
 
-        if (hasName && hasSurvey) {
+        $(".analysis_option").each(function () {
+            if ($(this).find('input').attr('checked')) {
+                hasAnalysisType = true;
+            }
+        });
+
+        if (hasName && hasSurvey && hasAnalysisType) {
             $("#create_analysis_button").removeAttr("disabled");
         }
     }

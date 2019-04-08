@@ -25,6 +25,14 @@ urlpatterns = [
          analysis.Create.as_view(),
          name='analysis'),
 
+    path('analysis/single',
+         analysis.AnalysisSingleTerm.as_view(),
+         name='single_term_analysis'),
+
+    path('analysis/multiple',
+         analysis.AnalysisMultipleTerm.as_view(),
+         name='multiple_term_analysis'),
+
     path('toggle_active/<int:survey_id>',
          survey.ActiveToggle.as_view(),
          name='toggle_active_survey'),
