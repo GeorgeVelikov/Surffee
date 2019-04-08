@@ -1,30 +1,35 @@
-from .models.survey import Survey
+from .models.survey import Survey, Question, Choice
 from .models.user import Researcher
 
 import sys
-import time
 
 
-# TODO: add pi_choices
+def add_question(data, survey):
+    Question(
+        survey=Survey.objects.get(name=survey),
+        question_text=data[0],
+        type=data[1].upper()
+    ).save()
+
+
 def new_survey(data, path):
     active = False
     pi = None
 
     if data[3] == 'active':
         active = True
-    if len(data) == 6:
-        src = open(path + 'pi_choices/' + data[5] + '.txt')
+    if len(data) == 6 and data[5] != 'none':
+        src = open(path + 'pi_choices/' + data[5])
         pi = str([x.strip() for x in src.readlines()])
         src.close()
 
-    s = Survey(
+    Survey(
         creator=Researcher.objects.get(username=data[0]),
         name=data[1],
         description=data[2],
         active=active,
         pi_choices=pi
     ).save()
-    return s
 
 
 def superuser(data):
@@ -55,7 +60,7 @@ def update_users():
 def update_surveys():
     surveys = {}
     for each in Survey.objects.all():
-        surveys[each.name] = each
+        surveys[each.name] = [str(x) for x in each.question_set.all()]
     return surveys
 
 
@@ -69,14 +74,13 @@ class Build:
         self.report = ''
 
         self.register_users()
-        time.sleep(0.5)
         self.register_surveys()
         self.summary()
 
     # username ; password ; email ; [superuser]
     def register_users(self):
 
-        src = open(self.path + 'users.txt')
+        src = open(self.path + 'users')
         for line in src.readlines():
             line = line.strip().split(';')
             attr_no = len(line)
@@ -92,14 +96,14 @@ class Build:
 
         src.close()
 
-    # creator ; name ; description ; (in)active ; no. of questions ; pi_choices
+    # creator ; name ; description ; (in)active ; no. of questions ; pi_choices ; question set
     def register_surveys(self):
 
-        src = open(self.path + 'surveys.txt')
+        src = open(self.path + 'surveys')
         for line in src.readlines():
             line = line.strip().split(';')
 
-            if (len(line) < 5) or (len(line) > 6):
+            if len(line) != 7:
                 self.report += line[1] + ' - survey omitted. Ill-formatted line.\n'
                 break
             elif line[1] in self.surveys:
@@ -108,10 +112,21 @@ class Build:
             elif line[0] not in self.users:
                 self.report += line[1] + ' - survey omitted. User ' + line[0] + ' does not exist.\n'
                 break
+            new_survey(line, self.path)
+            self.register_questions(line[1], line[6])
+        src.close()
 
-            self.surveys[line[1]] = new_survey(line, self.path)
-
-
+    # question text ; Single/Multi ; choice set
+    def register_questions(self, sur_name, question_set):
+        survey = Survey.objects.get(name=sur_name)
+        src = open(self.path + 'questions/' + question_set)
+        self.surveys[sur_name] = []
+        for line in src.readlines():
+            line = line.strip().split(';')
+            if len(line) != 3:
+                self.report += line[0] + ' - question omitted for survey ' + sur_name + '. Ill-formatted line.\n'
+            add_question(line, survey)
+            self.surveys[sur_name].append(line[0])
         src.close()
 
     def summary(self):
@@ -125,6 +140,8 @@ class Build:
         summ += "\tSurveys:\n"
         for name in self.surveys:
             summ += "\t\t" + name + "\n"
+            for question in self.surveys[name]:
+                summ += "\t\t\t" + question + "\n"
 
         if self.report != '':
             summ += '\n' + self.report
