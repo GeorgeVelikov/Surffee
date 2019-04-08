@@ -46,8 +46,6 @@ class Create(CreateView):
         form_class = self.get_form_class()
         form = self.get_form(form_class)
 
-        print(form.data)
-
         analysis_type = form.data['analysis_option']
         analysis_name = form.data['analysis_name']
         analysis_survey = form.data['survey_to_analyse']
@@ -78,9 +76,17 @@ class AnalysisSingleTerm(CreateView):
 
         get_variables = request.GET
 
+        analysis_name = get_variables['name']
+        survey_name = Survey.objects.get(pk=get_variables['survey'])
+        annotation = Annotation.objects.get(pk=get_variables['annotation'])
+
+        classifications = Classification.objects.filter(annotation=annotation)
 
         return self.render_to_response(
-            self.get_context_data(form=form
+            self.get_context_data(form=form,
+                                  analysis_name=analysis_name,
+                                  survey_name=survey_name,
+                                  classifications=classifications,
                                   )
         )
 

@@ -8,15 +8,9 @@
 
 {% block content %}
     <div class="d-flex justify-content-between flex-wrap flex-sm-nowrap align-items-center pb-2 mb-3 border-bottom">
-        <h2>Single Term Analysis for : <b>INSERT NAME OF PAGE HERE</b></h2>
-        <h5 class="text-muted">Survey name</h5>
+        <h2>Single Term Analysis : <b>{{analysis_name}}</b></h2>
+        <h5 class="text-muted">Survey - {{survey_name}}</h5>
     </div>
-
-    List of used annotations:<br>
-    {% for used in used_annotations %}
-        {{used.name}}<br>
-    {% endfor %}
-
 
     <div class="container-fluid">
         <div class="row">
@@ -30,14 +24,16 @@
                         <p class="lead">Add new term</p>
                         <div class="btn-group-vertical" role="group" aria-label="Basic example" style="margin-bottom:24px">
                             <select class="custom-select" id="addtermform">
-                              <option>test</option>
+                                {% for classif in classifications %}
+                                    <option>{{classif.name}}</option>
+                                {% endfor %}
                             </select>
                             <button type="button" class="btn btn-info" id="addterm">Add</button>
                         </div>
                         <p class="lead">Add constraint</p>
                         <div class="btn-group-vertical" role="group" aria-label="Basic example" style="margin-bottom:24px">
                             <select class="custom-select" id="addconform">
-                              <option>test</option>
+                                <option>test</option>
                             </select>
                             <button type="button" class="btn btn-info" id="addconstraint">Add</button>
                         </div>
