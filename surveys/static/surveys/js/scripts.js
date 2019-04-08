@@ -330,8 +330,17 @@ $(document).ready(function () {
     }
 
     if ($(".single_term_table").length) {
-        console.log(single_analysis_words);
-        console.log(single_analysis_choices);
+        for (let word of single_analysis_words) {
+            console.log(word.fields);
+        }
+
+        for (let choice of single_analysis_choices) {
+            console.log(choice.fields);
+        }
+
+        for (let answer of single_analysis_answers) {
+            console.log(answer.fields);
+        }
     }
 
 });

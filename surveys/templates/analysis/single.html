@@ -11,6 +11,7 @@
     <script>
         var single_analysis_words = {{words|safe}}
         var single_analysis_choices = {{choices|safe}}
+        var single_analysis_answers = {{answers|safe}}
     </script>
 
     <div class="d-flex justify-content-between flex-wrap flex-sm-nowrap align-items-center pb-2 mb-3 border-bottom">
@@ -30,8 +31,9 @@
                         <p class="lead">Add new term</p>
                         <div class="btn-group-vertical" role="group" aria-label="Basic example" style="margin-bottom:24px">
                             <select class="custom-select" id="addtermform">
+                                <option selected hidden disabled>Please select a classification</option>
                                 {% for classif in classifications %}
-                                    <option>{{classif.name}}</option>
+                                    <option value="{{classif.pk}}">{{classif.name}}</option>
                                 {% endfor %}
                             </select>
                             <button type="button" class="btn btn-info" id="addterm">Add</button>
@@ -39,7 +41,10 @@
                         <p class="lead">Add constraint</p>
                         <div class="btn-group-vertical" role="group" aria-label="Basic example" style="margin-bottom:24px">
                             <select class="custom-select" id="addconform">
-                                <option>test</option>
+                                <option selected hidden disabled>Please select a constraint</option>
+                                {% for pi in pi_choices %}
+                                    <option>{{pi}}</option>
+                                {% endfor %}
                             </select>
                             <button type="button" class="btn btn-info" id="addconstraint">Add</button>
                         </div>

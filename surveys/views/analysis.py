@@ -1,11 +1,13 @@
 from django.shortcuts import redirect
 from django.views.generic import CreateView
 
+from surveys.models import SurveyAnswer
 from surveys.models.annotation import Annotation, Classification, Word
 from surveys.models.survey import Survey, Question, Choice
 from surveys.forms.analysis import AnalysisCreator
 
 from django.core import serializers
+from ast import literal_eval
 
 
 class Create(CreateView):
@@ -87,6 +89,7 @@ class AnalysisSingleTerm(CreateView):
         choices = Choice.objects.filter(question__in=questions)
         words = Word.objects.filter(classification__in=classifications, choice__in=choices)
 
+        survey_answers = SurveyAnswer.objects.filter(survey=survey_name)
 
         return self.render_to_response(
             self.get_context_data(form=form,
@@ -95,6 +98,8 @@ class AnalysisSingleTerm(CreateView):
                                   classifications=classifications,
                                   choices=serializers.serialize("json", choices),
                                   words=serializers.serialize("json", words),
+                                  pi_choices=literal_eval(survey_name.pi_choices),
+                                  answers=serializers.serialize("json", survey_answers),
                                   )
         )
 

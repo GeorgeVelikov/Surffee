@@ -108,9 +108,6 @@ class SurveyQuestions(UpdateView):
         question_id = self.kwargs.get('question_id')
         question = Question.objects.get(pk=question_id)
 
-        print(survey_answer.question.all())
-        print(survey_answer.choice.all())
-
         choice_set = Choice.objects.filter(question=question)
         return self.render_to_response(
             self.get_context_data(survey=survey,
@@ -125,13 +122,7 @@ class SurveyQuestions(UpdateView):
         question = Question.objects.get(pk=question_id)
         choices = request.POST.getlist('choices')
         survey_answer = SurveyAnswer.objects.get(ip_address=get_ip(request), survey=question.survey)
-        """
-            Add the questions we have answered and the selected choices we've had, since our data structure is
-            modeled to be a tree with the ability to access any branch of the tree (survey/question/choice) at O(1)
-            time, given some way of uniquely identifying object instances. We store both choices and questions to
-            protect ourselves from possible future changes to the functionality of the system, namely adding more 
-            features than those we have planned.
-        """
+
         survey_answer.question.add(question)
         for ch in choices:
             choice = Choice.objects.get(pk=ch)
