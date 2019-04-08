@@ -7,6 +7,8 @@
 {% block title %}Create Analysis{% endblock %}
 
 {% block content %}
+    <script> var all_annotations_analysis = {{used_annotations_all_surveys|safe}}; </script>
+
     <form action="" method="post">
         {% csrf_token %}
 
@@ -68,15 +70,13 @@
             </select>
         </div>
 
-        <div class="input-group mb-3">
+                <div class="input-group mb-3">
           <div class="input-group-prepend">
-            <span class="input-group-text">Annotations in selected survey</span>
+            <span class="input-group-text" id="basic-addon3">Annotations in selected survey</span>
           </div>
-            <select class="custom-select" name="annotation_to_analyse">
-                <option class="list-group-item" selected disabled hidden>Please select an annotation from the selected survey</option>
-                {% for survey in all_user_surveys %}
-                        <option class="list-group-item" value="#"></option>
-                {% endfor %}
+            <select class="custom-select" id="annotation_select_list" name="annotation_to_analyse" disabled>
+                <option class="list-group-item" selected disabled hidden> --- </option>
+
             </select>
         </div>
 

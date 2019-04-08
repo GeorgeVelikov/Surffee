@@ -13,14 +13,31 @@ class Create(CreateView):
     
     def get(self, request, *args, **kwargs):
         self.object = None
-        all_user_surveys = Survey.objects.filter(creator=request.user).values('pk', 'name')
+        all_user_surveys = Survey.objects.filter(creator=request.user)
 
         form_class = self.get_form_class()
         form = self.get_form(form_class)
 
+        all_annotations = Annotation.objects.filter(creator=request.user)
+        classifications = Classification.objects.filter(annotation__in=all_annotations)
+        words = Word.objects.filter(classification__in=classifications)
+
+        used_annotations = dict()
+
+        for word in words:
+            for survey in all_user_surveys:
+                if word.choice.question.survey.pk == survey.pk:
+                    annot_id = word.classification.annotation.pk
+                    annot_name = word.classification.annotation.name
+                    if survey.pk not in used_annotations:
+                        used_annotations.update({survey.pk: [[annot_id, annot_name]]})
+                    else:
+                        used_annotations[survey.pk].append([annot_id, annot_name])
+
         return self.render_to_response(
             self.get_context_data(form=form,
-                                  all_user_surveys=all_user_surveys,
+                                  all_user_surveys=all_user_surveys.values('pk', 'name'),
+                                  used_annotations_all_surveys=used_annotations,
                                   )
         )
 
@@ -56,22 +73,9 @@ class AnalysisSingleTerm(CreateView):
 
         get_variables = request.GET
 
-        # the two vars we get from the post
-        survey_id = int(get_variables['survey'])
-        analysis_name = get_variables['name']
-
-        all_annotations = Annotation.objects.filter(creator=request.user)
-        classificiations = Classification.objects.filter(annotation__in=all_annotations)
-        words = Word.objects.filter(classification__in=classificiations)
-
-        used_annotations = Annotation.objects.none()
-        for word in words:
-            if word.choice.question.survey.pk == survey_id:
-                used_annotations |= Annotation.objects.filter(pk=word.classification.annotation.pk)
 
         return self.render_to_response(
-            self.get_context_data(form=form,
-                                  used_annotations=used_annotations,
+            self.get_context_data(form=form
                                   )
         )
 

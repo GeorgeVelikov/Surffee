@@ -219,7 +219,6 @@ $(document).ready(function () {
 
     $(".annotation_id").each(function() {
         let input_field = $(($(this).children()[0]));
-        console.log( input_field.val() );
     });
 
 
@@ -264,6 +263,33 @@ $(document).ready(function () {
 
     // analyse generator page
     $("#survey_select_list").change(function() {
+        var survey_id = $(this).val();
+
+        var option = new Option()
+        $(option).html("Please select an annotation from the ones used in the survey");
+        $(option).addClass("list-group-item");
+        $(option).attr("selected", "");
+        $(option).attr("disabled", "");
+        $(option).attr("hidden", "");
+        $("#annotation_select_list").append(option);
+
+        // wow set of arrays does not actually work, js is wonderful
+        var annot_set = new Set();
+        for (let annotuple of all_annotations_analysis[survey_id]) {
+            if (annotuple[0] !== last_id) {
+                annot_set.add(annotuple);
+            }
+            var last_id = annotuple[0];
+        }
+
+        $("#annotation_select_list").removeAttr("disabled");
+        for(let annot_tuple of annot_set.values()) {
+            var option = new Option()
+            $(option).html(annot_tuple[1]);
+            $(option).addClass("list-group-item");
+            $("#annotation_select_list").append(option);
+        }
+
         enableAnalysisCreateButton();
     });
 
@@ -284,6 +310,7 @@ $(document).ready(function () {
         var analysisName = $("#id_analysis_name");
 
         var hasSurvey = $("#survey_select_list").val();
+        var hasAnnotation = $("#annotation_select_list").val();
         var hasName = $("#id_analysis_name").val().length > 0;
         var hasAnalysisType;
 
@@ -293,7 +320,7 @@ $(document).ready(function () {
             }
         });
 
-        if (hasName && hasSurvey && hasAnalysisType) {
+        if (hasName && hasSurvey && hasAnnotation && hasAnalysisType) {
             $("#create_analysis_button").removeAttr("disabled");
         }
     }
