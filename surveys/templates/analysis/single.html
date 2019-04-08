@@ -7,9 +7,11 @@
 {% block title %}Single Term Analysis{% endblock %}
 
 {% block content %}
-    {% for word in words %}
-        {{word.text}}, {{ word.classification.name }}, {{word.choice.votes}} <br>
-    {% endfor %}
+
+    <script>
+        var single_analysis_words = {{words|safe}}
+        var single_analysis_choices = {{choices|safe}}
+    </script>
 
     <div class="d-flex justify-content-between flex-wrap flex-sm-nowrap align-items-center pb-2 mb-3 border-bottom">
         <h2>Single Term Analysis : <b>{{analysis_name}}</b></h2>
@@ -21,7 +23,7 @@
             <div class="container-fluid">
                 <div class = "row text-center">
                     <!-- JS magic tables -->
-                    <div class = "col col-md-8 card card-body bg-light" style="margin:24px" id="termtables">
+                    <div class = "single_term_table col col-md-8 card card-body bg-light" style="margin:24px" id="termtables">
                     </div>
                     <!-- Right Sidebar -->
                     <div class = "col col-md-auto card card-body bg-dark text-white" style="margin:24px 0px 24px 0px">

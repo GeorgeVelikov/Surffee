@@ -329,6 +329,11 @@ $(document).ready(function () {
         }
     }
 
+    if ($(".single_term_table").length) {
+        console.log(single_analysis_words);
+        console.log(single_analysis_choices);
+    }
+
 });
 
 // just a helper function to test stuff

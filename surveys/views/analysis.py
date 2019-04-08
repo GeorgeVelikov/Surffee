@@ -5,6 +5,8 @@ from surveys.models.annotation import Annotation, Classification, Word
 from surveys.models.survey import Survey, Question, Choice
 from surveys.forms.analysis import AnalysisCreator
 
+from django.core import serializers
+
 
 class Create(CreateView):
     template_name = 'analysis/create_analysis.html'
@@ -85,15 +87,14 @@ class AnalysisSingleTerm(CreateView):
         choices = Choice.objects.filter(question__in=questions)
         words = Word.objects.filter(classification__in=classifications, choice__in=choices)
 
-        analysis_data = dict()
-
 
         return self.render_to_response(
             self.get_context_data(form=form,
                                   analysis_name=analysis_name,
                                   survey_name=survey_name,
                                   classifications=classifications,
-                                  words=words,
+                                  choices=serializers.serialize("json", choices),
+                                  words=serializers.serialize("json", words),
                                   )
         )
 
