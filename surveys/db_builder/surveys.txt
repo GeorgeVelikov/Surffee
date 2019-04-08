@@ -1,0 +1,4 @@
+User1;Survey1;Survey's Description;active;8;all
+User1;Survey2;Survey's Description;inactive;6
+User2;Survey3;Survey's Description;active;3
+User3;Survey4;Sssss;active;0;all

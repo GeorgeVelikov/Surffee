@@ -1,0 +1,6 @@
+age
+sex
+country_of_birth
+country_of_residence
+sexual_orientation
+native_tongue
