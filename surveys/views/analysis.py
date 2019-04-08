@@ -89,7 +89,12 @@ class AnalysisSingleTerm(CreateView):
         choices = Choice.objects.filter(question__in=questions)
         words = Word.objects.filter(classification__in=classifications, choice__in=choices)
 
+
         survey_answers = SurveyAnswer.objects.filter(survey=survey_name)
+        pi_analysis_choice = []
+        for answer in survey_answers:
+            for pi in literal_eval(survey_name.pi_choices):
+                print(getattr(answer.pi_questions, pi))
 
         return self.render_to_response(
             self.get_context_data(form=form,
