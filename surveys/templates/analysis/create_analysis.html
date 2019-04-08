@@ -68,6 +68,17 @@
             </select>
         </div>
 
+        <div class="input-group mb-3">
+          <div class="input-group-prepend">
+            <span class="input-group-text">Annotations in selected survey</span>
+          </div>
+            <select class="custom-select" id="survey_select_list" name="survey_to_analyse">
+                <option class="list-group-item" selected disabled hidden>Please select an annotation from the selected survey</option>
+                {% for survey in all_user_surveys %}
+                        <option class="list-group-item" value="#"></option>
+                {% endfor %}
+            </select>
+        </div>
 
         <div class="input-group mb-3">
           <div class="input-group-prepend">
