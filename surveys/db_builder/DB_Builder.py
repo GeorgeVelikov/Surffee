@@ -1,10 +1,36 @@
-from .models.survey import Survey, Question, Choice
-from .models.user import Researcher
+from Surffee.surveys.models.survey import Survey, Question, Choice
+from Surffee.surveys.models.user import Researcher
 
+import random
 import sys
 
 
-# TODO: add votes
+def take_survey(sur_id, no_of_resp):
+    survey = Survey.objects.get(id=sur_id)
+    say("\nAnswering Survey %s - %d respondents..." % (survey.name, no_of_resp))
+    for question in survey.question_set.all():
+        choice_set = list(question.choice_set.all())
+        set_size = len(choice_set)
+        if question.type == 'M':
+            for x in range(no_of_resp):
+                no_of_choices = random.randrange(1, set_size+1)
+                choices = random.sample(range(set_size), no_of_choices)
+                for y in choices:
+                    choice = choice_set[y]
+                    choice.votes += 1
+                    choice.save()
+        else:
+            for x in range(no_of_resp):
+                index = random.randrange(set_size)
+                choice = choice_set[index]
+                choice.votes += 1
+                choice.save()
+        question_text = question.question_text
+        if len(question_text) >= 20:
+            question_text = question_text[:15] + '...'
+        say("Answered: %s" % question_text[:])
+
+
 def add_choice(text, q_id):
     Choice(
         question=Question.objects.get(id=q_id),
@@ -136,7 +162,7 @@ class Build:
 
         src.close()
 
-    # creator ; name ; description ; (in)active ; pi_choices ; question set
+    # creator ; name ; description ; (in)active ; pi_choices ; question set ; [no. of respondents]
     def register_surveys(self):
 
         src = open(self.surveyset)
@@ -144,7 +170,7 @@ class Build:
             line = clean_line(line)
             users_surveys = [str(x) for x in Researcher.objects.get(username=line[0]).survey_set.all()]
 
-            if len(line) != 6:
+            if len(line) != 6 and len(line) != 7:
                 say("\tFailed to create survey %s" % line[1])
                 self.report += line[1] + ' - survey omitted. Ill-formatted line.\n'
             elif line[0] not in self.users:
@@ -164,6 +190,8 @@ class Build:
                 line[2] = self.get_description(line[2])
                 sur_id = new_survey(line, self.path)
                 self.register_questions(sur_id, line[5])
+                if len(line) == 7:
+                    take_survey(sur_id, int(line[6]))
         src.close()
 
     # question text ; Single/Multi ; choice set
@@ -186,6 +214,7 @@ class Build:
                 self.register_choices(q_id, line[2])
         src.close()
 
+    # each line is separate choice
     def register_choices(self, question, choice_set):
         src = open(self.path + 'choices/' + choice_set)
         choices = list(set([c.strip() for c in src.readlines()]))   # remove duplicate choices
@@ -194,6 +223,7 @@ class Build:
             add_choice(choice, question)
         src.close()
 
+    # the whole file is the description
     def get_description(self, source):
         src = open(self.path + 'descriptions/' + source)
         desc = src.read().strip()
