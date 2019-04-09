@@ -355,7 +355,7 @@ $(document).ready(function () {
             var check = "#termtables #insidecontainer";
             if (!$(check).length) {
                 var term_table = $("#termtables");
-                var inside_container = $('<div id="insidecontainer" class="container-inner container-fluid"></div>');
+                var inside_container = $('<div id="insidecontainer" class="container-fluid"></div>');
                 $(inside_container).appendTo(term_table);
             }
 
