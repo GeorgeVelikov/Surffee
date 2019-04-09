@@ -1,9 +1,9 @@
 # DB_Builder
-This part of the program is meant to automate the process of building surveys for testing and display.
+This part of the program is meant to automate the process of building surveys for testing and display.  
 Each directory in here contains files the DB_Builder will read to create surveys.
 
 # How to run
-(Might change later)
+(Might change later)  
 Go to django shell and run following commands
 >\>>>from surveys.db_builder.DB_Builder import Build  
 >\>>>Build()
@@ -24,3 +24,5 @@ Records in \{...} are name of files from specified directory
     > each line contains one of the personal information choices to be added
 1. choices
     > each line contains one of the choices to be added
+    
+# Let me know if something's bad, doesn't work or you don't understand something - MW
