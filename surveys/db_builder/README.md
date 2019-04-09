@@ -4,7 +4,10 @@ Each directory in here contains files the DB_Builder will read to create surveys
 
 # How to run
 (Might change later)  
-Go to django shell and run following commands
+Run following command to enter the django shell  
+>\>python manage.py shell  
+
+Now in the django shell, run the following commands  
 >\>>>from surveys.db_builder.DB_Builder import Build  
 >\>>>Build()
 
