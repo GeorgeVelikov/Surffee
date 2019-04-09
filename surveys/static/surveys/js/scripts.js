@@ -330,6 +330,7 @@ $(document).ready(function () {
     }
 
     if ($(".single_term_table").length) {
+        /*
         for (let word of single_analysis_words) {
             console.log(word.fields);
         }
@@ -345,11 +346,13 @@ $(document).ready(function () {
         for (let classif of single_analysis_classifications) {
             console.log(classif);
         }
+        */
     }
 
     $("#addterm").on('click', function (){
 
         var class_id = $("#addtermform").val();
+
 
         if (class_id == null) {
             alert("Please select a survey");
@@ -357,50 +360,49 @@ $(document).ready(function () {
 
         else {
             var check = "#termtables #insidecontainer";
+
             if (!$(check).length) {
                 var term_table = $("#termtables");
                 var inside_container = $('<div id="insidecontainer" class="container-fluid"></div>');
                 $(inside_container).appendTo(term_table);
             }
 
+            // words of the selected classification in the choices
+            var words_in_choices = {}
+            for(let word of single_analysis_words) {
+
+                if (word.fields.text in words_in_choices && word.fields.classification == $("#addtermform").val()) {
+                    words_in_choices[word.fields.text].push(word.fields.choice);
+                }
+
+                if (!(word.fields.text in words_in_choices) && word.fields.classification == $("#addtermform").val()) {
+                    words_in_choices[word.fields.text] = [word.fields.choice];
+                }
+            }
+
             // blue bar
             var row_div = $('<br><div class="row bg-info" > </div>');
+            $(row_div).appendTo($("#insidecontainer"));
             $('<div class="col-3"> #ID </div>').appendTo(row_div);
 
-            for(let word of single_analysis_words) {
-                if(class_id == word.fields.classification) {
-                    $('<div class="col-3">' + word.fields.text + '</div>').appendTo(row_div);
-                }
+            for(word in words_in_choices) {
+                $('<div class="col-3">' + word + '</div>').appendTo(row_div);
             }
 
             // answers shown under a blue bar
             for (let answer of single_analysis_answers) {
-                $(row_div).appendTo($("#insidecontainer"));
-
                 var row = $('<div id="' + answer.pk + '" class="row"> </div>');
-                $(row).appendTo($("#insidecontainer"));
-
                 $('<div class="col-3">' + answer.pk + '</div>').appendTo(row);
 
-                var words_in_choices = {}
-                for(let word of single_analysis_words) {
-                
-                    if (word.fields.text in words_in_choices && word.fields.classification == $("#addtermform").val()) {
-                        words_in_choices[word.fields.text].push(word.fields.choice);
-                    }
+                for(word in words_in_choices) {
+                        var choices = words_in_choices[word];
+                        var intersection = choices.filter(element => answer.fields.choice.includes(element));
+                        var ratio = intersection.length / choices.length;
 
-                    if (!(word.fields.text in words_in_choices) && word.fields.classification == $("#addtermform").val()) {
-                        words_in_choices[word.fields.text] = [word.fields.choice];
-                    }
+                        $('<div class="col-3">' + ratio + '</div>').appendTo(row);
                 }
+                $(row).appendTo($("#insidecontainer"));
 
-                console.log(words_in_choices);
-
-                for(let word of single_analysis_words) {
-                    if(class_id == word.fields.classification) {
-                        $('<div class="col-3">' + word.fields.text + '</div>').appendTo(row);
-                    }
-                }
             }
 
         }
@@ -428,7 +430,6 @@ function create_chart(name, json_data) {
         }).render();
     });
 }
-
 
 function openTab(evt, tabid) {
     var i, tabcontent, tablinks;
