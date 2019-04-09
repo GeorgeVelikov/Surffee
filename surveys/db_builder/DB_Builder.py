@@ -1,5 +1,5 @@
-from Surffee.surveys.models.survey import Survey, Question, Choice
-from Surffee.surveys.models.user import Researcher
+from ..models.survey import Survey, Question, Choice
+from ..models.user import Researcher
 
 import random
 import sys
