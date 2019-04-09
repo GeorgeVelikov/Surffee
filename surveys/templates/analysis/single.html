@@ -24,7 +24,7 @@
             <div class="container-fluid">
                 <div class = "row text-center">
                     <!-- JS magic tables -->
-                    <div class = "single_term_table col col-md-8 card card-body bg-light" style="margin:24px" id="termtables">
+                    <div class = "single_term_table col col-md-8 card card-body bg-light outside-container" style="margin:24px" id="termtables">
                     </div>
                     <!-- Right Sidebar -->
                     <div class = "col col-md-auto card card-body bg-dark text-white" style="margin:24px 0px 24px 0px">
@@ -36,7 +36,7 @@
                                     <option value="{{classif.pk}}">{{classif.name}}</option>
                                 {% endfor %}
                             </select>
-                            <button type="button" class="btn btn-info" id="addterm">Add</button>
+                            <button type="button" class="btn btn-info" id="addterm" >Add</button>
                         </div>
                         <p class="lead">Add constraint</p>
                         <div class="btn-group-vertical" role="group" aria-label="Basic example" style="margin-bottom:24px">

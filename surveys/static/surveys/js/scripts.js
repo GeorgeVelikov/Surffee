@@ -343,6 +343,46 @@ $(document).ready(function () {
         }
     }
 
+    $("#addterm").on('click', function (){
+
+        var class_id = $("#addtermform").val();
+
+        if (class_id == null) {
+            alert("Please select a survey");
+        }
+
+        else {
+            var check = "#termtables #insidecontainer";
+            alert(1);
+            if (!$(check).length) {
+                var term_table = $("#termtables");
+                var inside_container = $('<div id="insidecontainer" class="container-inner container-fluid"></div>');
+                $(inside_container).appendTo(term_table);
+            }
+
+            for (let answer of single_analysis_answers) {
+                var row_div = $('<div id=' + answer.pk + ' class="row bg-info" > </div>');
+                $('<div class="col-sm-3"> #ID </div>').appendTo(row_div);
+
+                for(let word of single_analysis_words) {
+                    if(class_id == word.fields.classification) {
+                        $('<div class="col-sm-3">' + word.fields.text + '</div>').appendTo(row_div);
+                    }
+                }
+
+                $(row_div).appendTo(inside_container);
+
+                var row = $('<div id="' + answer.pk + '" class="row col-sm-12"> </div>');
+                var id_div = $('<div class="col-sm-3">' + answer.pk + '</div>');
+                $(row).appendTo(inside_container);
+                $(id_div).appendTo(row);
+
+            }
+
+
+        }
+    });
+
 });
 
 // just a helper function to test stuff
