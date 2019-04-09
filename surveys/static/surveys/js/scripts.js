@@ -335,11 +335,15 @@ $(document).ready(function () {
         }
 
         for (let choice of single_analysis_choices) {
-            console.log(choice.fields);
+            console.log(choice);
         }
 
         for (let answer of single_analysis_answers) {
             console.log(answer.fields);
+        }
+
+        for (let classif of single_analysis_classifications) {
+            console.log(classif);
         }
     }
 
@@ -359,25 +363,45 @@ $(document).ready(function () {
                 $(inside_container).appendTo(term_table);
             }
 
-            for (let answer of single_analysis_answers) {
-                var row_div = $('<br><div id=' + answer.pk + ' class="row bg-info" > </div>');
-                $('<div class="col-sm-3"> #ID </div>').appendTo(row_div);
+            // blue bar
+            var row_div = $('<br><div class="row bg-info" > </div>');
+            $('<div class="col-3"> #ID </div>').appendTo(row_div);
 
+            for(let word of single_analysis_words) {
+                if(class_id == word.fields.classification) {
+                    $('<div class="col-3">' + word.fields.text + '</div>').appendTo(row_div);
+                }
+            }
+
+            // answers shown under a blue bar
+            for (let answer of single_analysis_answers) {
+                $(row_div).appendTo($("#insidecontainer"));
+
+                var row = $('<div id="' + answer.pk + '" class="row"> </div>');
+                $(row).appendTo($("#insidecontainer"));
+
+                $('<div class="col-3">' + answer.pk + '</div>').appendTo(row);
+
+                var words_in_choices = {}
                 for(let word of single_analysis_words) {
-                    if(class_id == word.fields.classification) {
-                        $('<div class="col-sm-3">' + word.fields.text + '</div>').appendTo(row_div);
+                
+                    if (word.fields.text in words_in_choices && word.fields.classification == $("#addtermform").val()) {
+                        words_in_choices[word.fields.text].push(word.fields.choice);
+                    }
+
+                    if (!(word.fields.text in words_in_choices) && word.fields.classification == $("#addtermform").val()) {
+                        words_in_choices[word.fields.text] = [word.fields.choice];
                     }
                 }
 
-                $(row_div).appendTo($("#insidecontainer"));
+                console.log(words_in_choices);
 
-                var row = $('<div id="' + answer.pk + '" class="row col-sm-12"> </div>');
-                var id_div = $('<div class="col-sm-3">' + answer.pk + '</div>');
-                $(row).appendTo($("#insidecontainer"));
-                $(id_div).appendTo(row);
-
+                for(let word of single_analysis_words) {
+                    if(class_id == word.fields.classification) {
+                        $('<div class="col-3">' + word.fields.text + '</div>').appendTo(row);
+                    }
+                }
             }
-
 
         }
     });
