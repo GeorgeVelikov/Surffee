@@ -11,7 +11,7 @@ Go to django shell and run following commands
 # File syntax
 Records in \[...] are optional  
 Records in \{...} are name of files from specified directory  
-(e.g. \{choice> means that this record must contain a name of a file in choice/ directory)
+(e.g. \{choice} means that this record must contain a name of a file in choice/ directory)
 1. users
     > username ; password ; email address ; \[superuser]
 1. surveys
