@@ -1,0 +1,5 @@
+User1 ; Survey1  ; default ; active   ; all    ; questionset1
+User1 ; Survey2  ; default ; active   ; none   ; questionset2
+User2 ; Survey3  ; default ; active   ; custom ; questionset1
+User2 ; Survey4  ; default ; inactive ; all    ; questionset2
+a     ; MySurvey ; default ; active   ; custom ; questionset1
