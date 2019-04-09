@@ -5,6 +5,7 @@ import random
 import sys
 
 
+# responds to the survey with randomised answers
 def take_survey(sur_id, no_of_resp):
     survey = Survey.objects.get(id=sur_id)
     say("\nAnswering Survey %s - %d respondents..." % (survey.name, no_of_resp))
@@ -30,6 +31,8 @@ def take_survey(sur_id, no_of_resp):
             question_text = question_text[:15] + '...'
         say("Answered: %s" % question_text[:])
 
+
+# Survey Creation
 
 def add_choice(text, q_id):
     Choice(
@@ -70,6 +73,8 @@ def new_survey(data, path):
     return Survey.objects.get(creator=r, name=data[1]).id
 
 
+# User Creation
+
 def superuser(data):
     Researcher.objects.create_superuser(
         username=data[0],
@@ -86,6 +91,8 @@ def user(data):
     ).save()
 
 
+# Check for pre-existing users and surveys
+
 def update_users():
     users = []
     for each in Researcher.objects.all():
@@ -100,6 +107,9 @@ def update_surveys():
     return surveys
 
 
+# Helper functions
+
+# Sanitise input, allows content files to be more readable
 def clean_line(line):
     r = []
     for x in line.strip().split(';'):
@@ -107,11 +117,13 @@ def clean_line(line):
     return r
 
 
+# prints given text and flushes the sys.stdout
 def say(text):
     sys.stdout.write(str(text) + '\n')
     sys.stdout.flush()
 
 
+# asks to specify base datasets for DB_Builder (users and surveys)
 def get_file(path):
     say("Select the dataset for %s" % path)
     f = sys.stdin.readline().strip()
