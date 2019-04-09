@@ -91,20 +91,10 @@ def user(data):
     ).save()
 
 
-# Check for pre-existing users and surveys
+# Check for pre-existing users
 
 def update_users():
-    users = []
-    for each in Researcher.objects.all():
-        users.append(str(each))
-    return users
-
-
-def update_surveys():
-    surveys = {}
-    for each in Survey.objects.all():
-        surveys[each.name] = [str(x) for x in each.question_set.all()]
-    return surveys
+    return [str(r) for r in Researcher.objects.all()]
 
 
 # Helper functions
@@ -180,8 +170,6 @@ class Build:
         src = open(self.surveyset)
         for line in src.readlines():
             line = clean_line(line)
-            users_surveys = [str(x) for x in Researcher.objects.get(username=line[0]).survey_set.all()]
-
             if len(line) != 6 and len(line) != 7:
                 say("\tFailed to create survey %s" % line[1])
                 self.report += line[1] + ' - survey omitted. Ill-formatted line.\n'
@@ -189,8 +177,9 @@ class Build:
                 say("\tFailed to create survey %s" % line[1])
                 self.report += line[1] + ' - survey omitted. User ' + line[0] + ' does not exist.\n'
             else:
+                # If User already has a survey with this name, append (1), (2),... to name
+                users_surveys = [str(x) for x in Researcher.objects.get(username=line[0]).survey_set.all()]
                 if line[1] in users_surveys:
-                    # If User already has a survey with this name, append (1), (2),... to name
                     c = 1
                     while True:
                         temp = line[1] + '(' + str(c) + ')'
