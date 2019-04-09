@@ -353,7 +353,6 @@ $(document).ready(function () {
 
         else {
             var check = "#termtables #insidecontainer";
-            alert(1);
             if (!$(check).length) {
                 var term_table = $("#termtables");
                 var inside_container = $('<div id="insidecontainer" class="container-inner container-fluid"></div>');
@@ -361,7 +360,7 @@ $(document).ready(function () {
             }
 
             for (let answer of single_analysis_answers) {
-                var row_div = $('<div id=' + answer.pk + ' class="row bg-info" > </div>');
+                var row_div = $('<br><div id=' + answer.pk + ' class="row bg-info" > </div>');
                 $('<div class="col-sm-3"> #ID </div>').appendTo(row_div);
 
                 for(let word of single_analysis_words) {
