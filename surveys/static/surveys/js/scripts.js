@@ -370,11 +370,11 @@ $(document).ready(function () {
                     }
                 }
 
-                $(row_div).appendTo(inside_container);
+                $(row_div).appendTo($("#insidecontainer"));
 
                 var row = $('<div id="' + answer.pk + '" class="row col-sm-12"> </div>');
                 var id_div = $('<div class="col-sm-3">' + answer.pk + '</div>');
-                $(row).appendTo(inside_container);
+                $(row).appendTo($("#insidecontainer"));
                 $(id_div).appendTo(row);
 
             }
