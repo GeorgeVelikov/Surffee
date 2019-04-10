@@ -96,10 +96,10 @@ def delete_unused_classifications(annotation):
     return all_classifications_annotation
 
 
-def get_age_ranges(age_set):
+def get_age_ranges(pi_set):
     newages = set()
-    if 'Age' in age_set:
-        for num in age_set['Age']:
+    if 'Age' in pi_set:
+        for num in pi_set['Age']:
             for i in range(19, 100, 10):
                 low = 9
                 if i == 19:
@@ -112,5 +112,5 @@ def get_age_ranges(age_set):
                 if num >= 100:
                     newages.add("100+")
 
-    age_set['Age'] = sorted(newages)
-    return age_set
+        pi_set['Age'] = sorted(newages)
+    return pi_set
