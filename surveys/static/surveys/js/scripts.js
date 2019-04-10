@@ -356,7 +356,7 @@ $(document).ready(function () {
 
 
         if (class_id == null) {
-            alert("Please select a survey");
+            alert("Please select a classification");
         }
 
         else {
@@ -373,6 +373,19 @@ $(document).ready(function () {
             }
 
         }
+    });
+
+    $("#addconstraint").on('click', function (){
+        var constraint_added = $("#addconform").val();
+
+        if (constraint_added == null) {
+            alert("Please select a constraint");
+        }
+
+        else {
+            alert(constraint_added);
+        }
+
     });
 
 });
