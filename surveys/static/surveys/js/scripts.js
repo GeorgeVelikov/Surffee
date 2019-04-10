@@ -409,18 +409,42 @@ function updateAnalysis(terms_added, constraints_added){
         var term_table = $("#termtables");
         var inside_container = $('<div id="insidecontainer" class="container-fluid"></div>');
 
+        var data_row = $('<div class="row"></div>');
+
         $(inside_container).appendTo(term_table);
+        $(data_row).appendTo(inside_container);
+
+        var term_string = "";
+        if (terms_added.length) {
+            for (let term of terms_added) {
+                for (let classif of single_analysis_classifications) {
+                    if (term == classif.pk)
+                    term_string += classif.fields.name + ", "
+                }
+            }
+            term_string = term_string.slice(0,-2);
+        }
+
+        if (term_string === "") {
+            term_string = "None";
+        }
+
+        var term_string_box = $('<div class="col-6"> <h4 id="term_string_list">Constraints: </h4> <div>' + term_string + '</div> </div>')
+        term_string_box.appendTo(data_row);
 
         // shows which constraints are given
         var constraint_string = "";
-        for (key in constraints_added) {
-            if (constraints_added[key].length) {
-                constraint_string += "" + key + ": (";
-                for(let val of constraints_added[key]) {
-                    constraint_string += val + ", ";
+        if(constraints_added) {
+            for (key in constraints_added) {
+                if (constraints_added[key].length) {
+                    constraint_string += key + ": (";
+                    for(let val of constraints_added[key]) {
+                        constraint_string += val + ", ";
+                    }
+                    constraint_string = constraint_string.slice(0,-2) + ");<br>"
                 }
-                constraint_string = constraint_string.slice(0,-2) + ");<br> "
             }
+            constraint_string = constraint_string.slice(0,-5);
         }
 
         if (constraint_string === "") {
@@ -428,7 +452,7 @@ function updateAnalysis(terms_added, constraints_added){
         }
 
         var constraint_box = $('<div class="col-6"> <h4 id="constraint_list">Constraints: </h4> <div>' + constraint_string + '</div> </div>')
-        constraint_box.appendTo(inside_container);
+        constraint_box.appendTo(data_row);
     }
 
     for(let class_id of terms_added) {
