@@ -351,41 +351,60 @@ $(document).ready(function () {
 
     var terms_added = []
     $("#addterm").on('click', function (){
+        var class_id = $("#addtermform");
 
-        var class_id = $("#addtermform").val();
+        if (class_id.val() == null) {
 
-
-        if (class_id == null) {
             alert("Please select a classification");
         }
 
         else {
+            var opt = $(':selected', class_id);
+            $(opt).css("background-color", "lightgreen")
+
             if (!terms_added.includes(class_id)) {
                 $("#termtables").children().remove().end();
-                terms_added.push(class_id);
+                terms_added.push(class_id.val());
 
                 for(let cl_id of terms_added) {
                     updateAnalysis(cl_id);
                 }
             }
             else {
+
                 alert("Classification already added");
             }
-
         }
     });
 
     $("#addconstraint").on('click', function (){
-        var constraint_added = $("#addconform").val();
+        var constraint = $("#addconform");
 
-        if (constraint_added == null) {
+        if (constraint.val() == null) {
+
             alert("Please select a constraint");
         }
 
         else {
-            alert(constraint_added);
-        }
+            //constraints_added
+            var opt = $(':selected', constraint);
+            $(opt).css("background-color", "lightgreen")
+            key = opt.parent().attr('id');
 
+            if (!constraints_added[key].includes(constraint.val())) {
+                $("#termtables").children().remove().end();
+                constraints_added[key].push(constraint.val());
+
+                for(let cl_id of terms_added) {
+                    updateAnalysis(cl_id);
+                }
+            }
+
+            else {
+
+                alert("Constraint already added");
+            }
+        }
     });
 
 });

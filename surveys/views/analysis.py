@@ -115,6 +115,10 @@ class AnalysisSingleTerm(CreateView):
 
         pi_js_droplist = get_age_ranges(pi_js_droplist)
 
+        keylist = []
+        for k in pi_js_droplist.keys():
+            keylist.append(k)
+
         return self.render_to_response(
             self.get_context_data(form=form,
                                   analysis_name=analysis_name,
@@ -127,6 +131,7 @@ class AnalysisSingleTerm(CreateView):
                                   pi_choices=literal_eval(survey.pi_choices),
                                   answers=serializers.serialize("json", survey_answers),
                                   pi_js_droplist=pi_js_droplist,
+                                  constraints_keys=keylist,
                                   )
         )
 
