@@ -395,11 +395,13 @@ $(document).ready(function () {
                 $('<div class="col-3">' + answer.pk + '</div>').appendTo(row);
 
                 for(word in words_in_choices) {
-                        var choices = words_in_choices[word];
-                        var intersection = choices.filter(element => answer.fields.choice.includes(element));
-                        var ratio = intersection.length / choices.length;
+                    var choices = words_in_choices[word];
+                    var user_votes = choices.filter(element => answer.fields.choice.includes(element));
 
-                        $('<div class="col-3">' + ratio + '</div>').appendTo(row);
+                    console.log(user_votes, choices);
+                    var ratio = user_votes.length / single_analysis_questions.length;
+
+                    $('<div class="col-3">' + ratio.toFixed(2) + '</div>').appendTo(row);
                 }
                 $(row).appendTo($("#insidecontainer"));
 

@@ -111,6 +111,7 @@ class AnalysisSingleTerm(CreateView):
                                   survey_name=survey_name,
                                   classifications=classifications,
                                   classificiations_js=serializers.serialize("json", classifications),
+                                  questions=serializers.serialize("json", questions),
                                   choices=serializers.serialize("json", choices),
                                   words=serializers.serialize("json", words),
                                   pi_choices=literal_eval(survey_name.pi_choices),
