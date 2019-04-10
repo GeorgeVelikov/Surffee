@@ -361,67 +361,76 @@ $(document).ready(function () {
 
         else {
             if (!terms_added.includes(class_id)) {
+                $("#termtables").children().remove().end();
                 terms_added.push(class_id);
-            }
-            console.log(terms_added)
-            var check = "#termtables #insidecontainer";
 
-            if (!$(check).length) {
-                var term_table = $("#termtables");
-                var inside_container = $('<div id="insidecontainer" class="container-fluid">NO CONSTRAINTS</div>');
-                $(inside_container).appendTo(term_table);
-            }
-
-            // words of the selected classification in the choices
-            var words_in_choices = {}
-            for(let word of single_analysis_words) {
-
-                if (word.fields.text in words_in_choices && word.fields.classification == $("#addtermform").val()) {
-                    words_in_choices[word.fields.text].push(word.fields.choice);
-                }
-
-                if (!(word.fields.text in words_in_choices) && word.fields.classification == $("#addtermform").val()) {
-                    words_in_choices[word.fields.text] = [word.fields.choice];
+                for(let cl_id of terms_added) {
+                    updateAnalysis(cl_id);
                 }
             }
-
-            // blue bar
-            var row_div = $('<br><div class="row bg-info" > </div>');
-            $(row_div).appendTo($("#insidecontainer"));
-            $('<div class="col-3"> # </div>').appendTo(row_div);
-
-            for(word in words_in_choices) {
-                $('<div class="col-3">' + word + '</div>').appendTo(row_div);
-            }
-
-            // answers shown under a blue bar
-            var i = 0;
-            for (let answer of single_analysis_answers) {
-                var row = $('<div id="' + answer.pk + '" class="row"> </div>');
-
-                if(i & 1 == 1) { // if number is even
-                    $(row).css("background-color", "lightgray");
-                }
-
-                $('<div class="col-3">' + (i+1) + '</div>').appendTo(row);
-                i=i+1;
-                for(word in words_in_choices) {
-                    var choices = words_in_choices[word];
-                    var user_votes = choices.filter(element => answer.fields.choice.includes(element));
-
-                    console.log(user_votes, choices);
-                    var ratio = user_votes.length / single_analysis_questions.length;
-
-                    $('<div class="col-3">' + ratio.toFixed(2) + '</div>').appendTo(row);
-                }
-                $(row).appendTo($("#insidecontainer"));
-
+            else {
+                alert("Classification already added");
             }
 
         }
     });
 
 });
+
+function updateAnalysis(class_id){
+    var check = "#termtables #insidecontainer";
+
+    if (!$(check).length) {
+        var term_table = $("#termtables");
+        var inside_container = $('<div id="insidecontainer" class="container-fluid">NO CONSTRAINTS</div>');
+        $(inside_container).appendTo(term_table);
+    }
+
+    // words of the selected classification in the choices
+    var words_in_choices = {}
+    for(let word of single_analysis_words) {
+
+        if (word.fields.text in words_in_choices && word.fields.classification == class_id) {
+            words_in_choices[word.fields.text].push(word.fields.choice);
+        }
+
+        if (!(word.fields.text in words_in_choices) && word.fields.classification == class_id) {
+            words_in_choices[word.fields.text] = [word.fields.choice];
+        }
+    }
+
+    // blue bar
+    var row_div = $('<br><div class="row bg-info" > </div>');
+    $(row_div).appendTo($("#insidecontainer"));
+    $('<div class="col-3"> # </div>').appendTo(row_div);
+
+    for(word in words_in_choices) {
+        $('<div class="col-3">' + word + '</div>').appendTo(row_div);
+    }
+
+    // answers shown under a blue bar
+    var i = 0;
+    for (let answer of single_analysis_answers) {
+        var row = $('<div id="' + answer.pk + '" class="row"> </div>');
+
+        if(i & 1 == 1) { // if number is even
+            $(row).css("background-color", "lightgray");
+        }
+
+        $('<div class="col-3">' + (i+1) + '</div>').appendTo(row);
+        i=i+1;
+        for(word in words_in_choices) {
+            var choices = words_in_choices[word];
+            var user_votes = choices.filter(element => answer.fields.choice.includes(element));
+            var ratio = user_votes.length / single_analysis_questions.length;
+
+            $('<div class="col-3">' + ratio.toFixed(2) + '</div>').appendTo(row);
+        }
+        $(row).appendTo($("#insidecontainer"));
+
+    }
+}
+
 
 // just a helper function to test stuff
 function redirect() {
