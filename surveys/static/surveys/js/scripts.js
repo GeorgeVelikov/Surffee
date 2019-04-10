@@ -362,9 +362,10 @@ $(document).ready(function () {
             var opt = $(':selected', class_id);
             $(opt).css("background-color", "lightgreen")
 
-            if (!terms_added.includes(class_id)) {
+            if (!terms_added.includes(class_id.val())) {
                 $("#termtables").children().remove().end();
                 terms_added.push(class_id.val());
+                console.log(terms_added);
                 updateAnalysis(terms_added, constraints_added);
 
             }
@@ -405,6 +406,7 @@ $(document).ready(function () {
 
 function updateAnalysis(terms_added, constraints_added){
     var check = "#termtables #insidecontainer";
+    $("#remtermform").children().remove().end();
     if (!$(check).length) {
         var term_table = $("#termtables");
         var inside_container = $('<div id="insidecontainer" class="container-fluid"></div>');
@@ -416,10 +418,14 @@ function updateAnalysis(terms_added, constraints_added){
 
         var term_string = "";
         if (terms_added.length) {
+            var term_opt_group = $('<optgroup id="opt_term" label="Terms"> <option selected disabled hidden> Please select a field </option> </optgroup>');
+            term_opt_group.appendTo("#remtermform");
             for (let term of terms_added) {
                 for (let classif of single_analysis_classifications) {
-                    if (term == classif.pk)
-                    term_string += classif.fields.name + ", "
+                    if (term == classif.pk) {
+                        term_string += classif.fields.name + ", "
+                        $('<option>' + classif.fields.name + '</option>').appendTo(term_opt_group);
+                    }
                 }
             }
             term_string = term_string.slice(0,-2);
