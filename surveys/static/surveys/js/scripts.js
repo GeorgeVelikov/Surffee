@@ -349,6 +349,7 @@ $(document).ready(function () {
         */
     }
 
+    var terms_added = []
     $("#addterm").on('click', function (){
 
         var class_id = $("#addtermform").val();
@@ -359,11 +360,15 @@ $(document).ready(function () {
         }
 
         else {
+            if (!terms_added.includes(class_id)) {
+                terms_added.push(class_id);
+            }
+            console.log(terms_added)
             var check = "#termtables #insidecontainer";
 
             if (!$(check).length) {
                 var term_table = $("#termtables");
-                var inside_container = $('<div id="insidecontainer" class="container-fluid"></div>');
+                var inside_container = $('<div id="insidecontainer" class="container-fluid">NO CONSTRAINTS</div>');
                 $(inside_container).appendTo(term_table);
             }
 
@@ -390,11 +395,15 @@ $(document).ready(function () {
             }
 
             // answers shown under a blue bar
-            var i = 1;
+            var i = 0;
             for (let answer of single_analysis_answers) {
-
                 var row = $('<div id="' + answer.pk + '" class="row"> </div>');
-                $('<div class="col-3">' + i + '</div>').appendTo(row);
+
+                if(i & 1 == 1) { // if number is even
+                    $(row).css("background-color", "lightgray");
+                }
+
+                $('<div class="col-3">' + (i+1) + '</div>').appendTo(row);
                 i=i+1;
                 for(word in words_in_choices) {
                     var choices = words_in_choices[word];
