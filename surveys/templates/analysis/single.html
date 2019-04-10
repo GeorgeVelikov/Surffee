@@ -18,7 +18,7 @@
 
     <div class="d-flex justify-content-between flex-wrap flex-sm-nowrap align-items-center pb-2 mb-3 border-bottom">
         <h2>Single Term Analysis : <b>{{analysis_name}}</b></h2>
-        <h5 class="text-muted">Survey - {{survey_name}}</h5>
+        <h5 class="text-muted">Survey - {{survey}}</h5>
     </div>
 
     <div class="container-fluid">
@@ -44,8 +44,12 @@
                         <div class="btn-group-vertical" role="group" aria-label="Basic example" style="margin-bottom:24px">
                             <select class="custom-select" id="addconform">
                                 <option selected hidden disabled>Please select a constraint</option>
-                                {% for pi in pi_choices %}
-                                    <option>{{pi}}</option>
+                                {% for key,val_set in pi_js_droplist.items %}
+                                    <optgroup class="secondary" label="{{key}}">
+                                        {% for val in val_set %}
+                                            <option>{{val}}</option>
+                                        {% endfor %}
+                                    </optgroup>
                                 {% endfor %}
                             </select>
                             <button type="button" class="btn btn-info" id="addconstraint">Add</button>

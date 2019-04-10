@@ -138,8 +138,12 @@ class Results(CreateView):
 def detail(request, survey_id):
     if not request.user.is_authenticated:  # user is not logged in
         raise PermissionDenied("User is not logged in")
+
     template = 'surveys/detail.html'
     survey = Survey.objects.get(pk=survey_id)
+
+    if survey.creator != request.user:
+        raise PermissionDenied("You do not own this survey")
 
     # this converts the string representation of a list back to a list
     if survey.pi_choices:

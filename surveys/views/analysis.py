@@ -9,6 +9,8 @@ from surveys.forms.analysis import AnalysisCreator
 from django.core import serializers
 from ast import literal_eval
 
+from surveys.views.helper import get_age_ranges
+
 
 class Create(CreateView):
     template_name = 'analysis/create_analysis.html'
@@ -81,11 +83,11 @@ class AnalysisSingleTerm(CreateView):
         get_variables = request.GET
 
         analysis_name = get_variables['name']
-        survey_name = Survey.objects.get(pk=get_variables['survey'])
+        survey = Survey.objects.get(pk=get_variables['survey'])
         annotation = Annotation.objects.get(pk=get_variables['annotation'])
 
         classifications = Classification.objects.filter(annotation=annotation)
-        questions = Question.objects.filter(survey=survey_name)
+        questions = Question.objects.filter(survey=survey)
         choices = Choice.objects.filter(question__in=questions)
         words = Word.objects.filter(classification__in=classifications, choice__in=choices)
 
@@ -97,25 +99,34 @@ class AnalysisSingleTerm(CreateView):
             if classif.pk not in class_ids_used:
                 classifications = classifications.exclude(pk=classif.pk)
 
-        survey_answers = SurveyAnswer.objects.filter(survey=survey_name)
+        survey_answers = SurveyAnswer.objects.filter(survey=survey)
 
-        """
+        pi_js_droplist = {}
         for answer in survey_answers:
-            for pi in literal_eval(survey_name.pi_choices):
-                print(getattr(answer.pi_questions, pi))
-        """
+            for pi in literal_eval(survey.pi_choices):
+                answer_value = getattr(answer.pi_questions, pi)
+                pi = pi.replace("_", " ").capitalize()
+                if isinstance(answer_value, str):
+                    answer_value = answer_value.capitalize()
+                if pi in pi_js_droplist:
+                    pi_js_droplist[pi].add(answer_value)
+                else:
+                    pi_js_droplist[pi] = {answer_value}
+
+        pi_js_droplist = get_age_ranges(pi_js_droplist)
 
         return self.render_to_response(
             self.get_context_data(form=form,
                                   analysis_name=analysis_name,
-                                  survey_name=survey_name,
+                                  survey=survey,
                                   classifications=classifications,
                                   classificiations_js=serializers.serialize("json", classifications),
                                   questions=serializers.serialize("json", questions),
                                   choices=serializers.serialize("json", choices),
                                   words=serializers.serialize("json", words),
-                                  pi_choices=literal_eval(survey_name.pi_choices),
+                                  pi_choices=literal_eval(survey.pi_choices),
                                   answers=serializers.serialize("json", survey_answers),
+                                  pi_js_droplist=pi_js_droplist,
                                   )
         )
 

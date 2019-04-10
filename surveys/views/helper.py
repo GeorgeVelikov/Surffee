@@ -94,3 +94,23 @@ def delete_unused_classifications(annotation):
 
     # this gives a cleansed queryset
     return all_classifications_annotation
+
+
+def get_age_ranges(age_set):
+    newages = set()
+    if 'Age' in age_set:
+        for num in age_set['Age']:
+            for i in range(19, 100, 10):
+                low = 9
+                if i == 19:
+                    low = 1
+
+                if num in range(i - low, i+1):
+                    rng = str(i - low) + "-" + str(i)
+                    newages.add(rng)
+
+                if num >= 100:
+                    newages.add("100+")
+
+    age_set['Age'] = sorted(newages)
+    return age_set

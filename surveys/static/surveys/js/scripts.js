@@ -383,17 +383,19 @@ $(document).ready(function () {
             // blue bar
             var row_div = $('<br><div class="row bg-info" > </div>');
             $(row_div).appendTo($("#insidecontainer"));
-            $('<div class="col-3"> #ID </div>').appendTo(row_div);
+            $('<div class="col-3"> # </div>').appendTo(row_div);
 
             for(word in words_in_choices) {
                 $('<div class="col-3">' + word + '</div>').appendTo(row_div);
             }
 
             // answers shown under a blue bar
+            var i = 1;
             for (let answer of single_analysis_answers) {
-                var row = $('<div id="' + answer.pk + '" class="row"> </div>');
-                $('<div class="col-3">' + answer.pk + '</div>').appendTo(row);
 
+                var row = $('<div id="' + answer.pk + '" class="row"> </div>');
+                $('<div class="col-3">' + i + '</div>').appendTo(row);
+                i=i+1;
                 for(word in words_in_choices) {
                     var choices = words_in_choices[word];
                     var user_votes = choices.filter(element => answer.fields.choice.includes(element));
