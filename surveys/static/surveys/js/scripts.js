@@ -102,11 +102,11 @@ $(document).ready(function () {
     $(".answer_question_choice").change(function () {
         $(".answer_question_choice").each(function () {
             if(this.checked) {
-                $("label[for*="+this.id+"]").attr('class', 'btn btn-success btn-block text-left');
+                $("label[for*="+this.id+"]").attr('class', 'btn btn-success btn-block');
             }
 
             else {
-                $("label[for*="+this.id+"]").attr('class', 'btn btn-secondary btn-block text-left');
+                $("label[for*="+this.id+"]").attr('class', 'btn btn-secondary btn-block');
             }
         });
     });

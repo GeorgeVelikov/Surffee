@@ -28,7 +28,7 @@
             {% csrf_token %}
             {% for ch in choice_set %}
                 <input hidden class="answer_question_choice" id='choice_{{ch.id}}' name="choices" type="{{ input_type }}" value="{{ch.id}}">
-                <label for="choice_{{ch.id}}" class="btn btn-secondary btn-block text-wrap text-break" style="height: 100px;">{{ ch }}</label>
+                <label for="choice_{{ch.id}}" class="btn btn-secondary btn-block" style="font-size: 22px; height: 100px;">{{ ch }}</label>
             {% endfor %}
             <br>
         </div>
