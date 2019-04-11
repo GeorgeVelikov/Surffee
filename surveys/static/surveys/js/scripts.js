@@ -433,6 +433,18 @@ $(document).ready(function () {
         updateAnalysis(terms_added, constraints_added);
     });
 
+    $("#deltermpage").on('click', function () {
+        $("#termtables").children().remove().end();
+
+        terms_added = [];
+        for (key in constraints_added) {
+        
+            constraints_added[key] = [];
+        }
+
+        updateAnalysis(terms_added, constraints_added);
+    });
+
 });
 
 function updateAnalysis(terms_added, constraints_added){
