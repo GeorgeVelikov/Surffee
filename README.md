@@ -23,6 +23,7 @@ https://surffee.herokuapp.com/
 - pytz==2018.9
 - six==1.12.0
 - whitenoise==4.1.2
+- openpyxl==2.6.2
 
 # Source added libraries, found in /static:
 - feather.js (buttons!)
@@ -38,4 +39,4 @@ https://surffee.herokuapp.com/
 - write "py manage.py runserver" 
 - open a browser and go to localhost:8000
 
-update: 06/04/2019 
+update: 11/04/2019 
