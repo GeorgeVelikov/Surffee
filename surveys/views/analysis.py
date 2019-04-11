@@ -4,10 +4,12 @@ from django.views.generic import CreateView
 from surveys.models import SurveyAnswer
 from surveys.models.annotation import Annotation, Classification, Word
 from surveys.models.survey import Survey, Question, Choice, PersonalInformation
+from surveys.models.analysis import AnalysisSingle
 from surveys.forms.analysis import AnalysisCreator
 
 from django.core import serializers
 from ast import literal_eval
+from urllib import parse
 
 from surveys.views.helper import get_age_ranges
 
@@ -149,7 +151,26 @@ class AnalysisSingleTerm(CreateView):
         )
 
     def post(self, request, *args, **kwargs):
-        print(request.GET)
+        analysis_name = request.GET['name']
+        analysis_survey = Survey.objects.get(pk=request.GET['survey'])
+        analysis_annotation = Annotation.objects.get(pk=request.GET['annotation'])
+
+        terms = request.POST['terms']
+        constraints = {}
+
+        # transform js serialized dict to a normal py dict
+        con_post = parse.parse_qs(request.POST['constraints'])
+        for key in con_post.keys():
+            nk = key.replace("[]", "")
+            constraints[nk] = con_post[key]
+
+        new_analysis = AnalysisSingle.objects.create(creator=request.user,
+                                                     name=analysis_name,
+                                                     survey=analysis_survey,
+                                                     annotation=analysis_annotation,
+                                                     terms=terms,
+                                                     constraints=constraints)
+        new_analysis.save()
 
         return redirect('./')
 

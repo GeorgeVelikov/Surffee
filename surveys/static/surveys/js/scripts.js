@@ -445,6 +445,13 @@ $(document).ready(function () {
         updateAnalysis(terms_added, constraints_added);
     });
 
+    $("#post_save_analysis").on('click', function () {
+        var divP = $(this).parent();
+
+        $('<input name="terms" value="' + terms_added + '" type="hidden"> </input').appendTo(divP);
+        $('<input name="constraints" value="' + jQuery.param(constraints_added) + '" type="hidden"> </input').appendTo(divP);
+    });
+
 });
 
 function updateAnalysis(terms_added, constraints_added){
