@@ -21,6 +21,10 @@ urlpatterns = [
          survey.Create.as_view(),
          name='create'),
 
+    path('documentation/',
+         site.documentation,
+         name='documentation'),
+
     path('analysis/',
          analysis.Create.as_view(),
          name='analysis'),

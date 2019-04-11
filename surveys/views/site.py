@@ -71,4 +71,7 @@ def inactive_surveys(request):
     return render(request, template, context)
 
 
-
+def documentation(request):
+    template = 'documentation.html'
+    context = {}
+    return render(request, template, context)
