@@ -468,7 +468,7 @@ function updateAnalysis(terms_added, constraints_added){
             term_string = "None";
         }
 
-        var term_string_box = $('<div class="col-6"> <h4 id="term_string_list">Constraints: </h4> <div>' + term_string + '</div> </div>')
+        var term_string_box = $('<div class="col-6"> <h4 id="term_string_list">Terms: </h4> <div>' + term_string + '</div> </div>')
         term_string_box.appendTo(data_row);
 
         // shows which constraints are given
