@@ -18,8 +18,18 @@ def permission_user_logged_in(request):
 
 
 def permission_user_owns_survey(request, survey):
-    if not (request.user.username == str(survey.creator)):
+    if not (request.user.pk == survey.creator.pk):
         raise PermissionDenied("User does not own the survey")
+
+
+def permission_user_owns_annotation(request, annotation):
+    if not (request.user.pk == annotation.creator.pk):
+        raise PermissionDenied("User does not own the annotation")
+
+
+def permission_user_owns_analysis(request, analysis):
+    if not (request.user.pk == analysis.creator.pk):
+        raise PermissionDenied("User does not own the analysis")
 
 
 def permission_user_unique_answer(request, survey):

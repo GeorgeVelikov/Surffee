@@ -1,3 +1,4 @@
+from django.core.exceptions import PermissionDenied
 from django.shortcuts import redirect
 from django.views.generic import CreateView, UpdateView
 
@@ -15,6 +16,9 @@ class AnnotationManager(CreateView):
     form_class = AnnotationWordForm
 
     def get(self, request, *args, **kwargs):
+        if not request.user.pk:
+            raise PermissionDenied("You are not logged in")
+
         self.object = None
         all_user_annotations = Annotation.objects.filter(creator=request.user)
         all_classifications = Classification.objects.filter(annotation__in=all_user_annotations)
@@ -69,11 +73,16 @@ class AnnotationSelector(CreateView):
     form_class = AnnotationWordForm
 
     def get(self, request, *args, **kwargs):
+        if not request.user.pk:
+            raise PermissionDenied("You are not logged in")
+
         self.object = None
         survey_id = self.kwargs.get('survey_id')
         survey = Survey.objects.get(pk=survey_id)
 
-        all_annot = Annotation.objects.all()
+        if request.user.pk != survey.creator.pk:
+            raise PermissionDenied("You do not own the survey")
+
         all_user_annotations = Annotation.objects.filter(creator=request.user)
         all_classifications = Classification.objects.filter(annotation__in=all_user_annotations)
 
@@ -85,7 +94,6 @@ class AnnotationSelector(CreateView):
                                   survey=survey,
                                   all_annotations=all_user_annotations,
                                   all_classifications_js=list(all_classifications.values()),
-                                  all_annot=all_annot,
                                   )
         )
 
@@ -106,12 +114,21 @@ class ClassificationCreator(CreateView):
     form_class = AnnotationWordForm
 
     def get(self, request, *args, **kwargs):
+        if not request.user.pk:
+            raise PermissionDenied("You are not logged in")
+
         self.object = None
         survey_id = self.kwargs.get('survey_id')
         survey = Survey.objects.get(pk=survey_id)
-        annotation_id = self.kwargs.get('annotation_id')
 
+        annotation_id = self.kwargs.get('annotation_id')
         annotation = Annotation.objects.get(pk=annotation_id)
+
+        if request.user.pk != survey.creator.pk:
+            raise PermissionDenied("You do not own the survey")
+
+        if request.user.pk != annotation.creator.pk:
+            raise PermissionDenied("You do not own the annotation")
 
         classifications = delete_unused_classifications(annotation)
         words = Word.objects.filter(classification__in=classifications)
@@ -135,10 +152,21 @@ class ClassificationCreator(CreateView):
 
 class AddOne(UpdateView):
     def get(self, request, *args, **kwargs):
+        if not request.user.pk:
+            raise PermissionDenied("You are not logged in")
         self.object = None
         survey = Survey.objects.get(pk=self.kwargs.get('survey_id'))
         annotation = Annotation.objects.get(pk=self.kwargs.get('annotation_id'))
         choice = Choice.objects.get(pk=self.kwargs.get('choice_id'))
+
+        if request.user.pk != survey.creator.pk:
+            raise PermissionDenied("You do not own the survey")
+
+        if request.user.pk != annotation.creator.pk:
+            raise PermissionDenied("You do not own the annotation")
+
+        if request.user.pk != choice.question.survey.creator.pk:
+            raise PermissionDenied("You do not own the choice")
 
         classification_name = self.kwargs.get('class')
         word_text = self.kwargs.get('word_text')
@@ -181,10 +209,22 @@ class AddOne(UpdateView):
 
 class AddAll(UpdateView):
     def get(self, request, *args, **kwargs):
+        if not request.user.pk:
+            raise PermissionDenied("You are not logged in")
+
         self.object = None
         survey = Survey.objects.get(pk=self.kwargs.get('survey_id'))
         annotation = Annotation.objects.get(pk=self.kwargs.get('annotation_id'))
         choice = Choice.objects.get(pk=self.kwargs.get('choice_id'))
+
+        if request.user.pk != survey.creator.pk:
+            raise PermissionDenied("You do not own the survey")
+
+        if request.user.pk != annotation.creator.pk:
+            raise PermissionDenied("You do not own the annotation")
+
+        if request.user.pk != choice.question.survey.creator.pk:
+            raise PermissionDenied("You do not own the choice")
 
         classification_name = self.kwargs.get('class')
         word_to_annotate = self.kwargs.get('word_text')
@@ -231,10 +271,22 @@ class AddAll(UpdateView):
 
 class DeleteOne(UpdateView):
     def get(self, request, *args, **kwargs):
+        if not request.user.pk:
+            raise PermissionDenied("You are not logged in")
+
         self.object = None
         survey = Survey.objects.get(pk=self.kwargs.get('survey_id'))
         annotation = Annotation.objects.get(pk=self.kwargs.get('annotation_id'))
         choice = Choice.objects.get(pk=self.kwargs.get('choice_id'))
+
+        if request.user.pk != survey.creator.pk:
+            raise PermissionDenied("You do not own the survey")
+
+        if request.user.pk != annotation.creator.pk:
+            raise PermissionDenied("You do not own the annotation")
+
+        if request.user.pk != choice.question.survey.creator.pk:
+            raise PermissionDenied("You do not own the choice")
 
         word_text = self.kwargs.get('word_text')
         leftover_word = choice.choice_text
@@ -253,10 +305,22 @@ class DeleteOne(UpdateView):
 
 class DeleteAll(UpdateView):
     def get(self, request, *args, **kwargs):
+        if not request.user.pk:
+            raise PermissionDenied("You are not logged in")
+
         self.object = None
         survey = Survey.objects.get(pk=self.kwargs.get('survey_id'))
         annotation = Annotation.objects.get(pk=self.kwargs.get('annotation_id'))
         choice = Choice.objects.get(pk=self.kwargs.get('choice_id'))
+
+        if request.user.pk != survey.creator.pk:
+            raise PermissionDenied("You do not own the survey")
+
+        if request.user.pk != annotation.creator.pk:
+            raise PermissionDenied("You do not own the annotation")
+
+        if request.user.pk != choice.question.survey.creator.pk:
+            raise PermissionDenied("You do not own the choice")
 
         word_text = self.kwargs.get('word_text')
 
