@@ -21,57 +21,70 @@
         }
     </script>
 
-    <div class="d-flex justify-content-between flex-wrap flex-sm-nowrap align-items-center pb-2 mb-3 border-bottom">
-        <h2>Single Term Analysis : <b>{{analysis_name}}</b></h2>
-        <h5 class="text-muted">Survey - {{survey}}</h5>
-    </div>
+    <form action="" method="post">
+    {% csrf_token %}
 
-    <div class="container-fluid">
-        <div class="row">
-            <div class="container-fluid">
-                <div class = "row text-center">
-                    <!-- JS magic tables -->
-                    <div class = "single_term_table col col-md-8 card card-body bg-light outside-container" style="margin:24px" id="termtables">
-                    </div>
-                    <!-- Right Sidebar -->
-                    <div class = "col col-md-auto card card-body bg-dark text-white" style="margin:24px 0px 24px 0px">
-                        <p class="lead">Add new term</p>
-                        <div class="btn-group-vertical" role="group" aria-label="Basic example" style="margin-bottom:24px">
-                            <select class="custom-select" id="addtermform">
-                                <option selected hidden disabled>Please select a classification</option>
-                                {% for classif in classifications %}
-                                    <option value="{{classif.pk}}">{{classif.name}}</option>
-                                {% endfor %}
-                            </select>
-                            <button type="button" class="btn btn-info" id="addterm" >Add</button>
+        <div class="d-flex justify-content-between flex-wrap flex-sm-nowrap align-items-center pb-2 mb-3 border-bottom">
+            <h2>Single Term Analysis : <b>{{analysis_name}}</b></h2>
+            <h5 class="text-muted">Survey - {{survey}}</h5>
+        </div>
+
+        <div class="container-fluid">
+            <div class="row">
+                <div class="container-fluid">
+                    <div class = "row text-center">
+                        <!-- JS magic tables -->
+                        <div class = "single_term_table col col-md-8 card card-body bg-light outside-container" style="margin:24px" id="termtables">
                         </div>
-                        <p class="lead">Add constraint</p>
-                        <div class="btn-group-vertical" role="group" aria-label="Basic example" style="margin-bottom:24px">
-                            <select class="custom-select" id="addconform">
-                                <option selected hidden disabled>Please select a constraint</option>
-                                {% for key,val_set in pi_js_droplist.items %}
-                                    <optgroup class="secondary" id="{{key}}" label="{{key}}">
-                                        {% for val in val_set %}
-                                            <option>{{val}}</option>
-                                        {% endfor %}
-                                    </optgroup>
-                                {% endfor %}
-                            </select>
-                            <button type="button" class="btn btn-info" id="addconstraint">Add</button>
+                        <!-- Right Sidebar -->
+                        <div class = "col col-md-auto card card-body bg-dark text-white" style="margin:24px 0px 24px 0px">
+
+                            <p class="lead">Add new term</p>
+                            <div class="btn-group-vertical" role="group" aria-label="Basic example" style="margin-bottom:24px">
+                                <select class="custom-select" id="addtermform">
+                                    <option selected hidden disabled>Please select a classification</option>
+                                    {% for classif in classifications %}
+                                        <option value="{{classif.pk}}">{{classif.name}}</option>
+                                    {% endfor %}
+                                </select>
+                                <button type="button" class="btn btn-info" id="addterm" >Add</button>
+                            </div>
+
+                            <p class="lead">Add constraint</p>
+                            <div class="btn-group-vertical" role="group" aria-label="Basic example" style="margin-bottom:24px">
+                                <select class="custom-select" id="addconform">
+                                    <option selected hidden disabled>Please select a constraint</option>
+                                    {% for key,val_set in pi_js_droplist.items %}
+                                        <optgroup class="secondary" id="{{key}}" label="{{key}}">
+                                            {% for val in val_set %}
+                                                <option>{{val}}</option>
+                                            {% endfor %}
+                                        </optgroup>
+                                    {% endfor %}
+                                </select>
+                                <button type="button" class="btn btn-info" id="addconstraint">Add</button>
+                            </div>
+
+                            <p class="lead">Remove field</p>
+                            <div class="btn-group-vertical" role="group" aria-label="Basic example" style="margin-bottom:24px">
+                                <select class="custom-select" id="remtermform">
+                                </select>
+                                <button type="button" class="btn btn-secondary" id="remterm">Remove</button>
+                            </div>
+
+                            <p class="lead">Analysis Controls</p>
+                            <div class="btn-group-vertical" role="group" aria-label="Basic example" style="margin-bottom:24px">
+                                <button type="button" class="btn btn-danger" id="deltermpage" style="margin-bottom:24px">Clear all</button>
+
+                                <button type="submit" class="btn btn-success">Save Analysis</button>
+                            </div>
+
                         </div>
-                        <p class="lead">Remove field</p>
-                        <div class="btn-group-vertical" role="group" aria-label="Basic example" style="margin-bottom:24px">
-                            <select class="custom-select" id="remtermform">
-                            </select>
-                            <button type="button" class="btn btn-secondary" id="remterm">Remove</button>
-                        </div>
-                        <p class="lead">Delete Term Statistics Page</p>
-                        <button type="button" class="btn btn-danger" id="deltermpage">Delete</button>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
 
+    </form>
 
 {% endblock %}

@@ -148,6 +148,11 @@ class AnalysisSingleTerm(CreateView):
                                   )
         )
 
+    def post(self, request, *args, **kwargs):
+        print(request.GET)
+
+        return redirect('./')
+
 
 class AnalysisMultipleTerm(CreateView):
     template_name = 'analysis/multi.html'
