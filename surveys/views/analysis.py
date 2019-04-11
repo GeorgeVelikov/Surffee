@@ -152,8 +152,8 @@ class AnalysisSingleTerm(CreateView):
 
     def post(self, request, *args, **kwargs):
         analysis_name = request.GET['name']
-        analysis_annotation = request.GET['annotation']
-        analysis_survey = request.GET['survey']
+        analysis_survey = Survey.objects.get(pk=request.GET['survey'])
+        analysis_annotation = Annotation.objects.get(pk=request.GET['annotation'])
 
         terms = request.POST['terms']
         constraints = {}
@@ -164,14 +164,12 @@ class AnalysisSingleTerm(CreateView):
             nk = key.replace("[]", "")
             constraints[nk] = con_post[key]
 
-        print(terms)
-        print(constraints)
-
-        new_analysis = AnalysisSingle.create(name=analysis_name,
-                                             survey=analysis_survey,
-                                             annotation=analysis_annotation,
-                                             terms=terms,
-                                             constraints=constraints)
+        new_analysis = AnalysisSingle.objects.create(creator=request.user,
+                                                     name=analysis_name,
+                                                     survey=analysis_survey,
+                                                     annotation=analysis_annotation,
+                                                     terms=terms,
+                                                     constraints=constraints)
         new_analysis.save()
 
         return redirect('./')
