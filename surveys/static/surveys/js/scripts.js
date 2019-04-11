@@ -326,7 +326,6 @@ $(document).ready(function () {
 
         var uniqueName= true;
         for (let analysis of all_analysis_names) {
-            console.log(analysisName.val(), analysis.name)
             if (analysisName.val() == analysis.name) {
                 uniqueName = false;
                 break;
@@ -363,7 +362,7 @@ $(document).ready(function () {
         */
     }
 
-    var terms_added = []
+
     $("#addterm").on('click', function (){
         var class_id = $("#addtermform");
 
@@ -511,12 +510,14 @@ function updateAnalysis(terms_added, constraints_added){
 
         // shows which constraints are given
         var constraint_string = "";
-        if(constraints_added && $("#addconform").val()) {
+
+        if(constraints_added) {
             // create opt group for constraints
             var constraint_opt_group = $('<optgroup id="Constraints" label="Constraints"> <option selected disabled hidden> Please select a field </option> </optgroup>');
             constraint_opt_group.appendTo("#remtermform");
 
             for (key in constraints_added) {
+
                 if (constraints_added[key].length) {
 
                     // mini opt group (Sex, Age, Country of birth, etc.)

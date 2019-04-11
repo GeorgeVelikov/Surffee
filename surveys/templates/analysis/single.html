@@ -9,16 +9,18 @@
 {% block content %}
 
     <script>
-        var single_analysis_words = {{words|safe}}
-        var single_analysis_choices = {{choices|safe}}
-        var single_analysis_answers = {{answers|safe}}
-        var single_analysis_classifications = {{classificiations_js|safe}}
-        var single_analysis_questions = {{questions|safe}}
-        var constraints_added = {}
+        var single_analysis_words = {{words|safe}};
+        var single_analysis_choices = {{choices|safe}};
+        var single_analysis_answers = {{answers|safe}};
+        var single_analysis_classifications = {{classificiations_js|safe}};
+        var single_analysis_questions = {{questions|safe}};
+        var constraints_added = {};
+        var terms_added = [];
 
         for(let key of {{constraints_keys|safe}}) {
             constraints_added[key] = [];
         }
+
     </script>
 
     <form action="" method="post">
@@ -76,7 +78,7 @@
                             <div class="btn-group-vertical" role="group" aria-label="Basic example" style="margin-bottom:24px">
                                 <button type="button" class="btn btn-danger" id="deltermpage" style="margin-bottom:24px">Clear all</button>
 
-                                <button type="submit" id="post_save_analysis" class="btn btn-success">Save Analysis</button>
+                                <button type="submit" name="operation" value="{{operation}}"id="post_save_analysis" class="btn btn-success">Save Analysis</button>
                             </div>
 
                         </div>
@@ -87,4 +89,12 @@
 
     </form>
 
+    <script>
+        if ("{{operation}}" === "overwrite") {
+            var constraints_added = {{carry_over_constraints|safe}};
+            var terms_added = {{carry_over_terms|safe}};
+            console.log(constraints_added);
+            updateAnalysis(terms_added, constraints_added);
+        }
+    </script>
 {% endblock %}

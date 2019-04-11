@@ -85,11 +85,26 @@ class AnalysisSingleTerm(CreateView):
         form_class = self.get_form_class()
         form = self.get_form(form_class)
 
+        carry_over_terms = []
+        carry_over_constraints = {}
+
         get_variables = request.GET
 
-        analysis_name = get_variables['name']
-        survey = Survey.objects.get(pk=get_variables['survey'])
-        annotation = Annotation.objects.get(pk=get_variables['annotation'])
+        if 'analysis' in get_variables:
+            analysis = AnalysisSingle.objects.get(pk=get_variables['analysis'])
+            analysis_name = analysis.name
+            survey = Survey.objects.get(pk=analysis.survey.pk)
+            annotation = Annotation.objects.get(pk=analysis.annotation.pk)
+            operation = "overwrite"
+
+            carry_over_terms = list(literal_eval(analysis.terms))
+            carry_over_constraints = literal_eval(analysis.constraints)
+
+        else:
+            analysis_name = get_variables['name']
+            survey = Survey.objects.get(pk=get_variables['survey'])
+            annotation = Annotation.objects.get(pk=get_variables['annotation'])
+            operation = "save"
 
         classifications = Classification.objects.filter(annotation=annotation)
         questions = Question.objects.filter(survey=survey)
@@ -150,6 +165,9 @@ class AnalysisSingleTerm(CreateView):
                                   answers=answers,
                                   pi_js_droplist=pi_js_droplist,
                                   constraints_keys=keylist,
+                                  operation=operation,
+                                  carry_over_terms=carry_over_terms,
+                                  carry_over_constraints=carry_over_constraints,
                                   )
         )
 
