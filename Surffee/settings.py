@@ -126,7 +126,7 @@ USE_TZ = True
 PROJECT_ROOT = os.path.join(os.path.abspath(__file__))
 # needed for heroku
 STATIC_ROOT = os.path.join(PROJECT_ROOT, 'staticfiles')
-STATIC_URL = '/static/'
+# STATIC_URL = '/static/'
 
 # Custom backend stuff
 TEMPLATE_DIRS = ('surveys/templates', 'surveys/templates/registration', 'surveys/static')
@@ -150,6 +150,6 @@ prod_db = dj_database_url.config(conn_max_age=500)
 DATABASES['default'].update(prod_db)
 
 # REMOVE THIS LINE SO LOCALHOST RUN ON PYCHARM WORKS
-STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
+# STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
 
