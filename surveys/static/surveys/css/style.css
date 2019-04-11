@@ -713,3 +713,11 @@ body {
     display: inline-block;
     vertical-align: middle;
 }
+
+
+/*Documentation */
+
+.anchor{
+    position: relative;
+    padding-top: 80px;
+}
