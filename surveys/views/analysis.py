@@ -172,10 +172,6 @@ class AnalysisSingleTerm(CreateView):
         )
 
     def post(self, request, *args, **kwargs):
-        analysis_name = request.GET['name']
-        analysis_survey = Survey.objects.get(pk=request.GET['survey'])
-        analysis_annotation = Annotation.objects.get(pk=request.GET['annotation'])
-
         terms = request.POST['terms']
         constraints = {}
 
@@ -185,13 +181,27 @@ class AnalysisSingleTerm(CreateView):
             nk = key.replace("[]", "")
             constraints[nk] = con_post[key]
 
-        new_analysis = AnalysisSingle.objects.create(creator=request.user,
-                                                     name=analysis_name,
-                                                     survey=analysis_survey,
-                                                     annotation=analysis_annotation,
-                                                     terms=terms,
-                                                     constraints=constraints)
-        new_analysis.save()
+        if request.POST['operation'] == "save":
+
+            analysis_name = request.GET['name']
+            analysis_survey = Survey.objects.get(pk=request.GET['survey'])
+            analysis_annotation = Annotation.objects.get(pk=request.GET['annotation'])
+
+            new_analysis = AnalysisSingle.objects.create(creator=request.user,
+                                                         name=analysis_name,
+                                                         survey=analysis_survey,
+                                                         annotation=analysis_annotation,
+                                                         terms=terms,
+                                                         constraints=constraints)
+            new_analysis.save()
+
+        else:
+            analysis_pk = request.GET['analysis']
+
+            analysis = AnalysisSingle.objects.get(pk=analysis_pk)
+            analysis.terms = terms
+            analysis.constraints = constraints
+            analysis.save()
 
         return redirect('./')
 
