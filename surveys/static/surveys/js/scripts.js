@@ -412,7 +412,7 @@ $(document).ready(function () {
             for(key in constraints_added) {
                 for(let val of constraints_added[key]) {
                     if (val == rem_val) {
-                        constraints_added[key]= constraints_added[key].splice(constraints_added[key].indexOf(val), 0);
+                        constraints_added[key].splice(constraints_added[key].indexOf(val), 1);
                     }
                 }
             }
@@ -421,8 +421,13 @@ $(document).ready(function () {
 
         if (rem_field_group === "Terms") {
             $("#termtables").children().remove().end(); // clear so we can update
-            console.log(rem_val);
-            console.log("TERMS", terms_added);
+
+            for(i in terms_added) {
+                var term = terms_added[i];
+                if (term == rem_opt.val()) {
+                    terms_added.splice(terms_added.indexOf(term), 1);
+                }
+            }
         }
 
         updateAnalysis(terms_added, constraints_added);
@@ -457,7 +462,7 @@ function updateAnalysis(terms_added, constraints_added){
                 for (let classif of single_analysis_classifications) {
                     if (term == classif.pk) {
                         term_string += classif.fields.name + ", "
-                        $('<option val="' + classif.pk + '">' + classif.fields.name + '</option>').appendTo(term_opt_group);
+                        $('<option value="' + classif.pk + '">' + classif.fields.name + '</option>').appendTo(term_opt_group);
                     }
                 }
             }
