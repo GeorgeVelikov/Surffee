@@ -1,3 +1,4 @@
+from django.core.exceptions import PermissionDenied
 from django.shortcuts import redirect
 from django.views.generic import CreateView
 
@@ -11,6 +12,8 @@ from django.core import serializers
 from ast import literal_eval
 from urllib import parse
 
+from surveys.views import permission_user_logged_in, permission_user_owns_survey, permission_user_owns_analysis, \
+                            permission_user_owns_annotation
 from surveys.views.helper import get_age_ranges
 
 
@@ -20,6 +23,8 @@ class Create(CreateView):
     form_class = AnalysisCreator
     
     def get(self, request, *args, **kwargs):
+        permission_user_logged_in(request)
+
         self.object = None
         all_user_surveys = Survey.objects.filter(creator=request.user)
 
@@ -81,6 +86,8 @@ class AnalysisSingleTerm(CreateView):
     form_class = AnalysisCreator
 
     def get(self, request, *args, **kwargs):
+        permission_user_logged_in(request)
+
         self.object = None
         form_class = self.get_form_class()
         form = self.get_form(form_class)
@@ -92,18 +99,31 @@ class AnalysisSingleTerm(CreateView):
 
         if 'analysis' in get_variables:
             analysis = AnalysisSingle.objects.get(pk=get_variables['analysis'])
+
+            permission_user_owns_analysis(request, analysis)
+
             analysis_name = analysis.name
             survey = Survey.objects.get(pk=analysis.survey.pk)
             annotation = Annotation.objects.get(pk=analysis.annotation.pk)
             operation = "overwrite"
 
-            carry_over_terms = list(literal_eval(analysis.terms))
+            # okay i don't know how this works, don't touch it pls
+            if isinstance(literal_eval(analysis.terms), int):
+                carry_over_terms = [analysis.terms]
+            else:
+                carry_over_terms = list(literal_eval(analysis.terms))
+
+            print(carry_over_terms)
             carry_over_constraints = literal_eval(analysis.constraints)
 
         else:
             analysis_name = get_variables['name']
             survey = Survey.objects.get(pk=get_variables['survey'])
             annotation = Annotation.objects.get(pk=get_variables['annotation'])
+
+            permission_user_owns_survey(request, survey)
+            permission_user_owns_annotation(request, annotation)
+
             operation = "save"
 
         classifications = Classification.objects.filter(annotation=annotation)
@@ -195,6 +215,8 @@ class AnalysisSingleTerm(CreateView):
                                                          constraints=constraints)
             new_analysis.save()
 
+            redirect_pk = new_analysis.pk
+
         else:
             analysis_pk = request.GET['analysis']
 
@@ -203,7 +225,9 @@ class AnalysisSingleTerm(CreateView):
             analysis.constraints = constraints
             analysis.save()
 
-        return redirect('./')
+            redirect_pk = analysis.pk
+
+        return redirect('./single?analysis=' + str(redirect_pk))
 
 
 class AnalysisMultipleTerm(CreateView):
@@ -212,6 +236,8 @@ class AnalysisMultipleTerm(CreateView):
     form_class = AnalysisCreator
 
     def get(self, request, *args, **kwargs):
+        permission_user_logged_in(request)
+
         self.object = None
         form_class = self.get_form_class()
         form = self.get_form(form_class)
