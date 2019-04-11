@@ -3,7 +3,7 @@ from django.views.generic import CreateView
 
 from surveys.models import SurveyAnswer
 from surveys.models.annotation import Annotation, Classification, Word
-from surveys.models.survey import Survey, Question, Choice
+from surveys.models.survey import Survey, Question, Choice, PersonalInformation
 from surveys.forms.analysis import AnalysisCreator
 
 from django.core import serializers
@@ -119,6 +119,19 @@ class AnalysisSingleTerm(CreateView):
         for k in pi_js_droplist.keys():
             keylist.append(k)
 
+        # this is useful in js
+        answers = literal_eval(serializers.serialize("json", survey_answers))
+        for answ in answers:
+            pi = PersonalInformation.objects.filter(pk=answ['fields']['pi_questions']).values()[0]
+            newpi = {}
+            for k in pi.keys():
+                if pi[k] != '' and k != 'id':
+                    nk = k.replace("_", " ").capitalize()
+                    newpi[nk] = pi[k]
+                    if isinstance(pi[k], str):
+                        newpi[nk] = (pi[k]).capitalize()
+            answ['fields']['pi_questions'] = newpi
+
         return self.render_to_response(
             self.get_context_data(form=form,
                                   analysis_name=analysis_name,
@@ -129,7 +142,7 @@ class AnalysisSingleTerm(CreateView):
                                   choices=serializers.serialize("json", choices),
                                   words=serializers.serialize("json", words),
                                   pi_choices=literal_eval(survey.pi_choices),
-                                  answers=serializers.serialize("json", survey_answers),
+                                  answers=answers,
                                   pi_js_droplist=pi_js_droplist,
                                   constraints_keys=keylist,
                                   )

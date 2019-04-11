@@ -536,23 +536,61 @@ function updateAnalysis(terms_added, constraints_added){
 
         // answers shown under a blue bar
         var i = 0;
+
         for (let answer of single_analysis_answers) {
-            var row = $('<div id="' + answer.pk + '" class="row"> </div>');
+            // check if answer is within the defined constraints
 
-            if(i & 1 == 1) { // if number is even
-                $(row).css("background-color", "lightgray");
+            var answer_pi = answer.fields.pi_questions;
+
+            for (key in constraints_added) {
+                var is_contained = true;
+
+                if (key in answer_pi && constraints_added[key].length) {
+
+                    if (key == "Age") {
+                        for (let age_range of constraints_added[key]) {
+                            var l = age_range.split("-")[0];
+                            var h = age_range.split("-")[1];
+
+                            if (l <= answer_pi[key] && answer_pi[key] <= h) {
+                                is_contained = true;
+                                break;
+                            }
+                            
+                            else {
+
+                                is_contained = false;
+                            }
+                        }
+                    }
+
+
+                    console.log(answer_pi[key], constraints_added[key]);
+                }
+
             }
 
-            $('<div class="col-3">' + (i+1) + '</div>').appendTo(row);
-            i=i+1;
-            for(word in words_in_choices) {
-                var choices = words_in_choices[word];
-                var user_votes = choices.filter(element => answer.fields.choice.includes(element));
-                var ratio = user_votes.length / single_analysis_questions.length;
+            if (is_contained) {
 
-                $('<div class="col-3">' + ratio.toFixed(2) + '</div>').appendTo(row);
+                // actually display all the stuff
+                var row = $('<div id="' + answer.pk + '" class="row"> </div>');
+
+                if(i & 1 == 1) { // if number is even
+                    $(row).css("background-color", "lightgray");
+                }
+
+                $('<div class="col-3">' + (i+1) + '</div>').appendTo(row);
+                i=i+1;
+                for(word in words_in_choices) {
+                    var choices = words_in_choices[word];
+                    var user_votes = choices.filter(element => answer.fields.choice.includes(element));
+                    var ratio = user_votes.length / single_analysis_questions.length;
+
+                    $('<div class="col-3">' + ratio.toFixed(2) + '</div>').appendTo(row);
+                }
+                $(row).appendTo($("#insidecontainer"));
+
             }
-            $(row).appendTo($("#insidecontainer"));
 
         }
     }
