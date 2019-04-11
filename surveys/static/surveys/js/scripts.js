@@ -545,10 +545,7 @@ function updateAnalysis(terms_added, constraints_added){
 
             loop2:
             for (key in constraints_added) {
-                var is_contained = true;
-
                 if (key in answer_pi && constraints_added[key].length) {
-
 
                     if (key == "Age") {
                         loop3:
@@ -562,8 +559,8 @@ function updateAnalysis(terms_added, constraints_added){
                             }
 
                             else {
+
                                 pi_containment[key] = false
-                                is_contained = false;
                             }
                         }
                     }
@@ -573,13 +570,11 @@ function updateAnalysis(terms_added, constraints_added){
                         for (let term_a of constraints_added[key]) {
                             if (answer_pi[key] == term_a) {
                                 pi_containment[key] = true
-                                is_contained = true;
                                 break loop4;
                             }
 
                             else {
                                 pi_containment[key] = false
-                                is_contained = false;
                             }
                         }
                     }
