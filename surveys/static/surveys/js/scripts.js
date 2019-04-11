@@ -537,40 +537,56 @@ function updateAnalysis(terms_added, constraints_added){
         // answers shown under a blue bar
         var i = 0;
 
+        loop1:
         for (let answer of single_analysis_answers) {
+            var pi_containment = {}
             // check if answer is within the defined constraints
-
             var answer_pi = answer.fields.pi_questions;
 
+            loop2:
             for (key in constraints_added) {
                 var is_contained = true;
 
                 if (key in answer_pi && constraints_added[key].length) {
 
+
                     if (key == "Age") {
+                        loop3:
                         for (let age_range of constraints_added[key]) {
                             var l = age_range.split("-")[0];
                             var h = age_range.split("-")[1];
 
                             if (l <= answer_pi[key] && answer_pi[key] <= h) {
-                                is_contained = true;
-                                break;
+                                pi_containment[key] = true
+                                break loop3;
                             }
-                            
-                            else {
 
+                            else {
+                                pi_containment[key] = false
                                 is_contained = false;
                             }
                         }
                     }
 
+                    if (key != "Age") {
+                        loop4:
+                        for (let term_a of constraints_added[key]) {
+                            if (answer_pi[key] == term_a) {
+                                pi_containment[key] = true
+                                is_contained = true;
+                                break loop4;
+                            }
 
-                    console.log(answer_pi[key], constraints_added[key]);
+                            else {
+                                pi_containment[key] = false
+                                is_contained = false;
+                            }
+                        }
+                    }
                 }
-
             }
 
-            if (is_contained) {
+            if (!Object.values(pi_containment).includes(false)) {
 
                 // actually display all the stuff
                 var row = $('<div id="' + answer.pk + '" class="row"> </div>');
