@@ -438,7 +438,7 @@ $(document).ready(function () {
 
         terms_added = [];
         for (key in constraints_added) {
-        
+
             constraints_added[key] = [];
         }
 
