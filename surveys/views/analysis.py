@@ -30,6 +30,8 @@ class Create(CreateView):
         classifications = Classification.objects.filter(annotation__in=all_annotations)
         words = Word.objects.filter(classification__in=classifications)
 
+        all_analysis_names = AnalysisSingle.objects.filter(creator=request.user.pk).values("name")
+
         used_annotations = dict()
 
         for word in words:
@@ -46,6 +48,7 @@ class Create(CreateView):
             self.get_context_data(form=form,
                                   all_user_surveys=all_user_surveys.values('pk', 'name'),
                                   used_annotations_all_surveys=used_annotations,
+                                  all_analysis_names=list(all_analysis_names),
                                   )
         )
 

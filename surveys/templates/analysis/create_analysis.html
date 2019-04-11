@@ -7,7 +7,10 @@
 {% block title %}Create Analysis{% endblock %}
 
 {% block content %}
-    <script> var all_annotations_analysis = {{used_annotations_all_surveys|safe}}; </script>
+    <script>
+        var all_annotations_analysis = {{used_annotations_all_surveys|safe}};
+        var all_analysis_names = {{all_analysis_names|safe}}
+    </script>
 
     <form action="" method="post">
         {% csrf_token %}

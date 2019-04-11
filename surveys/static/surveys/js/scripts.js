@@ -324,8 +324,22 @@ $(document).ready(function () {
             }
         });
 
-        if (hasName && hasSurvey && hasAnnotation && hasAnalysisType) {
+        var uniqueName= true;
+        for (let analysis of all_analysis_names) {
+            console.log(analysisName.val(), analysis.name)
+            if (analysisName.val() == analysis.name) {
+                uniqueName = false;
+                break;
+            }
+        }
+
+
+        if (hasName && hasSurvey && hasAnnotation && hasAnalysisType && uniqueName) {
             $("#create_analysis_button").removeAttr("disabled");
+        }
+
+        else {
+             $("#create_analysis_button").attr("disabled", "");
         }
     }
 

@@ -203,12 +203,13 @@
                                     </a>
                                     <div class="sidebar-submenu">
                                         <ul>
-                                            <li>
-                                                <a>
-                                                    a page
-                                                </a>
-                                            <li>
-
+                                            {% for analysis in all_analysis %}
+                                                <li>
+                                                    <a>
+                                                        <span>{{ analysis.name }}</span>
+                                                    </a>
+                                                </li>
+                                            {% endfor %}
                                         </ul>
                                     </div>
                                 </li>
