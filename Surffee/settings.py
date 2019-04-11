@@ -125,8 +125,8 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.1/howto/static-files/
 PROJECT_ROOT = os.path.join(os.path.abspath(__file__))
 # needed for heroku
-STATIC_ROOT = os.path.join(PROJECT_ROOT, 'staticfiles')
-# STATIC_URL = '/static/'
+# STATIC_ROOT = os.path.join(PROJECT_ROOT, 'staticfiles')
+STATIC_URL = '/static/'
 
 # Custom backend stuff
 TEMPLATE_DIRS = ('surveys/templates', 'surveys/templates/registration', 'surveys/static')
