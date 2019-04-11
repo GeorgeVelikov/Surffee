@@ -15,13 +15,17 @@
         <div class="col-md-12 alert alert-info survey-description" role="alert">
             <h5> Question: {{ question }} </h5>
         </div>
-        {% if question.type == 'M' %}
-            {% define "checkbox" as input_type %}
-        {% elif question.type == 'S'%}
-            {% define "radio" as input_type %}
-        {% elif question.type == 'T' %}
-            {% define "text" as input_type %}
-        {% endif%}
+        <p>
+            {% if question.type == 'M' %}
+                You can select multiple choices.
+                {% define "checkbox" as input_type %}
+            {% elif question.type == 'S'%}
+                Select only one choice.
+                {% define "radio" as input_type %}
+            {% elif question.type == 'T' %}
+                {% define "text" as input_type %}
+            {% endif%}
+        </p>
         <br>
 
         <div class="col-sm-8 offset-sm-2">
@@ -36,5 +40,5 @@
             <button type="submit" class="btn btn-block btn-primary ">Answer</button>
         </div>
     </form>
-    <!-- TODO: fix buttons change colour depending on the current answer -->
+    <!-- TODO: implement text answers -->
 {% endblock %}

@@ -8,9 +8,9 @@ from .user import Researcher
 
 class Survey(models.Model):
     creator = models.ForeignKey(Researcher, on_delete=models.CASCADE, default=0)
-    name = models.CharField(max_length=2**8)
+    name = models.CharField(max_length=2 ** 8)
     creation_date = models.DateTimeField(default=timezone.now, editable=False)
-    description = models.CharField(max_length=2**10)
+    description = models.CharField(max_length=2 ** 10)
     active = models.BooleanField(default=False)
     pi_choices = models.TextField(blank=True, null=True)
     active_annotation = models.IntegerField(blank=True, null=True)
@@ -30,13 +30,13 @@ class PersonalInformation(models.Model):
         ('female', 'Female'),
     )
 
-    # minors cannot give consent
+    # minors cannot give consent, sadly
     age = models.IntegerField(default=18, validators=[MaxValueValidator(100), MinValueValidator(18)])
-    sex = models.CharField(max_length=2*6, choices=SEX_CHOICE, default='(select sex)')
+    sex = models.CharField(max_length=2 * 6, choices=SEX_CHOICE, default='(select sex)')
     country_of_birth = CountryField(blank_label='(select country)')
     country_of_residence = CountryField(blank_label='(select country)')
-    sexual_orientation = models.CharField(max_length=2**8)
-    native_tongue = models.CharField(max_length=2**8)
+    sexual_orientation = models.CharField(max_length=2 ** 8)
+    native_tongue = models.CharField(max_length=2 ** 8)
     # TODO: add more presets for researchers to choose
 
 
@@ -48,7 +48,7 @@ class Question(models.Model):
         ('G', 'Gradient answer'),
     )
     survey = models.ForeignKey(Survey, on_delete=models.CASCADE)
-    question_text = models.CharField(max_length=2**8)
+    question_text = models.CharField(max_length=2 ** 8)
     # pub_date = models.DateTimeField('date published')
     type = models.CharField(choices=QUESTION_TYPES, max_length=1, default=0)
 
@@ -69,3 +69,14 @@ class Choice(models.Model):
     class Meta:
         verbose_name = "Choice"
         verbose_name_plural = "Choices"
+
+
+class TextChoice(models.Model):
+    question = models.ForeignKey(Question, on_delete=models.CASCADE)
+    choice_text = models.CharField(max_length=100000)
+
+    def __str__(self): return self.choice_text
+
+    class Meta:
+        verbose_name = "TextChoice"
+        verbose_name_plural = "TextChoices"

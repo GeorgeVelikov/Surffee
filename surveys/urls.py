@@ -45,6 +45,10 @@ urlpatterns = [
          survey.Results.as_view(),
          name="results"),
 
+    path('<int:survey_id>/export/',
+         survey.export,
+         name='export'),
+
     path('<int:survey_id>/',
          survey.detail,
          name="detail"),
