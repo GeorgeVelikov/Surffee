@@ -360,12 +360,10 @@ $(document).ready(function () {
 
         else {
             var opt = $(':selected', class_id);
-            $(opt).css("background-color", "lightgreen")
 
             if (!terms_added.includes(class_id.val())) {
                 $("#termtables").children().remove().end();
                 terms_added.push(class_id.val());
-                console.log(terms_added);
                 updateAnalysis(terms_added, constraints_added);
 
             }
@@ -386,7 +384,6 @@ $(document).ready(function () {
         else {
             //constraints_added
             var opt = $(':selected', constraint);
-            $(opt).css("background-color", "lightgreen")
             key = opt.parent().attr('id');
 
             if (!constraints_added[key].includes(constraint.val())) {
@@ -400,6 +397,35 @@ $(document).ready(function () {
                 // alert("Constraint already added");
             }
         }
+    });
+
+    $("#remterm").on('click', function() {
+        var rem_term = $("#remtermform");
+        var rem_val = rem_term.val()
+        var rem_opt = $(':selected', rem_term);
+        var rem_field_group = rem_opt.parent().attr('id');
+
+        if (rem_field_group === "Constraints") {
+            $("#termtables").children().remove().end(); // clear so we can update
+            rem_val = rem_val.substr(4); // removes the first 4 empty spaces we put in for it to look good
+
+            for(key in constraints_added) {
+                for(let val of constraints_added[key]) {
+                    if (val == rem_val) {
+                        constraints_added[key]= constraints_added[key].splice(constraints_added[key].indexOf(val), 0);
+                    }
+                }
+            }
+
+        }
+
+        if (rem_field_group === "Terms") {
+            $("#termtables").children().remove().end(); // clear so we can update
+            console.log(rem_val);
+            console.log("TERMS", terms_added);
+        }
+
+        updateAnalysis(terms_added, constraints_added);
     });
 
 });
@@ -424,7 +450,7 @@ function updateAnalysis(terms_added, constraints_added){
         var term_string = "";
         if (terms_added.length) {
             // create opt group for field removal
-            var term_opt_group = $('<optgroup label="Terms"> <option selected disabled hidden> Please select a field </option> </optgroup>');
+            var term_opt_group = $('<optgroup id="Terms" label="Terms"> <option selected disabled hidden> Please select a field </option> </optgroup>');
             term_opt_group.appendTo("#remtermform");
 
             for (let term of terms_added) {
@@ -449,7 +475,7 @@ function updateAnalysis(terms_added, constraints_added){
         var constraint_string = "";
         if(constraints_added && $("#addconform").val()) {
             // create opt group for constraints
-            var constraint_opt_group = $('<optgroup label="Constraints"> <option selected disabled hidden> Please select a field </option> </optgroup>');
+            var constraint_opt_group = $('<optgroup id="Constraints" label="Constraints"> <option selected disabled hidden> Please select a field </option> </optgroup>');
             constraint_opt_group.appendTo("#remtermform");
 
             for (key in constraints_added) {
