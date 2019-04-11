@@ -406,8 +406,12 @@ $(document).ready(function () {
 
 function updateAnalysis(terms_added, constraints_added){
     var check = "#termtables #insidecontainer";
+
+    // clean all fields from "remove" option
     $("#remtermform").children().remove().end();
+
     if (!$(check).length) {
+        // general html building
         var term_table = $("#termtables");
         var inside_container = $('<div id="insidecontainer" class="container-fluid"></div>');
 
@@ -416,15 +420,18 @@ function updateAnalysis(terms_added, constraints_added){
         $(inside_container).appendTo(term_table);
         $(data_row).appendTo(inside_container);
 
+        // this generates the description box col-6 (left side) for the terms used
         var term_string = "";
         if (terms_added.length) {
-            var term_opt_group = $('<optgroup id="opt_term" label="Terms"> <option selected disabled hidden> Please select a field </option> </optgroup>');
+            // create opt group for field removal
+            var term_opt_group = $('<optgroup label="Terms"> <option selected disabled hidden> Please select a field </option> </optgroup>');
             term_opt_group.appendTo("#remtermform");
+
             for (let term of terms_added) {
                 for (let classif of single_analysis_classifications) {
                     if (term == classif.pk) {
                         term_string += classif.fields.name + ", "
-                        $('<option>' + classif.fields.name + '</option>').appendTo(term_opt_group);
+                        $('<option val="' + classif.pk + '">' + classif.fields.name + '</option>').appendTo(term_opt_group);
                     }
                 }
             }
@@ -440,12 +447,22 @@ function updateAnalysis(terms_added, constraints_added){
 
         // shows which constraints are given
         var constraint_string = "";
-        if(constraints_added) {
+        if(constraints_added && $("#addconform").val()) {
+            // create opt group for constraints
+            var constraint_opt_group = $('<optgroup label="Constraints"> <option selected disabled hidden> Please select a field </option> </optgroup>');
+            constraint_opt_group.appendTo("#remtermform");
+
             for (key in constraints_added) {
                 if (constraints_added[key].length) {
+
+                    // mini opt group (Sex, Age, Country of birth, etc.)
+                    var key_constraint_opt_group = $('<option label="' + key + '" disabled style="bold;"> </opgroup>');
+                    $(key_constraint_opt_group).appendTo(constraint_opt_group);
+
                     constraint_string += key + ": (";
                     for(let val of constraints_added[key]) {
                         constraint_string += val + ", ";
+                        $('<option val="' + val + '">&nbsp;&nbsp;&nbsp;&nbsp;' + val + '</option>').appendTo(constraint_opt_group);
                     }
                     constraint_string = constraint_string.slice(0,-2) + ");<br>"
                 }
