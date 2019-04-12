@@ -4,7 +4,7 @@ from django.views.generic import CreateView, UpdateView
 from django_countries.fields import Country
 
 from surveys.models import SurveyAnswer
-from ..models.survey import Survey, Choice
+from ..models.survey import Survey, Choice, Question
 from ..forms.surveys import ResearcherCreateSurvey
 from ..forms.users import ResearcherCreationForm
 
@@ -85,6 +85,11 @@ class Delete(UpdateView):
         permission_user_logged_in(request)
         permission_user_owns_survey(request, survey)
 
+        questions = Question.objects.filter(survey=survey)
+        choices = Choice.objects.filter(question__in=questions)
+
+        choices.delete()
+        questions.delete()
         survey.delete()
         return redirect('/surveys/')
 
