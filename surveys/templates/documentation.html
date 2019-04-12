@@ -8,7 +8,7 @@
 <!-- Load custom tags for templates -->
 {% load define_action %}
 
-{% block title  %}Annotation Selection{% endblock %}
+{% block title  %}Documentation{% endblock %}
 
 {% block content %}
 
@@ -134,10 +134,30 @@
                         To annotate a survey there must be at least one created annotation. Annotations can be created from the sidebar under the Annotation section by pressing on the Annotation Manager link.
                     </p>
                     <img type="image" style="max-width:100%; max-height:100%;" src="{% static '/doc_pics/annotationmngrlink.png' %}"/>
+                    <br>
+                    <br>
                     <p class="text-justify">
-                        
+                        There are instructions in Annotation Manager but we will go over them again for the user's convinience. In the Annotation Manager page there are two boxes,which contain all the annotations in the left one and all the classes of each annotation on the right one. The classes box remains empty until an annotation is selected from the annotation box. In that case the classes are shown, otherwise if there are no classes in the current annotation then the box will become red and a message explaining this will appear. The textbox below the two boxes is used to give a name to a new annotation which can be created when the name is added and the create annotation button is pressed. Remove annotation removes a selected annotation from the annotation list.
                     </p>
                     <img type="image" style="max-width:100%; max-height:100%;" src="{% static '/doc_pics/annotationmanager.png' %}"/>
+                    <br>
+                    <br>
+                    <p class="text-justify">
+                        After creating at least one annotation then a survey can be annotated. This can be done in the survey details page of the selected survey. The button that links to the annotation page is located at the bottom of the survey page ('Annotate'). When pressed the button will redirect the user to the Annotation Selection page which is quite similar to the Annotation manager. In the annotation selector the user cannot create or remove annotation however, yet they are able to still look at annotations and their classes. The purpose of this page is because annotations can be applied to multiple surveys and a survey can apply more than one annotation to its answers. This is because annotations are owned by the user and thus can be applied globaly and freely. Lastly, if no annotation is selected the button to proceed to annotation is disabled, therefore an annotation must be selected to continue.
+                    </p>
+                    <img type="image" style="max-width:100%; max-height:100%;" src="{% static '/doc_pics/annotationselect.png' %}"/>
+                    <br>
+                    <br>
+                    <p class="text-justify">
+                        The annotated content section is a collapsible panel to reduce space when annotating answers. When the arrow-dowb button is pressed on the panel, the section will either collapse or expand displaying all of the annotated content, which can also be found in the all tab in the panel. If a different tab is selected for example 'obj', the section will display all words annotated under the 'obj' class. Be wary as there is a limit to the number of annotations classes that can be created.
+                    </p>
+                    <img type="image" style="max-width:100%; max-height:100%;" src="{% static '/doc_pics/annotatedtab.png' %}"/>
+                    <br>
+                    <br>
+                    <p class="text-justify">
+                        The section below already annotated content is the whole annotation interface. There, a list of all answers is present. Annotated answers are highlighted with their class's color, whereas non-annotated content is not highlighted at all. To annotate a word the user needs to simply select the word, words or part of word he wants to annotate. Then the users selection will be displayed below at the bottom center section of the annotation interface panel. To annotate the selected word the user needs to enter in the field below the name of the class to be added to, and then press add single or add all. The difference between the two is that add all will annotate all occurrences of a word from all answers. This is not always desired for instance in some verbs that consist of two words, thus add single only adds the currently selected occurrence of the word. The remove buttons work with the same logic as the add buttons and it is important to note that the text must be highlighted again and the class entered again for removal to work. Annotation is saved in real-time therefore there is no page generated to visit it. Thus when the user is done with annotating content there is a link on the bottom to take them back to the survey.
+                    </p>
+                    <img type="image" style="max-width:100%; max-height:100%;" src="{% static '/doc_pics/annotationpage.png' %}"/>
 
 
                     <!-- Analysis -->
