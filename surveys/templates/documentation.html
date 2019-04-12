@@ -62,18 +62,42 @@
                         </div>
                     </div>
 
-                    <!-- Create/Login -->
+                    <!-- Create Survey -->
                     <div class="d-flex justify-content-between flex-wrap flex-sm-nowrap align-items-center pb-2 mb-3 border-bottom">
                         <h5 id="creating_sur" class="text-center anchor"><b>Creating surveys</b></h5>
                     </div>
                     <p class="text-justify">
-                        idea: we spray all the vegetables with nicotine. everyone gets addicted to salad. people on their break start chaining apples instead of cigarettes. everyone's BMs are amazing and frequent. Everyone's skin clears up. We all get in great shape. Everyone starts jogging just for fun. We all fiend so hard for vegetables that sustainable agricultural practices thrive. Because of our association of the taste of vegetables with our ridiculous nicotine addiction, we now find sugar and junk food less appetizing. Nestle crumbles. We begin to genetically engineer the vegetables to naturally produce their own nicotine. We all think more sharply from all the phytonutrients in our blood. we overthrow capitalism. We all have nationally excellent gut health. We end all wars. We realize we've had the tools to automate virtually every job known to man for years, and we can power the robots with the sun and wind infinitely for the rest of time. We end labor, and begin a new phase of human existence where the main goal of a society isn't acquisition of wealth, but of experiences, knowledge and understanding of self. We explore space and alternate dimensions in search of new, tastier vegetables to put in our salad. We unlock the secrets of the universe while also fiending immensely for our next hit of broccoli.
+                        Creating a survey is a very simple process in Surffee. To create one, the user must be first logged in to their account. when that is done the user can navigate to the top right side of the navigation bar and press on create survey as shown in the picture attached.
                     </p>
-<!--                    <div class="col-2 card">-->
-<!--                        <div class="card-body">-->
-                            <img type="image" style="max-width:100%; max-height:100%;" src="{% static '/doc_pics/createsurveylink.png' %}"/>
-<!--                        </div>-->
-<!--                    </div>-->
+                    <img type="image" style="max-width:100%; max-height:100%;" src="{% static '/doc_pics/createsurveylink.png' %}"/>
+                    <br>
+                    <br>
+                    <p class="text-justify">
+                        Then the user is asked to provide a name for the survey and a description. Both fields are required for creation. The list present in the survey creation page is for any necessary Personal Information question which we can create automatically for you in each survey. The user is free to choose any number of them or none at all. It is important to note that these questions do not appear in the survey details but will be shown at the start of the survey as intended.
+                    </p>
+                    <img type="image" style="max-width:100%; max-height:100%;" src="{% static '/doc_pics/createsurveypage.png' %}"/>
+                    <br>
+                    <br>
+                    <p class="text-justify">
+                        When a survey is created it is automatically marked as inactive and must be made active in the survey details page. This will be explained in another section of this documentation. All surveys can be found under their current category's drop-down list (active/inactive) on the sidebar or from 'My surveys' on the top right side of the navigation bar. The later will display all surveys under their category in a separate page for clarity. The pictures below show each of the corresponding links.
+                    </p>
+                    <div class="row">
+                        <div class="col">
+                            <img type="image" style="max-width:100%; max-height:100%;" src="{% static '/doc_pics/surveyssidebar.png' %}"/>
+                        </div>
+                        <div class="col">
+                            <img type="image" style="max-width:100%; max-height:100%;" src="{% static '/doc_pics/mysurveys.png' %}"/>
+                        </div>
+                    </div>
+                    <br>
+                    <p class="text-justify">
+                        In the user's surveys page surveys are listed under their category as mentioned before and are sorted by time of creation. All surveys in each list are clickable and the link will take them to the survey details page.
+                    </p>
+                    <img type="image" style="max-width:100%; max-height:100%;" src="{% static '/doc_pics/mysurveyspage.png' %}"/>
+
+
+
+
 
                     <div class="d-flex justify-content-between flex-wrap flex-sm-nowrap align-items-center pb-2 mb-3 border-bottom">
                         <h5 id="survey_details" class="text-center anchor"><b>Survey details</b></h5>
@@ -130,7 +154,7 @@
         <!--                        <a href="#conclusion" class="list-group-item">-->
         <!--                            <span class="fa fa-angle-double-right text-primary"></span>Survey details-->
         <!--                        </a>-->
-                                
+
                             </div>
                         </div>
                     </div>
