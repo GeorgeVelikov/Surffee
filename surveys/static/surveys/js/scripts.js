@@ -326,7 +326,7 @@ $(document).ready(function () {
 
         var uniqueName= true;
         for (let analysis of all_analysis_names) {
-            if (analysisName.val() == analysis.name) {
+            if (analysisName.val().replace(/\s/g,'').toLowerCase() == analysis.name.replace(/\s/g,'').toLowerCase()) {
                 uniqueName = false;
                 break;
             }
