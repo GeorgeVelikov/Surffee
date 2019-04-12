@@ -121,7 +121,6 @@ class AnalysisSingleTerm(CreateView):
                     carry_over_terms = list(literal_eval(analysis.terms))
 
             # since carried over constraints are saved in a more verbose way, they experience no issue
-            print("THE BOYE IS HERE:", analysis.constraints)
             carry_over_constraints = literal_eval(analysis.constraints)
 
         else:
@@ -216,7 +215,6 @@ class AnalysisSingleTerm(CreateView):
 
             # transform js serialized dict to a normal py dict
             con_post = parse.parse_qs(request.POST['constraints'])
-            print(con_post)
             for key in con_post.keys():
                 nk = key.replace("[]", "")
                 constraints[nk] = con_post[key]
@@ -269,3 +267,64 @@ class AnalysisMultipleTerm(CreateView):
                                   all_surveys=all_surveys,
                                   )
         )
+
+
+class AnalysisGraph(CreateView):
+    template_name = 'surveys/results.html'
+    model = Survey
+    form_class = AnalysisCreator
+
+    def chart_for_each_question(self, survey):
+        """ This method return a list of pairs (question_id, json_data)
+            Can be easily modified later to also modify
+            the size or type of chart                               """
+        chart_context = []
+
+        question_count = 1
+        for question in survey.question_set.all():
+            question_number = "Question " + str(question_count)
+            question_text = question.question_text
+            question_count += 1
+
+            json_data = {
+                "chart": None,
+                "data": [],
+            }
+
+            # meta data for the chart
+            chart_config = {
+                "caption": question_number,
+                "subcaption": question_text,
+                "numbersuffix": " votes",
+                "theme": "candy",
+            }
+
+            # choices data for the chart
+            for choice in question.choice_set.all():
+                json_data["data"].append({
+                    "label": choice.choice_text,
+                    "value": choice.votes,
+                })
+
+            json_data["chart"] = chart_config
+            chart_context.append((question_number, json_data))
+        return chart_context
+
+    def get(self, request, *args, **kwargs):
+        self.object = None
+        form_class = self.get_form_class()
+        form = self.get_form(form_class)
+        get_variables = request.GET
+
+        survey_id = get_variables['survey']
+        survey = Survey.objects.get(pk=survey_id)
+
+        permission_user_owns_survey(request, survey)
+
+        return self.render_to_response(
+            self.get_context_data(form=form,
+                                  charts=self.chart_for_each_question(survey),
+                                  survey=survey,
+                                  )
+        )
+

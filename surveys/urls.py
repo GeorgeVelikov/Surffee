@@ -37,6 +37,10 @@ urlpatterns = [
          analysis.AnalysisMultipleTerm.as_view(),
          name='multiple_term_analysis'),
 
+    path('analysis/graph',
+         analysis.AnalysisGraph.as_view(),
+         name='graph_analysis'),
+
     path('toggle_active/<int:survey_id>',
          survey.ActiveToggle.as_view(),
          name='toggle_active_survey'),
