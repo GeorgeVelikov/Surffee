@@ -108,10 +108,13 @@ class AnalysisSingleTerm(CreateView):
             operation = "overwrite"
 
             # okay i don't know how this works, don't touch it pls
-            if isinstance(literal_eval(analysis.terms), int):
-                carry_over_terms = [analysis.terms]
+            if (analysis.terms == ""):
+                carry_over_terms = []
             else:
-                carry_over_terms = list(literal_eval(analysis.terms))
+                if isinstance(literal_eval(analysis.terms), int):
+                    carry_over_terms = [analysis.terms]
+                else:
+                    carry_over_terms = list(literal_eval(analysis.terms))
 
             carry_over_constraints = literal_eval(analysis.constraints)
 
