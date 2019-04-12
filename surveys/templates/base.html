@@ -203,13 +203,19 @@
                                     </a>
                                     <div class="sidebar-submenu">
                                         <ul>
-                                            {% for analysis in all_analysis %}
+                                            {% if all_analysis %}
+                                                {% for analysis in all_analysis %}
+                                                    <li>
+                                                        <a href="/surveys/analysis/single?analysis={{analysis.pk}}">
+                                                            <span>{{ analysis.name }}</span>
+                                                        </a>
+                                                    </li>
+                                                {% endfor %}
+                                            {% else %}
                                                 <li>
-                                                    <a href="/surveys/analysis/single?analysis={{analysis.pk}}">
-                                                        <span>{{ analysis.name }}</span>
-                                                    </a>
+                                                    <a class="disabled">No single term analytics </a>
                                                 </li>
-                                            {% endfor %}
+                                            {% endif %}
                                         </ul>
                                     </div>
                                 </li>

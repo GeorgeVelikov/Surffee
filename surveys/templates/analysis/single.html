@@ -76,7 +76,11 @@
 
                             <p class="lead">Analysis Controls</p>
                             <div class="btn-group-vertical" role="group" aria-label="Basic example" style="margin-bottom:24px">
-                                <button type="button" class="btn btn-danger" id="deltermpage" style="margin-bottom:24px">Clear all</button>
+                                <button type="button" class="btn btn-warning" id="deltermpage" style="margin-bottom:24px">Clear all</button>
+
+                                {% if operation == "overwrite" %}
+                                    <button type="submit" onclick="return confirm('Are you sure you want to delete analysis `{{ analysis_name }}`?')" class="btn btn-danger" name="delete" value="{{ analysis_pk }}" id="delanalysis" style="margin-bottom:24px">Delete analysis</button>
+                                {% endif %}
 
                                 <button type="submit" name="operation" value="{{operation}}"id="post_save_analysis" class="btn btn-success">Save Analysis</button>
                             </div>
