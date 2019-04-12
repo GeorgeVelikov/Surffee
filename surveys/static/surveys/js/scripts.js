@@ -660,8 +660,8 @@ function create_chart(name, json_data) {
     FusionCharts.ready(function(){
         let chart = new FusionCharts({
             type: 'Column3D',
-            width: '500',
-            height: '300',
+            width: '100%',
+            height: '500',
             dataFormat: 'json',
             renderAt: name,
             dataSource: json_data
