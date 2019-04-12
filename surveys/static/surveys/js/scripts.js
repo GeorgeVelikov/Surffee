@@ -629,7 +629,17 @@ function updateAnalysis(terms_added, constraints_added){
                 for(word in words_in_choices) {
                     var choices = words_in_choices[word];
                     var user_votes = choices.filter(element => answer.fields.choice.includes(element));
-                    var ratio = user_votes.length / single_analysis_questions.length;
+                    var relevant_choices = words_in_choices[word];
+                    var relevant_questions = [];
+                    for (let ch of single_analysis_choices) {
+                        if (relevant_choices.includes(ch.pk)) {
+                            if (!relevant_questions.includes(ch.fields.question)) {
+                                relevant_questions.push(ch.fields.question);
+                            }
+                        }
+                    }
+
+                    var ratio = user_votes.length / relevant_questions.length;
 
                     $('<div class="col-3">' + ratio.toFixed(2) + '</div>').appendTo(row);
                 }
