@@ -477,7 +477,7 @@ $(document).ready(function () {
                     data_to_plot['chart'] = chart_config;
 
                     if (!($("#question_" + question.pk).length)) {
-                        var id = ('question_' + question.pk);
+                        var id = ('question_' + question.pk + '_' + graph_type);
                         var name = question.fields.question_text;
 
                         // big container
@@ -485,7 +485,7 @@ $(document).ready(function () {
                         d_flex_graph.appendTo("#graphtable");
 
                             // smaller container
-                            var light_blue_box = $('<div class="text-xs-center p-4 bg-info rounded"> </div>');
+                            var light_blue_box = $('<div id="question_' + question.pk + '" class="text-xs-center p-4 bg-info rounded"> </div>');
                             light_blue_box.appendTo(d_flex_graph);
 
                                 // chart containers
@@ -501,22 +501,39 @@ $(document).ready(function () {
                                 /////////////////////////////////////////////////
 
                                 // chart text containers
-                                var chart_text_row = $('<br><div class="row"></div>');
+                                var chart_text_row = $('<br><div id="question_' + question.pk + '_description" class="row"></div>');
                                 chart_text_row.appendTo(light_blue_box);
 
                                     var chart_text_col = $('<div class="col-sm"></div>');
                                     chart_text_col.appendTo(chart_text_row);
 
-                                        var chart_text_container = $('<div class="container alert alert-info survey-description" id="' + id + '_description" role="alert"> </div>');
+                                        var chart_text_container = $('<div class="container alert alert-info survey-description" role="alert"> </div>');
                                         chart_text_container.appendTo(chart_text_col);
 
                                             // text
                                             $('<span style="font-size:xx-large">' + name + ':</span>').appendTo(chart_text_container);
                                             $('<p>My name 📛 is, my 📛name 📛 is My name📛 is, Charles the Second! ​ I 💝love💝 the people👦 And the people👤 ❤️love❤️ me So much that they restored The English monarchy! ​ I’m part〽️ Scottish, French, Italian A little bit Dane But one1️⃣ hundred💯💯 percent 🔣 party🍺 animal🐀 Champagne? ​ Spaniels I adored Named after me too Like me, they were 🎢fun 🎢 With a🅰️ nutty hair💈 do! ​ Is today my birthday🎊🎊? I can’t recall Let’s have 🈶 🅰️a🅰️ 🎉party🎉 anyway Because I love💘 🅰️a🅰️ masked 😷 ball🎳! ​ All hail, the king👑! Of bling! Let’s sing! Bells ring🔗! Ding ding🇩🇪! I’m the king👑 who brought back↩️ partying🍺! ​ King Charles, my daddy Lost his throne and 👑kings👑 were banned They chopped off📴 his head💆 Then Olly Cromwell 🔨ruled🔨 the land ​ Old Olly wasn’t jolly </p>').appendTo(chart_text_container);
                     // end of big spaghett
+                        create_chart(id, data_to_plot, graph_type);
+                    }
+                    else {
+                        var id = ('question_' + question.pk + '_' + graph_type);
+
+                         // chart containers
+                        var question_chart_description = $("#question_" + question.pk + "_description");
+                            var chart_row = $('<div class="row"></div>');
+                            chart_row.insertBefore(question_chart_description);
+                            $("<br>").insertBefore(question_chart_description);
+
+                                var chart_col = $('<div class="col-sm"> </div>');
+                                chart_col.appendTo(chart_row);
+
+                                    var actual_chart = $('<div id="' + id + '" style="L"> </div>');
+                                    actual_chart.appendTo(chart_col);
+
+                        create_chart(id, data_to_plot, graph_type);
                     }
 
-                    create_chart(('question_' + question.pk), data_to_plot, graph_type);
                 }
             }
         }
