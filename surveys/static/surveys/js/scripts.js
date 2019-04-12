@@ -451,6 +451,34 @@ $(document).ready(function () {
         $('<input name="constraints" value="' + jQuery.param(constraints_added) + '" type="hidden"> </input').appendTo(divP);
     });
 
+    // this is all of the analysis of graphs
+    $("#addterm_graph").on('click', function () {
+        graph_type = $("#add_graph_style").val();
+        question_pk = $("#addtermform_graph").val();
+
+        // if we actually pass something
+        if (graph_type && question_pk) {
+            for(let question of graph_analysis_data) {
+                if (question_pk == question.pk) {
+                    // grab the question from the data set we want to analyze
+                    console.log(graph_type, question_pk);
+                    console.log(question);
+
+                    // need to create the fusion charts data set now
+                }
+            }
+        }
+
+        else {
+            alert("Missing arguments");
+        }
+    });
+
+    $("#deltermpage_graph").on('click', function() {
+
+        $("#graphtable").children().remove().end();
+    });
+
 });
 
 // update function for single analysis, for any changes on it refer to George
@@ -656,10 +684,10 @@ function redirect() {
 
 // create_chart returns render of the chart
 // used in the results.html
-function create_chart(name, json_data) {
+function create_chart(name, json_data , type="column3d") {
     FusionCharts.ready(function(){
         let chart = new FusionCharts({
-            type: 'Column3D',
+            type: type,
             width: '100%',
             height: '500',
             dataFormat: 'json',

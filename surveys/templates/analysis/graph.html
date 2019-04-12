@@ -18,6 +18,11 @@
         {{s}}<br><br>
     {% endfor %}
 
+
+    {% for ch in charts %}
+        {{ch}}<br><br>
+    {% endfor %}
+
     <form action="" method="post">
         {% csrf_token %}
 
@@ -33,7 +38,7 @@
                 <div class="container-fluid">
                     <div class = "row text-center">
                         <!-- JS magic tables -->
-                        <div class = "single_term_table col col-md-8 card card-body bg-light outside-container" style="margin:24px" id="termtables">
+                        <div class = "single_term_table col col-md-8 card card-body bg-light outside-container" style="margin:24px" id="graphtable">
                             <!-- CHARTS START HERE -->
                             {% for name, json_data in charts %}
                                 <div class="d-flex justify-content-between flex-wrap flex-sm-nowrap align-items-center pb-2 mb-3 border-bottom">
@@ -87,7 +92,7 @@
                                         <option value="doughnut3d">Doughnut</option>
                                         <option value="pareto3d">Pareto</option>
                                     </optgroup>
-                                    
+
                                 </select>
                             </div>
 
@@ -113,7 +118,7 @@
 
                             <p class="lead">Analysis Controls</p>
                             <div class="btn-group-vertical" role="group" aria-label="Basic example" style="margin-bottom:24px">
-                                <button type="button" class="btn btn-warning" id="deltermpage" style="margin-bottom:24px">Clear all</button>
+                                <button type="button" class="btn btn-warning" id="deltermpage_graph" style="margin-bottom:24px">Clear all</button>
 
                                 {% if operation == "overwrite" %}
                                     <button type="submit" onclick="return confirm('Are you sure you want to delete analysis `{{ analysis_name }}`?')" class="btn btn-danger" name="delete" value="{{ analysis_pk }}" id="delanalysis_graph" style="margin-bottom:24px">Delete analysis</button>
