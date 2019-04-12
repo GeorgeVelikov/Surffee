@@ -1,4 +1,4 @@
-from django.core.exceptions import PermissionDenied
+
 from django.shortcuts import redirect
 from django.views.generic import CreateView
 
@@ -113,7 +113,6 @@ class AnalysisSingleTerm(CreateView):
             else:
                 carry_over_terms = list(literal_eval(analysis.terms))
 
-            print(carry_over_terms)
             carry_over_constraints = literal_eval(analysis.constraints)
 
         else:
