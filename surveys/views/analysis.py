@@ -249,7 +249,7 @@ class AnalysisSingleTerm(CreateView):
 
 
 class AnalysisMultipleTerm(CreateView):
-    template_name = 'analysis/multi.html'
+    template_name = 'analysis/multiple.html'
     model = Annotation
     form_class = AnalysisCreator
 
