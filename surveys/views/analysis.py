@@ -107,15 +107,20 @@ class AnalysisSingleTerm(CreateView):
             annotation = Annotation.objects.get(pk=analysis.annotation.pk)
             operation = "overwrite"
 
-            # okay i don't know how this works, don't touch it pls
-            if (analysis.terms == ""):
+            # this is a little spaghetti, be careful if you're making changes to it
+            # if we have no saved terms, just put carry over as an empty list
+            if analysis.terms == "":
                 carry_over_terms = []
             else:
+                # if we have only one saved carry over term
                 if isinstance(literal_eval(analysis.terms), int):
                     carry_over_terms = [analysis.terms]
+                # if we have many saved carry over terms
                 else:
                     carry_over_terms = list(literal_eval(analysis.terms))
 
+            # since carried over constraints are saved in a more verbose way, they experience no issue
+            print("THE BOYE IS HERE:", analysis.constraints)
             carry_over_constraints = literal_eval(analysis.constraints)
 
         else:
@@ -199,6 +204,7 @@ class AnalysisSingleTerm(CreateView):
 
         # transform js serialized dict to a normal py dict
         con_post = parse.parse_qs(request.POST['constraints'])
+        print(con_post)
         for key in con_post.keys():
             nk = key.replace("[]", "")
             constraints[nk] = con_post[key]

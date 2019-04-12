@@ -399,6 +399,11 @@ $(document).ready(function () {
             var opt = $(':selected', constraint);
             key = opt.parent().attr('id');
 
+            // check if key does not exist
+            if (!(key in constraints_added)) {
+                constraints_added[key] = [];
+            }
+
             if (!constraints_added[key].includes(constraint.val())) {
                 $("#termtables").children().remove().end();
                 constraints_added[key].push(constraint.val());
@@ -468,6 +473,7 @@ $(document).ready(function () {
 });
 
 function updateAnalysis(terms_added, constraints_added){
+    console.log(constraints_added);
     var check = "#termtables #insidecontainer";
 
     // clean all fields from "remove" option
@@ -545,7 +551,6 @@ function updateAnalysis(terms_added, constraints_added){
 
     for(let class_id of terms_added) {
 
-
         // words of the selected classification in the choices
         var words_in_choices = {}
         for(let word of single_analysis_words) {
@@ -559,8 +564,17 @@ function updateAnalysis(terms_added, constraints_added){
             }
         }
 
+        // grab classification name
+        var header_name;
+        for (let classif of single_analysis_classifications) {
+            if (classif.pk == class_id)
+            header_name = classif.fields.name;
+        }
+
         // blue bar
-        var row_div = $('<br><div class="row bg-info" > </div>');
+        var header = $('<br><div class="row">' + header_name + '</div>');
+        $(header).appendTo($("#insidecontainer"));
+        var row_div = $('<div class="row bg-info" > </div>');
         $(row_div).appendTo($("#insidecontainer"));
         $('<div class="col-3"> # </div>').appendTo(row_div);
 
