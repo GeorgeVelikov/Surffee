@@ -70,14 +70,12 @@
                         Creating a survey is a very simple process in Surffee. To create one, the user must be first logged in to their account. when that is done the user can navigate to the top right side of the navigation bar and press on create survey as shown in the picture attached.
                     </p>
                     <img type="image" style="max-width:100%; max-height:100%;" src="{% static '/doc_pics/createsurveylink.png' %}"/>
-                    <br>
-                    <br>
+                    <br><br>
                     <p class="text-justify">
                         Then the user is asked to provide a name for the survey and a description. Both fields are required for creation. The list present in the survey creation page is for any necessary Personal Information question which we can create automatically for you in each survey. The user is free to choose any number of them or none at all. It is important to note that these questions do not appear in the survey details but will be shown at the start of the survey as intended.
                     </p>
                     <img type="image" style="max-width:100%; max-height:100%;" src="{% static '/doc_pics/createsurveypage.png' %}"/>
-                    <br>
-                    <br>
+                    <br><br>
                     <p class="text-justify">
                         When a survey is created it is automatically marked as inactive and must be made active in the survey details page. This will be explained in another section of this documentation. All surveys can be found under their current category's drop-down list (active/inactive) on the sidebar or from 'My surveys' on the top right side of the navigation bar. The later will display all surveys under their category in a separate page for clarity. The pictures below show each of the corresponding links.
                     </p>
@@ -117,8 +115,7 @@
                         The choices for each question are listed below the title. A blue badge is shown below each choice indicating the number of votes of each of those choices from respondent answers. On the right of each choice there is an 'x' button that removes the current choice from a question along with all of its votes.
                     </p>
                     <img type="image" style="max-width:100%; max-height:100%;" src="{% static '/doc_pics/questioncard.png' %}"/>
-                    <br>
-                    <br>
+                    <br><br>
                     <h6 class="border-bottom pl-3">Adding/ Editting Questions</h6>
                     <p class="text-justify">
                         Adding or editing a question from the dropdown options button leads to a new page which looks like the picture below. The title specifies the question and survey we are editing or adding to. On the right we have a small toolbar with add and remove choice buttons indicated with a plus (+) and a minus (-). Adding a choice will add a new empty choice field under the last choice available where as removing will remove the last choice available. The dropdown indicates the type of question such as single or multiple choice as mentioned above. gradient and text answers are in development in the future. The add question button finalises changes and adds the changed or newly created question to the survey.
@@ -134,26 +131,23 @@
                         To annotate a survey there must be at least one created annotation. Annotations can be created from the sidebar under the Annotation section by pressing on the Annotation Manager link.
                     </p>
                     <img type="image" style="max-width:100%; max-height:100%;" src="{% static '/doc_pics/annotationmngrlink.png' %}"/>
-                    <br>
-                    <br>
+                    <br><br>
                     <p class="text-justify">
                         There are instructions in Annotation Manager but we will go over them again for the user's convinience. In the Annotation Manager page there are two boxes,which contain all the annotations in the left one and all the classes of each annotation on the right one. The classes box remains empty until an annotation is selected from the annotation box. In that case the classes are shown, otherwise if there are no classes in the current annotation then the box will become red and a message explaining this will appear. The textbox below the two boxes is used to give a name to a new annotation which can be created when the name is added and the create annotation button is pressed. Remove annotation removes a selected annotation from the annotation list.
                     </p>
                     <img type="image" style="max-width:100%; max-height:100%;" src="{% static '/doc_pics/annotationmanager.png' %}"/>
-                    <br>
-                    <br>
+                    <br><br>
                     <p class="text-justify">
                         After creating at least one annotation then a survey can be annotated. This can be done in the survey details page of the selected survey. The button that links to the annotation page is located at the bottom of the survey page ('Annotate'). When pressed the button will redirect the user to the Annotation Selection page which is quite similar to the Annotation manager. In the annotation selector the user cannot create or remove annotation however, yet they are able to still look at annotations and their classes. The purpose of this page is because annotations can be applied to multiple surveys and a survey can apply more than one annotation to its answers. This is because annotations are owned by the user and thus can be applied globaly and freely. Lastly, if no annotation is selected the button to proceed to annotation is disabled, therefore an annotation must be selected to continue.
                     </p>
                     <img type="image" style="max-width:100%; max-height:100%;" src="{% static '/doc_pics/annotationselect.png' %}"/>
-                    <br>
-                    <br>
+                    <br><br>
+                    <h6 class="border-bottom pl-3">Annotation interface</h6>
                     <p class="text-justify">
                         The annotated content section is a collapsible panel to reduce space when annotating answers. When the arrow-dowb button is pressed on the panel, the section will either collapse or expand displaying all of the annotated content, which can also be found in the all tab in the panel. If a different tab is selected for example 'obj', the section will display all words annotated under the 'obj' class. Be wary as there is a limit to the number of annotations classes that can be created.
                     </p>
                     <img type="image" style="max-width:100%; max-height:100%;" src="{% static '/doc_pics/annotatedtab.png' %}"/>
-                    <br>
-                    <br>
+                    <br><br>
                     <p class="text-justify">
                         The section below already annotated content is the whole annotation interface. There, a list of all answers is present. Annotated answers are highlighted with their class's color, whereas non-annotated content is not highlighted at all. To annotate a word the user needs to simply select the word, words or part of word he wants to annotate. Then the users selection will be displayed below at the bottom center section of the annotation interface panel. To annotate the selected word the user needs to enter in the field below the name of the class to be added to, and then press add single or add all. The difference between the two is that add all will annotate all occurrences of a word from all answers. This is not always desired for instance in some verbs that consist of two words, thus add single only adds the currently selected occurrence of the word. The remove buttons work with the same logic as the add buttons and it is important to note that the text must be highlighted again and the class entered again for removal to work. Annotation is saved in real-time therefore there is no page generated to visit it. Thus when the user is done with annotating content there is a link on the bottom to take them back to the survey.
                     </p>
@@ -165,11 +159,16 @@
                         <h5 id="analysis_doc" class="text-center anchor"><b>Analysis</b></h5>
                     </div>
                     <p class="text-justify">
-                        As was shown on the last picture of the previous section questions appear in the shown white box, with an initial and the question text in the title. The initial symbolises the type of question during question creation, for instance single or multiple choice. The picture below shows another example for a single choice question. Single choice means that only one answer is acceptable, therefore in the example below an answer to the question can be either True or False, but not both. The opposite holds for multiple choice questions where more than one answer is acceptable. At the right corner of each question there is an options button, that when clicked shows a drop down list with edit or delete options for the current question. Before we go into those two options and their corresponding page, it is important to explain the rest of teh question panel.
-
-                        <br><br>
-                        The choices for each question are listed below the title. A blue badge is shown below each choice indicating the number of votes of each of those choices from respondent answers. On the right of each choice there is an 'x' button that removes the current choice from a question along with all of its votes.
+                        Analysis can be created by accessing Analysis Generator from the left sidebar. The large dark box acts as a radio button group to select the form of analysis the user wishes to generate, thus clicking on of the types either Single Term Analysis, Multiple Term Analysis or Graphical Analysis is required for creation. As the textboxes below indicate with their placeholder text, we must select a survey to generate an analysis for it and an annotation that links to that survey. Finally a name is required to make the generate page unique. It is important to note that the analysis generator does not save the generated analysis but just generates the page. therefore the page must then be saved from its corresponding generated page.
                     </p>
+                    <img type="image" style="max-width:100%; max-height:100%;" src="{% static '/doc_pics/analysisgen.png' %}"/>
+                    <br><br>
+                    <h6 class="border-bottom pl-3">Single Term Analysis</h6>
+                    <p class="text-justify">
+                        When a single term analysis page is generate it looks like the picture shown below. However the picture below has already added classes and constraints whereas a new page would be empty. In the title the name given to the analysis is displayed, while the survey is shown on the top right corner of the page. The toolbar on the right is essential for populating the page. The first dropdown contains all classes in the current annotation and by selecting one class and pressing the add button a table shown results for that class will be generated. The same applies for constraints just below it. For clarity, constraints are the answers to the personal information questions, for instance here it is age and language. Terms and Constraints used are shown above the tables and are listed for the users convenience. The remove field section on the toolbar is for removing any added term or constraint from the page. The clear all button is used to empty the whole page instead of removing fields one by one. finally save analysis is used to save the generated analysis in the database. The analysis saved is then accessible from the sidebar under its corresponding category, eg. single term.
+                    </p>
+                    <img type="image" style="max-width:100%; max-height:100%;" src="{% static '/doc_pics/singleterm.png' %}"/>
+
 
                 </div>
             </div>
