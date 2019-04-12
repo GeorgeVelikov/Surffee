@@ -461,8 +461,60 @@ $(document).ready(function () {
             for(let question of graph_analysis_data) {
                 if (question_pk == question.pk) {
                     // grab the question from the data set we want to analyze
-                    console.log(graph_type, question_pk);
-                    console.log(question);
+                    var data_to_plot = {"chart": null, "data": []};
+
+                    var chart_config = { "caption": question.fields.question_text,
+                                         "subcaption": question.fields.question_text,
+                                         "numbersuffix": " votes",
+                                         "theme": "candy"
+                                        };
+
+                    for(let choice of question.fields.choices) {
+                        data_to_plot['data'].push( {"label": choice.fields.choice_text,
+                                                    "value": choice.fields.votes} );
+                    }
+
+                    data_to_plot['chart'] = chart_config;
+
+                    if (!($("#question_" + question.pk).length)) {
+                        var d_flex = $('<div class="d-flex justify-content-between flex-wrap flex-sm-nowrap align-items-center pb-2 mb-3 border-bottom"> </div>');
+                        d_flex.appendTo("#graphtable");
+
+                        var light_blue_box = $('<div class="text-xs-center p-4 bg-info rounded"> </div>');
+                        light_blue_box.appendTo(d_flex);
+
+                        var chart_box = $('<div class="row"></div>');
+                        chart_box.appendTo(light_blue_box);
+
+                        var inner_chart_box = $('<div class="col-sm"> </div>');
+                        inner_chart_box.appendTo(chart_box);
+
+                        var actual_chart = $('<div id="' + ('question_' + question.pk) + '" style="L"> </div>');
+                        actual_chart.appendTo(inner_chart_box);
+
+                        var text_box = $('<br><div class="row"></div>');
+                        text_box.appendTo(light_blue_box);
+
+                        var inner_text_box = $('<div class="col-sm"></div>');
+                        inner_text_box.appendTo(text_box);
+
+                        var container_text = $('<div class="container alert alert-info survey-description" id="'+('question_' + question.pk)+'_description" role="alert"> </div>');
+                        container_text.appendTo(inner_text_box);
+
+                        $('<span style="font-size:xx-large">' + question.fields.question_text + ':</span>').appendTo(container_text);
+                        $('<p>My name 📛 is, my 📛name 📛 is My name📛 is, Charles the Second! ​ I 💝love💝 the people👦 And the people👤 ❤️love❤️ me So much that they restored The English monarchy! ​ I’m part〽️ Scottish, French, Italian A little bit Dane But one1️⃣ hundred💯💯 percent 🔣 party🍺 animal🐀 Champagne? ​ Spaniels I adored Named after me too Like me, they were 🎢fun 🎢 With a🅰️ nutty hair💈 do! ​ Is today my birthday🎊🎊? I can’t recall Let’s have 🈶 🅰️a🅰️ 🎉party🎉 anyway Because I love💘 🅰️a🅰️ masked 😷 ball🎳! ​ All hail, the king👑! Of bling! Let’s sing! Bells ring🔗! Ding ding🇩🇪! I’m the king👑 who brought back↩️ partying🍺! ​ King Charles, my daddy Lost his throne and 👑kings👑 were banned They chopped off📴 his head💆 Then Olly Cromwell 🔨ruled🔨 the land ​ Old Olly wasn’t jolly </p>').appendTo(container_text);
+
+                        create_chart(('question_' + question.pk), data_to_plot, graph_type);
+
+                    }
+
+                    else {
+                        create_chart(('question_' + question.pk), data_to_plot, graph_type);
+                    }
+
+
+                    console.log(graph_type);
+                    console.log(question.fields.question_text, data_to_plot, graph_type);
 
                     // need to create the fusion charts data set now
                 }
@@ -684,11 +736,11 @@ function redirect() {
 
 // create_chart returns render of the chart
 // used in the results.html
-function create_chart(name, json_data , type="column3d") {
+function create_chart(name, json_data, gr_type) {
     FusionCharts.ready(function(){
         let chart = new FusionCharts({
-            type: type,
-            width: '100%',
+            type: gr_type,
+            width: '85%',
             height: '500',
             dataFormat: 'json',
             renderAt: name,

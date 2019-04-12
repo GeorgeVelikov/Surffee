@@ -14,15 +14,6 @@
 
     <script> var graph_analysis_data = {{ survey_data|safe }} </script>
 
-    {% for s in survey_data %}
-        {{s}}<br><br>
-    {% endfor %}
-
-
-    {% for ch in charts %}
-        {{ch}}<br><br>
-    {% endfor %}
-
     <form action="" method="post">
         {% csrf_token %}
 
@@ -39,34 +30,7 @@
                     <div class = "row text-center">
                         <!-- JS magic tables -->
                         <div class = "single_term_table col col-md-8 card card-body bg-light outside-container" style="margin:24px" id="graphtable">
-                            <!-- CHARTS START HERE -->
-                            {% for name, json_data in charts %}
-                                <div class="d-flex justify-content-between flex-wrap flex-sm-nowrap align-items-center pb-2 mb-3 border-bottom">
-                                    <div class="text-xs-center p-4 bg-info rounded">
-                                        <div class="row">
-                                            <div class="col-sm">
-                                                <div id="{{ name }}" style="L">
-                                                    {% autoescape off %}
-                                                        <script>
-                                                            create_chart('{{ name }}', {{ json_data }});
-                                                        </script>
-                                                    {% endautoescape %}
-                                                </div>
-                                                <br>
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col-sm">
-                                                <div class="container alert alert-info survey-description" id="{{ name }}_description" role="alert">
-                                                    <span style="font-size:xx-large">{{ name }}:</span>
-                                                    <p>My name 📛 is, my 📛name 📛 is My name📛 is, Charles the Second! ​ I 💝love💝 the people👦 And the people👤 ❤️love❤️ me So much that they restored The English monarchy! ​ I’m part〽️ Scottish, French, Italian A little bit Dane But one1️⃣ hundred💯💯 percent 🔣 party🍺 animal🐀 Champagne? ​ Spaniels I adored Named after me too Like me, they were 🎢fun 🎢 With a🅰️ nutty hair💈 do! ​ Is today my birthday🎊🎊? I can’t recall Let’s have 🈶 🅰️a🅰️ 🎉party🎉 anyway Because I love💘 🅰️a🅰️ masked 😷 ball🎳! ​ All hail, the king👑! Of bling! Let’s sing! Bells ring🔗! Ding ding🇩🇪! I’m the king👑 who brought back↩️ partying🍺! ​ King Charles, my daddy Lost his throne and 👑kings👑 were banned They chopped off📴 his head💆 Then Olly Cromwell 🔨ruled🔨 the land ​ Old Olly wasn’t jolly </p>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            {% endfor %}
-
+                            <!-- this is where all the magic js charts go -->
                         </div>
                         <!-- Right Sidebar -->
                         <div class = "col col-md-auto card card-body bg-dark text-white" style="margin:24px 0px 24px 0px">
