@@ -270,7 +270,7 @@ class AnalysisMultipleTerm(CreateView):
 
 
 class AnalysisGraph(CreateView):
-    template_name = 'surveys/results.html'
+    template_name = 'analysis/graph.html'
     model = Survey
     form_class = AnalysisCreator
 
@@ -308,6 +308,7 @@ class AnalysisGraph(CreateView):
 
             json_data["chart"] = chart_config
             chart_context.append((question_number, json_data))
+
         return chart_context
 
     def get(self, request, *args, **kwargs):
@@ -321,10 +322,17 @@ class AnalysisGraph(CreateView):
 
         permission_user_owns_survey(request, survey)
 
+        survey_data = literal_eval(serializers.serialize("json", survey.question_set.all()))
+
+        for m in survey_data:
+            question = Question.objects.get(pk=m['pk'])
+            m['fields']['choices'] = literal_eval(serializers.serialize("json", question.choice_set.all()))
+
         return self.render_to_response(
             self.get_context_data(form=form,
                                   charts=self.chart_for_each_question(survey),
                                   survey=survey,
+                                  survey_data=survey_data,
                                   )
         )
 
