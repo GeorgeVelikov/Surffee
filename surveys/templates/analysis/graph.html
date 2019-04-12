@@ -14,87 +14,120 @@
 
     <script> var graph_analysis_data = {{ survey_data|safe }} </script>
 
-    <div class="d-flex justify-content-between flex-wrap flex-sm-nowrap align-items-center pb-2 mb-3 border-bottom">
-        <h2>
-            Results: {{survey.name}}
-        </h2>
-    </div>
+    {% for s in survey_data %}
+        {{s}}<br><br>
+    {% endfor %}
+
+    <form action="" method="post">
+        {% csrf_token %}
+
+        <div class="d-flex justify-content-between flex-wrap flex-sm-nowrap align-items-center pb-2 mb-3 border-bottom">
+            <h2>
+                Results: {{survey.name}}
+            </h2>
+        </div>
 
 
-    <div class="container-fluid">
-        <div class="row">
-            <div class="container-fluid">
-                <div class = "row text-center">
-                    <!-- JS magic tables -->
-                    <div class = "single_term_table col col-md-8 card card-body bg-light outside-container" style="margin:24px" id="termtables">
-                        <!-- CHARTS START HERE -->
-                        {% for name, json_data in charts %}
-                            <div class="d-flex justify-content-between flex-wrap flex-sm-nowrap align-items-center pb-2 mb-3 border-bottom">
-                                <div class="text-xs-center p-4 bg-info rounded">
-                                    <div class="row">
-                                        <div class="col-sm">
-                                            <div id="{{ name }}" style="L">
-                                                {% autoescape off %}
-                                                    <script>
-                                                        create_chart('{{ name }}', {{ json_data }});
-                                                    </script>
-                                                {% endautoescape %}
+        <div class="container-fluid">
+            <div class="row">
+                <div class="container-fluid">
+                    <div class = "row text-center">
+                        <!-- JS magic tables -->
+                        <div class = "single_term_table col col-md-8 card card-body bg-light outside-container" style="margin:24px" id="termtables">
+                            <!-- CHARTS START HERE -->
+                            {% for name, json_data in charts %}
+                                <div class="d-flex justify-content-between flex-wrap flex-sm-nowrap align-items-center pb-2 mb-3 border-bottom">
+                                    <div class="text-xs-center p-4 bg-info rounded">
+                                        <div class="row">
+                                            <div class="col-sm">
+                                                <div id="{{ name }}" style="L">
+                                                    {% autoescape off %}
+                                                        <script>
+                                                            create_chart('{{ name }}', {{ json_data }});
+                                                        </script>
+                                                    {% endautoescape %}
+                                                </div>
+                                                <br>
                                             </div>
-                                            <br>
                                         </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-sm">
-                                            <div class="container alert alert-info survey-description"  role="alert">
-                                                <span style="font-size:xx-large">{{ name }}:</span>
-                                                <p>My name 📛 is, my 📛name 📛 is My name📛 is, Charles the Second! ​ I 💝love💝 the people👦 And the people👤 ❤️love❤️ me So much that they restored The English monarchy! ​ I’m part〽️ Scottish, French, Italian A little bit Dane But one1️⃣ hundred💯💯 percent 🔣 party🍺 animal🐀 Champagne? ​ Spaniels I adored Named after me too Like me, they were 🎢fun 🎢 With a🅰️ nutty hair💈 do! ​ Is today my birthday🎊🎊? I can’t recall Let’s have 🈶 🅰️a🅰️ 🎉party🎉 anyway Because I love💘 🅰️a🅰️ masked 😷 ball🎳! ​ All hail, the king👑! Of bling! Let’s sing! Bells ring🔗! Ding ding🇩🇪! I’m the king👑 who brought back↩️ partying🍺! ​ King Charles, my daddy Lost his throne and 👑kings👑 were banned They chopped off📴 his head💆 Then Olly Cromwell 🔨ruled🔨 the land ​ Old Olly wasn’t jolly </p>
+                                        <div class="row">
+                                            <div class="col-sm">
+                                                <div class="container alert alert-info survey-description" id="{{ name }}_description" role="alert">
+                                                    <span style="font-size:xx-large">{{ name }}:</span>
+                                                    <p>My name 📛 is, my 📛name 📛 is My name📛 is, Charles the Second! ​ I 💝love💝 the people👦 And the people👤 ❤️love❤️ me So much that they restored The English monarchy! ​ I’m part〽️ Scottish, French, Italian A little bit Dane But one1️⃣ hundred💯💯 percent 🔣 party🍺 animal🐀 Champagne? ​ Spaniels I adored Named after me too Like me, they were 🎢fun 🎢 With a🅰️ nutty hair💈 do! ​ Is today my birthday🎊🎊? I can’t recall Let’s have 🈶 🅰️a🅰️ 🎉party🎉 anyway Because I love💘 🅰️a🅰️ masked 😷 ball🎳! ​ All hail, the king👑! Of bling! Let’s sing! Bells ring🔗! Ding ding🇩🇪! I’m the king👑 who brought back↩️ partying🍺! ​ King Charles, my daddy Lost his throne and 👑kings👑 were banned They chopped off📴 his head💆 Then Olly Cromwell 🔨ruled🔨 the land ​ Old Olly wasn’t jolly </p>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
+                            {% endfor %}
+
+                        </div>
+                        <!-- Right Sidebar -->
+                        <div class = "col col-md-auto card card-body bg-dark text-white" style="margin:24px 0px 24px 0px">
+                            <p class="lead">Graph style</p>
+                            <div class="btn-group-vertical" role="group" aria-label="Basic example" style="margin-bottom:24px">
+                                <select class="custom-select" id="add_graph_style">
+                                    <option selected hidden disabled>Please select a graph style</option>
+
+                                    <optgroup label="2D">
+                                        <option value="column2d">Column</option>
+                                        <option value="line">Line</option>
+                                        <option value="area2d">Area</option>
+                                        <option value="bar2d">Bar</option>
+                                        <option value="pie2d">Pie</option>
+                                        <option value="doughnut2d">Doughnut</option>
+                                        <option value="pareto2d">Pareto</option>
+                                    </optgroup>
+
+                                    <optgroup label="3D">
+                                        <option value="column3d">Column</option>
+                                        <option value="bar3d">Bar</option>
+                                        <option value="pie3d">Pie</option>
+                                        <option value="doughnut3d">Doughnut</option>
+                                        <option value="pareto3d">Pareto</option>
+                                    </optgroup>
+                                    
+                                </select>
                             </div>
-                            <br>
-                        {% endfor %}
 
-                    </div>
-                    <!-- Right Sidebar -->
-                    <div class = "col col-md-auto card card-body bg-dark text-white" style="margin:24px 0px 24px 0px">
+                            <p class="lead">Add new term</p>
+                            <div class="btn-group-vertical" role="group" aria-label="Basic example" style="margin-bottom:24px">
+                                <select class="custom-select" id="addtermform_graph">
+                                    <option selected hidden disabled>Please select a classification</option>
+                                    {% for question in survey_data %}
+                                        <option value="{{question.pk}}"> {{question.fields.question_text}}</option>
+                                    {% endfor %}
+                                </select>
+                                <button type="button" class="btn btn-info" id="addterm_graph" >Add</button>
+                            </div>
 
-                        <p class="lead">Add new term</p>
-                        <div class="btn-group-vertical" role="group" aria-label="Basic example" style="margin-bottom:24px">
-                            <select class="custom-select" id="addtermform">
-                                <option selected hidden disabled>Please select a classification</option>
-                                {% for classif in classifications %}
-                                    <option value="{{classif.pk}}">{{classif.name}}</option>
-                                {% endfor %}
-                            </select>
-                            <button type="button" class="btn btn-info" id="addterm" >Add</button>
+
+
+                            <p class="lead">Remove field</p>
+                            <div class="btn-group-vertical" role="group" aria-label="Basic example" style="margin-bottom:24px">
+                                <select class="custom-select" id="remtermform_graph">
+                                </select>
+                                <button type="button" class="btn btn-secondary" id="remterm_graph">Remove</button>
+                            </div>
+
+                            <p class="lead">Analysis Controls</p>
+                            <div class="btn-group-vertical" role="group" aria-label="Basic example" style="margin-bottom:24px">
+                                <button type="button" class="btn btn-warning" id="deltermpage" style="margin-bottom:24px">Clear all</button>
+
+                                {% if operation == "overwrite" %}
+                                    <button type="submit" onclick="return confirm('Are you sure you want to delete analysis `{{ analysis_name }}`?')" class="btn btn-danger" name="delete" value="{{ analysis_pk }}" id="delanalysis_graph" style="margin-bottom:24px">Delete analysis</button>
+                                {% endif %}
+
+                                <button type="submit" name="operation" value="{{operation}}" id="post_save_analysis_graph" class="btn btn-success">Save Analysis</button>
+                            </div>
+
                         </div>
-
-                        <p class="lead">Remove field</p>
-                        <div class="btn-group-vertical" role="group" aria-label="Basic example" style="margin-bottom:24px">
-                            <select class="custom-select" id="remtermform">
-                            </select>
-                            <button type="button" class="btn btn-secondary" id="remterm">Remove</button>
-                        </div>
-
-                        <p class="lead">Analysis Controls</p>
-                        <div class="btn-group-vertical" role="group" aria-label="Basic example" style="margin-bottom:24px">
-                            <button type="button" class="btn btn-warning" id="deltermpage" style="margin-bottom:24px">Clear all</button>
-
-                            {% if operation == "overwrite" %}
-                                <button type="submit" onclick="return confirm('Are you sure you want to delete analysis `{{ analysis_name }}`?')" class="btn btn-danger" name="delete" value="{{ analysis_pk }}" id="delanalysis" style="margin-bottom:24px">Delete analysis</button>
-                            {% endif %}
-
-                            <button type="submit" name="operation" value="{{operation}}"id="post_save_analysis" class="btn btn-success">Save Analysis</button>
-                        </div>
-
                     </div>
                 </div>
             </div>
         </div>
-    </div>
 
-
+    </form>
 
 {% endblock %}
