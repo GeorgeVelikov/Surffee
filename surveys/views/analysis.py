@@ -103,6 +103,7 @@ class AnalysisSingleTerm(CreateView):
             permission_user_owns_analysis(request, analysis)
 
             analysis_name = analysis.name
+            analysis_pk = analysis.pk
             survey = Survey.objects.get(pk=analysis.survey.pk)
             annotation = Annotation.objects.get(pk=analysis.annotation.pk)
             operation = "overwrite"
@@ -125,6 +126,7 @@ class AnalysisSingleTerm(CreateView):
 
         else:
             analysis_name = get_variables['name']
+            analysis_pk = 0
             survey = Survey.objects.get(pk=get_variables['survey'])
             annotation = Annotation.objects.get(pk=get_variables['annotation'])
 
@@ -195,47 +197,57 @@ class AnalysisSingleTerm(CreateView):
                                   operation=operation,
                                   carry_over_terms=carry_over_terms,
                                   carry_over_constraints=carry_over_constraints,
+                                  analysis_pk=analysis_pk,
                                   )
         )
 
     def post(self, request, *args, **kwargs):
-        terms = request.POST['terms']
-        constraints = {}
-
-        # transform js serialized dict to a normal py dict
-        con_post = parse.parse_qs(request.POST['constraints'])
-        print(con_post)
-        for key in con_post.keys():
-            nk = key.replace("[]", "")
-            constraints[nk] = con_post[key]
-
-        if request.POST['operation'] == "save":
-
-            analysis_name = request.GET['name']
-            analysis_survey = Survey.objects.get(pk=request.GET['survey'])
-            analysis_annotation = Annotation.objects.get(pk=request.GET['annotation'])
-
-            new_analysis = AnalysisSingle.objects.create(creator=request.user,
-                                                         name=analysis_name,
-                                                         survey=analysis_survey,
-                                                         annotation=analysis_annotation,
-                                                         terms=terms,
-                                                         constraints=constraints)
-            new_analysis.save()
-
-            redirect_pk = new_analysis.pk
-
-        else:
-            analysis_pk = request.GET['analysis']
+        if "delete" in request.POST:
+            analysis_pk = request.POST['delete']
 
             analysis = AnalysisSingle.objects.get(pk=analysis_pk)
-            analysis.terms = terms
-            analysis.constraints = constraints
-            analysis.save()
 
-            redirect_pk = analysis.pk
+            analysis.delete()
+            return redirect('./')
 
-        return redirect('./single?analysis=' + str(redirect_pk))
+        else:
+            terms = request.POST['terms']
+            constraints = {}
+
+            # transform js serialized dict to a normal py dict
+            con_post = parse.parse_qs(request.POST['constraints'])
+            print(con_post)
+            for key in con_post.keys():
+                nk = key.replace("[]", "")
+                constraints[nk] = con_post[key]
+
+            if request.POST['operation'] == "save":
+
+                analysis_name = request.GET['name']
+                analysis_survey = Survey.objects.get(pk=request.GET['survey'])
+                analysis_annotation = Annotation.objects.get(pk=request.GET['annotation'])
+
+                new_analysis = AnalysisSingle.objects.create(creator=request.user,
+                                                             name=analysis_name,
+                                                             survey=analysis_survey,
+                                                             annotation=analysis_annotation,
+                                                             terms=terms,
+                                                             constraints=constraints)
+                new_analysis.save()
+
+                redirect_pk = new_analysis.pk
+                return redirect('./single?analysis=' + str(redirect_pk))
+
+            elif request.POST['operation'] == "overwrite":
+                analysis_pk = request.GET['analysis']
+
+                analysis = AnalysisSingle.objects.get(pk=analysis_pk)
+                analysis.terms = terms
+                analysis.constraints = constraints
+                analysis.save()
+
+                redirect_pk = analysis.pk
+                return redirect('./single?analysis=' + str(redirect_pk))
 
 
 class AnalysisMultipleTerm(CreateView):
