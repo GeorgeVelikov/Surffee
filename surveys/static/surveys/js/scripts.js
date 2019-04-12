@@ -572,7 +572,7 @@ function updateAnalysis(terms_added, constraints_added){
         }
 
         // blue bar
-        var header = $('<br><div class="row">' + header_name + '</div>');
+        var header = $('<br><div class="row justify-content-center"><h6>' + header_name + '</h6></div>');
         $(header).appendTo($("#insidecontainer"));
         var row_div = $('<div class="row bg-info" > </div>');
         $(row_div).appendTo($("#insidecontainer"));
