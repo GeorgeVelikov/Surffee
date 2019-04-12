@@ -178,10 +178,7 @@ def export(request, survey_id):
         ws.title = title
 
         # headers
-        for col_num in range(len(columns)):
-            cell = ws.cell(row=1, column=col_num + 1)
-            cell.value = columns[col_num]
-            cell.font = Font(bold=True)
+        create_headers(ws, columns)
 
         # content
         row = 2
@@ -192,6 +189,13 @@ def export(request, survey_id):
                 cell.value = str(attribute) if type(attribute) == Country else attribute
             row += 1
 
+    def create_headers(sheet, columns):
+        for col_num in range(len(columns)):
+            cell = sheet.cell(row=1, column=col_num + 1)
+            dot_index = 0 if columns[col_num].rfind('.') == -1 else columns[col_num].rfind('.')+1
+            cell.value = columns[col_num][dot_index:].replace("_", " ").capitalize()
+            cell.font = Font(bold=True)
+
     surveys = Survey.objects.filter(pk=survey_id)
     survey = surveys[0]
     filename = survey.name.replace(" ", "-") + '.xlsx'
@@ -199,7 +203,7 @@ def export(request, survey_id):
     response['Content-Disposition'] = 'attachment; filename=' + filename
     wb = openpyxl.Workbook()
 
-    create_sheet(survey.name, surveys, ["creator.username", "name", "description", "pi_choices"], first=True)
+    create_sheet("Survey", surveys, ["name", "creator.username", "description", "pi_choices"], first=True)
 
     questions = survey.question_set.all()
     create_sheet("Questions", questions, ["question_text", "type"])
@@ -214,11 +218,9 @@ def export(request, survey_id):
     answer_ids = []
     question_ids = []
     row = 2
+
     # create headers for personal info columns
-    for col_num in range(len(pi_columns)):
-        c = answers_sheet.cell(row=1, column=col_num + 1)
-        c.value = pi_columns[col_num]
-        c.font = Font(bold=True)
+    create_headers(answers_sheet, pi_columns)
 
     # create headers for every question in the survey
     questions_start_col = len(pi_columns) + 1
