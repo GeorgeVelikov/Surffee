@@ -203,8 +203,8 @@
                                     </a>
                                     <div class="sidebar-submenu">
                                         <ul>
-                                            {% if all_analysis %}
-                                                {% for analysis in all_analysis %}
+                                            {% if all_analysis_single %}
+                                                {% for analysis in all_analysis_single %}
                                                     <li>
                                                         <a href="/surveys/analysis/single?analysis={{analysis.pk}}">
                                                             <span>{{ analysis.name }}</span>
@@ -226,12 +226,19 @@
                                     </a>
                                     <div class="sidebar-submenu">
                                         <ul>
-                                            <li>
-                                                <a>
-                                                    a page
-                                                </a>
-                                            <li>
-
+                                            {% if all_analysis_multi %}
+                                                {% for analysis in all_analysis_multi %}
+                                                    <li>
+                                                        <a href="/surveys/analysis/multiple?analysis={{analysis.pk}}">
+                                                            <span>{{ analysis.name }}</span>
+                                                        </a>
+                                                    </li>
+                                                {% endfor %}
+                                            {% else %}
+                                                <li>
+                                                    <a class="disabled">No multiple term analytics </a>
+                                                </li>
+                                            {% endif %}
                                         </ul>
                                     </div>
                                 </li>
@@ -242,12 +249,19 @@
                                     </a>
                                     <div class="sidebar-submenu">
                                         <ul>
-                                            <li>
-                                                <a>
-                                                    a page
-                                                </a>
-                                            <li>
-
+                                            {% if all_analysis_graph %}
+                                                {% for analysis in all_analysis_graph %}
+                                                    <li>
+                                                        <a href="/surveys/analysis/graph?analysis={{analysis.pk}}">
+                                                            <span>{{ analysis.name }}</span>
+                                                        </a>
+                                                    </li>
+                                                {% endfor %}
+                                            {% else %}
+                                                <li>
+                                                    <a class="disabled">No graph analytics </a>
+                                                </li>
+                                            {% endif %}
                                         </ul>
                                     </div>
                                 </li>
@@ -267,7 +281,7 @@
 
                                 <!--Extras header -->
                                 <li class="header-menu">
-                                    <span>Extra</span>
+                                    <span>Information</span>
                                 </li>
                                 <!--Documentation link -->
                                 <li>
