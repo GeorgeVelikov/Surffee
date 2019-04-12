@@ -106,7 +106,7 @@
                     <img type="image" style="max-width:100%; max-height:100%;" src="{% static '/doc_pics/surveydetails.png' %}"/>
 
 
-                    <!-- Survey Details -->
+                    <!-- Questions -->
                     <div class="d-flex justify-content-between flex-wrap flex-sm-nowrap align-items-center pb-2 mb-3 border-bottom">
                         <h5 id="questions_choices" class="text-center anchor"><b>Questions</b></h5>
                     </div>
@@ -117,17 +117,28 @@
                         The choices for each question are listed below the title. A blue badge is shown below each choice indicating the number of votes of each of those choices from respondent answers. On the right of each choice there is an 'x' button that removes the current choice from a question along with all of its votes.
                     </p>
                     <img type="image" style="max-width:100%; max-height:100%;" src="{% static '/doc_pics/questioncard.png' %}"/>
+                    <br>
+                    <br>
+                    <h6 class="border-bottom pl-3">Adding/ Editting Questions</h6>
+                    <p class="text-justify">
+                        Adding or editing a question from the dropdown options button leads to a new page which looks like the picture below. The title specifies the question and survey we are editing or adding to. On the right we have a small toolbar with add and remove choice buttons indicated with a plus (+) and a minus (-). Adding a choice will add a new empty choice field under the last choice available where as removing will remove the last choice available. The dropdown indicates the type of question such as single or multiple choice as mentioned above. gradient and text answers are in development in the future. The add question button finalises changes and adds the changed or newly created question to the survey.
+                    </p>
+                    <img type="image" style="max-width:100%; max-height:100%;" src="{% static '/doc_pics/editq.png' %}"/>
+
 
                     <!-- Annotation -->
                     <div class="d-flex justify-content-between flex-wrap flex-sm-nowrap align-items-center pb-2 mb-3 border-bottom">
                         <h5 id="anno_doc" class="text-center anchor"><b>Annotation</b></h5>
                     </div>
                     <p class="text-justify">
-                        As was shown on the last picture of the previous section questions appear in the shown white box, with an initial and the question text in the title. The initial symbolises the type of question during question creation, for instance single or multiple choice. The picture below shows another example for a single choice question. Single choice means that only one answer is acceptable, therefore in the example below an answer to the question can be either True or False, but not both. The opposite holds for multiple choice questions where more than one answer is acceptable. At the right corner of each question there is an options button, that when clicked shows a drop down list with edit or delete options for the current question. Before we go into those two options and their corresponding page, it is important to explain the rest of teh question panel.
-
-                        <br><br>
-                        The choices for each question are listed below the title. A blue badge is shown below each choice indicating the number of votes of each of those choices from respondent answers. On the right of each choice there is an 'x' button that removes the current choice from a question along with all of its votes.
+                        To annotate a survey there must be at least one created annotation. Annotations can be created from the sidebar under the Annotation section by pressing on the Annotation Manager link.
                     </p>
+                    <img type="image" style="max-width:100%; max-height:100%;" src="{% static '/doc_pics/annotationmngrlink.png' %}"/>
+                    <p class="text-justify">
+                        
+                    </p>
+                    <img type="image" style="max-width:100%; max-height:100%;" src="{% static '/doc_pics/annotationmanager.png' %}"/>
+
 
                     <!-- Analysis -->
                     <div class="d-flex justify-content-between flex-wrap flex-sm-nowrap align-items-center pb-2 mb-3 border-bottom">

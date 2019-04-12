@@ -16,7 +16,7 @@
 
 {% block content %}
     <div class="d-flex justify-content-between flex-wrap flex-sm-nowrap align-items-center pb-2 mb-3 border-bottom">
-        <h2>Edit "{{question.question_text}}" in {{survey.name}}</h2>
+        <h2>Edit <b class="font-italic">"{{question.question_text}}"</b> in <b class="font-italic">{{survey.name}}</b></h2>
     </div>
         <form action="" method="post">
             {% csrf_token %}
