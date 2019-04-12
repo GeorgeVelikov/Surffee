@@ -342,27 +342,7 @@ $(document).ready(function () {
         }
     }
 
-    if ($(".single_term_table").length) {
-        /*
-        for (let word of single_analysis_words) {
-            console.log(word.fields);
-        }
-
-        for (let choice of single_analysis_choices) {
-            console.log(choice);
-        }
-
-        for (let answer of single_analysis_answers) {
-            console.log(answer.fields);
-        }
-
-        for (let classif of single_analysis_classifications) {
-            console.log(classif);
-        }
-        */
-    }
-
-
+    // this is all of the analysis of single terms
     $("#addterm").on('click', function (){
         var class_id = $("#addtermform");
 
@@ -463,6 +443,7 @@ $(document).ready(function () {
         updateAnalysis(terms_added, constraints_added);
     });
 
+    // adds hidden inputs so i can pass post data to django/py
     $("#post_save_analysis").on('click', function () {
         var divP = $(this).parent();
 
@@ -472,6 +453,7 @@ $(document).ready(function () {
 
 });
 
+// update function for single analysis, for any changes on it refer to George
 function updateAnalysis(terms_added, constraints_added){
     console.log(constraints_added);
     var check = "#termtables #insidecontainer";
@@ -669,7 +651,7 @@ function updateAnalysis(terms_added, constraints_added){
 // just a helper function to test stuff
 function redirect() {
 
-        alert("what did you expect lmao");
+        alert("You have been redirected");
     }
 
 // create_chart returns render of the chart
