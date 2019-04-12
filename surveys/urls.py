@@ -49,10 +49,6 @@ urlpatterns = [
          survey.Delete.as_view(),
          name='delete_survey'),
 
-    path('<int:survey_id>/results/',
-         survey.Results.as_view(),
-         name="results"),
-
     path('<int:survey_id>/export/',
          survey.export,
          name='export'),

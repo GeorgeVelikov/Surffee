@@ -94,59 +94,6 @@ class Delete(UpdateView):
         return redirect('/surveys/')
 
 
-class Results(CreateView):
-    template_name = 'surveys/results.html'
-    model = Survey
-    form_class = ResearcherCreationForm
-
-    def chart_for_each_question(self, survey):
-        """ This method return a list of pairs (question_id, json_data)
-            Can be easily modified later to also modify
-            the size or type of chart                               """
-        chart_context = []
-
-        question_count = 1
-        for question in survey.question_set.all():
-            question_number = "Question " + str(question_count)
-            question_text = question.question_text
-            question_count += 1
-
-            json_data = {
-                "chart": None,
-                "data": [],
-            }
-
-            # meta data for the chart
-            chart_config = {
-                "caption": question_number,
-                "subcaption": question_text,
-                "numbersuffix": " votes",
-                "theme": "candy",
-            }
-
-            # choices data for the chart
-            for choice in question.choice_set.all():
-                json_data["data"].append({
-                    "label": choice.choice_text,
-                    "value": choice.votes,
-                })
-
-            json_data["chart"] = chart_config
-            chart_context.append((question_number, json_data))
-        return chart_context
-
-    def get(self, request, *args, **kwargs):
-        self.object = None
-        survey_id = self.kwargs.get('survey_id')
-        survey = Survey.objects.get(pk=survey_id)
-
-        context = {
-            "charts": self.chart_for_each_question(survey),
-            "survey": survey
-        }
-        return render(request, self.template_name, context)
-
-
 def detail(request, survey_id):
     if not request.user.is_authenticated:  # user is not logged in
         raise PermissionDenied("User is not logged in")
