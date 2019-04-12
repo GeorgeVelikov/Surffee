@@ -602,7 +602,7 @@ function updateAnalysis(terms_added, constraints_added){
                     if (key != "Age") {
                         loop4:
                         for (let term_a of constraints_added[key]) {
-                            if (answer_pi[key] == term_a) {
+                            if (answer_pi[key].toLowerCase() == term_a.toLowerCase()) {
                                 pi_containment[key] = true
                                 break loop4;
                             }
