@@ -9,7 +9,10 @@ def base(request):
     username = "Profile"
     surveys_active = []
     surveys_inactive = []
-    all_analysis = None
+
+    all_analysis_single = None
+    all_analysis_multi = None
+    all_analysis_graph = None
 
     if request.user.is_authenticated:
         username = request.user.username
