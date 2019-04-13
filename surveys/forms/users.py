@@ -17,6 +17,7 @@ class ResearcherCreationForm(UserCreationForm):
         super(ResearcherCreationForm, self).__init__(*args, **kwargs)
         self.fields['email'].required = True
         self.fields['username'].widget.attrs['minlength'] = 6
+        self.fields['password1'].widget.attrs['minlength'] = 8
 
     class Meta(UserCreationForm):
         model = Researcher
