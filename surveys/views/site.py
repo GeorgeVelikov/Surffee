@@ -2,7 +2,7 @@ from django.shortcuts import render
 from django.core.exceptions import PermissionDenied
 
 from ..models.survey import Survey
-from ..models.analysis import AnalysisSingle
+from ..models.analysis import AnalysisSingle, AnalysisGraph
 
 
 def base(request):
@@ -19,7 +19,7 @@ def base(request):
         all_surveys = Survey.objects.filter(creator=request.user.pk)
         all_analysis_single = AnalysisSingle.objects.filter(creator=request.user.pk)
         all_analysis_multi = None
-        all_analysis_graph = None
+        all_analysis_graph = AnalysisGraph.objects.filter(creator=request.user.pk)
 
         for survey in all_surveys:
             if survey.active:

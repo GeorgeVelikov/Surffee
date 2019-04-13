@@ -275,25 +275,27 @@ class AnalysisGraphTerm(CreateView):
     form_class = AnalysisCreator
 
     def get(self, request, *args, **kwargs):
+
         self.object = None
         form_class = self.get_form_class()
         form = self.get_form(form_class)
         get_variables = request.GET
 
-        if "graph" in get_variables:
-            analysis = AnalysisGraph.objects.get(pk=get_variables['graph'])
+        if "analysis" in get_variables:
+            analysis = AnalysisGraph.objects.get(pk=get_variables['analysis'])
             survey_id = analysis.survey.pk
             operation = "overwrite"
             analysis_name = analysis.name
             analysis_pk = analysis.pk
 
         else:
-            analysis_name = ""
+            analysis_name = get_variables['name']
             analysis_pk = 0
             survey_id = get_variables['survey']
             operation = "save"
 
         survey = Survey.objects.get(pk=survey_id)
+        survey_name = survey.name
 
         permission_user_owns_survey(request, survey)
 
@@ -310,6 +312,7 @@ class AnalysisGraphTerm(CreateView):
                                   operation=operation,
                                   analysis_name=analysis_name,
                                   analysis_pk=analysis_pk,
+                                  survey_name=survey_name,
                                   )
         )
 
@@ -323,10 +326,33 @@ class AnalysisGraphTerm(CreateView):
             return redirect('./')
 
         else:
-            terms = request.POST['terms']
+            terms = {}
+            post_terms = parse.parse_qs(request.POST['terms'])
+
+            for key in post_terms:
+                nk = key.replace("[]", "")
+                terms[nk] = post_terms[key]
 
             if request.POST['operation'] == "save":
-                return redirect('./')
+                analysis_name = request.GET['name']
+                analysis_survey = Survey.objects.get(pk=request.GET['survey'])
 
-            elif request.POST['operation'] == "overwite":
-                return redirect('./')
+                new_graph_analysis = AnalysisGraph.objects.create(creator=request.user,
+                                                                  name=analysis_name,
+                                                                  survey=analysis_survey,
+                                                                  questions_graphs=terms)
+                new_graph_analysis.save()
+                redirect_pk = new_graph_analysis.pk
+
+                return redirect('./graph?analysis=' + str(redirect_pk))
+
+            elif request.POST['operation'] == "overwrite":
+
+                analysis_id = request.GET['analysis']
+                overwrite_analysis = AnalysisGraph.objects.get(pk=analysis_id)
+
+                overwrite_analysis.terms = terms
+                overwrite_analysis.save()
+                redirect_pk = overwrite_analysis.pk
+
+                return redirect('./graph?analysis=' + str(redirect_pk))
