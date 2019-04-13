@@ -584,15 +584,16 @@ $(document).ready(function () {
             opt_group.remove();
         }
 
-
-
-        console.log(question_pk, graph_type);
-        console.log(added_graph_terms);
     });
 
     $("#deltermpage_graph").on('click', function() {
-
+        added_graph_terms = {};
+        $("#remtermform_graph").children().remove().end();
         $("#graphtable").children().remove().end();
+    });
+
+    $("#post_save_analysis_graph").on('click', function() {
+        $('<input name="terms" value="' + jQuery.param(added_graph_terms) + '" type="hidden"> </input').appendTo("#post_this");
     });
 
 });

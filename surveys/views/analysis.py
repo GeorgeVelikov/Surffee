@@ -5,7 +5,7 @@ from django.views.generic import CreateView
 from surveys.models import SurveyAnswer
 from surveys.models.annotation import Annotation, Classification, Word
 from surveys.models.survey import Survey, Question, Choice, PersonalInformation
-from surveys.models.analysis import AnalysisSingle
+from surveys.models.analysis import AnalysisSingle, AnalysisGraph
 from surveys.forms.analysis import AnalysisCreator
 
 from django.core import serializers
@@ -269,47 +269,10 @@ class AnalysisMultipleTerm(CreateView):
         )
 
 
-class AnalysisGraph(CreateView):
+class AnalysisGraphTerm(CreateView):
     template_name = 'analysis/graph.html'
     model = Survey
     form_class = AnalysisCreator
-
-    def chart_for_each_question(self, survey):
-        """ This method return a list of pairs (question_id, json_data)
-            Can be easily modified later to also modify
-            the size or type of chart                               """
-        chart_context = []
-
-        question_count = 1
-        for question in survey.question_set.all():
-            question_number = "Question " + str(question_count)
-            question_text = question.question_text
-            question_count += 1
-
-            json_data = {
-                "chart": None,
-                "data": [],
-            }
-
-            # meta data for the chart
-            chart_config = {
-                "caption": question_number,
-                "subcaption": question_text,
-                "numbersuffix": " votes",
-                "theme": "candy",
-            }
-
-            # choices data for the chart
-            for choice in question.choice_set.all():
-                json_data["data"].append({
-                    "label": choice.choice_text,
-                    "value": choice.votes,
-                })
-
-            json_data["chart"] = chart_config
-            chart_context.append((question_number, json_data))
-
-        return chart_context
 
     def get(self, request, *args, **kwargs):
         self.object = None
@@ -317,7 +280,19 @@ class AnalysisGraph(CreateView):
         form = self.get_form(form_class)
         get_variables = request.GET
 
-        survey_id = get_variables['survey']
+        if "graph" in get_variables:
+            analysis = AnalysisGraph.objects.get(pk=get_variables['graph'])
+            survey_id = analysis.survey.pk
+            operation = "overwrite"
+            analysis_name = analysis.name
+            analysis_pk = analysis.pk
+
+        else:
+            analysis_name = ""
+            analysis_pk = 0
+            survey_id = get_variables['survey']
+            operation = "save"
+
         survey = Survey.objects.get(pk=survey_id)
 
         permission_user_owns_survey(request, survey)
@@ -330,9 +305,28 @@ class AnalysisGraph(CreateView):
 
         return self.render_to_response(
             self.get_context_data(form=form,
-                                  charts=self.chart_for_each_question(survey),
                                   survey=survey,
                                   survey_data=survey_data,
+                                  operation=operation,
+                                  analysis_name=analysis_name,
+                                  analysis_pk=analysis_pk,
                                   )
         )
 
+    def post(self, request, *args, **kwargs):
+        if "delete" in request.POST:
+            analysis_pk = request.POST['delete']
+
+            analysis = AnalysisGraph.objects.get(pk=analysis_pk)
+
+            analysis.delete()
+            return redirect('./')
+
+        else:
+            terms = request.POST['terms']
+
+            if request.POST['operation'] == "save":
+                return redirect('./')
+
+            elif request.POST['operation'] == "overwite":
+                return redirect('./')
