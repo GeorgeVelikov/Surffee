@@ -1,9 +1,9 @@
 from django.shortcuts import redirect
 from django.views.generic import UpdateView
 
-from ..models.survey import Question, Choice
+from ...models.survey import Question, Choice
 
-from .error import permission_user_logged_in, permission_user_owns_survey
+from ..error import permission_user_logged_in, permission_user_owns_survey
 
 
 class Delete(UpdateView):
