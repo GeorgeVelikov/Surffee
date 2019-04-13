@@ -10,8 +10,6 @@ from .models.survey import Survey
     it sets up the testing environment   
                                         """
 
-# TODO: Remove the skipTest tags
-
 
 def create_survey(name, creator, active=True, commit=True):
     """ Helper method to create a new survey """
@@ -75,20 +73,24 @@ class SignUpViewTests(TestCase):
          Test if user can sign up with username shorter than 5 characters
         :return:
         """
-        self.skipTest('Remove the skip, once boys fixed it')
-        username = 'Test'
+        username = 'Test1'
         password = 'TestPassword123456'
         email = 'test.email@ihate.django'
 
-        self.signup_response(username, password, password, email)
-        self.assertNotIn(username, [str(user) for user in Researcher.objects.all()])
+        for l in range(1, len(username)+1):
+            u = username[:l]
+            self.signup_response(u, password, password, email)
+
+        res = [str(user) for user in Researcher.objects.all()]
+        for l in range(1, len(username)+1):
+            u = username[:l]
+            self.assertNotIn(u, res, msg    ="\n>%s - %d failed\n" % (u, l))
 
     def test_signup_with_short_password(self):
         """
          Test if user can sign up with password shorter than 8 characters
         :return:
         """
-        self.skipTest('Remove the skip, once boys fixed it')
         username = 'TestUser'
         password = 'Test'
         email = 'test.email@ihate.django'
@@ -164,13 +166,25 @@ class SignUpViewTests(TestCase):
          Test if user can sign up with wrongly formatted e-mail address
         :return:
         """
-        self.skipTest('Remove the skip, once boys made email required')
         username = 'TestUser'
         password = 'TestPassword123456'
         email = '.this.is.an!incorrect password'
 
         self.signup_response(username, password, password, email)
         self.assertNotIn(username, [str(user) for user in Researcher.objects.all()])
+
+    def test_singup_with_duplicate_email(self):
+        username1 = 'TestUser1'
+        username2 = 'TestUser2'
+        password = 'TestPassword123456'
+        email = 'surffee.django.charlie@gmail.com'
+
+        self.signup_response(username1, password, password, email)
+        self.signup_response(username2, password, password, email)
+
+        res = [str(r) for r in Researcher.objects.all()]
+        self.assertIn(username1, res, msg='\n%s not signed up' % username1)
+        self.assertNotIn(username2, res, msg='\n%s signed up' % username2)
 
 
 class LoginViewTests(TestCase):
