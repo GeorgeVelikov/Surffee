@@ -48,7 +48,7 @@ class SignUpViewTests(TestCase):
         """
         username = 'TestUser'
         password = 'TestPassword123456'
-        email = 'test.email@ihate.django'
+        email = 'test_signup_success@mytest.com'
 
         response = self.signup_response(username, password, password, email)
         self.assertRedirects(response, reverse('login'))
@@ -63,28 +63,10 @@ class SignUpViewTests(TestCase):
         """
         username = ''
         password = 'TestPassword123456'
-        email = 'test.email@ihate.django'
+        email = 'test_signup_without_username@mytest.com'
 
         self.signup_response(username, password, password, email)
         self.assertNotIn(username, [str(user) for user in Researcher.objects.all()])
-
-    def test_signup_with_short_username(self):
-        """
-         Test if user can sign up with username shorter than 5 characters
-        :return:
-        """
-        username = 'Test1'
-        password = 'TestPassword123456'
-        email = 'test.email@ihate.django'
-
-        for l in range(1, len(username)+1):
-            u = username[:l]
-            self.signup_response(u, password, password, email)
-
-        res = [str(user) for user in Researcher.objects.all()]
-        for l in range(1, len(username)+1):
-            u = username[:l]
-            self.assertNotIn(u, res, msg    ="\n>%s - %d failed\n" % (u, l))
 
     def test_signup_with_short_password(self):
         """
@@ -93,7 +75,7 @@ class SignUpViewTests(TestCase):
         """
         username = 'TestUser'
         password = 'Test'
-        email = 'test.email@ihate.django'
+        email = 'test_signup_with_short_password@mytest.com'
 
         self.signup_response(username, password, password, email)
         self.assertNotIn(username, [str(user) for user in Researcher.objects.all()])
@@ -106,7 +88,7 @@ class SignUpViewTests(TestCase):
         username = "TestUser"
         password1 = ''
         password2 = 'TestPassword123456'
-        email = 'test.email@ihate.django'
+        email = 'test_signup_without_password1@mytest.com'
 
         self.signup_response(username, password1, password2, email)
         self.assertNotIn(username, [str(user) for user in Researcher.objects.all()])
@@ -119,7 +101,7 @@ class SignUpViewTests(TestCase):
         username = "TestUser"
         password1 = 'TestPassword123456'
         password2 = ''
-        email = 'test.email@ihate.django'
+        email = 'test_signup_without_password2@mytest.com'
 
         self.signup_response(username, password1, password2, email)
         self.assertNotIn(username, [str(user) for user in Researcher.objects.all()])
@@ -131,7 +113,7 @@ class SignUpViewTests(TestCase):
         """
         username = "TestUser"
         password = ''
-        email = 'test.email@ihate.django'
+        email = 'test_signup_without_both_passwords@mytest.com'
 
         self.signup_response(username, password, password, email)
         self.assertNotIn(username, [str(user) for user in Researcher.objects.all()])
@@ -144,7 +126,7 @@ class SignUpViewTests(TestCase):
         username = 'TestUser'
         password1 = 'TestPassword123456'
         password2 = 'PasswordTest123456'
-        email = 'test.email@ihate.django'
+        email = 'test_signup_with_unmatching_passwords@mytest.com'
 
         self.signup_response(username, password1, password2, email)
         self.assertNotIn(username, [str(user) for user in Researcher.objects.all()])
@@ -177,7 +159,7 @@ class SignUpViewTests(TestCase):
         username1 = 'TestUser1'
         username2 = 'TestUser2'
         password = 'TestPassword123456'
-        email = 'surffee.django.charlie@gmail.com'
+        email = 'test_singup_with_duplicate_email@mytest.com'
 
         self.signup_response(username1, password, password, email)
         self.signup_response(username2, password, password, email)
@@ -199,9 +181,16 @@ class LoginViewTests(TestCase):
     def setUp(self):
         self.client = Client()
         self.user = Researcher.objects.create_user(username='TestUser',
-                                                   password='TestPassword123456'
+                                                   password='TestPassword123456',
+                                                   email='test_login_user@mytest.com',
+                                                   is_staff=False,
+                                                   is_superuser=False
                                                    )
         self.user.save()
+
+    def tearDown(self):
+        name = self.user.username
+        Researcher.objects.get(username=name).delete()
 
     def test_login_template(self):
         """
@@ -276,9 +265,16 @@ class HomeViewTests(TestCase):
     def setUp(self):
         self.client = Client()
         self.user = Researcher.objects.create_user(username='TestUser',
-                                                   password='TestPassword123456'
+                                                   password='TestPassword123456',
+                                                   email='test_login_user@mytest.com',
+                                                   is_staff=False,
+                                                   is_superuser=False
                                                    )
         self.user.save()
+
+    def tearDown(self):
+        name = self.user.username
+        Researcher.objects.get(username=name).delete()
 
     def test_home_template(self):
         """
@@ -306,18 +302,29 @@ class IndexViewTests(TestCase):
         self.client = Client()
         self.user = Researcher.objects.create_user(
             username='TestUser',
-            password='TestPassword123456'
+            password='TestPassword123456',
+            email='test_index_user@mytest.com',
+            is_staff=False,
+            is_superuser=False
         )
         self.superuser = Researcher.objects.create_superuser(
             username='superuser',
             password='TestPassword123456',
-            email=None,
-            is_staff=True,          # not sure if this is redundant, if we already make him a superuser
+            email='test_index_superuser@mytest.com',
+            is_staff=True,
             is_superuser=True
         )
 
         self.user.save()
         self.superuser.save()
+
+    def tearDown(self):
+        Researcher.objects.get(
+            username=self.user.username
+        ).delete()
+        Researcher.objects.get(
+            username=self.superuser.username
+        ).delete()
 
     def test_index_template(self):
         """
@@ -379,18 +386,29 @@ class ActiveViewTests(TestCase):
         self.client = Client()
         self.user = Researcher.objects.create_user(
             username='TestUser',
-            password='TestPassword123456'
+            password='TestPassword123456',
+            email='test_active_user@mytest.com',
+            is_staff=False,
+            is_superuser=False
         )
         self.superuser = Researcher.objects.create_superuser(
             username='superuser',
             password='TestPassword123456',
-            email=None,
-            is_staff=True,          # not sure if this is redundant, if we already make him a superuser
+            email='test_active_superuser@mytest.com',
+            is_staff=True,
             is_superuser=True
         )
 
         self.user.save()
         self.superuser.save()
+
+    def tearDown(self):
+        Researcher.objects.get(
+            username=self.user.username
+        ).delete()
+        Researcher.objects.get(
+            username=self.superuser.username
+        ).delete()
 
     def test_active_template(self):
         """
@@ -436,30 +454,35 @@ class ActiveViewTests(TestCase):
         self.assertNotIn(superusers_s, resp.context['active_surveys'])
 
 
-class InactiveViewTests(TestCase):
-
-    def placehoflder(self):
-        return 'a'
-
-
 class CreateViewTests(TestCase):
 
     def setUp(self):
         self.client = Client()
         self.user = Researcher.objects.create_user(
             username='TestUser',
-            password='TestPassword123456'
+            password='TestPassword123456',
+            email='test_create_user@mytest.com',
+            is_staff=False,
+            is_superuser=False
         )
         self.superuser = Researcher.objects.create_superuser(
             username='superuser',
             password='TestPassword123456',
-            email=None,
-            is_staff=True,          # not sure if this is redundant, if we already make him a superuser
+            email='test_create_superuser@mytest.com',
+            is_staff=True,
             is_superuser=True
         )
 
         self.user.save()
         self.superuser.save()
+
+    def tearDown(self):
+        Researcher.objects.get(
+            username=self.user.username
+        ).delete()
+        Researcher.objects.get(
+            username=self.superuser.username
+        ).delete()
 
     def test_create_status(self):
         """
