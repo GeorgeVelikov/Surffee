@@ -468,9 +468,11 @@ $(document).ready(function () {
                                          "theme": "candy"
                                         };
 
+                    var total_votes_for_question = 0;
                     for(let choice of question.fields.choices) {
                         data_to_plot['data'].push( {"label": choice.fields.choice_text,
                                                     "value": choice.fields.votes} );
+                        total_votes_for_question += choice.fields.votes;
                     }
 
                     data_to_plot['chart'] = chart_config;
@@ -510,27 +512,32 @@ $(document).ready(function () {
                                         chart_text_container.appendTo(chart_text_col);
 
                                             // text
-                                            $('<span style="font-size:xx-large">' + name + ':</span>').appendTo(chart_text_container);
-                                            $('<p> This is a test boy </p>').appendTo(chart_text_container);
+                                            $('<span style="font-size:xx-large"> Question - "' + name + '"</span>').appendTo(chart_text_container);
+
+                                            $('<p> Total votes: ' + total_votes_for_question + ' </p>').appendTo(chart_text_container);
                     // end of big spaghett
-                        create_chart(id, data_to_plot, graph_type);
+                        if (total_votes_for_question>0) {
+                            create_chart(id, data_to_plot, graph_type);
+                        }
                     }
                     else {
-                        var id = ('question_' + question.pk + '_' + graph_type);
+                        if (total_votes_for_question>0) {
+                            var id = ('question_' + question.pk + '_' + graph_type);
 
-                         // chart containers
-                        var question_chart_description = $("#question_" + question.pk + "_description");
-                            var chart_row = $('<div class="row"></div>');
-                            chart_row.insertBefore(question_chart_description);
-                            $("<br>").insertBefore(question_chart_description);
+                             // chart containers
+                            var question_chart_description = $("#question_" + question.pk + "_description");
+                                var chart_row = $('<div class="row"></div>');
+                                chart_row.insertBefore(question_chart_description);
+                                $("<br>").insertBefore(question_chart_description);
 
-                                var chart_col = $('<div class="col-sm"> </div>');
-                                chart_col.appendTo(chart_row);
+                                    var chart_col = $('<div class="col-sm"> </div>');
+                                    chart_col.appendTo(chart_row);
 
-                                    var actual_chart = $('<div id="' + id + '" style="L"> </div>');
-                                    actual_chart.appendTo(chart_col);
+                                        var actual_chart = $('<div id="' + id + '" style="L"> </div>');
+                                        actual_chart.appendTo(chart_col);
 
-                        create_chart(id, data_to_plot, graph_type);
+                            create_chart(id, data_to_plot, graph_type);
+                        }
                     }
 
                 }
