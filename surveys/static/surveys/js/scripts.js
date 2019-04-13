@@ -154,6 +154,7 @@ $(document).ready(function () {
     });
 
 
+    // annotation part
     $('.annotation_name').keyup(function () {
         var match = false;
 
@@ -215,12 +216,10 @@ $(document).ready(function () {
         });
     });
 
-
-
     $(".annotation_id").each(function() {
+
         let input_field = $(($(this).children()[0]));
     });
-
 
     $(".annotation_operation").click(function () {
         noerrors = true;
@@ -342,6 +341,7 @@ $(document).ready(function () {
         }
     }
 
+
     // this is all of the analysis of single terms
     $("#addterm").on('click', function (){
         var class_id = $("#addtermform");
@@ -451,6 +451,8 @@ $(document).ready(function () {
         $('<input name="constraints" value="' + jQuery.param(constraints_added) + '" type="hidden"> </input').appendTo(divP);
     });
 
+
+    var added_graph_terms = {};
     // this is all of the analysis of graphs
     $("#addterm_graph").on('click', function () {
         graph_type = $("#add_graph_style").val();
@@ -478,8 +480,16 @@ $(document).ready(function () {
                     data_to_plot['chart'] = chart_config;
 
                     if (!($("#question_" + question.pk).length)) {
+
                         var id = ('question_' + question.pk + '_' + graph_type);
                         var name = question.fields.question_text;
+                        var group_id = (question.pk + "_group");
+
+                        $("#remtermform_graph").append("<optgroup id='" + group_id + "' label='" + name + "'> </optgroup>");
+                        $("#" + group_id).append("<option id='option_" + id + "' value='" + id + "'>" + graph_type + "</option>");
+                        added_graph_terms[question.pk] = [graph_type];
+
+
 
                         // big container
                         var d_flex_graph = $('<div class="d-flex justify-content-between flex-wrap flex-sm-nowrap align-items-center pb-2 mb-3 border-bottom"> </div>');
@@ -521,8 +531,12 @@ $(document).ready(function () {
                         }
                     }
                     else {
-                        if (total_votes_for_question>0) {
+                        if (total_votes_for_question>0 && !($('#question_' + question.pk + '_' + graph_type).length) ) {
+                            added_graph_terms[question.pk].push(graph_type);
                             var id = ('question_' + question.pk + '_' + graph_type);
+                            var group_id = (question.pk + "_group");
+
+                            $("#" + group_id).append("<option id='option_" + id + "' value='" + id + "'>" + graph_type + "</option>");
 
                              // chart containers
                             var question_chart_description = $("#question_" + question.pk + "_description");
@@ -547,6 +561,33 @@ $(document).ready(function () {
         else {
             alert("Missing arguments");
         }
+    });
+
+    $("#remterm_graph").on('click', function () {
+        var selected_q = $("#remtermform_graph");
+        var chart_box_id = selected_q.val();
+
+        var var_set = chart_box_id.split("_");
+
+        question_pk = var_set[1];
+        graph_type = var_set[2];
+
+        $("#" + chart_box_id).remove();
+        var opt_group = $("#option_" + chart_box_id).parent();
+        $("#option_" + chart_box_id).remove();
+
+        added_graph_terms[question_pk].splice(added_graph_terms[question_pk].indexOf(graph_type), 1);
+
+        if (added_graph_terms[question_pk].length < 1) {
+            delete added_graph_terms[question_pk];
+            $("#question_" + question_pk).parent().remove();
+            opt_group.remove();
+        }
+
+
+
+        console.log(question_pk, graph_type);
+        console.log(added_graph_terms);
     });
 
     $("#deltermpage_graph").on('click', function() {
@@ -763,7 +804,7 @@ function create_chart(name, json_data, gr_type) {
     FusionCharts.ready(function(){
         let chart = new FusionCharts({
             type: gr_type,
-            width: '85%',
+            width: '100%',
             height: '500',
             dataFormat: 'json',
             renderAt: name,
