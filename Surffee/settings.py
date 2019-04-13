@@ -151,5 +151,3 @@ DATABASES['default'].update(prod_db)
 
 # REMOVE THIS LINE SO LOCALHOST RUN ON PYCHARM WORKS
 # STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
-
-

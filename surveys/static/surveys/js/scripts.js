@@ -464,7 +464,6 @@ $(document).ready(function () {
                     var data_to_plot = {"chart": null, "data": []};
 
                     var chart_config = { "caption": question.fields.question_text,
-                                         "subcaption": question.fields.question_text,
                                          "numbersuffix": " votes",
                                          "theme": "candy"
                                         };
@@ -485,7 +484,7 @@ $(document).ready(function () {
                         d_flex_graph.appendTo("#graphtable");
 
                             // smaller container
-                            var light_blue_box = $('<div id="question_' + question.pk + '" class="text-xs-center p-4 bg-info rounded"> </div>');
+                            var light_blue_box = $('<div id="question_' + question.pk + '" class="col-12 text-xs-center p-4 bg-info rounded"> </div>');
                             light_blue_box.appendTo(d_flex_graph);
 
                                 // chart containers
@@ -507,12 +506,12 @@ $(document).ready(function () {
                                     var chart_text_col = $('<div class="col-sm"></div>');
                                     chart_text_col.appendTo(chart_text_row);
 
-                                        var chart_text_container = $('<div class="container alert alert-info survey-description" role="alert"> </div>');
+                                        var chart_text_container = $('<div class="container-fluid alert alert-info survey-description" role="alert"> </div>');
                                         chart_text_container.appendTo(chart_text_col);
 
                                             // text
                                             $('<span style="font-size:xx-large">' + name + ':</span>').appendTo(chart_text_container);
-                                            $('<p>My name 📛 is, my 📛name 📛 is My name📛 is, Charles the Second! ​ I 💝love💝 the people👦 And the people👤 ❤️love❤️ me So much that they restored The English monarchy! ​ I’m part〽️ Scottish, French, Italian A little bit Dane But one1️⃣ hundred💯💯 percent 🔣 party🍺 animal🐀 Champagne? ​ Spaniels I adored Named after me too Like me, they were 🎢fun 🎢 With a🅰️ nutty hair💈 do! ​ Is today my birthday🎊🎊? I can’t recall Let’s have 🈶 🅰️a🅰️ 🎉party🎉 anyway Because I love💘 🅰️a🅰️ masked 😷 ball🎳! ​ All hail, the king👑! Of bling! Let’s sing! Bells ring🔗! Ding ding🇩🇪! I’m the king👑 who brought back↩️ partying🍺! ​ King Charles, my daddy Lost his throne and 👑kings👑 were banned They chopped off📴 his head💆 Then Olly Cromwell 🔨ruled🔨 the land ​ Old Olly wasn’t jolly </p>').appendTo(chart_text_container);
+                                            $('<p> This is a test boy </p>').appendTo(chart_text_container);
                     // end of big spaghett
                         create_chart(id, data_to_plot, graph_type);
                     }
