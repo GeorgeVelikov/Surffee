@@ -793,6 +793,114 @@ function updateAnalysis(terms_added, constraints_added){
 }
 
 
+function loadGraphAnalysis(saved_data) {
+
+    for(let key of saved_data) {
+        question_pk = key
+
+        for(graph_type in saved_data[key]) {
+            if (graph_type && question_pk) {
+                for(let question of graph_analysis_data) {
+                    if (question_pk == question.pk) {
+                        // grab the question from the data set we want to analyze
+                        var data_to_plot = {"chart": null, "data": []};
+
+                        var chart_config = { "caption": question.fields.question_text,
+                                             "numbersuffix": " votes",
+                                             "theme": "candy"
+                                            };
+
+                        var total_votes_for_question = 0;
+                        for(let choice of question.fields.choices) {
+                            data_to_plot['data'].push( {"label": choice.fields.choice_text,
+                                                        "value": choice.fields.votes} );
+                            total_votes_for_question += choice.fields.votes;
+                        }
+
+                        data_to_plot['chart'] = chart_config;
+
+                        if (!($("#question_" + question.pk).length)) {
+
+                            var id = ('question_' + question.pk + '_' + graph_type);
+                            var name = question.fields.question_text;
+                            var group_id = (question.pk + "_group");
+
+                            $("#remtermform_graph").append("<optgroup id='" + group_id + "' label='" + name + "'> </optgroup>");
+                            $("#" + group_id).append("<option id='option_" + id + "' value='" + id + "'>" + graph_type + "</option>");
+                            added_graph_terms[question.pk] = [graph_type];
+
+
+
+                            // big container
+                            var d_flex_graph = $('<div class="d-flex justify-content-between flex-wrap flex-sm-nowrap align-items-center pb-2 mb-3 border-bottom"> </div>');
+                            d_flex_graph.appendTo("#graphtable");
+
+                                // smaller container
+                                var light_blue_box = $('<div id="question_' + question.pk + '" class="col-12 text-xs-center p-4 bg-info rounded"> </div>');
+                                light_blue_box.appendTo(d_flex_graph);
+
+                                    // chart containers
+                                    var chart_row = $('<div class="row"></div>');
+                                    chart_row.appendTo(light_blue_box);
+
+                                        var chart_col = $('<div class="col-sm"> </div>');
+                                        chart_col.appendTo(chart_row);
+
+                                            var actual_chart = $('<div id="' + id + '" style="L"> </div>');
+                                            actual_chart.appendTo(chart_col);
+
+                                    /////////////////////////////////////////////////
+
+                                    // chart text containers
+                                    var chart_text_row = $('<br><div id="question_' + question.pk + '_description" class="row"></div>');
+                                    chart_text_row.appendTo(light_blue_box);
+
+                                        var chart_text_col = $('<div class="col-sm"></div>');
+                                        chart_text_col.appendTo(chart_text_row);
+
+                                            var chart_text_container = $('<div class="container-fluid alert alert-info survey-description" role="alert"> </div>');
+                                            chart_text_container.appendTo(chart_text_col);
+
+                                                // text
+                                                $('<span style="font-size:xx-large"> Question - "' + name + '"</span>').appendTo(chart_text_container);
+
+                                                $('<p> Total votes: ' + total_votes_for_question + ' </p>').appendTo(chart_text_container);
+                        // end of big spaghett
+                            if (total_votes_for_question>0) {
+                                create_chart(id, data_to_plot, graph_type);
+                            }
+                        }
+                        else {
+                            if (total_votes_for_question>0 && !($('#question_' + question.pk + '_' + graph_type).length) ) {
+                                added_graph_terms[question.pk].push(graph_type);
+                                var id = ('question_' + question.pk + '_' + graph_type);
+                                var group_id = (question.pk + "_group");
+
+                                $("#" + group_id).append("<option id='option_" + id + "' value='" + id + "'>" + graph_type + "</option>");
+
+                                 // chart containers
+                                var question_chart_description = $("#question_" + question.pk + "_description");
+                                    var chart_row = $('<div class="row"></div>');
+                                    chart_row.insertBefore(question_chart_description);
+                                    $("<br>").insertBefore(question_chart_description);
+
+                                        var chart_col = $('<div class="col-sm"> </div>');
+                                        chart_col.appendTo(chart_row);
+
+                                            var actual_chart = $('<div id="' + id + '" style="L"> </div>');
+                                            actual_chart.appendTo(chart_col);
+
+                                create_chart(id, data_to_plot, graph_type);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+
 // just a helper function to test stuff
 function redirect() {
 
