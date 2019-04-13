@@ -8,3 +8,4 @@ class SignUp(CreateView):
     form_class = ResearcherCreationForm
     success_url = reverse_lazy('login')
     template_name = 'signup.html'
+

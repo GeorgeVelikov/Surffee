@@ -16,6 +16,7 @@ class ResearcherCreationForm(UserCreationForm):
         # first call parent's constructor
         super(ResearcherCreationForm, self).__init__(*args, **kwargs)
         self.fields['email'].required = True
+        self.fields['username'].widget.attrs['pattern'] = ".{6,}"
 
     class Meta(UserCreationForm):
         model = Researcher
