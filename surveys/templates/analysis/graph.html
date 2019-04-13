@@ -96,7 +96,15 @@
                 </div>
             </div>
         </div>
+        <script>
+            var op = "{{operation}}";
+            var added_graph_terms = {{questions_graphs|safe}};
 
+            if (op == "overwrite") {
+                loadGraphAnalysis(added_graph_terms);
+            }
+
+        </script>
     </form>
 
 {% endblock %}

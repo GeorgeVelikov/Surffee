@@ -287,12 +287,14 @@ class AnalysisGraphTerm(CreateView):
             operation = "overwrite"
             analysis_name = analysis.name
             analysis_pk = analysis.pk
+            questions_graphs = analysis.questions_graphs
 
         else:
             analysis_name = get_variables['name']
             analysis_pk = 0
             survey_id = get_variables['survey']
             operation = "save"
+            questions_graphs = {}
 
         survey = Survey.objects.get(pk=survey_id)
         survey_name = survey.name
@@ -313,6 +315,7 @@ class AnalysisGraphTerm(CreateView):
                                   analysis_name=analysis_name,
                                   analysis_pk=analysis_pk,
                                   survey_name=survey_name,
+                                  questions_graphs=questions_graphs,
                                   )
         )
 
@@ -351,7 +354,7 @@ class AnalysisGraphTerm(CreateView):
                 analysis_id = request.GET['analysis']
                 overwrite_analysis = AnalysisGraph.objects.get(pk=analysis_id)
 
-                overwrite_analysis.terms = terms
+                overwrite_analysis.questions_graphs = terms
                 overwrite_analysis.save()
                 redirect_pk = overwrite_analysis.pk
 

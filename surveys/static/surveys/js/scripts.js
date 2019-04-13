@@ -452,7 +452,6 @@ $(document).ready(function () {
     });
 
 
-    var added_graph_terms = {};
     // this is all of the analysis of graphs
     $("#addterm_graph").on('click', function () {
         graph_type = $("#add_graph_style").val();
@@ -795,10 +794,10 @@ function updateAnalysis(terms_added, constraints_added){
 
 function loadGraphAnalysis(saved_data) {
 
-    for(let key of saved_data) {
+    for(key in saved_data) {
         question_pk = key
 
-        for(graph_type in saved_data[key]) {
+        for(let graph_type of saved_data[key]) {
             if (graph_type && question_pk) {
                 for(let question of graph_analysis_data) {
                     if (question_pk == question.pk) {
