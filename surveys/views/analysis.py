@@ -36,6 +36,7 @@ class Create(CreateView):
         words = Word.objects.filter(classification__in=classifications)
 
         all_analysis_names = AnalysisSingle.objects.filter(creator=request.user.pk).values("name")
+        all_graphs_names = AnalysisGraph.objects.filter(creator=request.user.pk).values("name")
 
         used_annotations = dict()
 
@@ -54,6 +55,7 @@ class Create(CreateView):
                                   all_user_surveys=all_user_surveys.values('pk', 'name'),
                                   used_annotations_all_surveys=used_annotations,
                                   all_analysis_names=list(all_analysis_names),
+                                  all_graphs_names=list(all_graphs_names),
                                   )
         )
 

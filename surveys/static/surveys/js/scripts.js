@@ -331,6 +331,12 @@ $(document).ready(function () {
             }
         }
 
+        for (let analysis of all_graphs_names) {
+            if (analysisName.val().replace(/\s/g,'').toLowerCase() == analysis.name.replace(/\s/g,'').toLowerCase()) {
+                uniqueName = false;
+                break;
+            }
+        }
 
         if (hasName && hasSurvey && hasAnnotation && hasAnalysisType && uniqueName) {
             $("#create_analysis_button").removeAttr("disabled");
@@ -920,6 +926,7 @@ function create_chart(name, json_data, gr_type) {
         }).render();
     });
 }
+
 
 function openTab(evt, tabid) {
     var i, tabcontent, tablinks;
