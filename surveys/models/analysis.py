@@ -8,8 +8,8 @@ from .survey import Survey
 class AnalysisSingle(models.Model):
     creator = models.ForeignKey(Researcher, on_delete=models.CASCADE, default=0)
     name = models.CharField(max_length=2**8)
-    survey = models.ForeignKey(Survey, on_delete=models.CASCADE)
-    annotation = models.ForeignKey(Annotation, on_delete=models.CASCADE)
+    survey = models.ForeignKey(Survey, on_delete=models.CASCADE, default=0)
+    annotation = models.ForeignKey(Annotation, on_delete=models.CASCADE, default=0)
 
     # this is the js "instance" variables
     terms = models.CharField(max_length=2**8)
@@ -19,6 +19,6 @@ class AnalysisSingle(models.Model):
 class AnalysisGraph(models.Model):
     creator = models.ForeignKey(Researcher, on_delete=models.CASCADE, default=0)
     name = models.CharField(max_length=2 ** 8)
-    survey = models.ForeignKey(Survey, on_delete=models.CASCADE)
+    survey = models.ForeignKey(Survey, on_delete=models.CASCADE, default=0)
 
     questions_graphs = models.CharField(max_length=2**16)
