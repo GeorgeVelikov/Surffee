@@ -35,3 +35,8 @@ def permission_user_owns_analysis(request, analysis):
 def permission_user_unique_answer(request, survey):
     if SurveyAnswer.objects.filter(ip_address=get_ip(request), survey=survey).exists():
         raise PermissionDenied("You have already answered the survey")
+
+
+def permission_survey_active(survey):
+    if not survey.active:
+        raise PermissionDenied("Survey is not currently active")

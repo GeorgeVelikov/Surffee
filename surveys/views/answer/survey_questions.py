@@ -7,7 +7,7 @@ from ...models.answer import SurveyAnswer
 from ...forms.surveys import AnswerSurveyQuestionsForm
 
 from ..helper import get_ip, get_next_question
-from ..error import permission_user_unique_answer
+from ..error import permission_user_unique_answer, permission_survey_active
 
 
 class SurveyQuestions(UpdateView):
@@ -20,6 +20,8 @@ class SurveyQuestions(UpdateView):
         # grab the objects we might need
         survey_id = self.kwargs.get('survey_id')
         survey = Survey.objects.get(pk=survey_id)
+
+        permission_survey_active(survey)
 
         survey_answer = SurveyAnswer.objects.get(ip_address=get_ip(request), survey=survey)
         question_id = self.kwargs.get('question_id')

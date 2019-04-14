@@ -7,7 +7,7 @@ from ...models.answer import SurveyAnswer
 from ...forms.surveys import PersonalInformationForm
 
 from ..helper import get_ip
-from ..error import permission_user_unique_answer
+from ..error import permission_user_unique_answer, permission_survey_active
 
 from ast import literal_eval
 
@@ -21,6 +21,8 @@ class ResearchAgreement(UpdateView):
         self.object = None
         survey_id = self.kwargs.get('survey_id')
         survey = Survey.objects.get(pk=survey_id)
+
+        permission_survey_active(survey)
 
         if SurveyAnswer.objects.filter(ip_address=get_ip(request), survey=survey).exists():
             survey_questions = Question.objects.filter(survey=survey)
