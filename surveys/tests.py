@@ -485,9 +485,6 @@ class CreateSurveyTests(TestCase):
         Researcher.objects.get(
             username=self.user.username
         ).delete()
-        Researcher.objects.get(
-            username=self.superuser.username
-        ).delete()
 
     def test_create_survey_status(self):
         """
@@ -574,7 +571,9 @@ class CreateQuestionTests(TestCase):
             is_superuser=False
         )
         self.user.save()
-        create_survey('Survey to test question addition etc.', self.user, False)
+        sur_name = 'Survey to test question addition etc.'
+        create_survey(sur_name, self.user, False)
+        self.sur = Survey.objects.get(name=sur_name)
         # TODO: test adding a question, question wiht no answers, question with no text, quetsion with empty answer
 
     def test_create_question_status(self):
@@ -583,5 +582,5 @@ class CreateQuestionTests(TestCase):
         :return:
         """
         self.client.force_login(self.user)
-        response = self.client.get(reverse('surveys:add_question'))
+        response = self.client.get(reverse('surveys:add_question', args=(self.sur.id,)))
         self.assertEqual(response.status_code, 200)
