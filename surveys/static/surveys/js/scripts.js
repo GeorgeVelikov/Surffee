@@ -113,7 +113,7 @@ $(document).ready(function () {
 
     // doing this instead of .post as I wanted to package the data in the form post data
     $(".select_me").select(function() {
-            // grab the highlighted text on the select_me inputs
+        // grab the highlighted text on the select_me inputs
         let word_selection = $(this).selection();
         let parent_element = $($(this).parent());
         let choice_id = parent_element.attr('id');

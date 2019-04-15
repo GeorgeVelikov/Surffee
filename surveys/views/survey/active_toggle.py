@@ -1,7 +1,7 @@
 from django.shortcuts import redirect
 from django.views.generic import UpdateView
 
-from ...models.survey import Survey
+from ...models.survey import Survey, Question
 
 from ..error import permission_user_logged_in, permission_user_owns_survey
 
@@ -16,10 +16,14 @@ class ActiveToggle(UpdateView):
         permission_user_logged_in(request)
         permission_user_owns_survey(request, survey)
 
-        if survey.active:
-            survey.active = False
-        else:
-            survey.active = True
+        survey_has_questions = Question.objects.filter(survey=survey)
+        print(survey_has_questions)
 
-        survey.save()
+        if survey_has_questions:
+            if survey.active:
+                survey.active = False
+            else:
+                survey.active = True
+            survey.save()
+
         return redirect('/surveys/' + str(survey_id))
