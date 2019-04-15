@@ -2,6 +2,7 @@ from django.core.exceptions import PermissionDenied
 from django.shortcuts import render
 
 from ...models.survey import Survey
+from ..error import permission_user_owns_survey
 
 from ast import literal_eval
 
@@ -13,8 +14,7 @@ def detail(request, survey_id):
     template = 'surveys/detail.html'
     survey = Survey.objects.get(pk=survey_id)
 
-    if survey.creator != request.user:
-        raise PermissionDenied("You do not own this survey")
+    permission_user_owns_survey(request, survey)
 
     # this converts the string representation of a list back to a list
     if survey.pi_choices:
@@ -24,8 +24,5 @@ def detail(request, survey_id):
     else:
         choices = None
 
-    if survey.creator != request.user and not request.user.is_superuser:
-        raise PermissionDenied("You have tried to access " + survey.name + ". To gain permissions please contact "
-                               + survey.creator.email + ".")
     context = {'survey': survey, 'choices': choices}
     return render(request, template, context)

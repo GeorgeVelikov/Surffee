@@ -19,17 +19,20 @@ def permission_user_logged_in(request):
 
 def permission_user_owns_survey(request, survey):
     if not (request.user.pk == survey.creator.pk):
-        raise PermissionDenied("User does not own the survey")
+        raise PermissionDenied("You have tried to access " + survey.name + ". To gain permissions please contact "
+                               + survey.creator.email + ".")
 
 
 def permission_user_owns_annotation(request, annotation):
     if not (request.user.pk == annotation.creator.pk):
-        raise PermissionDenied("User does not own the annotation")
+        raise PermissionDenied("You have tried to access " + annotation.name + ". To gain permissions please contact "
+                               + annotation.creator.email + ".")
 
 
 def permission_user_owns_analysis(request, analysis):
     if not (request.user.pk == analysis.creator.pk):
-        raise PermissionDenied("User does not own the analysis")
+        raise PermissionDenied("You have tried to access " + analysis.name + ". To gain permissions please contact "
+                               + analysis.creator.email + ".")
 
 
 def permission_user_unique_answer(request, survey):
