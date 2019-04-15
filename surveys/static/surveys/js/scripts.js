@@ -173,10 +173,10 @@ $(document).ready(function () {
         var agreement_window_buttons = $('<div class="footer row align-items-center"> </div>');
         agreement_window_buttons.appendTo(agreement_box);
 
-        var agreement_window_decline = $('<a id="declined-data-usage" class="offset-2 btn btn-warning col-3 text-center close-reveal-modal">Decline</a>')
+        var agreement_window_decline = $('<a id="declined-data-usage" class="offset-2 btn btn-light col-3 text-center close-reveal-modal">Decline</a>')
         agreement_window_decline.appendTo(agreement_window_buttons);
 
-        var agreement_window_accept = $('<a id="accepted-data-usage" class="offset-2 btn btn-success col-3 text-center close-reveal-modal">Accept</a><br><br>')
+        var agreement_window_accept = $('<a id="accepted-data-usage" class="offset-2 btn btn-light col-3 text-center close-reveal-modal">Accept</a><br><br>')
         agreement_window_accept.appendTo(agreement_window_buttons);
     }
 
