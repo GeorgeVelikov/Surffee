@@ -50,7 +50,7 @@ class SignUpViewTests(TestCase):
         email = 'test_signup_without_username@mytest.com'
 
         self.signup_response(username, password, password, email)
-        self.assertNotIn(username, [str(user) for user in Researcher.objects.all()])
+        self.assertNotIn(email, [user.email for user in Researcher.objects.all()])
 
     def test_signup_with_short_password(self):
         """

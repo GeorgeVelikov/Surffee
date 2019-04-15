@@ -57,7 +57,7 @@ class LoginViewTests(TestCase):
         :return:
         """
         username = ''
-        password = ''
+        password = 'TestPassword123456'
 
         self.login_response(username, password)
         self.assertNotIn('auth_user_id', self.client.session)
