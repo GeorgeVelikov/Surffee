@@ -178,8 +178,6 @@ $(document).ready(function () {
 
         var agreement_window_accept = $('<a id="accepted-data-usage" class="offset-2 btn btn-success col-3 text-center close-reveal-modal">Accept</a><br><br>')
         agreement_window_accept.appendTo(agreement_window_buttons);
-
-        $("main").attr("disabled", "true");
     }
 
     $("#accepted-data-usage").on('click', function () {
