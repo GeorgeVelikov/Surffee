@@ -17,7 +17,6 @@ class ActiveToggle(UpdateView):
         permission_user_owns_survey(request, survey)
 
         survey_has_questions = Question.objects.filter(survey=survey)
-        print(survey_has_questions)
 
         if survey_has_questions:
             if survey.active:
