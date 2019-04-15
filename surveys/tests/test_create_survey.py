@@ -41,7 +41,7 @@ class CreateSurveyTests(TestCase):
             username=self.user.username
         ).delete()
 
-    def test_create_survey_status(self):
+    def test_create_survey_template(self):
         """
         Check if the create page is being displayed
         :return:
@@ -49,6 +49,7 @@ class CreateSurveyTests(TestCase):
         self.client.force_login(self.user)
         response = self.client.get(reverse('surveys:create'))
         self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'surveys/create_survey.html')
 
     def test_create_survey_without_pi_choices(self):
         """

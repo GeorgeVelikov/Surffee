@@ -27,9 +27,9 @@ class HomeViewTests(TestCase):
          Check if appropriate template is being displayed
         :return:
         """
-        resp = self.client.get(reverse('home'))
-        self.assertEqual(resp.status_code, 200)
-        self.assertTemplateUsed(resp, 'home.html')
+        response = self.client.get(reverse('home'))
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'home.html')
 
     def test_home_greeting_username(self):
         """

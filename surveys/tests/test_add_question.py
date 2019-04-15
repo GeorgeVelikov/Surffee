@@ -51,7 +51,7 @@ class AddQuestionTests(TestCase):
             'type': 'S',
         }
 
-    def test_add_question_status(self):
+    def test_add_question_template(self):
         """
         Check if the question adding page is being displayed
         :return:
@@ -59,6 +59,7 @@ class AddQuestionTests(TestCase):
         self.client.force_login(self.user)
         response = self.client.get(reverse('surveys:add_question', args=(self.sur.id,)))
         self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'surveys/add_question.html')
 
     def test_add_question_no_question_text(self):
         """
