@@ -167,16 +167,16 @@ $(document).ready(function () {
         var agreement_window_header = $('<h2>Academic usage of personal information.</h2>');
         agreement_window_header.appendTo(agreement_box);
 
-        var agreement_window_text = $('<p><font size="4"> ok text hello bby</font></p>');
+        var agreement_window_text = $('<div><font size="4"> ok text hello bby</font></div>');
         agreement_window_text.appendTo(agreement_box);
 
-        var agreement_window_buttons = $('<div class="row align-items-center"> </div>');
+        var agreement_window_buttons = $('<div class="footer row align-items-center"> </div>');
         agreement_window_buttons.appendTo(agreement_box);
 
-        var agreement_window_decline = $('<a id="declined-data-usage" class="offset-3 btn-warning col-2 text-center close-reveal-modal">Decline</a>')
+        var agreement_window_decline = $('<a id="declined-data-usage" class="offset-2 btn btn-warning col-3 text-center close-reveal-modal">Decline</a>')
         agreement_window_decline.appendTo(agreement_window_buttons);
 
-        var agreement_window_accept = $('<a id="accepted-data-usage" class="offset-2 btn-success col-2 text-center close-reveal-modal">Accept</a><br><br>')
+        var agreement_window_accept = $('<a id="accepted-data-usage" class="offset-2 btn btn-success col-3 text-center close-reveal-modal">Accept</a><br><br>')
         agreement_window_accept.appendTo(agreement_window_buttons);
 
         $("main").attr("disabled", "true");
