@@ -38,5 +38,6 @@ class HomeViewTests(TestCase):
         """
         self.client.force_login(self.user)
         resp = self.client.get(reverse('home'))
+        self.assertIn('user', resp.context)
         name = resp.context['user'].username
         self.assertEqual(name, self.user.username)
