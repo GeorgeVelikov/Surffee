@@ -54,10 +54,12 @@ class ActiveViewTests(TestCase):
         :return:
         """
         active_s = create_survey("Active Survey", self.user)
+        inactive_s = create_survey("Inactive Survey", self.user, active=False)
 
         self.client.force_login(self.user)
         resp = self.client.get(reverse('surveys:active'))
         self.assertIn(active_s, resp.context['active_surveys'])
+        self.assertNotIn(inactive_s, resp.context['active_surveys'])
 
     def test_active_without_survey(self):
         """
