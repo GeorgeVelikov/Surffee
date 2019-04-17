@@ -78,6 +78,7 @@ class CreateSurveyTests(TestCase):
         """
         sur_name = 'test_survey_with_pi'
         pi = ['age', 'sex', 'country_of_birth', 'country_of_residence', 'sexual_orientation', 'native_tongue']
+
         self.client.force_login(self.user)
         for x in range(len(pi)):
             self.add_survey_details_with_pi(sur_name, 'arbitrary', pi[:x+1])
