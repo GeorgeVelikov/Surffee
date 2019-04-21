@@ -8,12 +8,15 @@
     {% if user.is_authenticated %}
 
         <div class="d-flex justify-content-between flex-wrap flex-sm-nowrap align-items-center pb-2 mb-3 border-bottom">
-            <h2>Main Page</h2>
+            <h2>Main Page</h2><br>
         </div>
 
         <!-- User message -->
         <div class="alert alert-info">Hi {{ user.username }}!</div>
-    {% else %}
+        <div class="row align-items-center">
+            <iframe width="1280" height="720" src="https://www.youtube.com/embed/6c2GUSX0Y0I" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        </div>
+        {% else %}
 
         <!-- Main page for all non signed in -->
 
