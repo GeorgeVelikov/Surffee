@@ -9,7 +9,7 @@ import openpyxl
 from openpyxl.styles import Font
 
 
-def export(survey_id):
+def export(request, survey_id):
     def create_sheet(title, objects, columns, first=False):
         ws = wb.active if first else wb.create_sheet()
         ws.title = title
