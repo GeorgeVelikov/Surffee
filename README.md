@@ -6,6 +6,9 @@ Anton Trnovsky, Yiannis Keravnos, Martin Woznicki and Georgi Velikov
 # Application demo
 https://surffee.herokuapp.com/
 
+# Application video ad + demo
+https://www.youtube.com/watch?v=hRVTaeMGbbc
+
 # Requirements:
 - Python 3.x
 - coverage==4.5.2
@@ -39,4 +42,4 @@ https://surffee.herokuapp.com/
 - write "py manage.py runserver" 
 - open a browser and go to localhost:8000
 
-update: 11/04/2019 
+update: 27/04/2019 
