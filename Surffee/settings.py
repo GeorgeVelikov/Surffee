@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/2.1/ref/settings/
 
 import os
 import dj_database_url
+from Surffee.hidden import get_key, get_sg_id, get_sg_port, get_sg_pw
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -21,7 +22,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/2.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '+g@rz0x4zeurso^lyq((^z161!w-+hx4(yk5b#3$&r=xo2_5c*'
+SECRET_KEY = get_key()
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -139,9 +140,9 @@ LOGOUT_REDIRECT_URL = 'home'
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.sendgrid.net'
-EMAIL_HOST_USER = 'georgevv'
-EMAIL_HOST_PASSWORD = 'teamCharlie2019'
-EMAIL_PORT = 587
+EMAIL_HOST_USER = get_sg_id()
+EMAIL_HOST_PASSWORD = get_sg_pw()
+EMAIL_PORT = get_sg_port()
 EMAIL_USE_TLS = True
 
 EMAIL_FILE_PATH = os.path.join(BASE_DIR, "sent_emails")
